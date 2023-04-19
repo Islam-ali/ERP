@@ -90,6 +90,7 @@ export class TopbarComponent implements OnInit {
     this.settingsButtonClicked.emit();
   }
 
+  
   /**
    * Toggle the menu bar when having mobile screen
    */

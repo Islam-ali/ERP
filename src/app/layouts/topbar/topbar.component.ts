@@ -79,7 +79,6 @@ export class TopbarComponent implements OnInit {
       this.document.getElementsByTagName("html")[0].setAttribute("dir", "ltr");
       this.document.getElementsByTagName("html")[0].classList.remove("rtl");
       // this.document.getElementsByTagName("html")[0].classList.add("ltr");
-
     }
   }
 

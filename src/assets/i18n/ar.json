@@ -66,19 +66,8 @@
       }
     },
     "MENUITEMS": {
-      "MENU": {
-        "TEXT": "Menu"
-      },
-      "DASHBOARDS": {
-        "TEXT": "Dashboards",
-        "BADGE": "04",
-        "LIST": {
-          "DEFAULT": "Default",
-          "SAAS": "Saas",
-          "CRYPTO": "Crypto",
-          "BLOG": "Blog"
-        }
-      },
+
+
       "LAYOUTS": {
         "TEXT": "Layouts",
         "LIST": {
@@ -93,6 +82,21 @@
           "COLOREDHEADER": "Colored Header",
           "SCROLLABLE": "Scrollable"
         }
+      },
+      "MENU": {
+        "TEXT": "Menu"
+      },
+      "DASHBOARDS": {
+        "TEXT": "الرائيسية"
+      },
+      "CONRTRIES": {
+        "TEXT": "البلاد"
+      },
+      "SERVICES": {
+        "TEXT": "الخدمات"
+      },
+      "USERS": {
+        "TEXT": "المستخدمين"
       },
       "APPS": {
         "TEXT": "Apps"

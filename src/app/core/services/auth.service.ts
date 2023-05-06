@@ -19,7 +19,9 @@ export class AuthenticationService {
     public currentUser(): User {
         return getFirebaseBackend().getAuthenticatedUser();
     }
-
+    public getUser(){
+        return localStorage.getItem('user_Tarfok')
+      }
     /**
      * Performs the auth
      * @param email email of user

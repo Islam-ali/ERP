@@ -1,10 +1,5 @@
-// rtl
-@import "custom/rtl/general-rtl";
-@import "custom/rtl/bootstrap-rtl";
-@import "custom/rtl/spacing-rtl";
-@import "custom/rtl/float-rtl";
-@import "custom/rtl/text-rtl";
-@import "custom/rtl/structure-rtl";
-@import "custom/rtl/plugins-rtl";
-@import "custom/rtl/components-rtl";
-@import "custom/rtl/pages-rtl";
+.was-validated .form-control:valid, .form-control.is-valid , .form-control.is-invalid {
+    padding: 0.47rem 0.75rem;
+    padding-left: calc(1.5em + 0.94rem);
+    background-position: left calc(0.375em + 0.235rem) center;
+}

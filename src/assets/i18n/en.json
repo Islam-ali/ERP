@@ -70,14 +70,16 @@
       "TEXT": "Menu"
     },
     "DASHBOARDS": {
-      "TEXT": "Dashboards",
-      "BADGE": "04",
-      "LIST": {
-        "DEFAULT": "Default",
-        "SAAS": "Saas",
-        "CRYPTO": "Crypto",
-        "BLOG": "Blog"
-      }
+      "TEXT": "Dashboards"
+    },
+    "CONRTRIES": {
+      "TEXT": "Countries"
+    },
+    "USERS": {
+      "TEXT": "Users"
+    },
+    "SERVICES": {
+      "TEXT": "Services"
     },
     "LAYOUTS": {
       "TEXT": "Layouts",

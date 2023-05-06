@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   defaultauth: 'fackbackend',
+  domain:'https://staging.tarfok.store/',
   firebaseConfig: {
     apiKey: '',
     authDomain: '',

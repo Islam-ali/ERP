@@ -1,8 +1,23 @@
-
 // dropdown
 .dropdown-toggle {
     &:after {
-        display: none;        
+        display: none;
     }
 }
 
+.card-image {
+    min-width: 160px;
+    max-width: min-content;
+}
+
+.country-dropdown {
+    max-width: 468px;
+}
+
+.iti[_ngcontent-nsm-c356] input#country-search-box {
+    padding: 6px;
+}
+
+.bx-trash{
+    color: #f34242;
+}

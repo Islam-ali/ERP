@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 import { environment } from '../../../../environments/environment';
+import { LoginService } from './login.service';
+import { LoginRes } from './login';
 
 @Component({
   selector: 'app-login2',
@@ -20,8 +22,12 @@ import { environment } from '../../../../environments/environment';
  */
 export class Login2Component implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService,
-    private authFackservice: AuthfakeauthenticationService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+     private route: ActivatedRoute,
+      private router: Router,
+      private _LoginService:LoginService,
+      ) { }
   loginForm: FormGroup;
   submitted = false;
   error = '';
@@ -33,8 +39,8 @@ export class Login2Component implements OnInit {
   ngOnInit(): void {
     document.body.classList.add('auth-body-bg')
     this.loginForm = this.formBuilder.group({
-      email: ['admin@themesbrand.com', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required]],
     });
 
     // reset login status
@@ -70,24 +76,11 @@ export class Login2Component implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
-      if (environment.defaultauth === 'firebase') {
-        this.authenticationService.login(this.f.email.value, this.f.password.value).then((res: any) => {
-          this.router.navigate(['/dashboard']);
-        })
-          .catch(error => {
-            this.error = error ? error : '';
-          });
-      } else {
-        this.authFackservice.login(this.f.email.value, this.f.password.value)
-          .pipe(first())
-          .subscribe(
-            data => {
-              this.router.navigate(['/dashboard']);
-            },
-            error => {
-              this.error = error ? error : '';
-            });
-      }
+      this._LoginService.Login(this.loginForm.value).subscribe({
+        next:(res:LoginRes) =>{
+          this.router.navigateByUrl('');
+        }
+      })
     }
   }
 }

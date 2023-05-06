@@ -1,0 +1,251 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-6 d-flex align-items-center ">
+                        <h3 class="m-0">Users List</h3>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end ">
+                        <button class="btn btn-primary w-md" (click)="openModal(addUser)">ADD USER <i
+                                class="bx bx-plus-medical"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-middle  table-nowrap table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" style="width: 70px;">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">mobile number</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of [1,2,3,4,5,6]">
+                                    <td>
+                                        <!-- <div class="avatar-xs">
+                                            <span class="avatar-title rounded-circle">
+                                                D
+                                            </span>
+                                        </div> -->
+                                        <div>
+                                            <img class="rounded-circle avatar-xs" src="assets/images/users/avatar-4.jpg"
+                                                alt="">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5 class="font-size-14 mb-1"><a href="javascript: void(0);"
+                                                class="text-dark">David McHenry</a>
+                                        </h5>
+                                    </td>
+                                    <td>david@skote.com</td>
+                                    <td>01060224342</td>
+                                    <td>
+                                        <ul class="list-inline font-size-20 contact-links mb-0">
+                                            <li class="list-inline-item px-2" (click)="openModal(editUser)">
+                                                <i class="bx bx-edit" style="cursor: pointer;"></i>
+                                            </li>
+                                            <li class="list-inline-item px-2">
+                                                <i class="bx bx-trash" style="cursor: pointer;"></i>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ul class="pagination pagination-rounded justify-content-center mt-4">
+                                <li class="page-item disabled">
+                                    <a href="javascript: void(0);" class="page-link"><i
+                                            class="mdi mdi-chevron-left"></i></a>
+                                </li>
+                                <li class="page-item active">
+                                    <a href="javascript: void(0);" class="page-link">1</a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <a href="javascript: void(0);" class="page-link"><i
+                                            class="mdi mdi-chevron-right"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Modal -->
+<ng-template #addUser role="document" let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title mt-0">ADD USER</h5>
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form class="needs-validation" (ngSubmit)="validSubmit()" [formGroup]="validationform">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="validationCustom01">Full Name</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="name"
+                            placeholder="First name"
+                            [ngClass]="{'is-valid': form.name.dirty && !form.name.errors ,'is-invalid': form.name.dirty && form.name.errors}">
+                        <div *ngIf="form.name.dirty && form.name.errors" class="invalid-feedback">
+                            <span *ngIf="form.mobile_number.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label class="form-label">E-Mail</label>
+                        <div>
+                            <input type="email" class="form-control" formControlName="email"
+                                [ngClass]="{'is-valid': form.email.dirty && !form.email.errors ,'is-invalid': form.email.dirty && form.email.errors}"
+                                placeholder="Enter a valid e-mail" />
+                            <div *ngIf="form.email.dirty && form.email.errors" class="invalid-feedback">
+                                <span *ngIf="form.email.errors.required">This value is required.</span>
+                                <span *ngIf="form.email.errors.pattern">This value should be a valid email.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label class="form-label">mobile number</label>
+                        <div dir="ltr">
+                            <ngx-intl-tel-input formControlName="mobile_number"
+                                [preferredCountries]="[CountryISO.Egypt, CountryISO.SaudiArabia]"
+                                [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                [selectedCountryISO]="CountryISO.Egypt" [phoneValidation]="true" name="phone"
+                                [ngClass]="{'is-valid': form.mobile_number.dirty && !form.mobile_number.errors ,'is-invalid': form.mobile_number.dirty && form.mobile_number.errors}">
+                            </ngx-intl-tel-input>
+                            <div *ngIf="form.mobile_number.touched && form.mobile_number.errors"
+                                class="invalid-feedback">
+                                <span *ngIf="form.mobile_number.errors.required">This value is required.</span>
+                                <span *ngIf="form.mobile_number.errors.pattern">This value should be a valid
+                                    number.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="validationCustom01">password</label>
+                        <input type="password" class="form-control" id="validationCustom01" formControlName="password"
+                            placeholder="password"
+                            [ngClass]="{'is-valid': form.password.dirty && !form.password.errors ,'is-invalid': form.password.dirty && form.password.errors}">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="formFile">image</label>
+                        <input class="form-control" type="file" accept="image/*" id="formFile"
+                            (change)="uploadeImage($event)"
+                            [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
+                        <div class="card-image p-0 px-2 m-2" *ngIf="image">
+                            <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                                (click)="removeImage()">remove</button> -->
+                            <img class="p-0 w-100" title="images" alt="images" [src]="image" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 text-center">
+                <button class="btn btn-primary" type="submit">Submit form</button>
+            </div>
+        </form>
+    </div>
+    <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+    </div> -->
+</ng-template>
+<!-- Edit Modal -->
+<ng-template #editUser role="document" let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title mt-0">EDIT USER</h5>
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form class="needs-validation" (ngSubmit)="validSubmit()" [formGroup]="validationform">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="validationCustom01">Full Name</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="name"
+                            placeholder="First name"
+                            [ngClass]="{'is-valid': submit && !form.name.errors ,'is-invalid': submit && form.name.errors}">
+                        <div *ngIf="submit && form.name.errors" class="invalid-feedback">
+                            <span *ngIf="form.mobile_number.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label class="form-label">E-Mail</label>
+                        <div>
+                            <input type="email" class="form-control" formControlName="email"
+                                [ngClass]="{'is-valid': submit && !form.email.errors ,'is-invalid': submit && form.email.errors}"
+                                placeholder="Enter a valid e-mail" />
+                            <div *ngIf="submit && form.email.errors" class="invalid-feedback">
+                                <span *ngIf="form.email.errors.required">This value is required.</span>
+                                <span *ngIf="form.email.errors.pattern">This value should be a valid email.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label class="form-label">mobile number</label>
+                        <div>
+                            <input type="email" class="form-control" formControlName="mobile_number"
+                                [ngClass]="{'is-valid': submit && !form.mobile_number.errors ,'is-invalid': submit && form.mobile_number.errors}"
+                                placeholder="Enter a valid mobile number" />
+                            <div *ngIf="submit && form.mobile_number.errors" class="invalid-feedback">
+                                <span *ngIf="form.mobile_number.errors.required">This value is required.</span>
+                                <span *ngIf="form.mobile_number.errors.pattern">This value should be a valid
+                                    number.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="validationCustom01">password</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="password"
+                            placeholder="password"
+                            [ngClass]="{'is-valid': submit && !form.password.errors ,'is-invalid': submit && form.password.errors}">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="formFile">image</label>
+                        <input class="form-control" type="file" accept="image/*" id="formFile"
+                            (change)="uploadeImage($event)"
+                            [ngClass]="{'is-valid': submit && !form.image.errors ,'is-invalid': submit && form.image.errors}">
+                        <div class="card-image p-0 px-2 m-2" *ngIf="image">
+                            <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                                (click)="removeImage()">remove</button> -->
+                            <img class="p-0 w-100" title="images" alt="images" [src]="image" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 text-center">
+                <button class="btn btn-primary" type="submit">Submit form</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

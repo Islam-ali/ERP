@@ -14,6 +14,10 @@ const routes: Routes = [
   { path: 'chat', component: ChatComponent },
   { path: 'filemanager', component: FilemanagerComponent },
   { path: 'dashboards', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule) },
+  { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
+  { path: 'countries', loadChildren: () => import('./countries/countries.module').then(m => m.CountriesModule) },
+  { path: 'services', loadChildren: () => import('./services/services.module').then(m => m.ServicesModule) },
+
   { path: 'ecommerce', loadChildren: () => import('./ecommerce/ecommerce.module').then(m => m.EcommerceModule) },
   { path: 'crypto', loadChildren: () => import('./crypto/crypto.module').then(m => m.CryptoModule) },
   { path: 'email', loadChildren: () => import('./email/email.module').then(m => m.EmailModule) },

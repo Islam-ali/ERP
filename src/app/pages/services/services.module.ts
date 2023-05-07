@@ -12,6 +12,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { WidgetModule } from '../../shared/widget/widget.module';
 import { UIModule } from '../../shared/ui/ui.module';
 import { UiSwitchModule } from 'ngx-ui-switch';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { UiSwitchModule } from 'ngx-ui-switch';
     FormsModule, ReactiveFormsModule ,
     NgbTooltipModule,
     UiSwitchModule,
-
+    TranslateModule
   ]
 })
 export class ServicesModule { }

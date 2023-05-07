@@ -5,10 +5,10 @@
             <div class="card">
                 <div class="card-body row">
                     <div class="col-6 d-flex align-items-center ">
-                        <h3 class="m-0">SERVICES</h3>
+                        <h3 class="m-0">{{ 'MENUITEMS.SERVICES.TEXT' | translate }}</h3>
                     </div>
                     <div class="col-6 d-flex justify-content-end ">
-                        <button class="btn btn-primary w-md" (click)="openModal(addService)">ADD SERVICE <i
+                        <button class="btn btn-primary w-md" (click)="openModal(addService , 0)">ADD {{ 'MENUITEMS.SERVICES.TEXT' | translate }} <i
                                 class="bx bx-plus-medical"></i></button>
                     </div>
                 </div>
@@ -18,12 +18,12 @@
     <div class="row">
         <ng-template #addService role="document" let-modal>
             <div class="modal-header">
-                <h5 class="modal-title mt-0">Add Customer</h5>
+                <h5 class="modal-title mt-0">{{lableForm == 0 ? 'ADD': 'EDIT'}} {{ 'MENUITEMS.SERVICES.TEXT' | translate }}SERVICES</h5>
                 <button type="button" class="btn-close" aria-hidden="true"
                     (click)="modal.dismiss('Cross click')"></button>
             </div>
             <div class="modal-body">
-                <form (ngSubmit)="saveUser()" [formGroup]="serviceForm">
+                <form (ngSubmit)="onSubmit()" [formGroup]="serviceForm">
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
@@ -62,24 +62,35 @@
                         </div>
                     </div>
                     <div class="w-100 text-center">
-                        <button class="btn btn-primary" type="submit">Submit</button>
-                    </div>
+                        <button class="btn btn-primary" type="submit">
+                          <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingServices"></i>
+                          {{lableForm == 0 ? 'ADD': 'EDIT'}}
+                        </button>
+                      </div>
                 </form>
             </div>
         </ng-template>
 
 
+        <ng-container *ngIf="loader">
+            <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+              <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </ng-container>
+        <ng-container *ngIf="!loader">
 
-        <div class="col-xl-3 col-sm-6" *ngFor="let data of userGridData">
+        <div class="col-xl-3 col-sm-6" *ngFor="let data of allServices">
             <div class="card text-center">
                 <div class="card-body">
-                    <div class="avatar-sm mx-auto mb-4" *ngIf="!data.image">
+                    <div class="avatar-sm mx-auto mb-4" *ngIf="!data.icon">
                         <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-16">
                             {{data.name.charAt(0)}}
                         </span>
                     </div>
-                    <div *ngIf="data.image" class="mb-4">
-                        <img class="rounded-circle avatar-sm" src="{{data.image}}" alt />
+                    <div *ngIf="data.icon" class="mb-4">
+                        <img class="rounded-circle avatar-sm" src="{{data.icon}}" alt />
                     </div>
                     <h5 class="font-size-15 mb-1"><a href="javascript: void(0);" class="text-dark">{{data.name}}</a>
                     </h5>
@@ -91,21 +102,24 @@
                 <div class="card-footer bg-transparent border-top">
                     <div class="contact-links d-flex font-size-20">
                         <div class="flex-fill d-flex align-items-center justify-content-center">
-                            <ui-switch defaultBoColor="#dfdfdf" color="#ffaa00" [checked]="data.status  == 1"
-                                size="small" class="d-flex"></ui-switch>
+                            <ui-switch defaultBoColor="#dfdfdf" color="#ffaa00"
+                            (change)="changeActivate($event , data.id);getUpdateService(data.id)"
+                            [checked]="data.status == 1"  size="small" class="d-flex"></ui-switch>
                         </div>
                         <div class="flex-fill">
-                            <a href="javascript: void(0);" ngbTooltip="Edit" (click)="openModal(addService)"><i
+                            <a href="javascript: void(0);" ngbTooltip="Edit" (click)="patchValueForm(addService,data);getUpdateService(data.id)"><i
                                     class="bx bx-edit"></i></a>
                         </div>
                         <div class="flex-fill">
-                            <a href="javascript: void(0);" ngbTooltip="Delete" (click)="openModal(addService)"><i
+                            <a href="javascript: void(0);" ngbTooltip="Delete" (click)="delete(data.id)"><i
                                     class="bx bx-trash"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </ng-container>
+
     </div>
     <!-- end row -->
 

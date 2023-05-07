@@ -1,0 +1,7 @@
+{
+    "/RestWeb": {
+      "target": "https://staging.tarfok.store/",
+      "secure": false,
+      "changeOrigin": true
+    }
+  }

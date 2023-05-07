@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { getFirebaseBackend } from '../../authUtils';
 
 import { User } from '../models/auth.models';
+import { EMPTY } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 
@@ -20,7 +21,7 @@ export class AuthenticationService {
         return getFirebaseBackend().getAuthenticatedUser();
     }
     public getUser(){
-        return localStorage.getItem('user_Tarfok')
+        return JSON.parse(localStorage.getItem('user_Tarfok')) || null
       }
     /**
      * Performs the auth

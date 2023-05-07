@@ -78,6 +78,7 @@ export class Login2Component implements OnInit {
     } else {
       this._LoginService.Login(this.loginForm.value).subscribe({
         next:(res:LoginRes) =>{
+          localStorage.setItem('user_Tarfok',JSON.stringify(res.data))
           this.router.navigateByUrl('');
         }
       })

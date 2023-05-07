@@ -10,7 +10,7 @@ import { environment as env } from '@env/environment';
 export class UsersService {
   constructor(private http: HttpClient) { }
 
-  getUsers() {
+  getUserss() {
       return this.http.get<Users>(`${env.domain}dashboard/users`);
   }
   addUser(body:FormData){

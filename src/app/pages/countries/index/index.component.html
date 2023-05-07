@@ -1,76 +1,85 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body row">
-                    <div class="col-6 d-flex align-items-center ">
-                        <h3 class="m-0">COUNTRIES</h3>
-                    </div>
-                    <div class="col-6 d-flex justify-content-end ">
-                        <button class="btn btn-primary w-md" (click)="openModal(addCountry)">ADD COUNTRIES <i
-                                class="bx bx-plus-medical"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>  
-    <div class="row">
-      <div class="col-lg-12">
-        <div class>
-          <div class="table-responsive">
-            <table class="table project-list-table table-nowrap align-middle table-borderless">
-              <thead>
-                <tr>
-                  <th scope="col" style="width: 100px">#</th>
-                  <th scope="col">Country</th>
-                  <!-- <th scope="col">Due Date</th> -->
-                  <th scope="col">Status</th>
-                  <th scope="col">Active / NOT Active</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let project of projectData">
-                  <td>
-                    <img src="{{project.image}}" alt class="avatar-sm" />
-                  </td>
-                  <td>
-                    <h5 class="text-truncate font-size-14">
-                      <a href="javascript: void(0);" class="text-dark">{{project.text}}</a>
-                    </h5>
-                    <!-- <p class="text-muted mb-0">{{project.subtext}}</p> -->
-                  </td>
-                  <!-- <td>{{project.date}}</td> -->
-                  <td>
-                      
-                      <span class="badge" [ngClass]="{ 'bg-success': project.status === 'Active',
-                      'bg-warning': project.status === 'Pending',
-                      'bg-danger': project.status === 'DEACTIVE' }">{{project.status}}</span>
-                    </td>
-
-                  <td>
-                      <ui-switch defaultBoColor="#dfdfdf" color="#ffaa00" checked class="ms-1"></ui-switch>
-                  </td>
-                  <td>
-                    <ul class="list-inline font-size-20 contact-links mb-0">
-                        <li class="list-inline-item px-2">
-                            <i class="bx bx-edit" (click)="openModal(addCountry)" style="cursor: pointer;"></i>
-                        </li>
-                        <li class="list-inline-item px-2">
-                            <i class="bx bx-trash" style="cursor: pointer;"></i>
-                        </li>
-                    </ul>
-                </td>
-                </tr>
-              </tbody>
-            </table>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body row">
+          <div class="col-6 d-flex align-items-center ">
+            <h3 class="m-0">{{ 'MENUITEMS.CONRTRIES.TEXT' | translate }}</h3>
+          </div>
+          <div class="col-6 d-flex justify-content-end ">
+            <button class="btn btn-primary w-md" (click)="openModal(addCountry , 0)">ADD {{ 'MENUITEMS.CONRTRIES.TEXT' | translate }} <i
+                class="bx bx-plus-medical"></i></button>
           </div>
         </div>
       </div>
     </div>
-    <!-- end row -->
-  
-    <!-- <div class="row">
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <ng-container *ngIf="loader">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+          <div class="spinner-border text-primary m-1" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </ng-container>
+      <div *ngIf="!loader">
+        <div class="table-responsive">
+          <table class="table project-list-table table-nowrap align-middle table-borderless">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 100px">#</th>
+                <th scope="col">Country</th>
+                <!-- <th scope="col">Due Date</th> -->
+                <th scope="col">Status</th>
+                <th scope="col">Active / NOT Active</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let Country of allCountries;trackBy:getUpdateCountry">
+                <td>
+                  <img src="{{Country.flag}}" alt class="avatar-sm" />
+                </td>
+                <td>
+                  <h5 class="text-truncate font-size-14">
+                    <a href="javascript: void(0);" class="text-dark">{{Country.name}}</a>
+                  </h5>
+                  <!-- <p class="text-muted mb-0">{{Country.subtext}}</p> -->
+                </td>
+                <!-- <td>{{Country.date}}</td> -->
+                <td>
+                  <span class="badge" [class]="Country.status == 1 ? 'bg-success':'bg-warning'">
+                    <!-- <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingStatus && this.countryId == Country.id"></i> -->
+                    <div >{{Country.status == 1 ? 'Active': 'NOT ACTIVE'}}</div>
+                  </span>
+                </td>
+
+                <td>
+                  <ui-switch defaultBoColor="#dfdfdf" color="#ffaa00" size="small"
+                    (change)="changeActivate($event , Country.id);getUpdateCountry(Country.id)"
+                    [checked]="Country.status == 1" class="ms-1"></ui-switch>
+                </td>
+                <td>
+                  <ul class="list-inline font-size-20 contact-links mb-0">
+                    <li class="list-inline-item px-2">
+                      <i class="bx bx-edit" (click)="patchValueForm(addCountry,Country);getUpdateCountry(Country.id)" style="cursor: pointer;"></i>
+                    </li>
+                    <li class="list-inline-item px-2" (click)="delete(Country.id)">
+                      <i class="bx bx-trash" style="cursor: pointer;"></i>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end row -->
+
+  <!-- <div class="row">
       <div class="col-12">
         <div class="text-center my-3">
           <a href="javascript:void(0);" class="text-success">
@@ -79,56 +88,59 @@
         </div>
       </div>
     </div> -->
-    <!-- end row -->
-  </div>
-  <!-- Add Modal -->
+  <!-- end row -->
+</div>
+<!-- Add Modal -->
 <ng-template #addCountry role="document" let-modal>
   <div class="modal-header">
-      <h5 class="modal-title mt-0">ADD USER</h5>
-      <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    <h5 class="modal-title mt-0">{{lableForm == 0 ? 'ADD': 'EDIT'}} USER</h5>
+    <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-      <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="countriesForm">
-          <div class="row">
-              <div class="col-12">
-                  <div class="mb-3">
-                      <label for="validationCustom01">English Name</label>
-                      <input type="text" class="form-control" id="validationCustom01" formControlName="name_en"
-                          placeholder="English Name"
-                          [ngClass]="{'is-valid': form.name_en.dirty && !form.name_en.errors ,'is-invalid': form.name_en.dirty && form.name_en.errors}">
-                      <div *ngIf="form.name_en.dirty && form.name_en.errors" class="invalid-feedback">
-                          <span *ngIf="form.mobile_number.errors.required">This value is required.</span>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-12">
-                <div class="mb-3">
-                    <label for="validationCustom01">Arabic Name</label>
-                    <input type="text" class="form-control" id="validationCustom01" formControlName="name_ar"
-                        placeholder="Arabic Name"
-                        [ngClass]="{'is-valid': form.name_ar.dirty && !form.name_ar.errors ,'is-invalid': form.name_ar.dirty && form.name_ar.errors}">
-                    <div *ngIf="form.name_ar.dirty && form.name_ar.errors" class="invalid-feedback">
-                        <span *ngIf="form.mobile_number.errors.required">This value is required.</span>
-                    </div>
-                </div>
+    <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="countriesForm">
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-3">
+            <label for="validationCustom01">English Name</label>
+            <input type="text" class="form-control" id="validationCustom01" formControlName="name_en"
+              placeholder="English Name"
+              [ngClass]="{'is-valid': form.name_en.dirty && !form.name_en.errors ,'is-invalid': form.name_en.dirty && form.name_en.errors}">
+            <div *ngIf="form.name_en.dirty && form.name_en.errors" class="invalid-feedback">
+              <span *ngIf="form.name_en.errors.required">This value is required.</span>
             </div>
-              <div class="col-12">
-                  <div class="mb-3">
-                      <label for="formFile">image</label>
-                      <input class="form-control" type="file" accept="image/*" id="formFile" (change)="uploadeImage($event)"
-                          [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
-                      <div class="card-image p-0 px-2 m-2" *ngIf="image">
-                          <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="mb-3">
+            <label for="validationCustom01">Arabic Name</label>
+            <input type="text" class="form-control" id="validationCustom01" formControlName="name_ar"
+              placeholder="Arabic Name"
+              [ngClass]="{'is-valid': form.name_ar.dirty && !form.name_ar.errors ,'is-invalid': form.name_ar.dirty && form.name_ar.errors}">
+            <div *ngIf="form.name_ar.dirty && form.name_ar.errors" class="invalid-feedback">
+              <span *ngIf="form.name_ar.errors.required">This value is required.</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="mb-3">
+            <label for="formFile">image</label>
+            <input class="form-control" type="file" accept="image/*" id="formFile" (change)="uploadeImage($event)"
+              [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
+            <div class="card-image p-0 px-2 m-2" *ngIf="image">
+              <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
                               (click)="removeImage()">remove</button> -->
-                          <img class="p-0 w-100" title="images" alt="images" [src]="image" />
-                      </div>
-                  </div>
-              </div>
+              <img class="p-0 w-100" title="images" alt="images" [src]="image" />
+            </div>
           </div>
-          <div class="w-100 text-center">
-              <button class="btn btn-primary" type="submit">Submit</button>
-          </div>
-      </form>
+        </div>
+      </div>
+      <div class="w-100 text-center">
+        <button class="btn btn-primary" type="submit">
+          <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingCountries"></i>
+          {{lableForm == 0 ? 'ADD': 'EDIT'}}
+        </button>
+      </div>
+    </form>
   </div>
 
 </ng-template>

@@ -81,6 +81,9 @@
     "SERVICES": {
       "TEXT": "Services"
     },
+    "FACTORIES": {
+      "TEXT": "Factories"
+    },
     "LAYOUTS": {
       "TEXT": "Layouts",
       "LIST": {

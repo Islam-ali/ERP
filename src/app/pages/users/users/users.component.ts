@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from './users.service';
 import { Users } from './users';
-import { ErrorInterceptor } from 'app/core/helpers/error.interceptor';
 import { Error } from 'app/core/helpers/error';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -47,7 +46,7 @@ export class UsersComponent implements OnInit {
    }
 
   ngOnInit(): void {
-        this.breadCrumbItems = [];
+        // this.breadCrumbItems = [];
         this.getAllUsers();
   }
   uploadeImage(event: any): void {
@@ -55,7 +54,9 @@ export class UsersComponent implements OnInit {
       // var filesAmount = event.target.files.length;
       // for (let i = 0; i < filesAmount; i++) {
         var reader = new FileReader();
-        this.validationform.value.image = event.target.files.item(0);
+        this.validationform.patchValue({
+          image : event.target.files.item(0)
+        })
         reader.onload = (event: any) => {
           this.image = event.target.result;
         };
@@ -67,14 +68,14 @@ export class UsersComponent implements OnInit {
     this.image = null;
     this.validationform.value.image = null;
   }
-  getAllUsers(){
-    this._UsersService.getUsers().subscribe({
-      next:(res:Users)=>{
+  getAllUsers(): void{
+    this._UsersService.getUserss().subscribe({
+      next:(res:any)=>{
         this.allUsers = res.data
       },
-      // error:(error:Error)=>{
-        
-      // }
+      error:(error:Error)=>{
+        console.log(error);
+      }
     })
   }
 
@@ -96,6 +97,7 @@ export class UsersComponent implements OnInit {
       formData.append('image',value.image);
       this._UsersService.addUser(formData).subscribe({
         next:(res:Users)=>{
+          this.modalService.dismissAll()
         }
       })
       this.submit = true;

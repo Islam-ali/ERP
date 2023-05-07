@@ -33,7 +33,7 @@ export class TopbarComponent implements OnInit {
   }
 
   listLang = [
-    { text: 'Arbic', flag: 'assets/images/flags/1172528.png', lang: 'ar' },
+    { text: 'العربية', flag: 'assets/images/flags/1172528.png', lang: 'ar' },
     { text: 'English', flag: 'assets/images/flags/us.jpg', lang: 'en' },
     // { text: 'Spanish', flag: 'assets/images/flags/spain.jpg', lang: 'es' },
     // { text: 'German', flag: 'assets/images/flags/germany.jpg', lang: 'de' },

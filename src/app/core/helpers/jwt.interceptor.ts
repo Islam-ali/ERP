@@ -32,10 +32,13 @@ export class JwtInterceptor implements HttpInterceptor {
         //         });
         //     }
         // }
-        const currentUser:any = this.authenticationService.getUser()
+        
+        const lang = JSON.parse(localStorage.getItem('lang')).lang || 'ar'
+        const currentUser: any = this.authenticationService.getUser()
         if (currentUser) {
             request = request.clone({
                 setHeaders: {
+                    'Accept-Language': lang,
                     Authorization: `Bearer ${currentUser.token}`
                 }
             });

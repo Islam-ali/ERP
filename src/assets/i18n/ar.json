@@ -98,6 +98,9 @@
       "USERS": {
         "TEXT": "المستخدمين"
       },
+      "FACTORIES": {
+        "TEXT": "المصانع"
+      },
       "APPS": {
         "TEXT": "Apps"
       },

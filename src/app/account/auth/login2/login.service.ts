@@ -11,12 +11,7 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   Login(body:FormGroup) {
-    let headers = new HttpHeaders()
-    .set('content-type','application/json')
-    .set('Access-Control-Allow-Origin', '*')
-    .set('Access-Control-Allow-Credentials', 'true')
-
-      return this.http.post<LoginRes>(`${env.domain}dashboard/login`,body,{ 'headers': headers });
+      return this.http.post<LoginRes>(`${env.domain}dashboard/login`,body);
   }
 
 }

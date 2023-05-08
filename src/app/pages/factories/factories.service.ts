@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment as env } from '@env/environment';
-import { Factories } from './factories';
+import { Factories, ShowFactory } from './factories';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,5 +25,8 @@ export class FactoriesServies {
   }
   delete(FactoryId:number) {
     return this.http.delete<Factories>(`${env.domain}dashboard/factories/classifications/${FactoryId}`);
+  }
+  showFactory(FactoryId:number) {
+    return this.http.get<ShowFactory>(`${env.domain}dashboard/factories/classifications/${FactoryId}`);
   }
 }

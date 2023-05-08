@@ -7,7 +7,7 @@ import { Usergrid } from '../../contacts/usergrid/usergrid.model';
 import { userGridData } from '../../contacts/usergrid/data';
 import { EMPTY } from 'rxjs';
 import { ServicesService } from '../services.service';
-import { DataServices, Services } from '../services';
+import { DataServices, Services, ShowService } from '../services';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-index',
@@ -32,7 +32,7 @@ export class IndexComponent implements OnInit {
   loadingServices: boolean = false;
   loader: boolean = true;
   submit: boolean = true;
-
+  loadingShow:boolean = false;
   constructor(
     private modalService: NgbModal,
      private _formBuilder: FormBuilder,
@@ -83,27 +83,38 @@ export class IndexComponent implements OnInit {
   }
   patchValueForm(content: any, Service: any) {
     this.lableForm = 1;
-    this.serviceForm.patchValue({
-      name_ar: Service.name,
-      name_en: Service.name,
-      // image: Service.icon
-    })
-    this.image = Service.icon
+    this.showServices(Service.id)
+    // this.image = Service.icon
     this.modalService.open(content);
-    console.log(this.serviceForm);
 
+  }
+  showServices(ServiceId: number) {
+    this.loadingShow = true;
+    this._ServicesService.showServices(ServiceId).subscribe({
+      next: (res: ShowService) => {
+        this.loadingShow = false;
+        this.serviceForm.patchValue({
+          name_ar: res.data.name_ar,
+          name_en: res.data.name_en,
+          image: res.data.icon
+        })
+      }, error: (err: Error) => {
+        this.loadingShow = false;
+      }
+    })
   }
   uploadeImage(event: any): void {
     if (event.target.files && event.target.files[0]) {
       // var filesAmount = event.target.files.length;
       // for (let i = 0; i < filesAmount; i++) {
       var reader = new FileReader();
-      this.serviceForm.patchValue({
-        image: event.target.files.item(0)
-      })
+        this.image = event.target.files.item(0)
       // this.countriesForm.value.image = event.target.files.item(0);
       reader.onload = (event: any) => {
-        this.image = event.target.result;
+        this.serviceForm.patchValue({
+          image : event.target.result
+        })
+  
       };
       reader.readAsDataURL(event.target.files[0]);
       // }
@@ -118,7 +129,7 @@ export class IndexComponent implements OnInit {
     const formData = new FormData();
     formData.append('name_ar', value.name_ar);
     formData.append('name_en', value.name_en);
-    value.image ? formData.append('icon', value.image) : EMPTY;
+    this.image ? formData.append('icon', this.image) : EMPTY;
     this._ServicesService.updateService(formData, this.serviceId).subscribe({
       next: (res: Services) => {
         this.getServices();
@@ -135,7 +146,7 @@ export class IndexComponent implements OnInit {
     const formData = new FormData();
     formData.append('name_ar', value.name_ar);
     formData.append('name_en', value.name_en);
-    formData.append('icon', value.image);
+    formData.append('icon', this.image);
     this._ServicesService.addService(formData).subscribe({
       next: (res: Services) => {
         this.getServices();

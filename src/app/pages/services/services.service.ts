@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
-import { Services } from './services';
+import { Services, ShowService } from './services';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,5 +25,8 @@ export class ServicesService {
   }
   delete(ServiceId:number) {
     return this.http.delete<Services>(`${env.domain}dashboard/services/${ServiceId}`);
+  }
+  showServices(ServiceId:number) {
+    return this.http.get<ShowService>(`${env.domain}dashboard/services/${ServiceId}`);
   }
 }

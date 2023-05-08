@@ -7,7 +7,7 @@
             <h3 class="m-0">{{ 'MENUITEMS.CONRTRIES.TEXT' | translate }}</h3>
           </div>
           <div class="col-6 d-flex justify-content-end ">
-            <button class="btn btn-primary w-md" (click)="openModal(addCountry , 0)">ADD {{ 'MENUITEMS.CONRTRIES.TEXT' | translate }} <i
+            <button class="btn btn-primary w-md" (click)="openModal(addCountry , 0)">{{'GENERAL.ADD' | translate}} {{ 'GENERAL.COUNTRY' | translate }} <i
                 class="bx bx-plus-medical"></i></button>
           </div>
         </div>
@@ -29,11 +29,11 @@
             <thead>
               <tr>
                 <th scope="col" style="width: 100px">#</th>
-                <th scope="col">Country</th>
+                <th scope="col">{{'GENERAL.COUNTRY' | translate}}</th>
                 <!-- <th scope="col">Due Date</th> -->
-                <th scope="col">Status</th>
-                <th scope="col">Active / NOT Active</th>
-                <th scope="col">Action</th>
+                <th scope="col">{{'GENERAL.STATUS' | translate}}</th>
+                <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
+                <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
               </tr>
             </thead>
             <tbody>
@@ -51,7 +51,12 @@
                 <td>
                   <span class="badge" [class]="Country.status == 1 ? 'bg-success':'bg-warning'">
                     <!-- <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingStatus && this.countryId == Country.id"></i> -->
-                    <div >{{Country.status == 1 ? 'Active': 'NOT ACTIVE'}}</div>
+                    <div >
+                      <span *ngIf="Country.status == 1">{{'GENERAL.ACTIVE' | translate}}</span>
+                      <span *ngIf="Country.status == 0">{{'GENERAL.NOTACTIVE' | translate}}</span>
+
+                    </div>
+
                   </span>
                 </td>
 
@@ -93,17 +98,29 @@
 <!-- Add Modal -->
 <ng-template #addCountry role="document" let-modal>
   <div class="modal-header">
-    <h5 class="modal-title mt-0">{{lableForm == 0 ? 'ADD': 'EDIT'}} USER</h5>
+    
+    <h5 class="modal-title mt-0">
+      <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+      <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+      {{'GENERAL.COUNTRY' | translate}}
+    </h5>
     <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body">
+  <ng-container *ngIf="loadingShow && lableForm == 1">
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+      <div class="spinner-border text-primary m-1" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </ng-container>
+  <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
     <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="countriesForm">
       <div class="row">
         <div class="col-12">
           <div class="mb-3">
-            <label for="validationCustom01">English Name</label>
+            <label for="validationCustom01">{{'GENERAL.ENGLISH_NAME' | translate}}</label>
             <input type="text" class="form-control" id="validationCustom01" formControlName="name_en"
-              placeholder="English Name"
+              
               [ngClass]="{'is-valid': form.name_en.dirty && !form.name_en.errors ,'is-invalid': form.name_en.dirty && form.name_en.errors}">
             <div *ngIf="form.name_en.dirty && form.name_en.errors" class="invalid-feedback">
               <span *ngIf="form.name_en.errors.required">This value is required.</span>
@@ -112,9 +129,9 @@
         </div>
         <div class="col-12">
           <div class="mb-3">
-            <label for="validationCustom01">Arabic Name</label>
+            <label for="validationCustom01">{{'GENERAL.ARABIC_NAME' | translate}}</label>
             <input type="text" class="form-control" id="validationCustom01" formControlName="name_ar"
-              placeholder="Arabic Name"
+             
               [ngClass]="{'is-valid': form.name_ar.dirty && !form.name_ar.errors ,'is-invalid': form.name_ar.dirty && form.name_ar.errors}">
             <div *ngIf="form.name_ar.dirty && form.name_ar.errors" class="invalid-feedback">
               <span *ngIf="form.name_ar.errors.required">This value is required.</span>
@@ -123,21 +140,22 @@
         </div>
         <div class="col-12">
           <div class="mb-3">
-            <label for="formFile">image</label>
+            <label for="formFile">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.COUNTRY' | translate}}</label>
             <input class="form-control" type="file" accept="image/*" id="formFile" (change)="uploadeImage($event)"
               [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
-            <div class="card-image p-0 px-2 m-2" *ngIf="image">
+            <div class="card-image p-0 px-2 m-2" *ngIf="form.image.value">
               <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
                               (click)="removeImage()">remove</button> -->
-              <img class="p-0 w-100" title="images" alt="images" [src]="image" />
+              <img class="p-0 w-100" title="images" alt="images" [src]="form.image.value" />
             </div>
           </div>
         </div>
       </div>
       <div class="w-100 text-center">
-        <button class="btn btn-primary" type="submit">
+        <button class="btn btn-primary" type="submit" [disabled]="countriesForm.invalid">
           <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingCountries"></i>
-          {{lableForm == 0 ? 'ADD': 'EDIT'}}
+          <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+          <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
         </button>
       </div>
     </form>

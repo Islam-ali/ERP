@@ -11,3 +11,19 @@ export interface Services {
     icon: string
     status: string
   }
+
+  export interface ShowService {
+    message: string
+    data: DataShowService
+    status: boolean
+    code: number
+  }
+  
+  export interface DataShowService {
+    id: number
+    name_en: string
+    name_ar: string
+    icon: string
+    status: number
+  }
+  

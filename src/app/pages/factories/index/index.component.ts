@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DataFactories, Factories } from '../factories';
+import { DataFactories, Factories, ShowFactory } from '../factories';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FactoriesServies } from '../factories.service';
 import { EMPTY } from 'rxjs';
@@ -22,6 +22,7 @@ export class IndexComponent implements OnInit {
   loadingFactories: boolean = false;
   loader:boolean = true;
   rangeValue:number=0;
+  loadingShow:boolean = false;
   constructor(
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
@@ -53,12 +54,14 @@ export class IndexComponent implements OnInit {
       // var filesAmount = event.target.files.length;
       // for (let i = 0; i < filesAmount; i++) {
       var reader = new FileReader();
-      this.FactoriesForm.patchValue({
-        image: event.target.files.item(0)
-      })
+        this.image = event.target.files.item(0)
       // this.FactoriesForm.value.image = event.target.files.item(0);
       reader.onload = (event: any) => {
-        this.image = event.target.result;
+        this.FactoriesForm.patchValue({
+          image : event.target.result
+
+        })
+  
       };
       reader.readAsDataURL(event.target.files[0]);
       // }
@@ -76,16 +79,26 @@ export class IndexComponent implements OnInit {
   }
   patchValueForm(content: any, Factory: any) {
     this.lableForm = 1;
-    this.FactoriesForm.patchValue({
-      name_ar: Factory.name,
-      name_en: Factory.name,
-      // image: Factory.image
-    })
-    this.rangeValue = Factory.tarfok_percentage;
-    this.image = Factory.image
+    this.showFactory(Factory.id)
     this.modalService.open(content);
-    console.log(this.FactoriesForm);
 
+
+  }
+  showFactory(countryId: number) {
+    this.loadingShow = true;
+    this._FactoriesServies.showFactory(countryId).subscribe({
+      next: (res: ShowFactory) => {
+        this.loadingShow = false;
+        this.FactoriesForm.patchValue({
+          name_ar: res.data.name_ar,
+          name_en: res.data.name_en,
+          image: res.data.image,
+        })
+        this.rangeValue = res.data.tarfok_percentage;
+      }, error: (err: Error) => {
+        this.loadingShow = false;
+      }
+    })
   }
   getUpdateFactory(FactoryId: number): number {
     this.FactoryId = FactoryId;
@@ -96,7 +109,7 @@ export class IndexComponent implements OnInit {
     const formData = new FormData();
     formData.append('name_ar', value.name_ar);
     formData.append('name_en', value.name_en);
-    value.image ? formData.append('image', value.image) : EMPTY;
+    this.image ? formData.append('image', this.image) : EMPTY;
     formData.append('tarfok_percentage', `${this.rangeValue}`);
 
     this._FactoriesServies.updateFactory(formData, this.FactoryId).subscribe({
@@ -115,7 +128,7 @@ export class IndexComponent implements OnInit {
     const formData = new FormData();
     formData.append('name_ar', value.name_ar);
     formData.append('name_en', value.name_en);
-    formData.append('image', value.image);
+    formData.append('image', this.image);
     formData.append('tarfok_percentage', `${this.rangeValue}`);
 
     this._FactoriesServies.addFactory(formData).subscribe({

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
-import { Countries } from './countries';
+import { Countries, ShowCountry } from './countries';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +25,9 @@ export class CountriesService {
   }
   delete(CountryId:number) {
     return this.http.delete<Countries>(`${env.domain}dashboard/countries/${CountryId}`);
+  }
+  showCountries(CountryId:number) {
+    return this.http.get<ShowCountry>(`${env.domain}dashboard/countries/${CountryId}`);
   }
 //   getUserss() {
 //     return this.http.get<any>(`${env.domain}dashboard/users`);

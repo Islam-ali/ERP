@@ -84,6 +84,9 @@
     "FACTORIES": {
       "TEXT": "Factories"
     },
+    "CLASSIFICATIONS": {
+      "TEXT": "Classifications"
+    },
     "LAYOUTS": {
       "TEXT": "Layouts",
       "LIST": {
@@ -100,7 +103,7 @@
       }
     },
     "APPS": {
-      "TEXT": "Apps"
+      "TEXT": "Control"
     },
     "CALENDAR": {
       "TEXT": "Calendar"
@@ -316,5 +319,27 @@
         }
       }
     }
+  },
+  "GENERAL":{
+    "USER":"USER",
+    "COUNTRY":"COUNTRY",
+    "SERVICE":"SERVICE",
+    "FACTORY":"FACTORY",
+    "CLASSIFICATION":"CLASSIFICATION",
+    "PERCENTAGE":"percentage",
+
+    "NAME":"name",
+    "ARABIC_NAME":"arabic name",
+    "ENGLISH_NAME":"English name",
+    "EMAIL":"email",
+    "MOBILE_NUMBER":"mobile number",
+    "PASSWORD":"Password",
+    "IMAGE":"image",
+    "ADD":"add",
+    "EDIT":"edit",
+    "STATUS":"status",
+    "ACTIVE":"active",
+    "NOTACTIVE":"not active",
+    "ACTION":"action"
   }
 }

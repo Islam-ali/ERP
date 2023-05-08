@@ -9,7 +9,7 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     CommonModule,
     AccountRoutingModule,
-    AuthModule
+    AuthModule,
   ]
 })
 export class AccountModule { }

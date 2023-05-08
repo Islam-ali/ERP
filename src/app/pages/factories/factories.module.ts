@@ -6,6 +6,7 @@ import { IndexComponent } from './index/index.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UIModule } from 'app/shared/ui/ui.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { UIModule } from 'app/shared/ui/ui.module';
     UiSwitchModule,
     ReactiveFormsModule,
     FormsModule,
-    UIModule
+    UIModule,
+    TranslateModule
   ]
 })
 export class FactoriesModule { }

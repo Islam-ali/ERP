@@ -262,6 +262,9 @@ body[data-sidebar="dark"] {
             }
         }
     }
+    .navbar-brand-box {
+        display: none;
+    }
 }
 
 @media (max-width: 380px) {

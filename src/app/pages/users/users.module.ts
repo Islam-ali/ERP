@@ -6,6 +6,8 @@ import { UsersComponent } from './users/users.component';
 import { UIModule } from '../../shared/ui/ui.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
@@ -19,6 +21,9 @@ import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
     UIModule,
     ReactiveFormsModule,
     NgxIntlTelInputModule,
+    TranslateModule,
+    NgbPaginationModule
+
     // BrowserAnimationsModule 
   ]
 })

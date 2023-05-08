@@ -24,20 +24,20 @@ export class Login2Component implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-     private route: ActivatedRoute,
-      private router: Router,
-      private _LoginService:LoginService,
-      ) { }
+    private route: ActivatedRoute,
+    private router: Router,
+    private _LoginService: LoginService,
+  ) { }
   loginForm: FormGroup;
   submitted = false;
   error = '';
   returnUrl: string;
-
+  messageError: any = '';
   // set the currenr year
   year: number = new Date().getFullYear();
-
+  hide:boolean = false;
   ngOnInit(): void {
-    document.body.classList.add('auth-body-bg')
+    // document.body.classList.add('auth-body-bg')
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
@@ -74,13 +74,20 @@ export class Login2Component implements OnInit {
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
+      this.submitted = false;
       return;
     } else {
       this._LoginService.Login(this.loginForm.value).subscribe({
-        next:(res:LoginRes) =>{
-          localStorage.setItem('user_Tarfok',JSON.stringify(res.data))
+        next: (res: LoginRes) => {
+          this.submitted = false;
+          localStorage.setItem('user_Tarfok', JSON.stringify(res.data))
           this.router.navigateByUrl('');
-        }
+        }, error: (err: Error) => {
+          this.submitted = false;
+          console.log(err);
+          
+          this.messageError = err
+        },
       })
     }
   }

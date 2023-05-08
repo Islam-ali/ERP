@@ -3,7 +3,7 @@ import { Project } from 'app/pages/projects/project.model';
 import { projectData } from '../../projects/projectdata';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Countries, DataCountries } from '../countries';
+import { Countries, DataCountries, ShowCountry } from '../countries';
 import { CountriesService } from '../countries.service';
 import { EMPTY } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,7 +23,8 @@ export class IndexComponent implements OnInit {
   countryId: number = 0;
   loadingStatus: boolean = false;
   loadingCountries: boolean = false;
-  loader:boolean = true;
+  loader: boolean = false;
+  loadingShow: boolean = true;
   constructor(
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
@@ -49,6 +50,7 @@ export class IndexComponent implements OnInit {
   //   })
   // }
   getCountries(): void {
+    this.loader = true;
     this._CountriesService.getCountries().subscribe({
       next: (res: Countries) => {
         this.allCountries = res.data;
@@ -61,12 +63,13 @@ export class IndexComponent implements OnInit {
       // var filesAmount = event.target.files.length;
       // for (let i = 0; i < filesAmount; i++) {
       var reader = new FileReader();
-      this.countriesForm.patchValue({
-        image: event.target.files.item(0)
-      })
+        this.image = event.target.files.item(0)
       // this.countriesForm.value.image = event.target.files.item(0);
       reader.onload = (event: any) => {
-        this.image = event.target.result;
+      this.countriesForm.patchValue({
+        image : event.target.result
+      })
+
       };
       reader.readAsDataURL(event.target.files[0]);
       // }
@@ -83,15 +86,8 @@ export class IndexComponent implements OnInit {
   }
   patchValueForm(content: any, country: any) {
     this.lableForm = 1;
-    this.countriesForm.patchValue({
-      name_ar: country.name,
-      name_en: country.name,
-      // image: country.flag
-    })
-    this.image = country.flag
+    this.showCountries(country.id)
     this.modalService.open(content);
-    console.log(this.countriesForm);
-
   }
   getUpdateCountry(countryId: number): number {
     this.countryId = countryId;
@@ -102,7 +98,7 @@ export class IndexComponent implements OnInit {
     const formData = new FormData();
     formData.append('name_ar', value.name_ar);
     formData.append('name_en', value.name_en);
-    value.image ? formData.append('flag', value.image) : EMPTY;
+    this.image ? formData.append('flag', this.image) : EMPTY;
     this._CountriesService.updateCountry(formData, this.countryId).subscribe({
       next: (res: Countries) => {
         this.getCountries();
@@ -119,7 +115,7 @@ export class IndexComponent implements OnInit {
     const formData = new FormData();
     formData.append('name_ar', value.name_ar);
     formData.append('name_en', value.name_en);
-    formData.append('flag', value.image);
+    formData.append('flag', this.image);
     this._CountriesService.addCountry(formData).subscribe({
       next: (res: Countries) => {
         this.getCountries();
@@ -154,6 +150,21 @@ export class IndexComponent implements OnInit {
         this.loadingStatus = false;
       }, error: (err: Error) => {
         this.loadingStatus = false;
+      }
+    })
+  }
+  showCountries(countryId: number) {
+    this.loadingShow = true;
+    this._CountriesService.showCountries(countryId).subscribe({
+      next: (res: ShowCountry) => {
+        this.loadingShow = false;
+        this.countriesForm.patchValue({
+          name_ar: res.data.name_ar,
+          name_en: res.data.name_en,
+          image: res.data.flag
+        })
+      }, error: (err: Error) => {
+        this.loadingShow = false;
       }
     })
   }

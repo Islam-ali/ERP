@@ -23,3 +23,19 @@
     path: string
   }
   
+  export interface ShowFactory {
+    message: string
+    data: DataShowFactory
+    status: boolean
+    code: number
+  }
+  
+  export interface DataShowFactory {
+    id: number
+    name_en: string
+    name_ar: string
+    image: string
+    status: number
+    tarfok_percentage: number
+  }
+  

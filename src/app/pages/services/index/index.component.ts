@@ -9,6 +9,7 @@ import { EMPTY } from 'rxjs';
 import { ServicesService } from '../services.service';
 import { DataServices, Services, ShowService } from '../services';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
@@ -17,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class IndexComponent implements OnInit {
 
   breadCrumbItems: Array<{}>;
-  allServices:DataServices[] = [];
+  allServices: DataServices[] = [];
   userGridData: Usergrid[];
   selected;
   serviceForm: FormGroup;
@@ -32,13 +33,14 @@ export class IndexComponent implements OnInit {
   loadingServices: boolean = false;
   loader: boolean = true;
   submit: boolean = true;
-  loadingShow:boolean = false;
+  loadingShow: boolean = false;
   constructor(
     private modalService: NgbModal,
-     private _formBuilder: FormBuilder,
-     private _ServicesService:ServicesService,
-     public translate: TranslateService
-     ) { }
+    private _formBuilder: FormBuilder,
+    private _ServicesService: ServicesService,
+    public translate: TranslateService,
+    private toastrService: ToastrService
+  ) { }
 
   ngOnInit() {
     this.serviceForm = this._formBuilder.group({
@@ -46,7 +48,7 @@ export class IndexComponent implements OnInit {
       name_en: [null, [Validators.required]],
       image: [null, [Validators.required]]
     });
-        this.getServices();
+    this.getServices();
     /**
      * fetches data
      */
@@ -108,13 +110,13 @@ export class IndexComponent implements OnInit {
       // var filesAmount = event.target.files.length;
       // for (let i = 0; i < filesAmount; i++) {
       var reader = new FileReader();
-        this.image = event.target.files.item(0)
+      this.image = event.target.files.item(0)
       // this.countriesForm.value.image = event.target.files.item(0);
       reader.onload = (event: any) => {
         this.serviceForm.patchValue({
-          image : event.target.result
+          image: event.target.result
         })
-  
+
       };
       reader.readAsDataURL(event.target.files[0]);
       // }
@@ -135,8 +137,10 @@ export class IndexComponent implements OnInit {
         this.getServices();
         this.loadingServices = false;
         this.modalService.dismissAll();
+        this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingServices = false;
+        this.toastrService.error(err.message);
 
       }
     })
@@ -152,14 +156,15 @@ export class IndexComponent implements OnInit {
         this.getServices();
         this.loadingServices = false;
         this.modalService.dismissAll();
+        this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingServices = false;
+        this.toastrService.error(err.message);
       }
     })
   }
   changeActivate(event: boolean, ServiceId: number) {
     this.serviceId = ServiceId
-    console.log(event);
     event ? this.activate(ServiceId) : this.deActivate(ServiceId);
   }
   activate(ServiceId: number) {
@@ -168,8 +173,10 @@ export class IndexComponent implements OnInit {
       next: (res: Services) => {
         this.getServices();
         this.loadingStatus = false;
+        this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingStatus = false;
+        this.toastrService.error(err.message);
       }
     })
   }
@@ -179,8 +186,10 @@ export class IndexComponent implements OnInit {
       next: (res: Services) => {
         this.getServices();
         this.loadingStatus = false;
+        this.toastrService.warning(res.message);
       }, error: (err: Error) => {
         this.loadingStatus = false;
+        this.toastrService.error(err.message);
       }
     })
   }
@@ -188,8 +197,10 @@ export class IndexComponent implements OnInit {
     this._ServicesService.delete(ServiceId).subscribe({
       next: (res: Services) => {
         this.getServices();
+        this.toastrService.error(res.message);
       }, error: (err: Error) => {
 
+        this.toastrService.error(err.message);
       }
     })
   }

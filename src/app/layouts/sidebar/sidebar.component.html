@@ -18,7 +18,7 @@
               translate}}</span>
           </a>
 
-          <a [routerLink]="item.link" *ngIf="!hasItems(item)" class="side-nav-link-ref" routerLinkActive="active">
+          <a [routerLink]="item.link" routerLinkActive="active" *ngIf="!hasItems(item)" class="side-nav-link-ref" routerLinkActive="active">
             <i class="bx {{ item.icon }}" *ngIf="item.icon"></i>
             <span> {{ item.label | translate }}</span>
             <span class="badge rounded-pill bg-{{item.badge.variant}} float-end" *ngIf="item.badge">{{item.badge.text |

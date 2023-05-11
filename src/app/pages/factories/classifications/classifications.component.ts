@@ -5,26 +5,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FactoriesServies } from '../factories.service';
 import { EMPTY } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import {
-  CountryISO,
-  SearchCountryField,
-} from "ngx-intl-tel-input";
-import { CountriesService } from 'app/pages/countries/countries.service';
-import { Countries } from 'app/pages/countries/countries';
-
 @Component({
-  selector: 'app-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss']
+  selector: 'app-classifications',
+  templateUrl: './classifications.component.html',
+  styleUrls: ['./classifications.component.scss']
 })
-export class IndexComponent implements OnInit {
-  separateDialCode = false;
-  SearchCountryField = SearchCountryField;
-  CountryISO = CountryISO;
-  preferredUsers: CountryISO[] = [
-    CountryISO.Egypt,
-    CountryISO.SaudiArabia
-  ];
+export class ClassificationsComponent implements OnInit {
+
   FactoriesForm: FormGroup;
   image: any;
   submit: boolean = false;
@@ -36,52 +23,23 @@ export class IndexComponent implements OnInit {
   loader:boolean = true;
   rangeValue:number=0;
   loadingShow:boolean = false;
-  countries:any[]=[];
-  classifications:any[]=[];
-
   constructor(
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
     private _FactoriesServies: FactoriesServies,
-    private toastrService: ToastrService,
-  private _CountriesService:CountriesService,
+    private toastrService: ToastrService
 
   ) { 
     this.FactoriesForm = this._formBuilder.group({
-      name: [null, [Validators.required]],
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]],
-      // country_code: ['', [Validators.required]],
-      mobile_number: [null],
-      password_confirmation: [null],
-      country_id: [null],
-      classification_id: [null],
-      lng: [null],
-      lat: [null],
-      commercial_register_image:[[Validators.required, Validators.email]],
-      tax_card_front_image:[[Validators.required, Validators.email]],
-      tax_card_back_image:[[Validators.required, Validators.email]],
-      image:[[Validators.required, Validators.email]],
-
+      name_ar: [null, [Validators.required]],
+      name_en: [null, [Validators.required]],
+      image: [null, [Validators.required]],
+      tarfok_percentage: [0]
     });
   }
-    getClassifications(): void {
-    this._FactoriesServies.getFactories().subscribe({
-      next: (res: Factories) => {
-        this.classifications = res.data;
-      }
-    })
-  }
-  getCountries(): void {
-    this._CountriesService.getCountries().subscribe({
-      next: (res: Countries) => {
-        this.countries = res.data;
-      }
-    })
-  }
+
   ngOnInit(): void {
-    this.getClassifications();
-    this.getCountries();
+
     this.getFactories();
   }
   getFactories(): void {
@@ -118,7 +76,7 @@ export class IndexComponent implements OnInit {
     this.image = null;
     this.rangeValue = 0;
     // num == 1 ? this.patchValueForm() : EMPTY
-    this.modalService.open(content, { size: 'lg'});
+    this.modalService.open(content);
   }
   patchValueForm(content: any, Factory: any) {
     this.lableForm = 1;

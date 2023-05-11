@@ -91,7 +91,7 @@
       "TEXT": "البلاد"
     },
     "SERVICES": {
-      "TEXT": "الخدمات"
+      "TEXT": "الاقسام"
     },
     "USERS": {
       "TEXT": "المستخدمين"
@@ -100,7 +100,7 @@
       "TEXT": "المصانع"
     },
     "CLASSIFICATIONS": {
-      "TEXT": "الاقسام"
+      "TEXT": "التصنيفات"
     },
     "APPS": {
       "TEXT": "التحكم"
@@ -323,9 +323,9 @@
   "GENERAL": {
     "USER": "المستخدم",
     "COUNTRY": "البلد",
-    "SERVICE": "الخدمة",
+    "SERVICE": "اقسم",
     "FACTORY": "المصنع",
-    "CLASSIFICATION": "القسم",
+    "CLASSIFICATION": "التصنيف",
     "PERCENTAGE":"النسبة",
     "NAME": "الاسم",
     "ARABIC_NAME":"الاسم باللغه العربىة",
@@ -339,6 +339,11 @@
     "STATUS": "الحالة",
     "ACTIVE": "تفعيل",
     "NOTACTIVE": "الغاء تفعيل",
-    "ACTION": "الاعدادات"
+    "ACTION": "الاعدادات",
+    "MESSAGE_LOGIN":"قم بتسجيل الدخول للمتابعة إلى Tarfok.",
+    "WELCOME_bACK":"مرحبًا بعودتك !",
+    "LOGIN":"تسجيل الدخول",
+    "LOGOUT":"تسجيل الخروج"
+
   }
 }

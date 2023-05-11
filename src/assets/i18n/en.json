@@ -340,6 +340,10 @@
     "STATUS":"status",
     "ACTIVE":"active",
     "NOTACTIVE":"not active",
-    "ACTION":"action"
+    "ACTION":"action",
+    "MESSAGE_LOGIN":"Sign in to continue to Tarfok.",
+    "WELCOME_bACK":"Welcome Back !",
+    "LOGIN":"login",
+    "LOGOUT":"Logout"
   }
 }

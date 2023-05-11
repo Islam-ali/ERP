@@ -9,6 +9,7 @@ import {
   SearchCountryField,
 } from "ngx-intl-tel-input";
 import { User } from 'app/core/models/auth.models';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -27,8 +28,8 @@ export class UsersComponent implements OnInit {
   loadingUsers: boolean = false;
   UserId: number = 0;
   // TooltipLabel = TooltipLabel;
-  pagination:Pagination;
-  pageNumber:number = 1;
+  pagination: Pagination;
+  pageNumber: number = 1;
   CountryISO = CountryISO;
   preferredUsers: CountryISO[] = [
     CountryISO.Egypt,
@@ -37,7 +38,8 @@ export class UsersComponent implements OnInit {
   constructor(
     private _UsersService: UsersService,
     private modalService: NgbModal,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private toastrService: ToastrService
   ) {
 
     this.userForm = this._formBuilder.group({
@@ -47,7 +49,7 @@ export class UsersComponent implements OnInit {
       // country_code: ['', [Validators.required]],
       mobile_number: [null],
       image: [null],
-      password_confirmation:[null]
+      password_confirmation: [null]
     });
   }
 
@@ -83,14 +85,12 @@ export class UsersComponent implements OnInit {
     // num == 1 ? this.patchValueForm() : EMPTY
     this.modalService.open(content);
   }
-  paginationAllUsers(event:any){
+  paginationAllUsers(event: any) {
     this.pageNumber = event
     this.getAllUsers(this.pageNumber);
   }
-    
-  getAllUsers(pageNumber:number): void {
-    this.loader = true;
 
+  getAllUsers(pageNumber: number): void {
     this._UsersService.getUserss(pageNumber).subscribe({
       next: (res: Users) => {
         this.allUsers = res.data;
@@ -100,8 +100,6 @@ export class UsersComponent implements OnInit {
       },
       error: (error: Error) => {
         this.loader = false;
-
-        console.log(error);
       }
     })
   }
@@ -136,14 +134,17 @@ export class UsersComponent implements OnInit {
         this.getAllUsers(this.pageNumber);
         this.loadingUsers = false;
         this.modalService.dismissAll();
+        this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingUsers = false;
+        this.toastrService.error(err.message);
 
       }
     })
   }
   getAddUser(): void {
     if (this.userForm.invalid) {
+      this.loadingUsers = false;
       return
     } else {
       let value = this.userForm.value
@@ -159,8 +160,10 @@ export class UsersComponent implements OnInit {
           this.loadingUsers = false;
           this.getAllUsers(this.pageNumber);
           this.modalService.dismissAll();
+                  this.toastrService.success(res.message);
         }, error: (err: Error) => {
           this.loadingUsers = false;
+                  this.toastrService.error(err.message);
         }
       })
       this.submit = true;
@@ -176,7 +179,6 @@ export class UsersComponent implements OnInit {
     }
   }
   validSubmit() {
-    console.log(this.userForm.value);
     if (this.userForm.invalid) {
       return
     } else {
@@ -200,7 +202,9 @@ export class UsersComponent implements OnInit {
     this._UsersService.delete(userId).subscribe({
       next: (res: Users) => {
         this.getAllUsers(this.pageNumber);
+                this.toastrService.error(res.message);
       }, error: (err: Error) => {
+                this.toastrService.error(err.message);
 
       }
     })

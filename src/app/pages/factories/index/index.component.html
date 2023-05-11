@@ -4,18 +4,18 @@
       <div class="card">
         <div class="card-body row">
           <div class="col-6 d-flex align-items-center ">
-            <h3 class="m-0">Factories</h3>
+            <h3 class="m-0">{{'MENUITEMS.FACTORIES.TEXT' | translate}}</h3>
           </div>
           <div class="col-6 d-flex justify-content-end ">
             <button class="btn btn-primary w-md" (click)="openModal(addFactory , 0)">
-              {{'GENERAL.ADD' | translate}} {{'GENERAL.CLASSIFICATION' | translate}}
+              {{'GENERAL.ADD' | translate}} {{'GENERAL.FACTORY' | translate}}
               <i class="bx bx-plus-medical"></i></button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-lg-12">
       <ng-container *ngIf="loader">
         <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
@@ -30,7 +30,7 @@
             <thead>
               <tr>
                 <th scope="col" style="width: 100px">#</th>
-                <th scope="col">{{'GENERAL.CLASSIFICATION' | translate}}</th>
+                <th scope="col">{{'GENERAL.FACTORY' | translate}}</th>
                 <th scope="col">{{'GENERAL.STATUS' | translate}}</th>
                 <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
                 <th scope="col">{{'GENERAL.PERCENTAGE' | translate}}</th>
@@ -46,12 +46,9 @@
                   <h5 class="text-truncate font-size-14">
                     <a href="javascript: void(0);" class="text-dark">{{Factory.name}}</a>
                   </h5>
-                  <!-- <p class="text-muted mb-0">{{Factory.subtext}}</p> -->
                 </td>
-                <!-- <td>{{Factory.date}}</td> -->
                 <td>
                   <span class="badge" [class]="Factory.status == 1 ? 'bg-success':'bg-warning'">
-                    <!-- <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingStatus && this.FactoryId == Factory.id"></i> -->
                     <div>
                       <span *ngIf="Factory.status == 1">{{'GENERAL.ACTIVE' | translate}}</span>
                       <span *ngIf="Factory.status == 0">{{'GENERAL.NOTACTIVE' | translate}}</span>
@@ -83,11 +80,11 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- end row -->
 
   <!-- <div class="row">
-        <div class="col-12">
+        <div class="col-xl-6 col-lg-6">
           <div class="text-center my-3">
             <a href="javascript:void(0);" class="text-success">
               <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more
@@ -103,7 +100,7 @@
     <h5 class="modal-title mt-0">
       <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
       <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
-      {{ 'GENERAL.CLASSIFICATION' | translate }}
+      {{ 'GENERAL.FACTORY' | translate }}
     </h5>
     <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
   </div>
@@ -114,10 +111,10 @@
       </div>
     </div>
   </ng-container>
-  <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
+  <!-- <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
     <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="FactoriesForm">
       <div class="row">
-        <div class="col-12">
+        <div class="col-xl-6 col-lg-6">
           <div class="mb-3">
             <label for="validationCustom01">{{'GENERAL.ENGLISH_NAME' | translate}}</label>
             <input type="text" class="form-control" id="validationCustom01" formControlName="name_en"
@@ -127,7 +124,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-xl-6 col-lg-6">
           <div class="mb-3">
             <label for="validationCustom01">{{'GENERAL.ARABIC_NAME' | translate}}</label>
             <input type="text" class="form-control" id="validationCustom01" formControlName="name_ar"
@@ -137,7 +134,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-xl-6 col-lg-6">
           <div class="mb-3">
             <label for="range" >{{'GENERAL.PERCENTAGE' | translate}} <span class="text-primary">{{rangeValue}} %</span></label>
             <input type="range" [(ngModel)]="rangeValue" [ngModelOptions]="{standalone: true}" [value]="rangeValue"
@@ -147,14 +144,12 @@
             </div>
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-xl-6 col-lg-6">
           <div class="mb-3">
-            <label for="formFile">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.CLASSIFICATION' | translate}}</label>
+            <label for="formFile">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.FACTORY' | translate}}</label>
             <input class="form-control" type="file" accept="image/*" id="formFile" (change)="uploadeImage($event)"
               [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
             <div class="card-image p-0 px-2 m-2" *ngIf="form.image.value">
-              <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
-                                (click)="removeImage()">remove</button> -->
               <img class="p-0 w-100" title="images" alt="images" [src]="form.image.value" />
             </div>
           </div>
@@ -167,6 +162,144 @@
         </button>
       </div>
     </form>
-  </div>
+  </div> -->
+  <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
+    <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="FactoriesForm">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6">
+          <div class="mb-3">
+            <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.NAME' | translate}}</label>
+            <input type="text" class="form-control" id="validationCustom01" formControlName="name"
+              placeholder="First name"
+              [ngClass]="{'is-valid': form.name.dirty && !form.name.errors ,'is-invalid': form.name.dirty && form.name.errors}">
+            <div *ngIf="form.name.dirty && form.name.errors" class="invalid-feedback">
+              <span *ngIf="form.mobile_number.errors.required">This value is required.</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+          <div class="mb-3">
+            <label class="form-label text-capitalize">{{'GENERAL.EMAIL' | translate}}</label>
+            <div>
+              <input type="email" class="form-control" formControlName="email"
+                [ngClass]="{'is-valid': form.email.dirty && !form.email.errors ,'is-invalid': form.email.dirty && form.email.errors}" />
+              <div *ngIf="form.email.dirty && form.email.errors" class="invalid-feedback">
+                <span *ngIf="form.email.errors.required">This value is required.</span>
+                <span *ngIf="form.email.errors.pattern">This value should be a valid email.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+          <div class="mb-3">
+            <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.PASSWORD' |
+              translate}}</label>
+            <input type="password" class="form-control" id="validationCustom01" formControlName="password"
+              [ngClass]="{'is-valid': form.password.dirty && !form.password.errors ,'is-invalid': form.password.dirty && form.password.errors}">
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+          <div class="mb-3">
+            <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.PASSWORD_CONFIRMATION' |
+              translate}}</label>
+            <input type="password" class="form-control" id="validationCustom01" formControlName="password_confirmation"
+              [ngClass]="{'is-valid': form.password_confirmation.dirty && !form.password_confirmation.errors ,'is-invalid': form.password_confirmation.dirty && form.password_confirmation.errors}">
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+          <div class="mb-3">
+            <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.COUNTRY' |
+              translate}}</label>
+            <ng-select [items]="countries" formControlName="country_id" bindLabel="name" bindValue="id"></ng-select>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+          <div class="mb-3">
+            <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.CLASSIFICATION' |
+              translate}}</label>
+            <ng-select [items]="classifications" formControlName="classification_id" bindLabel="name" bindValue="id"></ng-select>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+          <div class="mb-3">
+            <label class="form-label text-capitalize">{{'GENERAL.MOBILE_NUMBER' | translate}}</label>
+            <div dir="ltr">
+              <ngx-intl-tel-input formControlName="mobile_number"
+                [preferredCountries]="[CountryISO.Egypt, CountryISO.SaudiArabia]" [enableAutoCountrySelect]="true"
+                [enablePlaceholder]="true" [searchCountryFlag]="true"
+                [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                [selectedCountryISO]="CountryISO.Egypt" [phoneValidation]="true" name="phone"
+                [ngClass]="{'is-valid': form.mobile_number.dirty && !form.mobile_number.errors ,'is-invalid': form.mobile_number.dirty && form.mobile_number.errors}">
+              </ngx-intl-tel-input>
+              <div *ngIf="form.mobile_number.touched && form.mobile_number.errors" class="invalid-feedback">
+                <span *ngIf="form.mobile_number.errors.required">This value is required.</span>
+                <span *ngIf="form.mobile_number.errors.pattern">This value should be a valid
+                  number.</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div class="col-xl-6 col-lg-6">
+          <div class="mb-3">
+            <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.USER' |
+              translate}}</label>
+            <input class="form-control" type="file" accept="image/*" id="formFile" (change)="uploadeImage($event)"
+              [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
+            <div class="card-image p-0 px-2 m-2" *ngIf="image">
+              <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                            (click)="removeImage()">remove</button> -->
+              <img class="p-0 w-100" title="images" alt="images" [src]="image" />
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+          <div class="mb-3">
+            <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.USER' |
+              translate}}</label>
+            <input class="form-control" type="file" accept="image/*" id="formFile" (change)="uploadeImage($event)"
+              [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
+            <div class="card-image p-0 px-2 m-2" *ngIf="image">
+              <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                            (click)="removeImage()">remove</button> -->
+              <img class="p-0 w-100" title="images" alt="images" [src]="image" />
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+          <div class="mb-3">
+            <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.USER' |
+              translate}}</label>
+            <input class="form-control" type="file" accept="image/*" id="formFile" (change)="uploadeImage($event)"
+              [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
+            <div class="card-image p-0 px-2 m-2" *ngIf="image">
+              <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                            (click)="removeImage()">remove</button> -->
+              <img class="p-0 w-100" title="images" alt="images" [src]="image" />
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+          <div class="mb-3">
+            <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.USER' |
+              translate}}</label>
+            <input class="form-control" type="file" accept="image/*" id="formFile" (change)="uploadeImage($event)"
+              [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
+            <div class="card-image p-0 px-2 m-2" *ngIf="image">
+              <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                            (click)="removeImage()">remove</button> -->
+              <img class="p-0 w-100" title="images" alt="images" [src]="image" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-100 text-center">
+        <button class="btn btn-primary" type="submit">
+          <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingFactories"></i>
+          <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+          <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+        </button>
+      </div>
+    </form>
+  </div>
 </ng-template>

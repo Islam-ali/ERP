@@ -56,7 +56,7 @@
                                         </h5>
                                     </td>
                                     <td>{{item.email}}</td>
-                                    <td>{{item.mobile_number}}</td>
+                                    <td dir="ltr">{{item.mobile_number}}</td>
                                     <td>
                                         <ul class="list-inline font-size-20 contact-links mb-0">
                                             <!-- <li class="list-inline-item px-2" (click)="openModal(addUser , 1)">
@@ -85,8 +85,8 @@
                             <div class="w-100">
                                 <div class="d-flex justify-content-center">
                                     <div class="text-md-right float-md-end pagination-rounded">
-                                        <ngb-pagination [collectionSize]="pagination.total" (pageChange)="paginationAllUsers($event)" [(page)]="pagination.current_page"
-                                            [pageSize]="pagination.per_page">
+                                        <ngb-pagination [collectionSize]="pagination?.total" (pageChange)="paginationAllUsers($event)" [page]="pagination?.current_page"
+                                            [pageSize]="pagination?.per_page">
                                         </ngb-pagination>
                                     </div>
                                 </div>

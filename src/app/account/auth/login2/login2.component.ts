@@ -11,6 +11,8 @@ import { first } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { LoginService } from './login.service';
 import { LoginRes } from './login';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login2',
@@ -27,7 +29,9 @@ export class Login2Component implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private _LoginService: LoginService,
-  ) { }
+    private toastrService: ToastrService
+  ) { 
+  }
   loginForm: FormGroup;
   submitted = false;
   error = '';
@@ -79,13 +83,13 @@ export class Login2Component implements OnInit {
     } else {
       this._LoginService.Login(this.loginForm.value).subscribe({
         next: (res: LoginRes) => {
+          this.messageError = '';
           this.submitted = false;
           localStorage.setItem('user_Tarfok', JSON.stringify(res.data))
           this.router.navigateByUrl('');
+          this.toastrService.success(res.message);
         }, error: (err: Error) => {
           this.submitted = false;
-          console.log(err);
-          
           this.messageError = err
         },
       })

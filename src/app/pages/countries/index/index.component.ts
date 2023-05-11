@@ -7,6 +7,7 @@ import { Countries, DataCountries, ShowCountry } from '../countries';
 import { CountriesService } from '../countries.service';
 import { EMPTY } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-index',
@@ -23,13 +24,14 @@ export class IndexComponent implements OnInit {
   countryId: number = 0;
   loadingStatus: boolean = false;
   loadingCountries: boolean = false;
-  loader: boolean = false;
+  loader: boolean = true;
   loadingShow: boolean = true;
   constructor(
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
     private _CountriesService: CountriesService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -50,7 +52,6 @@ export class IndexComponent implements OnInit {
   //   })
   // }
   getCountries(): void {
-    this.loader = true;
     this._CountriesService.getCountries().subscribe({
       next: (res: Countries) => {
         this.allCountries = res.data;
@@ -63,12 +64,12 @@ export class IndexComponent implements OnInit {
       // var filesAmount = event.target.files.length;
       // for (let i = 0; i < filesAmount; i++) {
       var reader = new FileReader();
-        this.image = event.target.files.item(0)
+      this.image = event.target.files.item(0)
       // this.countriesForm.value.image = event.target.files.item(0);
       reader.onload = (event: any) => {
-      this.countriesForm.patchValue({
-        image : event.target.result
-      })
+        this.countriesForm.patchValue({
+          image: event.target.result
+        })
 
       };
       reader.readAsDataURL(event.target.files[0]);
@@ -104,8 +105,10 @@ export class IndexComponent implements OnInit {
         this.getCountries();
         this.loadingCountries = false;
         this.modalService.dismissAll();
+        this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingCountries = false;
+        this.toastrService.error(err.message);
 
       }
     })
@@ -121,14 +124,16 @@ export class IndexComponent implements OnInit {
         this.getCountries();
         this.loadingCountries = false;
         this.modalService.dismissAll();
+        this.toastrService.success(res.message);
+
       }, error: (err: Error) => {
         this.loadingCountries = false;
+        this.toastrService.error(err.message);
       }
     })
   }
   changeActivate(event: boolean, countryId: number) {
     this.countryId = countryId
-    console.log(event);
     event ? this.activate(countryId) : this.deActivate(countryId);
   }
   activate(countryId: number) {
@@ -137,8 +142,10 @@ export class IndexComponent implements OnInit {
       next: (res: Countries) => {
         this.getCountries();
         this.loadingStatus = false;
+        this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingStatus = false;
+        this.toastrService.error(err.message);
       }
     })
   }
@@ -148,8 +155,10 @@ export class IndexComponent implements OnInit {
       next: (res: Countries) => {
         this.getCountries();
         this.loadingStatus = false;
+        this.toastrService.warning(res.message);
       }, error: (err: Error) => {
         this.loadingStatus = false;
+        this.toastrService.error(err.message);
       }
     })
   }
@@ -172,8 +181,9 @@ export class IndexComponent implements OnInit {
     this._CountriesService.delete(countryId).subscribe({
       next: (res: Countries) => {
         this.getCountries();
+        this.toastrService.error(res.message);
       }, error: (err: Error) => {
-
+        this.toastrService.error(err.message);
       }
     })
   }

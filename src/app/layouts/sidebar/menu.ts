@@ -75,10 +75,25 @@ export const MENU: MenuItem[] = [
         link: '/services',
     },
     {
+        id: 7,
+        isLayout: true
+    },
+    {
+        id: 8,
+        label: 'MENUITEMS.FACTORIES.TEXT',
+        isTitle: true
+    },
+    {
+        id: 6,
+        label: 'MENUITEMS.FACTORIES.TEXT',
+        icon: 'bx bx-cog',
+        link: '/factories',
+    },
+    {
         id: 6,
         label: 'MENUITEMS.CLASSIFICATIONS.TEXT',
         icon: 'bx bx-cog',
-        link: '/factories',
+        link: '/factories/classifications',
     },
     // {
     //     id: 9,

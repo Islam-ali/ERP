@@ -45,12 +45,14 @@ export class TopbarComponent implements OnInit {
 
   @Output() settingsButtonClicked = new EventEmitter();
   @Output() mobileMenuButtonClicked = new EventEmitter();
-
+user:any;
   ngOnInit() {
     this.openMobileMenu = false;
     this.element = document.documentElement;
-
+    this.user = JSON.parse(localStorage.getItem('user_Tarfok'))?.user.name
     this.cookieValue = this._cookiesService.get('lang');
+    this.cookieValue = JSON.parse(localStorage.getItem('lang'))?.lang || 'ar';
+
     const val = this.listLang.filter(x => x.lang === this.cookieValue);
     this.countryName = val.map(element => element.text);
     if (val.length === 0) {
@@ -58,10 +60,7 @@ export class TopbarComponent implements OnInit {
     } else {
       this.flagvalue = val.map(element => element.flag);
     }
-    let langauge:any = JSON.parse(localStorage.getItem('lang'))
-    if(langauge){
-      this.setLanguage(langauge.text,langauge.lang,langauge.flag)
-    }
+
   }
 
   setLanguage(text: string, lang: string, flag: string) {
@@ -80,6 +79,7 @@ export class TopbarComponent implements OnInit {
       this.document.getElementsByTagName("html")[0].classList.remove("rtl");
       // this.document.getElementsByTagName("html")[0].classList.add("ltr");
     }
+    location.reload();
   }
 
   /**
@@ -102,11 +102,12 @@ export class TopbarComponent implements OnInit {
    * Logout the user
    */
   logout() {
-    if (environment.defaultauth === 'firebase') {
-      this.authService.logout();
-    } else {
-      this.authFackservice.logout();
-    }
+    // if (environment.defaultauth === 'firebase') {
+    //   this.authService.logout();
+    // } else {
+    //   this.authFackservice.logout();
+    // }
+    localStorage.removeItem('user_Tarfok')
     this.router.navigate(['/account/login']);
   }
 

@@ -7,6 +7,9 @@ import { UiSwitchModule } from 'ngx-ui-switch';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UIModule } from 'app/shared/ui/ui.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import { TranslateModule } from '@ngx-translate/core';
     ReactiveFormsModule,
     FormsModule,
     UIModule,
-    TranslateModule
+    TranslateModule,
+    NgxIntlTelInputModule,
+    NgbPaginationModule,
+    NgSelectModule
   ]
 })
 export class FactoriesModule { }

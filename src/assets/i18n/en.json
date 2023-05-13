@@ -327,23 +327,34 @@
     "FACTORY":"FACTORY",
     "CLASSIFICATION":"CLASSIFICATION",
     "PERCENTAGE":"percentage",
-
+    
     "NAME":"name",
     "ARABIC_NAME":"arabic name",
     "ENGLISH_NAME":"English name",
     "EMAIL":"email",
     "MOBILE_NUMBER":"mobile number",
     "PASSWORD":"Password",
+    "PASSWORD_CONFIRMATION":"Password Confirmation",
     "IMAGE":"image",
     "ADD":"add",
     "EDIT":"edit",
     "STATUS":"status",
     "ACTIVE":"active",
     "NOTACTIVE":"not active",
+    "PENDING": "Pending",
+    "ACCEPT":"Accept",
+    "REJECTED":"Rejected",
+    "VIEW":"view",
     "ACTION":"action",
     "MESSAGE_LOGIN":"Sign in to continue to Tarfok.",
     "WELCOME_bACK":"Welcome Back !",
     "LOGIN":"login",
-    "LOGOUT":"Logout"
+    "LOGOUT":"Logout",
+    "commercial_register_image":"commercial register image",
+    "tax_card_front_image":"tax card front image",
+    "tax_card_back_image":"tax card back image",
+    "LAT":"latitude",
+    "LNG":"longtitud",
+    "LOCATION":"Location"
   }
 }

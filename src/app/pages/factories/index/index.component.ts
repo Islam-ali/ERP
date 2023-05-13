@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DataFactories, Factories, ShowFactory } from '../factories';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FactoriesServies } from '../factories.service';
 import { EMPTY } from 'rxjs';
@@ -11,6 +10,8 @@ import {
 } from "ngx-intl-tel-input";
 import { CountriesService } from 'app/pages/countries/countries.service';
 import { Countries } from 'app/pages/countries/countries';
+import { ClassificationsService } from '../classifications/classifications.service';
+import { Classifications, DataClassifications, ShowClassification } from '../classifications/classifications';
 
 @Component({
   selector: 'app-index',
@@ -28,7 +29,7 @@ export class IndexComponent implements OnInit {
   FactoriesForm: FormGroup;
   image: any;
   submit: boolean = false;
-  allFactories: DataFactories[] = [];
+  allFactories: DataClassifications[] = [];
   lableForm: number = 0;
   FactoryId: number = 0;
   loadingStatus: boolean = false;
@@ -42,7 +43,7 @@ export class IndexComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private _FactoriesServies: FactoriesServies,
+    private _ClassificationsService : ClassificationsService,
     private toastrService: ToastrService,
   private _CountriesService:CountriesService,
 
@@ -66,8 +67,8 @@ export class IndexComponent implements OnInit {
     });
   }
     getClassifications(): void {
-    this._FactoriesServies.getFactories().subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService .getFactories().subscribe({
+      next: (res: Classifications) => {
         this.classifications = res.data;
       }
     })
@@ -85,8 +86,8 @@ export class IndexComponent implements OnInit {
     this.getFactories();
   }
   getFactories(): void {
-    this._FactoriesServies.getFactories().subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService .getFactories().subscribe({
+      next: (res: Classifications) => {
         this.allFactories = res.data;
         this.loader = false;
       }
@@ -129,8 +130,8 @@ export class IndexComponent implements OnInit {
   }
   showFactory(countryId: number) {
     this.loadingShow = true;
-    this._FactoriesServies.showFactory(countryId).subscribe({
-      next: (res: ShowFactory) => {
+    this._ClassificationsService .showFactory(countryId).subscribe({
+      next: (res: ShowClassification) => {
         this.loadingShow = false;
         this.FactoriesForm.patchValue({
           name_ar: res.data.name_ar,
@@ -155,8 +156,8 @@ export class IndexComponent implements OnInit {
     this.image ? formData.append('image', this.image) : EMPTY;
     formData.append('tarfok_percentage', `${this.rangeValue}`);
 
-    this._FactoriesServies.updateFactory(formData, this.FactoryId).subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService .updateFactory(formData, this.FactoryId).subscribe({
+      next: (res: Classifications) => {
         this.getFactories();
         this.loadingFactories = false;
         this.modalService.dismissAll();
@@ -178,8 +179,8 @@ export class IndexComponent implements OnInit {
     formData.append('image', this.image);
     formData.append('tarfok_percentage', `${this.rangeValue}`);
 
-    this._FactoriesServies.addFactory(formData).subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService .addFactory(formData).subscribe({
+      next: (res: Classifications) => {
         this.getFactories();
         this.loadingFactories = false;
         this.modalService.dismissAll();
@@ -196,8 +197,8 @@ export class IndexComponent implements OnInit {
   }
   activate(FactoryId: number) {
     this.loadingStatus = true;
-    this._FactoriesServies.activate(FactoryId).subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService .activate(FactoryId).subscribe({
+      next: (res: Classifications) => {
         this.getFactories();
         this.loadingStatus = false;
                         this.toastrService.success(res.message);
@@ -209,8 +210,8 @@ export class IndexComponent implements OnInit {
   }
   deActivate(FactoryId: number) {
     this.loadingStatus = true;
-    this._FactoriesServies.deactivate(FactoryId).subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService .deactivate(FactoryId).subscribe({
+      next: (res: Classifications) => {
         this.getFactories();
         this.loadingStatus = false;
                         this.toastrService.warning(res.message);
@@ -221,8 +222,8 @@ export class IndexComponent implements OnInit {
     })
   }
   delete(FactoryId: number) {
-    this._FactoriesServies.delete(FactoryId).subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService .delete(FactoryId).subscribe({
+      next: (res: Classifications) => {
         this.getFactories();
                         this.toastrService.error(res.message);
         

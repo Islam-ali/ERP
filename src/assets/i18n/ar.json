@@ -333,17 +333,27 @@
     "EMAIL": "البريد الالكترونى",
     "MOBILE_NUMBER": "رقم الموبيل",
     "PASSWORD":"كلمة المرور",
+    "PASSWORD_CONFIRMATION":"تأكيد كلمة المرور",
     "IMAGE":"صورة",
     "ADD": "اضافة",
     "EDIT": "تعديل",
     "STATUS": "الحالة",
     "ACTIVE": "تفعيل",
+    "PENDING": "قيد الانتظار",
+    "ACCEPT":"تم القبول",
+    "REJECTED":"تم الرفض",
     "NOTACTIVE": "الغاء تفعيل",
     "ACTION": "الاعدادات",
+    "VIEW":"عرض",
     "MESSAGE_LOGIN":"قم بتسجيل الدخول للمتابعة إلى Tarfok.",
     "WELCOME_bACK":"مرحبًا بعودتك !",
     "LOGIN":"تسجيل الدخول",
-    "LOGOUT":"تسجيل الخروج"
-
+    "LOGOUT":"تسجيل الخروج",
+    "commercial_register_image":"صورة السجل التجاري",
+    "tax_card_front_image":"الصورة الأمامية للبطاقة الضريبية",
+    "tax_card_back_image":"الصورة الخلفية للبطاقة الضريبية",
+    "LAT":"خط الطول",
+    "LNG":"خط العرض",
+    "LOCATION":"الموقع"
   }
 }

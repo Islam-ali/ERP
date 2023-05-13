@@ -35,6 +35,7 @@
                   <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
                   <th scope="col">{{'GENERAL.PERCENTAGE' | translate}}</th>
                   <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
+                  <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.FACTORIES.TEXT' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
@@ -77,11 +78,53 @@
                       </li>
                     </ul>
                   </td>
+                  <td>
+                    <button type="button" class="btn btn-primary btn-sm px-4 btn-rounded" [routerLink]="['factory',Factory.id]">{{'GENERAL.VIEW' | translate}}</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+        <!-- <div *ngFor="let Factory of allFactories;trackBy:getUpdateFactory" class="col-xl-4 col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="media">
+                <div class="avatar-md me-4">
+                  <span class="avatar-title overflow-hidden rounded-circle bg-light text-danger font-size-16">
+                    <img src="{{Factory.image}}" alt height="30" style="max-width: 100%;" />
+                  </span>
+                </div>
+    
+                <div class="media-body overflow-hidden">
+                  <h5 class="text-truncate font-size-15">
+                    <a href="javascript: void(0);" class="text-dark">{{Factory.name}}</a>
+                  </h5>
+                  <div class="text-success">{{Factory.tarfok_percentage}} %</div>
+                  <div class="text-muted">{{Factory.factories}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top">
+              <div class="contact-links d-flex font-size-20">
+                  <div class="flex-fill d-flex align-items-center justify-content-center">
+                      <ui-switch defaultBoColor="#dfdfdf" color="#ffaa00"
+                          (change)="changeActivate($event , Factory.id);getUpdateFactory(Factory.id)"
+                          [checked]="Factory.status == 1" size="small" class="d-flex"></ui-switch>
+                  </div>
+                  <div class="flex-fill">
+                      <a href="javascript: void(0);" ngbTooltip="Edit"
+                          (click)="patchValueForm(addFactory,Factory);getUpdateFactory(Factory.id)"><i
+                              class="bx bx-edit"></i></a>
+                  </div>
+                  <div class="flex-fill">
+                      <a href="javascript: void(0);" ngbTooltip="Delete" (click)="delete(Factory.id)"><i
+                              class="bx bx-trash"></i></a>
+                  </div>
+              </div>
+          </div>
+          </div>
+        </div> -->
       </div>
     </div>
     <!-- end row -->
@@ -115,7 +158,7 @@
       </div>
     </ng-container>
     <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
-      <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="FactoriesForm">
+      <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="classificaionForm">
         <div class="row">
           <div class="col-12">
             <div class="mb-3">
@@ -161,7 +204,7 @@
           </div>
         </div>
         <div class="w-100 text-center">
-          <button class="btn btn-primary" type="submit" [disabled]="FactoriesForm.invalid">
+          <button class="btn btn-primary" type="submit" [disabled]="classificaionForm.invalid">
             <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingFactories"></i>
             {{lableForm == 0 ? 'ADD': 'EDIT'}}
           </button>

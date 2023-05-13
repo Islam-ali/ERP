@@ -1,36 +1,31 @@
+import { Pagination } from "app/core/modal/modal"
 
-  export interface Factories {
+  export interface Classifications {
     message: string
-    data: DataFactories[]
+    data: DataClassifications[]
     pagination: Pagination
     status: boolean
     code: number
   }
   
-  export interface DataFactories {
+  export interface DataClassifications {
     id: number
     name: string
     image: string
     status: number
     tarfok_percentage: string
+    factories:number
   }
   
-  export interface Pagination {
-    current_page: number
-    last_page: number
-    per_page: number
-    total: number
-    path: string
-  }
-  
-  export interface ShowFactory {
+
+  export interface ShowClassification {
     message: string
-    data: DataShowFactory
+    data: DataShowClassification
     status: boolean
     code: number
   }
   
-  export interface DataShowFactory {
+  export interface DataShowClassification {
     id: number
     name_en: string
     name_ar: string
@@ -38,4 +33,4 @@
     status: number
     tarfok_percentage: number
   }
-  
+   

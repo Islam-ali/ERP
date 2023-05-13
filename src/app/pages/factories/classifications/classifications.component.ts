@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DataFactories, Factories, ShowFactory } from '../factories';
+import { DataClassifications, Classifications, ShowClassification } from '../classifications/classifications';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FactoriesServies } from '../factories.service';
 import { EMPTY } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { ClassificationsService } from './classifications.service';
 @Component({
   selector: 'app-classifications',
   templateUrl: './classifications.component.html',
@@ -12,10 +13,10 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ClassificationsComponent implements OnInit {
 
-  FactoriesForm: FormGroup;
+  classificaionForm: FormGroup;
   image: any;
   submit: boolean = false;
-  allFactories: DataFactories[] = [];
+  allFactories: DataClassifications[] = [];
   lableForm: number = 0;
   FactoryId: number = 0;
   loadingStatus: boolean = false;
@@ -26,11 +27,11 @@ export class ClassificationsComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private _FactoriesServies: FactoriesServies,
+    private _ClassificationsService: ClassificationsService,
     private toastrService: ToastrService
 
   ) { 
-    this.FactoriesForm = this._formBuilder.group({
+    this.classificaionForm = this._formBuilder.group({
       name_ar: [null, [Validators.required]],
       name_en: [null, [Validators.required]],
       image: [null, [Validators.required]],
@@ -43,8 +44,8 @@ export class ClassificationsComponent implements OnInit {
     this.getFactories();
   }
   getFactories(): void {
-    this._FactoriesServies.getFactories().subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService.getFactories().subscribe({
+      next: (res: Classifications) => {
         this.allFactories = res.data;
         this.loader = false;
       }
@@ -56,9 +57,9 @@ export class ClassificationsComponent implements OnInit {
       // for (let i = 0; i < filesAmount; i++) {
       var reader = new FileReader();
         this.image = event.target.files.item(0)
-      // this.FactoriesForm.value.image = event.target.files.item(0);
+      // this.classificaionForm.value.image = event.target.files.item(0);
       reader.onload = (event: any) => {
-        this.FactoriesForm.patchValue({
+        this.classificaionForm.patchValue({
           image : event.target.result
 
         })
@@ -72,7 +73,7 @@ export class ClassificationsComponent implements OnInit {
   // 1 : Edit
   openModal(content: any, num: number): void {
     this.lableForm = num;
-    this.FactoriesForm.reset();
+    this.classificaionForm.reset();
     this.image = null;
     this.rangeValue = 0;
     // num == 1 ? this.patchValueForm() : EMPTY
@@ -87,10 +88,10 @@ export class ClassificationsComponent implements OnInit {
   }
   showFactory(countryId: number) {
     this.loadingShow = true;
-    this._FactoriesServies.showFactory(countryId).subscribe({
-      next: (res: ShowFactory) => {
+    this._ClassificationsService.showFactory(countryId).subscribe({
+      next: (res: ShowClassification) => {
         this.loadingShow = false;
-        this.FactoriesForm.patchValue({
+        this.classificaionForm.patchValue({
           name_ar: res.data.name_ar,
           name_en: res.data.name_en,
           image: res.data.image,
@@ -106,15 +107,15 @@ export class ClassificationsComponent implements OnInit {
     return FactoryId
   }
   getFactoryById(): void {
-    let value = this.FactoriesForm.value
+    let value = this.classificaionForm.value
     const formData = new FormData();
     formData.append('name_ar', value.name_ar);
     formData.append('name_en', value.name_en);
     this.image ? formData.append('image', this.image) : EMPTY;
     formData.append('tarfok_percentage', `${this.rangeValue}`);
 
-    this._FactoriesServies.updateFactory(formData, this.FactoryId).subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService.updateFactory(formData, this.FactoryId).subscribe({
+      next: (res: Classifications) => {
         this.getFactories();
         this.loadingFactories = false;
         this.modalService.dismissAll();
@@ -129,15 +130,15 @@ export class ClassificationsComponent implements OnInit {
     })
   }
   getAddFactory(): void {
-    let value = this.FactoriesForm.value
+    let value = this.classificaionForm.value
     const formData = new FormData();
     formData.append('name_ar', value.name_ar);
     formData.append('name_en', value.name_en);
     formData.append('image', this.image);
     formData.append('tarfok_percentage', `${this.rangeValue}`);
 
-    this._FactoriesServies.addFactory(formData).subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService.addFactory(formData).subscribe({
+      next: (res: Classifications) => {
         this.getFactories();
         this.loadingFactories = false;
         this.modalService.dismissAll();
@@ -154,8 +155,8 @@ export class ClassificationsComponent implements OnInit {
   }
   activate(FactoryId: number) {
     this.loadingStatus = true;
-    this._FactoriesServies.activate(FactoryId).subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService.activate(FactoryId).subscribe({
+      next: (res: Classifications) => {
         this.getFactories();
         this.loadingStatus = false;
                         this.toastrService.success(res.message);
@@ -167,8 +168,8 @@ export class ClassificationsComponent implements OnInit {
   }
   deActivate(FactoryId: number) {
     this.loadingStatus = true;
-    this._FactoriesServies.deactivate(FactoryId).subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService.deactivate(FactoryId).subscribe({
+      next: (res: Classifications) => {
         this.getFactories();
         this.loadingStatus = false;
                         this.toastrService.warning(res.message);
@@ -179,8 +180,8 @@ export class ClassificationsComponent implements OnInit {
     })
   }
   delete(FactoryId: number) {
-    this._FactoriesServies.delete(FactoryId).subscribe({
-      next: (res: Factories) => {
+    this._ClassificationsService.delete(FactoryId).subscribe({
+      next: (res: Classifications) => {
         this.getFactories();
                         this.toastrService.error(res.message);
         
@@ -193,7 +194,7 @@ export class ClassificationsComponent implements OnInit {
   }
   onSubmit() {
     this.loadingFactories = true;
-    if (this.lableForm === 0 && this.FactoriesForm.invalid) {
+    if (this.lableForm === 0 && this.classificaionForm.invalid) {
       return
     } else {
       this.submit = true;
@@ -201,6 +202,6 @@ export class ClassificationsComponent implements OnInit {
     }
   }
   get form() {
-    return this.FactoriesForm.controls;
+    return this.classificaionForm.controls;
   }
 }

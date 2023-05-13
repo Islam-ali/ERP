@@ -84,16 +84,16 @@ export const MENU: MenuItem[] = [
         isTitle: true
     },
     {
-        id: 6,
-        label: 'MENUITEMS.FACTORIES.TEXT',
-        icon: 'bx bx-cog',
-        link: '/factories',
+        id: 9,
+        label: 'GENERAL.PENDING',
+        icon: 'bx bx-dna',
+        link: '/pending',
     },
     {
-        id: 6,
+        id: 10,
         label: 'MENUITEMS.CLASSIFICATIONS.TEXT',
-        icon: 'bx bx-cog',
-        link: '/factories/classifications',
+        icon: 'bx bx-food-menu',
+        link: '/classifications',
     },
     // {
     //     id: 9,

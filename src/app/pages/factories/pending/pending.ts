@@ -1,18 +1,18 @@
-import { Pagination } from "app/core/modal/modal"
+import { Pagination } from "../../../../app/core/modal/modal"
 
-export interface Users {
+export interface Pending {
     message: string
-    data: Users[]
+    data: DataPending[]
     pagination: Pagination
     status: boolean
     code: number
   }
   
-  export interface Users {
+  export interface DataPending {
     id: number
     name: string
     email: string
     mobile_number: string
     image: string
+    status: number
   }
-  

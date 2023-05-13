@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from './users.service';
-import { Pagination, Users } from './users';
+import { Users } from './users';
 import { Error } from 'app/core/helpers/error';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -10,6 +10,7 @@ import {
 } from "ngx-intl-tel-input";
 import { User } from 'app/core/models/auth.models';
 import { ToastrService } from 'ngx-toastr';
+import { Pagination } from 'app/core/modal/modal';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',

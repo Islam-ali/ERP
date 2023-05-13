@@ -107,19 +107,14 @@ export class IndexComponent implements OnInit {
   }
   uploadeImage(event: any): void {
     if (event.target.files && event.target.files[0]) {
-      // var filesAmount = event.target.files.length;
-      // for (let i = 0; i < filesAmount; i++) {
       var reader = new FileReader();
       this.image = event.target.files.item(0)
-      // this.countriesForm.value.image = event.target.files.item(0);
       reader.onload = (event: any) => {
         this.serviceForm.patchValue({
           image: event.target.result
         })
-
       };
       reader.readAsDataURL(event.target.files[0]);
-      // }
     }
   }
   getUpdateService(ServiceId: number): number {

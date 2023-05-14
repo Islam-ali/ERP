@@ -1,0 +1,98 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body row">
+            <div class="col-6 d-flex align-items-center ">
+              <h3 class="m-0">{{ 'GENERAL.PENDING' | translate }}</h3>
+            </div>
+            <!-- <div class="col-6 d-flex justify-content-end ">
+              <button class="btn btn-primary w-md" (click)="openModal(addCountry , 0)">{{'GENERAL.ADD' | translate}} {{ 'GENERAL.COUNTRY' | translate }} <i
+                  class="bx bx-plus-medical"></i></button>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <ng-container *ngIf="loader">
+          <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </ng-container>
+        <div *ngIf="!loader">
+          <div class="table-responsive">
+            <table class="table project-list-table table-nowrap align-middle table-borderless">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 100px">#</th>
+                  <th scope="col">{{'GENERAL.fACTORY' | translate}}</th>
+                  <!-- <th scope="col">Due Date</th> -->
+                  <th scope="col">{{'GENERAL.EMAIL' | translate}}</th>
+                  <th scope="col">{{'GENERAL.MOBILE_NUMBER' | translate}}</th>
+                  <th scope="col">{{'GENERAL.STATUS' | translate}}</th>
+
+                  <!-- <th scope="col">{{'GENERAL.ACCEPT' | translate}}</th>
+                  <th scope="col">{{'GENERAL.REJECTED' | translate}}</th>
+                   -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Pending of allPending">
+                  <td>
+                    <img src="{{Pending.image}}" alt class="avatar-sm" />
+                  </td>
+                  <td>
+                    <h5 class="text-truncate font-size-14">
+                      <a href="javascript: void(0);" class="text-dark">{{Pending.name}}</a>
+                    </h5>
+                    <!-- <p class="text-muted mb-0">{{Pending.subtext}}</p> -->
+                  </td>
+                  <td dir="ltr">{{Pending.email}}</td>
+                  <td dir="ltr">{{Pending.mobile_number}}</td>
+                  <td>
+                    <span class="badge" 
+                    [ngClass]="{'bg-warning' : Pending.status  == 1 ,'bg-success': Pending.status  == 2 ,'bg-danger' : Pending.status  == 3}"
+                    >
+                      <div >
+                        <span *ngIf="Pending.status == 3">{{'GENERAL.ACCEPT' | translate}}</span>
+                        <span *ngIf="Pending.status == 2">{{'GENERAL.REJECTED' | translate}}</span>
+                        <span *ngIf="Pending.status == 1">{{'GENERAL.PENDING' | translate}}</span>
+                      </div>
+  
+                    </span>
+                  </td>
+  
+                  <!-- <td>
+                    <ui-switch defaultBoColor="#dfdfdf" color="#ffaa00" size="small"
+                      (change)="activate(Pending.id)"
+                      [checked]="Pending.status == 2" class="ms-1"></ui-switch>
+                  </td>
+                  <td>
+                    <ui-switch defaultBoColor="#dfdfdf" color="#ffaa00" size="small"
+                      (change)="deActivate(Pending.id)"
+                      [checked]="Pending.status == 2" class="ms-1"></ui-switch>
+                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end row -->
+  
+    <!-- <div class="row">
+        <div class="col-12">
+          <div class="text-center my-3">
+            <a href="javascript:void(0);" class="text-success">
+              <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more
+            </a>
+          </div>
+        </div>
+      </div> -->
+    <!-- end row -->
+  </div>

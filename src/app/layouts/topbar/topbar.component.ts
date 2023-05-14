@@ -33,10 +33,10 @@ export class TopbarComponent implements OnInit {
   }
 
   listLang = [
-    { text: 'Arbic', flag: 'assets/images/flags/spain.jpg', lang: 'ar' },
+    { text: 'العربية', flag: 'assets/images/flags/1172528.png', lang: 'ar' },
     { text: 'English', flag: 'assets/images/flags/us.jpg', lang: 'en' },
-    { text: 'Spanish', flag: 'assets/images/flags/spain.jpg', lang: 'es' },
-    { text: 'German', flag: 'assets/images/flags/germany.jpg', lang: 'de' },
+    // { text: 'Spanish', flag: 'assets/images/flags/spain.jpg', lang: 'es' },
+    // { text: 'German', flag: 'assets/images/flags/germany.jpg', lang: 'de' },
     // { text: 'Italian', flag: 'assets/images/flags/italy.jpg', lang: 'it' },
     // { text: 'Russian', flag: 'assets/images/flags/russia.jpg', lang: 'ru' },
   ];
@@ -45,12 +45,14 @@ export class TopbarComponent implements OnInit {
 
   @Output() settingsButtonClicked = new EventEmitter();
   @Output() mobileMenuButtonClicked = new EventEmitter();
-
+user:any;
   ngOnInit() {
     this.openMobileMenu = false;
     this.element = document.documentElement;
-
+    this.user = JSON.parse(localStorage.getItem('user_ERP'))?.user.name
     this.cookieValue = this._cookiesService.get('lang');
+    this.cookieValue = JSON.parse(localStorage.getItem('lang'))?.lang || 'ar';
+
     const val = this.listLang.filter(x => x.lang === this.cookieValue);
     this.countryName = val.map(element => element.text);
     if (val.length === 0) {
@@ -58,10 +60,7 @@ export class TopbarComponent implements OnInit {
     } else {
       this.flagvalue = val.map(element => element.flag);
     }
-    let langauge:any = JSON.parse(localStorage.getItem('lang'))
-    if(langauge){
-      this.setLanguage(langauge.text,langauge.lang,langauge.flag)
-    }
+
   }
 
   setLanguage(text: string, lang: string, flag: string) {
@@ -80,6 +79,7 @@ export class TopbarComponent implements OnInit {
       this.document.getElementsByTagName("html")[0].classList.remove("rtl");
       // this.document.getElementsByTagName("html")[0].classList.add("ltr");
     }
+    location.reload();
   }
 
   /**
@@ -102,11 +102,12 @@ export class TopbarComponent implements OnInit {
    * Logout the user
    */
   logout() {
-    if (environment.defaultauth === 'firebase') {
-      this.authService.logout();
-    } else {
-      this.authFackservice.logout();
-    }
+    // if (environment.defaultauth === 'firebase') {
+    //   this.authService.logout();
+    // } else {
+    //   this.authFackservice.logout();
+    // }
+    localStorage.removeItem('user_ERP')
     this.router.navigate(['/account/login']);
   }
 

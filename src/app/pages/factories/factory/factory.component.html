@@ -1,0 +1,507 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-6 d-flex align-items-center ">
+                        <h3 class="m-0" (click)="openMap(location)">{{'MENUITEMS.FACTORIES.TEXT' | translate}}</h3>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end ">
+                        <button class="btn btn-primary w-md" (click)="openModal(addFactory , 0)">
+                            {{'GENERAL.ADD' | translate}} {{'GENERAL.FACTORY' | translate}}
+                            <i class="bx bx-plus-medical"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-container *ngIf="loader">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!loader && factoriesData.length > 0">
+        <div class="row">
+            <div class="col-xl-3 col-sm-6" *ngFor="let data of factoriesData">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <div class="avatar-sm mx-auto mb-4" *ngIf="!data.image">
+                            <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-16">
+                                {{data.name.charAt(0)}}
+                            </span>
+                        </div>
+                        <div *ngIf="data.image" class="mb-4">
+                            <img class="rounded-circle avatar-sm" src="{{data.image}}" alt />
+                        </div>
+                        <h5 class="font-size-15 mb-1"><a href="javascript: void(0);" class="text-dark">{{data.name}}</a>
+                        </h5>
+                        <p class="text-muted m-0">{{data.email}}</p>
+                        <p dir="ltr" class="text-muted m-0 my-2">{{data.mobile_number}}</p>
+                        <div>
+                            <a href="javascript: void(0);"
+                                [ngClass]="{'bg-warning' : data.status  == 1 ,'bg-success': data.status  == 2 ,'bg-danger' : data.status  == 3}"
+                                class="badge font-size-11 m-1">
+                                <span *ngIf="data.status == 1">{{'GENERAL.PENDING' | translate}}</span>
+                                <span *ngIf="data.status == 2">{{'GENERAL.ACCEPT' | translate}}</span>
+                                <span *ngIf="data.status == 3">{{'GENERAL.REJECTED' | translate}}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-top">
+                        <div class="contact-links d-flex font-size-20">
+                            <div class="flex-fill">
+                                <button class="btn btn-light py-1" type="button"
+                                    (click)="factoryProfile( data.id,profile)">{{'GENERAL.VIEW' | translate}}<i
+                                        class="ms-1 bx bx-show"></i></button>
+                            </div>
+                            <div class="flex-fill d-flex align-items-center justify-content-center">
+                                <ui-switch defaultBoColor="#dfdfdf" color="#ffaa00"
+                                    (change)="changeActivate($event , data.id);getUpdateFactory(data.id)"
+                                    [checked]="data.status == 2" size="small" class="d-flex"></ui-switch>
+                            </div>
+                            <!-- <div class="flex-fill">
+                            <a href="javascript: void(0);" ngbTooltip="Edit"
+                                (click)="patchValueForm(addFactory,data);getUpdateFactory(data.id)"><i
+                                    class="bx bx-edit"></i></a>
+                        </div>
+                        <div class="flex-fill">
+                            <a href="javascript: void(0);" ngbTooltip="Delete" (click)="delete(data.id)"><i
+                                    class="bx bx-trash"></i></a>
+                        </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!loader && factoriesData.length == 0">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="alert alert-warning fade text-center show px-3 mb-0" role="alert">
+                <div class="mb-3">
+                    <i class="bx bx-error-alt h1  text-warning"></i>
+                </div>
+
+                <div class="text-center">
+                    <h5 class="text-warning ">Not Found Result</h5>
+                    <div class="text-center">
+                        <button type="button" routerLink="/classifications"
+                            class="btn btn-link text-decoration-none text-warning"> <i
+                                class="mdi mdi-arrow-left"></i>Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+<!-- Add Modal -->
+<ng-template #addFactory let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title mt-0">
+            <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+            <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+            {{ 'GENERAL.FACTORY' | translate }}
+        </h5>
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <ng-container *ngIf="loadingShow && lableForm == 1">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+
+    <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
+        <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="FactoriesForm">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.NAME' |
+                            translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="name"
+                            placeholder="First name"
+                            [ngClass]="{'is-valid': form.name.dirty && !form.name.errors ,'is-invalid': form.name.dirty && form.name.errors}">
+                        <div *ngIf="form.name.dirty && form.name.errors" class="invalid-feedback">
+                            <span *ngIf="form.name.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.EMAIL' | translate}}</label>
+                        <div>
+                            <input type="email" class="form-control" formControlName="email"
+                                [ngClass]="{'is-valid': form.email.dirty && !form.email.errors ,'is-invalid': form.email.dirty && form.email.errors}" />
+                            <div *ngIf="form.email.dirty && form.email.errors" class="invalid-feedback">
+                                <span *ngIf="form.email.errors.required">This value is required.</span>
+                                <span *ngIf="form.email.errors.email">This value should be a valid email.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.PASSWORD' |
+                            translate}}</label>
+                        <input type="password" class="form-control" id="validationCustom01" formControlName="password"
+                            [ngClass]="{'is-valid': form.password.dirty && !form.password.errors ,'is-invalid': form.password.dirty && form.password.errors}">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01"
+                            class="form-label text-capitalize">{{'GENERAL.PASSWORD_CONFIRMATION' |
+                            translate}}</label>
+                        <input type="password" class="form-control" id="validationCustom01"
+                            formControlName="password_confirmation"
+                            [ngClass]="{'is-valid': form.password_confirmation.dirty && !form.password_confirmation.errors ,'is-invalid': (form.password_confirmation.dirty && form.password_confirmation.errors) || (form.password_confirmation.dirty && form.password.value !== form.password_confirmation.value)}">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.COUNTRY' |
+                            translate}}</label>
+                        <ng-select [items]="countries" formControlName="country_id" bindLabel="name"
+                            bindValue="id"></ng-select>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.CLASSIFICATION' |
+                            translate}}</label>
+                        <ng-select [items]="classifications" formControlName="classification_id" bindLabel="name"
+                            bindValue="id"></ng-select>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.MOBILE_NUMBER' | translate}}</label>
+                        <div dir="ltr">
+                            <ngx-intl-tel-input formControlName="mobile_number"
+                                [preferredCountries]="[CountryISO.Egypt, CountryISO.SaudiArabia]"
+                                [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                [selectedCountryISO]="CountryISO.Egypt" [phoneValidation]="true" name="phone"
+                                [ngClass]="{'is-valid': form.mobile_number.dirty && !form.mobile_number.errors ,'is-invalid': form.mobile_number.dirty && form.mobile_number.errors}">
+                            </ngx-intl-tel-input>
+                            <div *ngIf="form.mobile_number.touched && form.mobile_number.errors"
+                                class="invalid-feedback">
+                                <span *ngIf="form.mobile_number.errors.required">This value is required.</span>
+                                <span *ngIf="form.mobile_number.errors.pattern">This value should be a valid
+                                    number.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label invisible">.</label>
+                        <button class="btn btn-success d-block" type="button"
+                            (click)="openMap(location)">{{'GENERAL.LOCATION' | translate}}<i
+                                class="ms-2 bx bx-map"></i></button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}}
+                                    {{'GENERAL.FACTORY' |
+                                    translate}}</label>
+                                <input class="form-control" type="file" accept="image/*" (change)="uploadeImage($event)"
+                                    [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
+                                <div class="card-image p-0 px-2 m-2" *ngIf="form.image.value">
+                                    <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                                      (click)="removeImage()">remove</button> -->
+                                    <img class="p-0 w-100" title="images" accept="image/*" alt="images"
+                                        [src]="form.image.value" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}}
+                                    {{'GENERAL.commercial_register_image' |
+                                    translate}}</label>
+                                <input class="form-control" type="file" accept="image/*"
+                                    (change)="uploadeCommercialRegisterImage($event)"
+                                    [ngClass]="{'is-valid': form.commercial_register_image.dirty && !form.commercial_register_image.errors ,'is-invalid': form.commercial_register_image.dirty && form.commercial_register_image.errors}">
+                                <div class="card-image p-0 px-2 m-2" *ngIf="form.commercial_register_image.value">
+                                    <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                                      (click)="removeImage()">remove</button> -->
+                                    <img class="p-0 w-100" title="images" accept="image/*" alt="images"
+                                        [src]="form.commercial_register_image.value" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}}
+                                    {{'GENERAL.tax_card_front_image' |
+                                    translate}}</label>
+                                <input class="form-control" type="file" accept="image/*"
+                                    (change)="uploadeTaxCardFrontImage($event)"
+                                    [ngClass]="{'is-valid': form.tax_card_front_image.dirty && !form.tax_card_front_image.errors ,'is-invalid': form.tax_card_front_image.dirty && form.tax_card_front_image.errors}">
+                                <div class="card-image p-0 px-2 m-2" *ngIf="form.tax_card_front_image.value">
+                                    <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                                      (click)="removeImage()">remove</button> -->
+                                    <img class="p-0 w-100" title="images" accept="image/*" alt="images"
+                                        [src]="form.tax_card_front_image.value" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}}
+                                    {{'GENERAL.tax_card_back_image' |
+                                    translate}}</label>
+                                <input class="form-control" type="file" accept="image/*"
+                                    (change)="uploadeTaxCardBackImage($event)"
+                                    [ngClass]="{'is-valid': form.tax_card_back_image.dirty && !form.tax_card_back_image.errors ,'is-invalid': form.tax_card_back_image.dirty && form.tax_card_back_image.errors}">
+                                <div class="card-image p-0 px-2 m-2" *ngIf="form.tax_card_back_image.value">
+                                    <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                                      (click)="removeImage()">remove</button> -->
+                                    <img class="p-0 w-100" title="images" accept="image/*" alt="images"
+                                        [src]="form.tax_card_back_image.value" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 text-center">
+                <button class="btn btn-primary" type="submit">
+                    <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingFactories"></i>
+                    <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+                    <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+<!-- location modal -->
+<ng-template #location let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title mt-0">
+            <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+            <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+            {{ 'GENERAL.FACTORY' | translate }}
+        </h5>
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="FactoriesForm">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.LAT' |
+                            translate}}</label>
+                        <input type="text" class="form-control" formControlName="lat">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.LNG' |
+                            translate}}</label>
+                        <input type="text" class="form-control" formControlName="lng">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <agm-map [mapTypeId]="'hybrid'" [latitude]="marker.lat" [zoom]="4" [longitude]="marker.lng"
+                        style="height: 300px" (mapClick)="placeMarker($event)">
+                        <agm-marker [markerDraggable]="true" [latitude]="form.lat.value" [longitude]="form.lng.value">
+                        </agm-marker>
+                    </agm-map>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light mx-auto" (click)="modal.close('Close click')">{{'GENERAL.ADD' |
+            translate}}</button>
+    </div>
+</ng-template>
+<!-- profile modal -->
+<ng-template #profile let-modal>
+    <ng-container *ngIf="loaderFactoryProfile">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!loaderFactoryProfile">
+        <div class="modal-header">
+            <h5 class="modal-title mt-0">
+                {{factoryProfileData.name}}
+            </h5>
+            <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <section class="h-100 gradient-custom-2">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col col-12">
+                        <div class="card">
+                            <div class="rounded-top text-white d-flex flex-row bg-primary" style="height:200px;">
+                                <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;height: 200px;">
+                                    <img [src]="factoryProfileData.image" alt="Generic placeholder image"
+                                        class="img-fluid img-thumbnail mt-4 mb-2"
+                                        style="width: 150px;height: 200px; z-index: 1;object-fit: fill;">
+                                    <!-- <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                              style="z-index: 1;">
+                              Edit profile
+                            </button> -->
+                                </div>
+                                <div class="ms-3" style="margin-top: 130px;">
+                                    <h5>{{factoryProfileData.name}}</h5>
+                                    <p dir="ltr">{{factoryProfileData.country}}</p>
+                                </div>
+                            </div>
+                            <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                                <!-- <div class="d-flex justify-content-end text-center py-1">
+                            <div>
+                              <p class="mb-1 h5">253</p>
+                              <p class="small text-muted mb-0">Photos</p>
+                            </div>
+                            <div class="px-3">
+                              <p class="mb-1 h5">1026</p>
+                              <p class="small text-muted mb-0">Followers</p>
+                            </div>
+                          </div> -->
+                            </div>
+                            <div class="card-body p-4 text-black">
+                                <div class="mb-5">
+                                    <div class="col-lg-12">
+                                        <div class="card mb-4">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <p class="mb-0">{{'GENERAL.NAME' | translate}}</p>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <p class="text-muted mb-0">{{factoryProfileData.name}}</p>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <p class="mb-0">{{'GENERAL.EMAIL' | translate}}</p>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <p class="text-muted mb-0">{{factoryProfileData.email}}</p>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <p class="mb-0">{{'GENERAL.MOBILE_NUMBER' | translate}}</p>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <p class="text-muted mb-0">{{factoryProfileData.mobile_number}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <p class="mb-0">{{'GENERAL.COUNTRY' | translate}}</p>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <p class="text-muted mb-0">{{factoryProfileData.country}}</p>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <p class="mb-0">{{'GENERAL.STATUS' | translate}}</p>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <div>
+                                                            <a href="javascript: void(0);"
+                                                                [ngClass]="{'bg-warning' : factoryProfileData.status  == '1','bg-success': factoryProfileData.status  == '2' ,'bg-danger' : factoryProfileData.status  == '3'}"
+                                                                class="badge font-size-11 m-1">
+                                                                <span
+                                                                    *ngIf="factoryProfileData.status == '1'">{{'GENERAL.PENDING'
+                                                                    | translate}}</span>
+                                                                <span
+                                                                    *ngIf="factoryProfileData.status == '2'">{{'GENERAL.ACCEPT'
+                                                                    | translate}}</span>
+                                                                <span
+                                                                    *ngIf="factoryProfileData.status == '3'">{{'GENERAL.REJECTED'
+                                                                    | translate}}</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div>
+                                            <h3 class="m-0 text-center">{{'GENERAL.LOCATION' | translate}}</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <agm-map [mapTypeId]="'hybrid'" [latitude]="+factoryProfileData.lat"
+                                                [zoom]="8" [longitude]="+factoryProfileData.lng" style="height: 300px"
+                                                (mapClick)="placeMarker($event)">
+                                                <agm-marker [markerDraggable]="true"
+                                                    [latitude]="+factoryProfileData.lat"
+                                                    [longitude]="+factoryProfileData.lng">
+                                                </agm-marker>
+                                            </agm-map>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col mb-2 card">
+                                        <img [src]="factoryProfileData.image" alt="image 1" class="w-100 rounded-3 "
+                                            style="    max-height: 200px;object-fit: contain;">
+                                        <p class="form-label text-capitalize m-0 my-2  text-center">{{'GENERAL.IMAGE' |
+                                            translate}}
+                                            {{'GENERAL.FACTORY' |
+                                            translate}}</p>
+                                    </div>
+                                    <div class="col mb-2 card">
+                                        <img [src]="factoryProfileData.commercial_register_image" alt="image 1"
+                                            class="w-100 rounded-3 " style="    max-height: 200px;object-fit: contain;">
+                                        <p class="form-label text-capitalize m-0 my-2  text-center">{{'GENERAL.IMAGE' |
+                                            translate}}
+                                            {{'GENERAL.commercial_register_image' |
+                                            translate}}</p>
+                                    </div>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col card">
+                                        <img [src]="factoryProfileData.tax_card_front_image" alt="image 1"
+                                            class="w-100 rounded-3 " style="    max-height: 200px;object-fit: contain;">
+                                        <p class="form-label text-capitalize m-0 my-2  text-center">{{'GENERAL.IMAGE' |
+                                            translate}}
+                                            {{'GENERAL.tax_card_front_image' |
+                                            translate}}</p>
+                                    </div>
+                                    <div class="col card">
+                                        <img [src]="factoryProfileData.tax_card_back_image" alt="image 1"
+                                            class="w-100 rounded-3 " style="    max-height: 200px;object-fit: contain;">
+                                        <p class="form-label text-capitalize m-0 my-2  text-center">{{'GENERAL.IMAGE' |
+                                            translate}}
+                                            {{'GENERAL.tax_card_back_image' |
+                                            translate}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </ng-container>
+</ng-template>

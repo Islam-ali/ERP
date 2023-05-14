@@ -4,7 +4,8 @@ const userGridData = [
         name: 'David McHenry',
         designation: 'UI/UX Designer',
         projects: ['Photoshop', 'illustrator'],
-        email: 'david@skote.com'
+        email: 'david@skote.com',
+        status:1
     },
     {
         id: 2,
@@ -12,7 +13,8 @@ const userGridData = [
         name: 'Frank Kirk',
         designation: 'Frontend Developer',
         projects: ['Html', 'Css', '2 + more'],
-        email: 'frank@skote.com'
+        email: 'frank@skote.com',
+        status:1
     },
     {
         id: 3,
@@ -20,14 +22,16 @@ const userGridData = [
         name: 'Rafael Morales',
         designation: 'Backend Developer',
         projects: ['Php', 'Java', 'Python'],
-        email: 'Rafael@skote.com'
+        email: 'Rafael@skote.com',
+        status:0
     },
     {
         id: 4,
         name: 'Mark Ellison',
         designation: 'Full Stack Developer',
         projects: ['Ruby', 'Php', '2 + more'],
-        email: 'mark@skote.com'
+        email: 'mark@skote.com',
+        status:1
     },
     {
         id: 5,
@@ -35,7 +39,8 @@ const userGridData = [
         name: 'Minnie Walter',
         designation: 'Frontend Developer',
         projects: ['Html', 'Css', '2 + more'],
-        email: 'minnie@skote.com'
+        email: 'minnie@skote.com',
+        status:0
     },
     {
         id: 6,
@@ -43,14 +48,16 @@ const userGridData = [
         name: 'Shirley Smith',
         designation: 'UI/UX Designer',
         projects: ['Photoshop', 'illustrator'],
-        email: 'shirley@skote.com'
+        email: 'shirley@skote.com',
+        status:0
     },
     {
         id: 7,
         name: 'John Santiago',
         designation: 'Full Stack Developer',
         projects: ['Ruby', 'Php', '2 + more'],
-        email: 'john@skote.com'
+        email: 'john@skote.com',
+        status:1
     },
     {
         id: 8,
@@ -58,7 +65,8 @@ const userGridData = [
         name: 'Colin Melton',
         designation: 'Backend Developer',
         projects: ['Php', 'Java', 'Python'],
-        email: 'colin@skote.com'
+        email: 'colin@skote.com',
+        status:1
     },
 ];
 

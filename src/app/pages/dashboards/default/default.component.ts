@@ -42,7 +42,6 @@ export class DefaultComponent implements OnInit {
        const horizontal = document.getElementById('layout-horizontal');
        if (horizontal != null) {
          horizontal.setAttribute('checked', 'true');
-         console.log(horizontal);
        }
      }
 
@@ -53,9 +52,9 @@ export class DefaultComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.openModal();
-    }, 2000);
+    // setTimeout(() => {
+    //   this.openModal();
+    // }, 2000);
   }
 
   /**

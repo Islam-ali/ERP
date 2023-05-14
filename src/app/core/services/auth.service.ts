@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { getFirebaseBackend } from '../../authUtils';
 
 import { User } from '../models/auth.models';
+import { EMPTY } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 
@@ -19,7 +20,9 @@ export class AuthenticationService {
     public currentUser(): User {
         return getFirebaseBackend().getAuthenticatedUser();
     }
-
+    public getUser(){
+        return JSON.parse(localStorage.getItem('user_ERP')) || null
+      }
     /**
      * Performs the auth
      * @param email email of user

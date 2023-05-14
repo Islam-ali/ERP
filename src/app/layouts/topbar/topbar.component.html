@@ -5,19 +5,19 @@
       <div class="navbar-brand-box">
         <a routerLink="/" class="logo logo-dark">
           <span class="logo-sm">
-            <img src="assets/images/tarfak-new-logo-1-1.png" alt="" height="40">
+            <img src="assets/images/logo-tarfak.jpeg" alt="" style="mix-blend-mode: multiply;" height="40">
           </span>
           <span class="logo-lg">
-            <img src="assets/images/tarfak-new-logo-1-1.png" alt="" height="40">
+            <img src="assets/images/logo-tarfak.jpeg" alt="" style="mix-blend-mode: multiply;" height="40">
           </span>
         </a>
 
         <a routerLink="/" class="logo logo-light">
           <span class="logo-sm">
-            <img src="assets/images/tarfak-new-logo-1-1.png" alt="" height="40">
+            <img src="assets/images/logo-tarfak.jpeg" alt="" style="mix-blend-mode: multiply;" height="40">
           </span>
           <span class="logo-lg">
-            <img src="assets/images/tarfak-new-logo-1-1.png" alt="" height="40">
+            <img src="assets/images/logo-tarfak.jpeg" alt="" style="mix-blend-mode: multiply;" height="40">
           </span>
         </a>
       </div>
@@ -35,7 +35,7 @@
         </div>
       </form>
 
-      <div class="dropdown-mega d-none d-lg-block ms-2" ngbDropdown>
+      <!-- <div class="dropdown-mega d-none d-lg-block ms-2" ngbDropdown>
         <button type="button" class="btn header-item" ngbDropdownToggle data-toggle="dropdown" aria-haspopup="false"
           aria-expanded="false">
           {{ 'HEADER.MEGA_MENU' | translate}}
@@ -164,7 +164,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="d-flex">
@@ -206,7 +206,7 @@
         </div>
       </div>
 
-      <div class="dropdown d-none d-lg-inline-block ms-1" ngbDropdown>
+      <!-- <div class="dropdown d-none d-lg-inline-block ms-1" ngbDropdown>
         <button type="button" class="btn header-item noti-icon" ngbDropdownToggle>
           <i class="bx bx-customize"></i>
         </button>
@@ -255,7 +255,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="dropdown d-none d-lg-inline-block ms-1">
         <button type="button" class="btn header-item noti-icon" data-toggle="fullscreen" (click)="fullscreen()">
@@ -263,7 +263,7 @@
         </button>
       </div>
 
-      <div class="dropdown d-inline-block" ngbDropdown>
+      <!-- <div class="dropdown d-inline-block" ngbDropdown>
         <button type="button" class="btn header-item noti-icon" id="page-header-notifications-dropdown"
           ngbDropdownToggle>
           <i class="bx bx-bell bx-tada"></i>
@@ -350,17 +350,23 @@
             </a>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="dropdown d-inline-block" ngbDropdown>
-        <button type="button" class="btn header-item" ngbDropdownToggle id="page-header-user-dropdown">
-          <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
-          <span class="d-none d-xl-inline-block ms-1">Henry</span>
-          <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+        <button type="button" class="btn header-item d-flex align-items-center" ngbDropdownToggle id="page-header-user-dropdown">
+          
+          <div class="avatar-xs rounded-circle header-profile-user">
+            <span class="avatar-title rounded-circle">
+                {{user.charAt(0)}}
+            </span>
+        </div>
+        <span class="d-none d-xl-inline-block ms-1">{{user}}</span>
+        <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+        <!-- <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar"> -->
         </button>
         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
           <!-- item-->
-          <a class="dropdown-item" routerLink="/contacts/profile"><i class="bx bx-user font-size-16 align-middle me-1"></i>
+          <!-- <a class="dropdown-item" routerLink="/contacts/profile"><i class="bx bx-user font-size-16 align-middle me-1"></i>
             {{ 'HEADER.LOGIN.PROFILE' | translate}}</a>
           <a class="dropdown-item" href="javascript: void(0);"><i
               class="bx bx-wallet font-size-16 align-middle me-1"></i>{{ 'HEADER.LOGIN.MY_WALLET' | translate}}</a>
@@ -370,10 +376,10 @@
           <a class="dropdown-item" href="javascript: void(0);"><i
               class="bx bx-lock-open font-size-16 align-middle me-1"></i>
             {{ 'HEADER.LOGIN.LOCK_SCREEN' | translate}}</a>
-          <div class="dropdown-divider"></div>
+          <div class="dropdown-divider"></div> -->
           <a class="dropdown-item text-danger" href="javascript: void(0);" (click)="logout()"><i
               class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i>
-            {{ 'HEADER.LOGIN.LOGOUT' | translate}}</a>
+            {{ 'GENERAL.LOGOUT' | translate}}</a>
         </div>
       </div>
 

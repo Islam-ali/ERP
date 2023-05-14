@@ -9,6 +9,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 import { environment } from '../../../../environments/environment';
+import { LoginService } from './login.service';
+import { LoginRes } from './login';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login2',
@@ -20,21 +24,28 @@ import { environment } from '../../../../environments/environment';
  */
 export class Login2Component implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService,
-    private authFackservice: AuthfakeauthenticationService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private _LoginService: LoginService,
+    private toastrService: ToastrService
+  ) { 
+  }
   loginForm: FormGroup;
   submitted = false;
   error = '';
   returnUrl: string;
-
+  messageError: any = '';
   // set the currenr year
   year: number = new Date().getFullYear();
-
+  hide:boolean = false;
   ngOnInit(): void {
-    document.body.classList.add('auth-body-bg')
+    // document.body.classList.add('auth-body-bg')
     this.loginForm = this.formBuilder.group({
-      email: ['admin@themesbrand.com', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
+      userNameOrEmail: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required]],
+      rememberMe: true
     });
 
     // reset login status
@@ -68,26 +79,21 @@ export class Login2Component implements OnInit {
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
+      this.submitted = false;
       return;
     } else {
-      if (environment.defaultauth === 'firebase') {
-        this.authenticationService.login(this.f.email.value, this.f.password.value).then((res: any) => {
-          this.router.navigate(['/dashboard']);
-        })
-          .catch(error => {
-            this.error = error ? error : '';
-          });
-      } else {
-        this.authFackservice.login(this.f.email.value, this.f.password.value)
-          .pipe(first())
-          .subscribe(
-            data => {
-              this.router.navigate(['/dashboard']);
-            },
-            error => {
-              this.error = error ? error : '';
-            });
-      }
+      this._LoginService.Login(this.loginForm.value).subscribe({
+        next: (res: LoginRes) => {
+          this.messageError = '';
+          this.submitted = false;
+          localStorage.setItem('user_ERP', JSON.stringify(res.data))
+          this.router.navigateByUrl('');
+          this.toastrService.success(res.message);
+        }, error: (err: Error) => {
+          this.submitted = false;
+          this.messageError = err
+        },
+      })
     }
   }
 }

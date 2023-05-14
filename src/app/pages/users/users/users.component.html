@@ -1,0 +1,211 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-6 d-flex align-items-center ">
+                        <h3 class="m-0">{{'MENUITEMS.USERS.TEXT' | translate}}</h3>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end ">
+                        <button class="btn btn-primary w-md" (click)="openModal(addUser , 0)">{{'GENERAL.ADD' |
+                            translate}} {{'GENERAL.USER' | translate}} <i class="bx bx-plus-medical"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <ng-container *ngIf="loader">
+                <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                    <div class="spinner-border text-primary m-1" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="card" *ngIf="!loader">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-middle  table-nowrap table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" style="width: 70px;">#</th>
+                                    <th scope="col">{{'GENERAL.NAME' | translate}}</th>
+                                    <th scope="col">{{'GENERAL.EMAIL' | translate}}</th>
+                                    <th scope="col">{{'GENERAL.MOBILE_NUMBER' | translate}}</th>
+                                    <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of allUsers">
+                                    <td>
+                                        <div class="avatar-xs" *ngIf="!item.image">
+                                            <span class="avatar-title rounded-circle">
+                                                {{item.name.charAt(0)}}
+                                            </span>
+                                        </div>
+                                        <div *ngIf="item.image">
+                                            <img class="rounded-circle avatar-xs" [src]="item.image"
+                                                [alt]="item.name + 'image'">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5 class="font-size-14 mb-1"><a href="javascript: void(0);"
+                                                class="text-dark">{{item.name}}</a>
+                                        </h5>
+                                    </td>
+                                    <td>{{item.email}}</td>
+                                    <td dir="ltr">{{item.mobile_number}}</td>
+                                    <td>
+                                        <ul class="list-inline font-size-20 contact-links mb-0">
+                                            <!-- <li class="list-inline-item px-2" (click)="openModal(addUser , 1)">
+                                                <i class="bx bx-edit" style="cursor: pointer;"></i>
+                                            </li> -->
+                                            <li class="list-inline-item px-2" (click)="delete(item.id)">
+                                                <i class="bx bx-trash" style="cursor: pointer;"></i>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- End table -->
+                        <!-- <div class="row justify-content-md-between align-items-md-center mt-2">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info mb-2" id="tickets-table_info" role="status"
+                                    aria-live="polite">
+                                    Showing
+                                    {{pagination.current_page}} to
+                                    {{pagination.last_page}} of {{pagination.total}}
+                                    entries
+                                </div>
+                            </div> -->
+                            <!-- Pagination -->
+                            <div class="w-100">
+                                <div class="d-flex justify-content-center">
+                                    <div class="text-md-right float-md-end pagination-rounded">
+                                        <ngb-pagination [collectionSize]="pagination?.total" (pageChange)="paginationAllUsers($event)" [page]="pagination?.current_page"
+                                            [pageSize]="pagination?.per_page">
+                                        </ngb-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Pagination -->
+                        <!-- </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="col-lg-12">
+                            <ul class="pagination pagination-rounded justify-content-center mt-4">
+                                <li class="page-item disabled">
+                                    <a href="javascript: void(0);" class="page-link"><i
+                                            class="mdi mdi-chevron-left"></i></a>
+                                </li>
+                                <li class="page-item active">
+                                    <a href="javascript: void(0);" class="page-link">1</a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <a href="javascript: void(0);" class="page-link"><i
+                                            class="mdi mdi-chevron-right"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add and Edit Modal -->
+<ng-template #addUser role="document" let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title mt-0">
+            <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+            <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+            {{'GENERAL.USER' | translate}}</h5>
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="userForm">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.NAME' | translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="name"
+                            placeholder="First name"
+                            [ngClass]="{'is-valid': form.name.dirty && !form.name.errors ,'is-invalid': form.name.dirty && form.name.errors}">
+                        <div *ngIf="form.name.dirty && form.name.errors" class="invalid-feedback">
+                            <span *ngIf="form.mobile_number.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.EMAIL' | translate}}</label>
+                        <div>
+                            <input type="email" class="form-control" formControlName="email"
+                                [ngClass]="{'is-valid': form.email.dirty && !form.email.errors ,'is-invalid': form.email.dirty && form.email.errors}"
+                                placeholder="Enter a valid e-mail" />
+                            <div *ngIf="form.email.dirty && form.email.errors" class="invalid-feedback">
+                                <span *ngIf="form.email.errors.required">This value is required.</span>
+                                <span *ngIf="form.email.errors.pattern">This value should be a valid email.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.MOBILE_NUMBER' | translate}}</label>
+                        <div dir="ltr">
+                            <ngx-intl-tel-input formControlName="mobile_number"
+                                [preferredCountries]="[CountryISO.Egypt, CountryISO.SaudiArabia]"
+                                [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+                                [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                [selectedCountryISO]="CountryISO.Egypt" [phoneValidation]="true" name="phone"
+                                [ngClass]="{'is-valid': form.mobile_number.dirty && !form.mobile_number.errors ,'is-invalid': form.mobile_number.dirty && form.mobile_number.errors}">
+                            </ngx-intl-tel-input>
+                            <div *ngIf="form.mobile_number.touched && form.mobile_number.errors"
+                                class="invalid-feedback">
+                                <span *ngIf="form.mobile_number.errors.required">This value is required.</span>
+                                <span *ngIf="form.mobile_number.errors.pattern">This value should be a valid
+                                    number.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.PASSWORD' | translate}}</label>
+                        <input type="password" class="form-control" id="validationCustom01" formControlName="password"
+                            placeholder="password"
+                            [ngClass]="{'is-valid': form.password.dirty && !form.password.errors ,'is-invalid': form.password.dirty && form.password.errors}">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.USER' | translate}}</label>
+                        <input class="form-control" type="file" accept="image/*" id="formFile"
+                            (change)="uploadeImage($event)"
+                            [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
+                        <div class="card-image p-0 px-2 m-2" *ngIf="image">
+                            <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                                (click)="removeImage()">remove</button> -->
+                            <img class="p-0 w-100" title="images" alt="images" [src]="image" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 text-center">
+                <button class="btn btn-primary" type="submit">
+                  <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingUsers"></i>
+                  <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+                  <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+                </button>
+              </div>
+        </form>
+    </div>
+    <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+    </div> -->
+</ng-template>

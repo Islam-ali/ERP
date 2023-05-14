@@ -1,0 +1,139 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-6 d-flex align-items-center ">
+                        <h3 class="m-0">{{ 'MENUITEMS.SERVICES.TEXT' | translate }}</h3>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end ">
+                        <button class="btn btn-primary w-md" (click)="openModal(addService , 0)">{{'GENERAL.ADD' | translate}} {{'GENERAL.SERVICE' | translate}} <i
+                                class="bx bx-plus-medical"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <ng-template #addService role="document" let-modal>
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">
+                    <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+                    <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+                    {{ 'GENERAL.SERVICE' | translate }}</h5>
+                <button type="button" class="btn-close" aria-hidden="true"
+                    (click)="modal.dismiss('Cross click')"></button>
+            </div>
+            <ng-container *ngIf="loadingShow && lableForm == 1">
+                <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                  <div class="spinner-border text-primary m-1" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+              </ng-container>
+            <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
+                <form (ngSubmit)="onSubmit()" [formGroup]="serviceForm">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="validationCustom01">{{'GENERAL.ENGLISH_NAME' | translate}}</label>
+                                <input type="text" class="form-control" id="validationCustom01"
+                                    formControlName="name_en"
+                                    [ngClass]="{'is-valid': form.name_en.dirty && !form.name_en.errors ,'is-invalid': form.name_en.dirty && form.name_en.errors}">
+                                <div *ngIf="form.name_en.dirty && form.name_en.errors" class="invalid-feedback">
+                                    <span *ngIf="form.name_en.errors.required">This value is required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="validationCustom01">{{'GENERAL.ARABIC_NAME' | translate}}</label>
+                                <input type="text" class="form-control" id="validationCustom01"
+                                    formControlName="name_ar"
+                                    [ngClass]="{'is-valid': form.name_ar.dirty && !form.name_ar.errors ,'is-invalid': form.name_ar.dirty && form.name_ar.errors}">
+                                <div *ngIf="form.name_ar.dirty && form.name_ar.errors" class="invalid-feedback">
+                                    <span *ngIf="form.name_ar.errors.required">This value is required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="formFile">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.SERVICE' | translate}}</label>
+                                <input class="form-control" type="file" accept="image/*" id="formFile"
+                                    (change)="uploadeImage($event)"
+                                    [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
+                                <div class="card-image p-0 px-2 m-2" *ngIf="form.image.value">
+                                    <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
+                                (click)="removeImage()">remove</button> -->
+                                    <img class="p-0 w-100" title="images" alt="images" [src]="form.image.value" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100 text-center">
+                        <button class="btn btn-primary" type="submit" [disabled]="serviceForm.invalid">
+                          <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingServices"></i>
+                          {{lableForm == 0 ? 'ADD': 'EDIT'}}
+                        </button>
+                      </div>
+                </form>
+            </div>
+        </ng-template>
+
+
+        <ng-container *ngIf="loader">
+            <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+              <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </ng-container>
+        <ng-container *ngIf="!loader">
+
+        <div class="col-xl-3 col-sm-6" *ngFor="let data of allServices">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="avatar-sm mx-auto mb-4" *ngIf="!data.icon">
+                        <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-16">
+                            {{data.name.charAt(0)}}
+                        </span>
+                    </div>
+                    <div *ngIf="data.icon" class="mb-4">
+                        <img class="rounded-circle avatar-sm" src="{{data.icon}}" alt />
+                    </div>
+                    <h5 class="font-size-15 mb-1"><a href="javascript: void(0);" class="text-dark">{{data.name}}</a>
+                    </h5>
+                    <div>
+                        <a href="javascript: void(0);" [class]="data.status  == 1 ? 'bg-success': 'bg-danger'"
+                            class="badge font-size-11 m-1">
+                            <span *ngIf="data.status == 1">{{'GENERAL.ACTIVE' | translate}}</span>
+                            <span *ngIf="data.status == 0">{{'GENERAL.NOTACTIVE' | translate}}</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent border-top">
+                    <div class="contact-links d-flex font-size-20">
+                        <div class="flex-fill d-flex align-items-center justify-content-center">
+                            <ui-switch defaultBoColor="#dfdfdf" color="#ffaa00"
+                            (change)="changeActivate($event , data.id);getUpdateService(data.id)"
+                            [checked]="data.status == 1"  size="small" class="d-flex"></ui-switch>
+                        </div>
+                        <div class="flex-fill">
+                            <a href="javascript: void(0);" ngbTooltip="Edit" (click)="patchValueForm(addService,data);getUpdateService(data.id)"><i
+                                    class="bx bx-edit"></i></a>
+                        </div>
+                        <div class="flex-fill">
+                            <a href="javascript: void(0);" ngbTooltip="Delete" (click)="delete(data.id)"><i
+                                    class="bx bx-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    </div>
+    <!-- end row -->
+
+</div> <!-- container-fluid -->

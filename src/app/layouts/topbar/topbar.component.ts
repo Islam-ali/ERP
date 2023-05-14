@@ -49,9 +49,9 @@ user:any;
   ngOnInit() {
     this.openMobileMenu = false;
     this.element = document.documentElement;
-    this.user = JSON.parse(localStorage.getItem('user_ERP'))?.user.name
-    this.cookieValue = this._cookiesService.get('lang');
-    this.cookieValue = JSON.parse(localStorage.getItem('lang'))?.lang || 'ar';
+    this.user = JSON.parse(localStorage.getItem('user_ERP'))?.userName
+    this.cookieValue = this._cookiesService.get('lang_ERP');
+    this.cookieValue = JSON.parse(localStorage.getItem('lang_ERP'))?.lang || 'ar';
 
     const val = this.listLang.filter(x => x.lang === this.cookieValue);
     this.countryName = val.map(element => element.text);
@@ -65,7 +65,7 @@ user:any;
 
   setLanguage(text: string, lang: string, flag: string) {
     let item = {text: text, lang: lang, flag: flag}
-    localStorage.setItem('lang',JSON.stringify(item))
+    localStorage.setItem('lang_ERP',JSON.stringify(item))
     this.countryName = text;
     this.flagvalue = flag;
     this.cookieValue = lang;

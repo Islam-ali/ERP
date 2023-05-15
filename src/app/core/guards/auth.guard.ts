@@ -25,6 +25,11 @@ export class AuthGuard implements CanActivate {
         // }
         const currentUser = this.authenticationService.getUser();
         if (currentUser) {
+            const { roles } = route.data;
+            if (roles && !roles.includes(currentUser.roleName)) {
+                this.router.navigate(['/account/login']);
+                return false;
+            }
             return true;
         }
         // not logged in so redirect to login page with the return url

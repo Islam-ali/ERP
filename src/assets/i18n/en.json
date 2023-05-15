@@ -72,6 +72,15 @@
     "DASHBOARDS": {
       "TEXT": "Dashboards"
     },
+    "COMPANIES": {
+      "TEXT": "Companies"
+    },
+    "DEPARTMENTS": {
+      "TEXT": "Departments"
+    },
+        "JOBS": {
+      "TEXT": "Jobs"
+    },
     "CONRTRIES": {
       "TEXT": "Countries"
     },
@@ -322,12 +331,16 @@
   },
   "GENERAL":{
     "USER":"USER",
+    "COMPANY":"Company",
+    "DEPARTMENT":"Department",
     "COUNTRY":"COUNTRY",
     "SERVICE":"SERVICE",
     "FACTORY":"FACTORY",
     "CLASSIFICATION":"CLASSIFICATION",
-    "PERCENTAGE":"percentage",
+    "PROJECT":"Project",
     
+    "JOB":"Job",
+    "PERCENTAGE":"percentage",
     "NAME":"name",
     "ARABIC_NAME":"arabic name",
     "ENGLISH_NAME":"English name",
@@ -355,6 +368,9 @@
     "tax_card_back_image":"tax card back image",
     "LAT":"latitude",
     "LNG":"longtitud",
-    "LOCATION":"Location"
+    "LOCATION":"Location",
+    "STARTDATE":"Start Date",
+    "ENDDATE":"End Date"
+
   }
 }

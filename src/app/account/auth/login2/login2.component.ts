@@ -88,7 +88,7 @@ export class Login2Component implements OnInit {
           this.submitted = false;
           localStorage.setItem('user_ERP', JSON.stringify(res.data))
           this.router.navigateByUrl('');
-          this.toastrService.success(res.message);
+          this.toastrService.success(res.message ? res.message : 'تم تسجيل الدخول بنجاح');
         }, error: (err: Error) => {
           this.submitted = false;
           this.messageError = err

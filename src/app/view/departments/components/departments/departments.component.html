@@ -1,0 +1,193 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body row">
+            <div class="col-6 d-flex align-items-center ">
+              <h3 class="m-0">{{'MENUITEMS.DEPARTMENTS.TEXT' | translate}}</h3>
+            </div>
+            <div class="col-6 d-flex justify-content-end ">
+              <button class="btn btn-primary w-md" (click)="openModal(addDepartment , 0)">
+                {{'GENERAL.ADD' | translate}} {{'GENERAL.DEPARTMENT' | translate}}
+                <i class="bx bx-plus-medical"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <ng-container *ngIf="loader">
+          <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </ng-container>
+        <div *ngIf="!loader">
+          <div class="table-responsive">
+            <table class="table project-list-table table-nowrap align-middle table-borderless">
+              <thead>
+                <tr>
+                  <th scope="col">{{'GENERAL.DEPARTMENT' | translate}}</th>
+                  <th scope="col">{{'GENERAL.STATUS' | translate}}</th>
+                  <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
+                  <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
+                  <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.PROJECTS.TEXT' | translate}}</th>
+                  <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.JOBS.TEXT' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let department of allDepartments;trackBy:getUpdateDepartment">
+                  <td>
+                    <h5 class="text-truncate font-size-14">
+                      <a href="javascript: void(0);" class="text-dark">{{department.name}}</a>
+                    </h5>
+                  </td>
+                  <td>
+                    <span class="badge" [class]="department.isActive == true ? 'bg-success':'bg-warning'">
+                        <span *ngIf="department.isActive == true">{{'GENERAL.ACTIVE' | translate}}</span>
+                        <span *ngIf="department.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
+                    </span>
+                  </td>
+                  <td>
+                    <ui-switch defaultBoColor="#dfdfdf" color="#34c38f" size="small"
+                      (change)="ChangeActiveOrNotDepartment(department.id);showDepartment(department.id)"
+                      [checked]="department.isActive" class="ms-1"></ui-switch>
+                  </td>
+                  <td>
+                    <ul class="list-inline font-size-20 contact-links mb-0">
+                      <li class="list-inline-item px-2">
+                        <i class="bx bx-edit" (click)="patchValueForm(addDepartment,department);showDepartment(department.id)"
+                          style="cursor: pointer;"></i>
+                      </li>
+                      <li class="list-inline-item px-2" (click)="delete(department.id)">
+                        <i class="bx bx-trash" style="cursor: pointer;"></i>
+                      </li>
+                    </ul>
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-primary btn-sm px-4 btn-rounded" [routerLink]="[department.id , 'projects']">{{'GENERAL.VIEW' | translate}}</button>
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-primary btn-sm px-4 btn-rounded" [routerLink]="[department.id , 'jobs']">{{'GENERAL.VIEW' | translate}}</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- <div *ngFor="let Factory of allFactories;trackBy:getUpdateFactory" class="col-xl-4 col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="media">
+                <div class="avatar-md me-4">
+                  <span class="avatar-title overflow-hidden rounded-circle bg-light text-danger font-size-16">
+                    <img src="{{Factory.image}}" alt height="30" style="max-width: 100%;" />
+                  </span>
+                </div>
+    
+                <div class="media-body overflow-hidden">
+                  <h5 class="text-truncate font-size-15">
+                    <a href="javascript: void(0);" class="text-dark">{{Factory.name}}</a>
+                  </h5>
+                  <div class="text-success">{{Factory.tarfok_percentage}} %</div>
+                  <div class="text-muted">{{Factory.factories}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top">
+              <div class="contact-links d-flex font-size-20">
+                  <div class="flex-fill d-flex align-items-center justify-content-center">
+                      <ui-switch defaultBoColor="#dfdfdf" color="#ffaa00"
+                          (change)="changeActivate($event , Factory.id);getUpdateFactory(Factory.id)"
+                          [checked]="Factory.status == 1" size="small" class="d-flex"></ui-switch>
+                  </div>
+                  <div class="flex-fill">
+                      <a href="javascript: void(0);" ngbTooltip="Edit"
+                          (click)="patchValueForm(addDepartment,Factory);getUpdateFactory(Factory.id)"><i
+                              class="bx bx-edit"></i></a>
+                  </div>
+                  <div class="flex-fill">
+                      <a href="javascript: void(0);" ngbTooltip="Delete" (click)="delete(Factory.id)"><i
+                              class="bx bx-trash"></i></a>
+                  </div>
+              </div>
+          </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <!-- end row -->
+    <!-- <div class="row">
+          <div class="col-12">
+            <div class="text-center my-3">
+              <a href="javascript:void(0);" class="text-success">
+                <i class="bx bx-loader bx-spin font-size-18 align-middle mr-2"></i> Load more
+              </a>
+            </div>
+          </div>
+        </div> -->
+    <!-- end row -->
+  </div>
+  <!-- Add Modal -->
+  <ng-template #addDepartment role="document" let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title mt-0">
+        <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+        <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+        {{ 'GENERAL.DEPARTMENT' | translate }}
+      </h5>
+      <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <ng-container *ngIf="loadingShow && lableForm == 1">
+      <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+        <div class="spinner-border text-primary m-1" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </ng-container>
+    <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
+      <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="DepartmentForm">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="validationCustom01">{{'GENERAL.ENGLISH_NAME' | translate}}</label>
+              <input type="text" class="form-control" id="validationCustom01" formControlName="nameInEnglish"
+                [ngClass]="{'is-valid': form.nameInEnglish.dirty && !form.nameInEnglish.errors ,'is-invalid': form.nameInEnglish.dirty && form.nameInEnglish.errors}">
+              <div *ngIf="form.nameInEnglish.dirty && form.nameInEnglish.errors" class="invalid-feedback">
+                <span *ngIf="form.nameInEnglish.errors.required">This value is required.</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="validationCustom01">{{'GENERAL.ARABIC_NAME' | translate}}</label>
+              <input type="text" class="form-control" id="validationCustom01" formControlName="name"
+                [ngClass]="{'is-valid': form.name.dirty && !form.name.errors ,'is-invalid': form.name.dirty && form.name.errors}">
+              <div *ngIf="form.name.dirty && form.name.errors" class="invalid-feedback">
+                <span *ngIf="form.name.errors.required">This value is required.</span>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-12">
+            <div class="mb-3">
+              <label for="formFile">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.DEPARTMENT' | translate}}</label>
+              <input class="form-control" type="file" accept="image/*" id="formFile" (change)="uploadeImage($event)"
+                [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
+              <div class="card-image p-0 px-2 m-2" *ngIf="form.image.value">
+                <img class="p-0 w-100" title="images" alt="images" [src]="form.image.value" />
+              </div>
+            </div>
+          </div> -->
+        </div>
+        <div class="w-100 text-center">
+          <button class="btn btn-primary" type="submit" [disabled]="DepartmentForm.invalid">
+            <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingDepartments"></i>
+            {{lableForm == 0 ? 'ADD': 'EDIT'}}
+          </button>
+        </div>
+      </form>
+    </div>
+  
+  </ng-template>

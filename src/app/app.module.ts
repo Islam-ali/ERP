@@ -54,7 +54,7 @@ export function createTranslateLoader(http: HttpClient): any {
       }
     }),
     ToastrModule.forRoot({
-      timeOut: 5000, // 15 seconds
+      timeOut: 3000,
       closeButton: true,
       progressBar: true,
     }),

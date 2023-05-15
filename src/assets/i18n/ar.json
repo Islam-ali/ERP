@@ -87,6 +87,12 @@
     "DASHBOARDS": {
       "TEXT": "الرائيسية"
     },
+    "COMPANIES": {
+      "TEXT": "الشركات"
+    },
+    "DEPARTMENTS": {
+      "TEXT": "الاقسام"
+    },
     "CONRTRIES": {
       "TEXT": "البلاد"
     },
@@ -95,6 +101,9 @@
     },
     "USERS": {
       "TEXT": "المستخدمين"
+    },
+    "JOBS": {
+      "TEXT": "الوظائف"
     },
     "FACTORIES": {
       "TEXT": "المصانع"
@@ -165,7 +174,7 @@
       }
     },
     "PROJECTS": {
-      "TEXT": "Projects",
+      "TEXT": "المشاريع",
       "LIST": {
         "GRID": "Projects Grid",
         "PROJECTLIST": "Projects List",
@@ -321,39 +330,47 @@
     }
   },
   "GENERAL": {
+    "COMPANY": "شركة",
+    "DEPARTMENT": "قسم",
     "USER": "المستخدم",
     "COUNTRY": "البلد",
     "SERVICE": "اقسم",
     "FACTORY": "المصنع",
     "CLASSIFICATION": "التصنيف",
-    "PERCENTAGE":"النسبة",
+    "PROJECT":"المشروع",
+    "JOB":"الوظيفة",
+
+    "PERCENTAGE": "النسبة",
     "NAME": "الاسم",
-    "ARABIC_NAME":"الاسم باللغه العربىة",
-    "ENGLISH_NAME":"الاسم باللغه الانجليزية",
+    "ARABIC_NAME": "الاسم باللغه العربىة",
+    "ENGLISH_NAME": "الاسم باللغه الانجليزية",
     "EMAIL": "البريد الالكترونى",
     "MOBILE_NUMBER": "رقم الموبيل",
-    "PASSWORD":"كلمة المرور",
-    "PASSWORD_CONFIRMATION":"تأكيد كلمة المرور",
-    "IMAGE":"صورة",
+    "PASSWORD": "كلمة المرور",
+    "PASSWORD_CONFIRMATION": "تأكيد كلمة المرور",
+    "IMAGE": "صورة",
     "ADD": "اضافة",
     "EDIT": "تعديل",
     "STATUS": "الحالة",
     "ACTIVE": "تفعيل",
     "PENDING": "قيد الانتظار",
-    "ACCEPT":"تم القبول",
-    "REJECTED":"تم الرفض",
+    "ACCEPT": "تم القبول",
+    "REJECTED": "تم الرفض",
     "NOTACTIVE": "الغاء تفعيل",
     "ACTION": "الاعدادات",
-    "VIEW":"عرض",
-    "MESSAGE_LOGIN":"قم بتسجيل الدخول للمتابعة إلى Tarfok.",
-    "WELCOME_bACK":"مرحبًا بعودتك !",
-    "LOGIN":"تسجيل الدخول",
-    "LOGOUT":"تسجيل الخروج",
-    "commercial_register_image":"صورة السجل التجاري",
-    "tax_card_front_image":"الصورة الأمامية للبطاقة الضريبية",
-    "tax_card_back_image":"الصورة الخلفية للبطاقة الضريبية",
-    "LAT":"خط الطول",
-    "LNG":"خط العرض",
-    "LOCATION":"الموقع"
+    "VIEW": "عرض",
+    "MESSAGE_LOGIN": "قم بتسجيل الدخول للمتابعة إلى Tarfok.",
+    "WELCOME_bACK": "مرحبًا بعودتك !",
+    "LOGIN": "تسجيل الدخول",
+    "LOGOUT": "تسجيل الخروج",
+    "commercial_register_image": "صورة السجل التجاري",
+    "tax_card_front_image": "الصورة الأمامية للبطاقة الضريبية",
+    "tax_card_back_image": "الصورة الخلفية للبطاقة الضريبية",
+    "LAT": "خط الطول",
+    "LNG": "خط العرض",
+    "LOCATION": "الموقع",
+    "STARTDATE":"تاريخ البداية",
+    "ENDDATE":"تاريخ النهاية"
+
   }
 }

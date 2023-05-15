@@ -38,7 +38,7 @@ export class JwtInterceptor implements HttpInterceptor {
         if (currentUser) {
             request = request.clone({
                 setHeaders: {
-                    'Accept-Language': lang,
+                    'lang': lang,
                     Authorization: `Bearer ${currentUser.token}`
                 }
             });

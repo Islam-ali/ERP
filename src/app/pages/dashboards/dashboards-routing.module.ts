@@ -8,7 +8,7 @@ import { BlogComponent } from './blog/blog.component';
 
 const routes: Routes = [
     {
-        path: 'default',
+        path: '',
         component: DefaultComponent
     },
     {

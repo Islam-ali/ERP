@@ -5,6 +5,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { ChatComponent } from './chat/chat.component';
 import { DefaultComponent } from './dashboards/default/default.component';
 import { FilemanagerComponent } from './filemanager/filemanager.component';
+import { Role } from 'app/core/modal/role';
 
 const routes: Routes = [
   { path: '', redirectTo: 'users' },
@@ -13,8 +14,11 @@ const routes: Routes = [
   { path: 'calendar', component: CalendarComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'filemanager', component: FilemanagerComponent },
-  { path: 'dashboards', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule) },
-
+  { 
+    path: 'dashboards',
+    loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule),
+    data: { roles: [Role.SuperAdmin] } 
+  },
   { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
   { path: 'countries', loadChildren: () => import('./countries/countries.module').then(m => m.CountriesModule) },
   { path: 'services', loadChildren: () => import('./services/services.module').then(m => m.ServicesModule) },

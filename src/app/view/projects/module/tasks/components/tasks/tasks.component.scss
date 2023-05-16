@@ -1,0 +1,29 @@
+*{
+    transition: .3s all;
+}
+.position-badge{
+position: absolute;
+top: 50%;
+left: 0;
+transform: translate(10px,-50%);
+}
+.fa-1x{
+    font-size: 1rem;
+}
+.delete-icon{
+opacity: 0;
+}
+.task-box:hover{
+    border: 1px solid #ddd;
+    .delete-icon{
+        opacity: 1;
+    }
+}
+.task-list-none{
+    border: dashed 1px #ddd;
+    min-height: 40px;
+}
+.avatar-xs {
+    height: 1.5rem;
+    width: 1.5rem;
+}

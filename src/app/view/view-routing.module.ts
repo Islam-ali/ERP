@@ -4,7 +4,7 @@ import { AuthGuard } from 'app/core/guards/auth.guard';
 import { Role } from 'app/core/modal/role';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard' },
+  { path: '', redirectTo: 'companies' },
   { 
     path: 'companies',
     loadChildren: () => import('../view/companies/companies.module').then(m => m.CompaniesModule),

@@ -24,7 +24,7 @@
             </div>
           </div>
         </ng-container>
-        <div *ngIf="!loader">
+        <div *ngIf="!loader && allProjects.length > 0">
           <div class="table-responsive">
             <table class="table project-list-table table-nowrap align-middle table-borderless">
               <thead>
@@ -33,7 +33,7 @@
                   <th scope="col">{{'GENERAL.STATUS' | translate}}</th>
                   <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
                   <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
-                  <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.PROJECTS.TEXT' | translate}}</th>
+                  <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.TASKS.TEXT' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
@@ -66,13 +66,31 @@
                     </ul>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-primary btn-sm px-4 btn-rounded" [routerLink]="[project.id , 'projects']">{{'GENERAL.VIEW' | translate}}</button>
+                    <button type="button" class="btn btn-primary btn-sm px-4 btn-rounded" [routerLink]="[project.id , 'tasks']">{{'GENERAL.VIEW' | translate}}</button>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+        <ng-container *ngIf="!loader && allProjects.length == 0">
+          <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+              <div class="alert alert-warning fade text-center show px-3 mb-0" role="alert">
+                  <div class="mb-3">
+                      <i class="bx bx-error-alt h1  text-warning"></i>
+                  </div>
+  
+                  <div class="text-center">
+                      <h5 class="text-warning ">Not Found Result</h5>
+                      <div class="text-center">
+                          <button type="button" (click)="goBack()"
+                              class="btn btn-link text-decoration-none text-warning"> <i
+                                  class="mdi mdi-arrow-left"></i>Back</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </ng-container>
         <!-- <div *ngFor="let Factory of allFactories;trackBy:getUpdateFactory" class="col-xl-4 col-sm-6">
           <div class="card">
             <div class="card-body">

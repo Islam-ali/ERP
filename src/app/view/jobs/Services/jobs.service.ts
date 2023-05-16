@@ -10,7 +10,7 @@ export class JobsService {
   constructor(private http:HttpClient) { }
 
   getAllJobs(DepartmentId:number):Observable<any>{
-    return this.http.get(`${env.domain}Jobs/GetAllJobs/${DepartmentId}`)
+    return this.http.get(`${env.domain}Jobs/GetAllJobs?Department_Id=${DepartmentId}`)
   }
   EditJob(editForm:any):Observable<any>{
     return this.http.put(`${env.domain}Jobs/EditJob/${editForm['id']}`,editForm)
@@ -26,5 +26,8 @@ export class JobsService {
   }
   addJob(addForm:any):Observable<any>{
     return this.http.post(`${env.domain}Jobs/AddJob`,addForm)
+  }
+  ListOfJob(DepartmentID:number):Observable<any>{
+    return this.http.get(`${env.domain}Job/ListOfJobs?Department_Id=${DepartmentID}`)
   }
 }

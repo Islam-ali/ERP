@@ -338,8 +338,9 @@
     "FACTORY":"FACTORY",
     "CLASSIFICATION":"CLASSIFICATION",
     "PROJECT":"Project",
-    
     "JOB":"Job",
+    "TASK":"Task",
+
     "PERCENTAGE":"percentage",
     "NAME":"name",
     "ARABIC_NAME":"arabic name",
@@ -370,7 +371,12 @@
     "LNG":"longtitud",
     "LOCATION":"Location",
     "STARTDATE":"Start Date",
-    "ENDDATE":"End Date"
-
+    "ENDDATE":"End Date",
+    "TITLE":"Title",
+    "DESCRIPTION":"Description",
+    "PRIORITY":"priority",
+    "ASSIGNED":"Assigned",
+    "FILES":"files",
+    "EMPLOYEE":"Employee"
   }
 }

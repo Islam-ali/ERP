@@ -44,7 +44,7 @@
       "CALENDAR": "Calendar",
       "EMAIL": "Email",
       "PROJECTS": "Projects",
-      "TASKS": "Tasks",
+      "TASKS": "المهام",
       "CONTACTS": "Contacts"
     },
     "EXTRA_PAGES": {
@@ -183,7 +183,7 @@
       }
     },
     "TASKS": {
-      "TEXT": "Tasks",
+      "TEXT": "المهام",
       "LIST": {
         "TASKLIST": "Task List",
         "KANBAN": "Kanban Board",
@@ -339,7 +339,7 @@
     "CLASSIFICATION": "التصنيف",
     "PROJECT":"المشروع",
     "JOB":"الوظيفة",
-
+    "TASK":"مهمة",
     "PERCENTAGE": "النسبة",
     "NAME": "الاسم",
     "ARABIC_NAME": "الاسم باللغه العربىة",
@@ -370,7 +370,12 @@
     "LNG": "خط العرض",
     "LOCATION": "الموقع",
     "STARTDATE":"تاريخ البداية",
-    "ENDDATE":"تاريخ النهاية"
-
-  }
+    "ENDDATE":"تاريخ النهاية",
+    "TITLE":"العنوان",
+    "DESCRIPTION":"الوصف",
+    "PRIORITY":"الأهمية",
+    "ASSIGNED":"تكليف",
+    "FILES":"الملفات",
+    "EMPLOYEE":"موظف"
+}
 }

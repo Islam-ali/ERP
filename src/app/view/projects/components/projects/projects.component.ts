@@ -5,7 +5,7 @@ import { DataProjects, Projects, ShowProjects } from '../../modal/projects';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
-
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -31,12 +31,14 @@ export class ProjectsComponent implements OnInit {
     private _ProjectsService: ProjectsService,
     private modalService: NgbModal,
     private toastrService: ToastrService,
-    private _ActivatedRoute: ActivatedRoute
-
+    private _ActivatedRoute: ActivatedRoute,
+    private _location: Location
   ) {
     this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID']
   }
-
+  goBack() {
+    this._location.back();
+  }
   ngOnInit(): void {
     this.ProjectForm = this._formBuilder.group({
       name: [null, [Validators.required]],

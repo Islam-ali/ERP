@@ -1,0 +1,289 @@
+<div class="container-fluid">
+    <!-- start page title -->
+    <app-page-title title="Tasks" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="dropdown float-end" ngbDropdown>
+                        <a href="javascript: void(0);" class="dropdown-toggle arrow-none" ngbDropdownToggle>
+                            <i class="mdi mdi-dots-vertical m-0 text-muted h5"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                            <a class="dropdown-item" href="javascript: void(0);">Edit</a>
+                            <a class="dropdown-item" href="javascript: void(0);">Delete</a>
+                        </div>
+                    </div> -->
+                    <h4 class="card-title mb-4">To Do</h4>
+                    <div id="upcoming-task" [class]="toDoTasks.length > 0 ? '':'task-list-none'" class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
+                        (dndDrop)="onDrop($event, toDoTasks,1)">
+                        <div class="dndPlaceholder" dndPlaceholderRef></div>
+                        <ng-container *ngFor="let task of toDoTasks">
+                            <div [dndDraggable]="task" dndEffectAllowed="move" (dndMoved)="onDragged(task, toDoTasks)">
+                                <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}">
+                                </ng-template>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="text-center d-grid mt-2">
+                        <a href="javascript: void(0);" class="btn btn-primary" (click)="openModal(addTasks,0 ,1)"><i
+                                class="mdi mdi-plus me-1"></i>
+                            Add New</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end col -->
+
+        <div class="col-xl-3 col-lg-4 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="dropdown float-end" ngbDropdown>
+                        <a href="javascript: void(0);" class="dropdown-toggle arrow-none" ngbDropdownToggle>
+                            <i class="mdi mdi-dots-vertical m-0 text-muted h5"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                            <a class="dropdown-item" href="javascript: void(0);">Edit</a>
+                            <a class="dropdown-item" href="javascript: void(0);">Delete</a>
+                        </div>
+                    </div>  -->
+
+                    <h4 class="card-title mb-4">In Progress</h4>
+                    <div id="Progress-task" [class]="inprogressTasks.length > 0 ? '':'task-list-none'" class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
+                        (dndDrop)="onDrop($event, inprogressTasks,2)">
+                        <div class="dndPlaceholder" dndPlaceholderRef></div>
+                        <ng-container *ngFor="let task of inprogressTasks">
+                            <div [dndDraggable]="task" dndEffectAllowed="move"
+                                (dndMoved)="onDragged(task, inprogressTasks)">
+                                <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}">
+                                </ng-template>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="text-center d-grid mt-2">
+                        <a href="javascript: void(0);" class="btn btn-primary" (click)="openModal(addTasks,0 ,2)"><i
+                                class="mdi mdi-plus me-1"></i>
+                            Add New</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-4 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="dropdown float-end" ngbDropdown>
+                        <a href="javascript: void(0);" class="dropdown-toggle arrow-none" ngbDropdownToggle>
+                            <i class="mdi mdi-dots-vertical m-0 text-muted h5"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                            <a class="dropdown-item" href="javascript: void(0);">Edit</a>
+                            <a class="dropdown-item" href="javascript: void(0);">Delete</a>
+                        </div>
+                    </div>  -->
+
+                    <h4 class="card-title mb-4">In Review</h4>
+                    <div id="completed-task" [class]="inReviewTasks.length > 0 ? '':'task-list-none'" class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
+                        (dndDrop)="onDrop($event, inReviewTasks,3)">
+                        <div class="dndPlaceholder" dndPlaceholderRef></div>
+
+                        <ng-container *ngFor="let task of inReviewTasks">
+                            <div [dndDraggable]="task" dndEffectAllowed="move"
+                                (dndMoved)="onDragged(task, inReviewTasks)">
+                                <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}">
+                                </ng-template>
+                            </div>
+                        </ng-container>
+
+                        <!-- <div class="text-center d-grid">
+                            <a href="javascript: void(0);" class="btn btn-primary" (click)="openModal(addTasks,0 ,null)"><i
+                                    class="mdi mdi-plus me-1"></i>
+                                Add New</a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-4 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="dropdown float-end" ngbDropdown>
+                        <a href="javascript: void(0);" class="dropdown-toggle arrow-none" ngbDropdownToggle>
+                            <i class="mdi mdi-dots-vertical m-0 text-muted h5"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                            <a class="dropdown-item" href="javascript: void(0);">Edit</a>
+                            <a class="dropdown-item" href="javascript: void(0);">Delete</a>
+                        </div>
+                    </div> -->
+
+                    <h4 class="card-title mb-4">Done</h4>
+                    <div id="completed-task" [class]="doneTasks  .length > 0 ? '':'task-list-none'" class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
+                        (dndDrop)="onDrop($event, doneTasks,4)">
+                        <div class="dndPlaceholder" dndPlaceholderRef></div>
+
+                        <ng-container *ngFor="let task of doneTasks">
+                            <div [dndDraggable]="task" dndEffectAllowed="move" (dndMoved)="onDragged(task, doneTasks)">
+                                <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}">
+                                </ng-template>
+                            </div>
+                        </ng-container>
+                        <!-- <div class="text-center d-grid">
+                            <a href="javascript: void(0);" class="btn btn-primary" (click)="openModal(addTasks,0 ,null)"><i
+                                    class="mdi mdi-plus me-1"></i>
+                                Add New</a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Task  -->
+<ng-template #TaskContent let-task='task'>
+    <div class="card task-box">
+        <div class="card-body p-2 d-flex align-items-center">
+            <div class=" badge rounded-pill delete-icon" style="cursor: pointer;" (click)="RemoveTask(task.id)">
+                <i class="bx bx-trash fa-1x"></i> 
+            </div>
+            <div class="d-flex align-items-center col" style="cursor: pointer;" (click)="getTaskById(task.id);openModal(addTasks , 1 , task.taskStage_Id)">
+            <div class="ms-2 position-badge">
+                <span class="badge rounded-pill badge-soft-secondary font-size-10" [ngClass]=" { 
+              'badge-soft-warning': task.priorityId === 2,
+              'badge-soft-primary': task.priorityId === 3,
+              'badge-soft-danger': task.priorityId === 1 }">{{task.priorityName}}</span>
+            </div>
+            <div class="d-flex w-75">
+                <h5 class="font-size-12 p-0 m-0 me-auto d-flex align-items-center">
+                        {{task.title}}
+                </h5>
+                <!-- <p class="text-muted mb-4">{{task.endDate}}</p> -->
+                <div class="avatar-group float-start">
+                    <div class="avatar-group-item" *ngIf="task?.assignedEmployeeData[0]?.imagePath">
+                        <a href="javascript: void(0);" class="d-inline-block">
+                            <img src="{{ domain+task?.assignedEmployeeData[0]?.imagePath}}" class="rounded-circle avatar-xs"
+                                alt="">
+                        </a>
+                    </div>
+                    <div class="avatar-group-item avatar-xs" *ngIf="!task?.assignedEmployeeData[0]?.imagePath">
+                        <span class="avatar-title rounded-circle bg-soft bg-primary text-primary">
+                          {{task?.assignedEmployeeData[0]?.name.charAt(0)}}
+                        </span>
+                    </div>
+                    <div class="avatar-group-item" *ngIf="task.assignedEmployeeData[1]">
+                        <a href="javascript: void(0);" class="d-inline-block">
+                            <img src="{{ domain+task.assignedEmployeeData[1]?.imagePath}}" class="rounded-circle avatar-xs"
+                                alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- <div class="text-end">
+          <h5 class="font-size-15 mb-1">$ {{task.budget}}</h5>
+          <p class="mb-0 text-muted">Budget</p>
+        </div> -->
+        </div>
+    </div>
+</ng-template>
+
+<!-- modal Tasks -->
+<ng-template #addTasks role="document" let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title mt-0">
+            <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+            <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+            {{ 'GENERAL.TASK' | translate }}
+        </h5>
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <ng-container *ngIf="loadingShow && lableForm == 1">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+    <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
+        <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="taskForm">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="mb-3">
+                        <label>{{'GENERAL.TITLE' | translate}}</label>
+                        <input type="text" class="form-control" formControlName="Title"
+                            [ngClass]="{'is-valid': form.Title.dirty && !form.Title.errors ,'is-invalid': form.Title.dirty && form.Title.errors}">
+                        <div *ngIf="form.Title.dirty && form.Title.errors" class="invalid-feedback">
+                            <span *ngIf="form.Title.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="mb-3">
+                        <label>{{'GENERAL.DESCRIPTION' | translate}}</label>
+                        <input type="text" class="form-control" formControlName="Description"
+                            [ngClass]="{'is-valid': form.Description.dirty && !form.Description.errors ,'is-invalid': form.Description.dirty && form.Description.errors}">
+                        <div *ngIf="form.Description.dirty && form.Description.errors" class="invalid-feedback">
+                            <span *ngIf="form.Description.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="mb-3">
+                        <label>{{'GENERAL.STARTDATE' | translate}}</label>
+                        <div class="input-group clockpicker">
+                            <input type="datetime-local" class="form-control" formControlName="StartDate"
+                                placeholder="yyyy-mm-dd">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="mb-3">
+                        <label>{{'GENERAL.ENDDATE' | translate}}</label>
+                        <div class="input-group clockpicker">
+                            <input type="datetime-local" class="form-control" formControlName="EndDate"
+                                placeholder="yyyy-mm-dd">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.PRIORITY' |
+                            translate}}</label>
+                        <ng-select [items]="ListOfPriorities" formControlName="Priority_Id" bindLabel="name"
+                            bindValue="id"></ng-select>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.ASSIGNED' |
+                            translate}} {{'GENERAL.EMPLOYEE' | translate}}</label>
+                        <ng-select [items]="ListOfEmployees" formControlName="AssignedEmployeeIds" bindLabel="name"
+                            bindValue="id" [multiple]="true"></ng-select>
+                    </div>
+                </div>
+                <!-- <div class="col-12">
+            <div class="mb-3">
+              <label for="formFile">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.PROJECT' | translate}}</label>
+              <input class="form-control" type="file" accept="image/*" id="formFile" (change)="uploadeImage($event)"
+                [ngClass]="{'is-valid': form.image.dirty && !form.image.errors ,'is-invalid': form.image.dirty && form.image.errors}">
+              <div class="card-image p-0 px-2 m-2" *ngIf="form.image.value">
+                <img class="p-0 w-100" title="images" alt="images" [src]="form.image.value" />
+              </div>
+            </div>
+          </div> -->
+            </div>
+            <div class="w-100 text-center">
+                <button class="btn btn-primary" type="submit" [disabled]="taskForm.invalid">
+                    <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingTasks"></i>
+                    {{lableForm == 0 ? 'ADD': 'EDIT'}}
+                </button>
+            </div>
+        </form>
+    </div>
+
+</ng-template>

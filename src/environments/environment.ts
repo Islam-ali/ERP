@@ -6,6 +6,8 @@ export const environment = {
   production: false,
   defaultauth: 'fackbackend',
   domain:'http://192.168.0.130:56930/api/',
+  // domain:'https://erp.afaqci.com/api/',
+  url:'http://192.168.0.130:56930/',
   firebaseConfig: {
     apiKey: '',
     authDomain: '',

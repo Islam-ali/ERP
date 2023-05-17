@@ -28,6 +28,6 @@ export class JobsService {
     return this.http.post(`${env.domain}Jobs/AddJob`,addForm)
   }
   ListOfJob(DepartmentID:number):Observable<any>{
-    return this.http.get(`${env.domain}Job/ListOfJobs?Department_Id=${DepartmentID}`)
+    return this.http.get(`${env.domain}Jobs/ListOfJobs?Department_Id=${DepartmentID}`)
   }
 }

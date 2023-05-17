@@ -78,8 +78,11 @@
     "DEPARTMENTS": {
       "TEXT": "Departments"
     },
-        "JOBS": {
+    "JOBS": {
       "TEXT": "Jobs"
+    },
+    "EMPLOYEES":{
+      "TEXT": "Employees"
     },
     "CONRTRIES": {
       "TEXT": "Countries"

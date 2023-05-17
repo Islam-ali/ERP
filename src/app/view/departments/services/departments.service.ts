@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
 import { Observable } from 'rxjs';
@@ -26,5 +26,12 @@ export class DepartmentsService {
   }
   addDepartment(addForm:any):Observable<any>{
     return this.http.post(`${env.domain}Departments/AddDepartment`,addForm)
+  }
+  ListOfDepartment(companyId:number):Observable<any>{
+    const params = new HttpParams();
+    if(companyId !== 0){
+      params.append('companyId',companyId)
+    }
+    return this.http.get(`${env.domain}Departments/ListOfDepartments`)
   }
 }

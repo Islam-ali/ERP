@@ -93,6 +93,9 @@
     "DEPARTMENTS": {
       "TEXT": "الاقسام"
     },
+    "EMPLOYEES":{
+      "TEXT": "الموظفين"
+    },
     "CONRTRIES": {
       "TEXT": "البلاد"
     },
@@ -376,6 +379,6 @@
     "PRIORITY":"الأهمية",
     "ASSIGNED":"تكليف",
     "FILES":"الملفات",
-    "EMPLOYEE":"موظف"
+    "EMPLOYEE":" الموظف"
 }
 }

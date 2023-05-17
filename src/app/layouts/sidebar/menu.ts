@@ -62,6 +62,12 @@ export const MENU: MenuItem[] = [
         icon: 'bx bxs-user-detail',
         link: '/companies',
     },
+    // {
+    //     id: 10,
+    //     label: 'MENUITEMS.EMPLOYEES.TEXT',
+    //     icon: 'bx bx-food-menu',
+    //     link: '/Employees',
+    // },
     {
         id: 4,
         label: 'MENUITEMS.CONRTRIES.TEXT',
@@ -106,7 +112,7 @@ export const MENU: MenuItem[] = [
         label: 'MENUITEMS.CHAT.TEXT',
         icon: 'bx-chat',
         link: '/chat',
-        
+
     },
     {
         id: 11,
@@ -249,22 +255,22 @@ export const MENU: MenuItem[] = [
                 parentId: 29,
                 subItems: [
                     {
-                        id:33 ,
+                        id: 33,
                         label: 'MENUITEMS.EMAIL.LIST.TEMPLATE.LIST.BASIC',
                         link: '/email/basic',
-                        parentId:32 
+                        parentId: 32
                     },
                     {
-                        id:34 ,
+                        id: 34,
                         label: 'MENUITEMS.EMAIL.LIST.TEMPLATE.LIST.ALERT',
                         link: '/email/alert',
-                        parentId:32 
+                        parentId: 32
                     },
                     {
-                        id:35 ,
+                        id: 35,
                         label: 'MENUITEMS.EMAIL.LIST.TEMPLATE.LIST.BILLING',
                         link: '/email/billing',
-                        parentId:32 
+                        parentId: 32
                     }
                 ]
             }

@@ -18,6 +18,12 @@ const routes: Routes = [
     data: { roles: [Role.SuperAdmin , Role.Admin] }
   },
   { 
+    path: 'companies/:companyID/employees',
+    loadChildren: () => import('../view/employees/employees.module').then(m => m.EmployeesModule),
+    canActivate:[AuthGuard],
+    data: { roles: [Role.SuperAdmin , Role.Admin] }
+  },
+  { 
     path: 'companies/:companyID/departments/:departmentID/projects',
     loadChildren: () => import('../view/projects/projects.module').then(m => m.ProjectsModule),
     canActivate:[AuthGuard],

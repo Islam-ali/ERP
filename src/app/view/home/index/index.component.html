@@ -1,0 +1,105 @@
+<div class="row">
+    <div class="col-xl-4">
+        <div class="card overflow-hidden">
+            <div class="bg-primary bg-soft">
+                <div class="row">
+                    <div class="col-7">
+                        <div class="text-primary p-3">
+                            <h5 class="text-primary">Welcome Back !</h5>
+                            <p>{{currentUser.userName}}</p>
+                        </div>
+                    </div>
+                    <div class="col-5 align-self-end">
+                        <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="avatar-md profile-user-wid mb-4" *ngIf="currentUser.imagePath">
+                            <img [src]="currentUser.imagePath" alt="" class="img-thumbnail rounded-circle">
+                        </div>
+                        <div class="avatar-md profile-user-wid mb-4" *ngIf="!currentUser.imagePath">
+                            <span class="avatar-title rounded-circle bg-primary text-light font-size-16">
+                                {{currentUser.userName.charAt(0)}}
+                            </span>
+                        </div>
+                        <h5 class="font-size-15 text-truncate">{{currentUser.userName}}</h5>
+                        <p class="text-muted mb-0 text-truncate">{{currentUser.email}}</p>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="pt-4">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5 class="font-size-15">125</h5>
+                                    <p class="text-muted mb-0">Projects</p>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="font-size-15">$1245</h5>
+                                    <p class="text-muted mb-0">Revenue</p>
+                                </div>
+                            </div>
+                            <!-- <div class="mt-4">
+                                <a href="" class="btn btn-primary btn-sm">View Profile <i
+                                        class="mdi mdi-arrow-right ms-1"></i></a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Monthly Earning</h4>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="text-muted">This month</p>
+                        <h3>$34,252</h3>
+                        <p class="text-muted"><span class="text-success mr-2"> 12% <i class="mdi mdi-arrow-up"></i>
+                            </span> From
+                            previous period</p>
+
+                        <div class="mt-4">
+                            <a href="" class="btn btn-primary btn-sm">View More <i
+                                    class="mdi mdi-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+
+                        <apx-chart dir="ltr" class="apex-charts" [series]="monthlyEarningChart.series"
+                            [chart]="monthlyEarningChart.chart" [legend]="monthlyEarningChart.legend"
+                            [colors]="monthlyEarningChart.colors" [labels]="monthlyEarningChart.labels"
+                            [stroke]="monthlyEarningChart.stroke" [plotOptions]="monthlyEarningChart.plotOptions">
+                        </apx-chart>
+                    </div>
+                </div>
+                <p class="text-muted mb-0">We craft digital, graphic and dimensional thinking.</p>
+            </div>
+        </div> -->
+    </div>
+    <div class="col-xl-8" *ngIf="currentUser.roleName == Role.Admin">
+        <div class="row">
+            <div *ngFor="let stat of Data" class="col-md-4">
+                <div class="card mini-stats-wid" style="cursor: pointer;" [routerLink]="['/companies',currentUser.company_Id,stat.url]">
+                    <div class="card-body">
+                      <div class="media d-flex align-items-center">
+                        <div class="media-body">
+                          <h4>{{stat.title | translate}}</h4>
+                          <!-- <h4 class="mb-0">{{stat.value | translate}}</h4> -->
+                        </div>
+                        <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                          <span class="avatar-title">
+                            <i class="bx {{stat.icon | translate}} font-size-24"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end card-body -->
+                  </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+</div>

@@ -51,7 +51,7 @@
                     <span *ngIf="department.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
                   </span>
                 </td>
-                <td>
+                <td class="text-center">
                   <ui-switch defaultBoColor="#dfdfdf" color="#34c38f" size="small"
                     (change)="ChangeActiveOrNotDepartment(department.id);showDepartment(department.id)"
                     [checked]="department.isActive" class="ms-1"></ui-switch>

@@ -31,7 +31,7 @@
                 <tr>
                   <th scope="col">{{'GENERAL.PROJECT' | translate}}</th>
                   <th scope="col">{{'GENERAL.STATUS' | translate}}</th>
-                  <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
+                  <th scope="col" class="text-center">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
                   <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
                   <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.TASKS.TEXT' | translate}}</th>
                 </tr>
@@ -49,7 +49,7 @@
                         <span *ngIf="project.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
                     </span>
                   </td>
-                  <td>
+                  <td class="text-center">
                     <ui-switch defaultBoColor="#dfdfdf" color="#34c38f" size="small"
                       (change)="ChangeActiveOrNotProject(project.id);"
                       [checked]="project.isActive" class="ms-1"></ui-switch>

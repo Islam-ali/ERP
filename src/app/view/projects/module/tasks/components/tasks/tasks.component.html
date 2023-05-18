@@ -17,8 +17,8 @@
                         </div>
                     </div> -->
                     <h4 class="card-title mb-4">To Do</h4>
-                    <div id="upcoming-task" [class]="toDoTasks.length > 0 ? '':'task-list-none'" class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
-                        (dndDrop)="onDrop($event, toDoTasks,1)">
+                    <div id="upcoming-task" [class]="toDoTasks.length > 0 ? '':'task-list-none'" class="pb-1 task-list"
+                        dndDropzone dndEffectAllowed="move" (dndDrop)="onDrop($event, toDoTasks,1)">
                         <div class="dndPlaceholder" dndPlaceholderRef></div>
                         <ng-container *ngFor="let task of toDoTasks">
                             <div [dndDraggable]="task" dndEffectAllowed="move" (dndMoved)="onDragged(task, toDoTasks)">
@@ -51,7 +51,8 @@
                     </div>  -->
 
                     <h4 class="card-title mb-4">In Progress</h4>
-                    <div id="Progress-task" [class]="inprogressTasks.length > 0 ? '':'task-list-none'" class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
+                    <div id="Progress-task" [class]="inprogressTasks.length > 0 ? '':'task-list-none'"
+                        class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
                         (dndDrop)="onDrop($event, inprogressTasks,2)">
                         <div class="dndPlaceholder" dndPlaceholderRef></div>
                         <ng-container *ngFor="let task of inprogressTasks">
@@ -85,7 +86,8 @@
                     </div>  -->
 
                     <h4 class="card-title mb-4">In Review</h4>
-                    <div id="completed-task" [class]="inReviewTasks.length > 0 ? '':'task-list-none'" class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
+                    <div id="completed-task" [class]="inReviewTasks.length > 0 ? '':'task-list-none'"
+                        class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
                         (dndDrop)="onDrop($event, inReviewTasks,3)">
                         <div class="dndPlaceholder" dndPlaceholderRef></div>
 
@@ -121,7 +123,8 @@
                     </div> -->
 
                     <h4 class="card-title mb-4">Done</h4>
-                    <div id="completed-task" [class]="doneTasks  .length > 0 ? '':'task-list-none'" class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
+                    <div id="completed-task" [class]="doneTasks  .length > 0 ? '':'task-list-none'"
+                        class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
                         (dndDrop)="onDrop($event, doneTasks,4)">
                         <div class="dndPlaceholder" dndPlaceholderRef></div>
 
@@ -148,41 +151,45 @@
     <div class="card task-box">
         <div class="card-body p-2 d-flex align-items-center">
             <div class=" badge rounded-pill delete-icon" style="cursor: pointer;" (click)="RemoveTask(task.id)">
-                <i class="bx bx-trash fa-1x"></i> 
+                <i class="bx bx-trash fa-1x"></i>
             </div>
-            <div class="d-flex align-items-center col" style="cursor: pointer;" (click)="getTaskById(task.id);openModal(addTasks , 1 , task.taskStage_Id)">
-            <div class="ms-2 position-badge">
-                <span class="badge rounded-pill badge-soft-secondary font-size-10" [ngClass]=" { 
-              'badge-soft-warning': task.priorityId === 2,
-              'badge-soft-primary': task.priorityId === 3,
-              'badge-soft-danger': task.priorityId === 1 }">{{task.priorityName}}</span>
-            </div>
-            <div class="d-flex w-75">
-                <h5 class="font-size-12 p-0 m-0 me-auto d-flex align-items-center">
-                        {{task.title}}
-                </h5>
-                <!-- <p class="text-muted mb-4">{{task.endDate}}</p> -->
-                <div class="avatar-group float-start">
-                    <div class="avatar-group-item" *ngIf="task?.assignedEmployeeData[0]?.imagePath">
-                        <a href="javascript: void(0);" class="d-inline-block">
-                            <img src="{{ domain+task?.assignedEmployeeData[0]?.imagePath}}" class="rounded-circle avatar-xs"
-                                alt="">
-                        </a>
+            <div class="d-flex align-items-center col" style="cursor: pointer;"
+                (click)="getTaskById(task.id);openModal(addTasks , 1 , task.taskStage_Id)">
+
+                <div class="d-flex w-100 justify-content-between">
+                    <div>
+                        <h5 class="font-size-12 p-0 m-0 me-auto d-flex align-items-center">
+                            {{task.title}}
+                        </h5>
+                        <div class="position-badge mt-2">
+                            <span class="badge rounded-pill badge-soft-secondary font-size-10" [ngClass]=" { 
+                  'badge-soft-warning': task.priorityId === 2,
+                  'badge-soft-primary': task.priorityId === 3,
+                  'badge-soft-danger': task.priorityId === 1 }">{{task.priorityName}}</span>
+                        </div>
                     </div>
-                    <div class="avatar-group-item avatar-xs" *ngIf="!task?.assignedEmployeeData[0]?.imagePath">
-                        <span class="avatar-title rounded-circle bg-soft bg-primary text-primary">
-                          {{task?.assignedEmployeeData[0]?.name.charAt(0)}}
-                        </span>
-                    </div>
-                    <div class="avatar-group-item" *ngIf="task.assignedEmployeeData[1]">
-                        <a href="javascript: void(0);" class="d-inline-block">
-                            <img src="{{ domain+task.assignedEmployeeData[1]?.imagePath}}" class="rounded-circle avatar-xs"
-                                alt="">
-                        </a>
+                    <!-- <p class="text-muted mb-4">{{task.endDate}}</p> -->
+                    <div class="avatar-group ">
+                        <div class="avatar-group-item" *ngIf="task?.assignedEmployeeData[0]?.imagePath">
+                            <a href="javascript: void(0);" class="d-inline-block">
+                                <img src="{{ domain+task?.assignedEmployeeData[0]?.imagePath}}"
+                                    class="rounded-circle avatar-xs" alt="">
+                            </a>
+                        </div>
+                        <div class="avatar-group-item avatar-xs" *ngIf="!task?.assignedEmployeeData[0]?.imagePath">
+                            <span class="avatar-title rounded-circle bg-soft bg-primary text-primary">
+                                {{task?.assignedEmployeeData[0]?.name.charAt(0)}}
+                            </span>
+                        </div>
+                        <div class="avatar-group-item" *ngIf="task.assignedEmployeeData[1]">
+                            <a href="javascript: void(0);" class="d-inline-block">
+                                <img src="{{ domain+task.assignedEmployeeData[1]?.imagePath}}"
+                                    class="rounded-circle avatar-xs" alt="">
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
             <!-- <div class="text-end">
           <h5 class="font-size-15 mb-1">$ {{task.budget}}</h5>
@@ -277,6 +284,27 @@
             </div>
           </div> -->
             </div>
+            <!-- <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">Attachment</div>
+                            <p class="card-title-desc">DropzoneJS is an open source library
+                                that provides drag’n’drop file uploads with image previews.
+                            </p>
+                            <div>
+                                <form>
+                                    <dropzone [config]="imageConfig" (error)="onUploadError"
+                                        (success)="onUploadSuccess"></dropzone>
+                                </form>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button type="button" class="btn btn-primary">Send Files</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
             <div class="w-100 text-center">
                 <button class="btn btn-primary" type="submit" [disabled]="taskForm.invalid">
                     <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingTasks"></i>

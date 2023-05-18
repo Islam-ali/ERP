@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService } from '../services/auth.service';
+import { Role } from '../modal/role';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -24,6 +25,7 @@ export class AuthGuard implements CanActivate {
         //     }
         // }
         const currentUser = this.authenticationService.getUser();
+        
         if (currentUser) {
             const { roles } = route.data;
             if (roles && !roles.includes(currentUser.roleName)) {

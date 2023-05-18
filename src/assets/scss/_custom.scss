@@ -18,12 +18,26 @@
     padding: 6px;
 }
 
-.bx-trash{
+.bx-trash {
     color: #f34242;
 }
-.iti{
+
+.iti {
     min-width: 100% !important;
-  }
-  .min-w-55{
+}
+
+.min-w-55 {
     min-width: 55px;
+}
+.rtl {
+    .position-delete{
+        max-width: max-content;
+        left: 10px;
+    }
+}
+.ltr {
+    .position-delete{
+        max-width: max-content;
+        right: 10px ;
+    }
 }

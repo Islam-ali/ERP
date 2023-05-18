@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +20,19 @@ export class EmployeesService {
     )
   }
   getEditEmployee(editForm:any):Observable<any>{
-    return this.http.put(`${env.domain}Employees/EditEmployee/${editForm['company_Id']}`,editForm)
+    const formDate = new FormData();
+    for(const key in editForm){
+      if(Array.isArray(editForm[key])){
+        editForm[key].forEach((ele:any)=>{
+          formDate.append(key ,ele)
+        })
+      }else{
+        typeof editForm[key] === 'number' ? formDate.append(key ,editForm[key]) : EMPTY;
+        typeof editForm[key] === 'boolean' ? formDate.append(key ,editForm[key]) : EMPTY;
+        typeof editForm[key] === 'string'  ? formDate.append(key ,editForm[key]) : EMPTY;
+      }
+    }
+    return this.http.put(`${env.domain}Employees/EditEmployee/${editForm['id']}`,formDate)
   }
   getEmployeeById(projectId:number):Observable<any>{
     return this.http.get(`${env.domain}Employees/GetEmployeeById/${projectId}`)
@@ -32,7 +44,17 @@ export class EmployeesService {
     return this.http.delete(`${env.domain}Employees/RemoveEmployee/${projectId}`)
   }
   addEmployee(addForm:any):Observable<any>{
-    return this.http.post(`${env.domain}Employees/AddEmployee`,addForm)
+    const formDate = new FormData();
+    for(const key in addForm){
+      if(Array.isArray(addForm[key])){
+        addForm[key].forEach((ele:any)=>{
+          formDate.append(key ,ele)
+        })
+      }else{
+        addForm[key] ? formDate.append(key ,addForm[key]) : EMPTY;
+      }
+    }
+    return this.http.post(`${env.domain}Employees/AddEmployee`,formDate)
   }
   ListOfEmployees(companyID:number ):Observable<any>{
     return this.http.get(`${env.domain}Employees/ListOfEmployees/${companyID}`)

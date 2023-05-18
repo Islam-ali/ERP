@@ -13,6 +13,7 @@ import { LoginService } from './login.service';
 import { LoginRes } from './login';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { Role } from 'app/core/modal/role';
 
 @Component({
   selector: 'app-login2',
@@ -29,8 +30,9 @@ export class Login2Component implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private _LoginService: LoginService,
-    private toastrService: ToastrService
-  ) { 
+    private toastrService: ToastrService,
+    private authenticationService: AuthenticationService,
+  ) {
   }
   loginForm: FormGroup;
   submitted = false;
@@ -39,7 +41,7 @@ export class Login2Component implements OnInit {
   messageError: any = '';
   // set the currenr year
   year: number = new Date().getFullYear();
-  hide:boolean = false;
+  hide: boolean = false;
   ngOnInit(): void {
     // document.body.classList.add('auth-body-bg')
     this.loginForm = this.formBuilder.group({
@@ -76,7 +78,6 @@ export class Login2Component implements OnInit {
    */
   onSubmit() {
     this.submitted = true;
-
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       this.submitted = false;
@@ -87,7 +88,20 @@ export class Login2Component implements OnInit {
           this.messageError = '';
           this.submitted = false;
           localStorage.setItem('user_ERP', JSON.stringify(res.data))
-          this.router.navigateByUrl('');
+          this.router.navigate(['']);
+          const currentUser = this.authenticationService.getUser();
+          // switch (currentUser.roleName) {
+          //   case Role.Admin:
+          //     this.router.navigate(['/companies', currentUser.company_Id]);
+          //     break;
+          //   case Role.User:
+          //     this.router.navigate(['/companies', currentUser.company_Id, 'departments', currentUser.department_Id, 'projects']);
+          //     break;
+          //   default:
+          //     this.router.navigate(['']);
+          //     break;
+          // }
+          // this.router.navigateByUrl('');
           this.toastrService.success(res.message ? res.message : 'تم تسجيل الدخول بنجاح');
         }, error: (err: Error) => {
           this.submitted = false;

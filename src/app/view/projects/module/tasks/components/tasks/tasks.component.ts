@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { tasks } from 'app/pages/tasks/kanbanboard/data';
 import { DndDropEvent } from 'ngx-drag-drop';
 import { environment as env } from '@env/environment';
@@ -13,12 +13,31 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { DataListOfTaskStages, DataTasks, ListOfTaskStages, ShowTask, Tasks } from '../../modal/tasks';
 import { FormateDateService } from 'app/shared/services/formate-date.service';
+import { DropzoneComponent, DropzoneConfigInterface, DropzoneDirective } from 'ngx-dropzone-wrapper';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
+
+  imageConfig: DropzoneConfigInterface = {
+    paramName: "Files",
+    maxFilesize: 10000, // MB
+    acceptedFiles: "image/*",
+    clickable: true,
+    url: "http://192.168.0.131:44385/api/Tasks/EditTask/1",
+    uploadMultiple: true,
+    addRemoveLinks: true
+  };
+
+  onUploadError(args: any): void {
+    console.log("onUploadError:", args);
+  }
+
+  onUploadSuccess(args: any): void {
+    console.log("onUploadSuccess:", args);
+  }
   lableForm:number = 0;
   loadingSubmit:boolean = false;
   submit:boolean = false;

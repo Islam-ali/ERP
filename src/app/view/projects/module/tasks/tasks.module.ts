@@ -13,10 +13,12 @@ import { NgbDropdownModule, NgbModalModule, NgbDatepickerModule, NgbModule } fro
 import { UIModule } from '../../../../shared/ui/ui.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DropzoneModule } from 'ngx-dropzone-wrapper';
+// import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
-  
+
     TasksComponent
   ],
   imports: [
@@ -33,7 +35,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgbDropdownModule,
     TranslateModule,
     NgbModule,
-    NgSelectModule
-  ]
+    NgSelectModule,
+    DropzoneModule,
+    // NgxDropzoneModule
+  ],
 })
 export class TasksModule { }

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { EmployeesRoutingModule } from './employees-routing.module';
 import { UIModule } from 'app/shared/ui/ui.module';
-import { NgbDatepickerModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { EmployeesComponent } from './components/employees/employees.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 
 @NgModule({
@@ -20,9 +21,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
     UIModule,
     NgbTooltipModule,
     TranslateModule,
+    FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    NgbDropdownModule,
+    UiSwitchModule
   ]
 })
 export class EmployeesModule { }

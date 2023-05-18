@@ -24,10 +24,12 @@ export class AppComponent implements OnInit  {
         
         this.document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");
         this.document.getElementsByTagName("html")[0].classList.add("rtl");
+        this.document.getElementsByTagName("html")[0].classList.remove("ltr");
+
       }else{
         this.document.getElementsByTagName("html")[0].setAttribute("dir", "ltr");
         this.document.getElementsByTagName("html")[0].classList.remove("rtl");
-        // this.document.getElementsByTagName("html")[0].classList.add("ltr");
+        this.document.getElementsByTagName("html")[0].classList.add("ltr");
       }
     }
     // document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");

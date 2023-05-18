@@ -10,6 +10,8 @@ import { DataEmployees, Employees, ShowEmployees } from '../../modal/employees';
 import { environment as env } from '@env/environment';
 import { JobsService } from 'app/view/jobs/Services/jobs.service';
 import { DepartmentsService } from 'app/view/departments/services/departments.service';
+import { FormateDateService } from 'app/shared/services/formate-date.service';
+import { EMPTY } from 'rxjs';
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
@@ -19,8 +21,8 @@ export class EmployeesComponent implements OnInit {
   pathUrl: string = env.url;
   EmployeeForm: FormGroup;
   image: any;
-  coverPath:any;
-  files:any[]=[];
+  coverPath: any;
+  files: any[] = [];
   submit: boolean = false;
   allEmployees: DataEmployees[] = [];
   lableForm: number = 0;
@@ -41,39 +43,43 @@ export class EmployeesComponent implements OnInit {
   listOfJob: any[] = [];
   listOfEmployees: any[] = [];
   listOfDepartment: any[] = [];
-  placement = "top"
+  placement = "top";
+  state_id = 0 ;
+  department_id = 0;
   constructor(
     private _formBuilder: FormBuilder,
     private _EmployeesService: EmployeesService,
     private modalService: NgbModal,
     private toastrService: ToastrService,
     private _ActivatedRoute: ActivatedRoute,
-    private _JobsService:JobsService,
-    private _DepartmentsService:DepartmentsService
+    private _JobsService: JobsService,
+    private _DepartmentsService: DepartmentsService,
+    private _FormateDateService: FormateDateService
 
   ) {
     this.companyID = this._ActivatedRoute.snapshot.params['companyID'];
     this.departmentID = this._ActivatedRoute.snapshot.params['departmentID']!;
 
     this.EmployeeForm = this._formBuilder.group({
-      id: [null,],
-      Code: [null,],
+      Code: [null],
       Name: [null, [Validators.required]],
       NameInEnglish: [null, [Validators.required]],
-      Email: [null, [Validators.required,Validators.email]],
-      Mobile: [null, [Validators.required]],
-      NationalId: [null,],
+      Email: [null],
       Address: [null],
       University: [null],
       Qualification: [null],
-      Salary: [null, [Validators.required]],
-      // 
-      IsEmployeeManager: [false],
+      // number
+      id: [null],
+      NationalId: [null, [Validators.required, Validators.pattern('[0-9]+')]],
+      Mobile: [null, [Validators.required, Validators.pattern('[0-9]+')]],
+      Salary: [null, [Validators.required, Validators.pattern('[0-9]+')]],
+      // boolean
+      IsDepartmentManager: [false],
       // DATE
       HireDate: [null, [Validators.required]],
       GraduateDate: [null],
       BirthDate: [null],
-      // LIST
+      // LIST ID
       MilitaryStatus_Id: [null, [Validators.required]],
       MaritalStatus_Id: [null, [Validators.required]],
       Status_Id: [null, [Validators.required]],
@@ -81,10 +87,13 @@ export class EmployeesComponent implements OnInit {
       Gender_Id: [null, [Validators.required]],
       Job_Id: [null, [Validators.required]],
       SuperVisor_Id: [null, [Validators.required]],
+      // optional
+      state_Id: [null],
+      department_Id: [null],
       // FILES
-      ImagePath: [null,],
-      CoverPath: [null,],
-      Files: [null,],
+      ImagePath: [null],
+      CoverPath: [null],
+      Files: [null],
     });
   }
 
@@ -92,7 +101,7 @@ export class EmployeesComponent implements OnInit {
     this.getEmployees();
     this.getListsDropdown();
   }
-  getListsDropdown(){
+  getListsDropdown() {
     this.getListOfMilitaryStatus();
     this.getListOfMaritalStatus();
     this.getListOfHrStatus();
@@ -138,11 +147,13 @@ export class EmployeesComponent implements OnInit {
     })
   }
   getListOfRegions(stateID: number): void {
+    console.log(stateID);
+    stateID ?
     this._EmployeesService.ListOfRegions(stateID).subscribe({
       next: (res: Employees) => {
         this.listOfRegion = res.data;
       }
-    })
+    }) : this.listOfRegion = [];
   }
   getListOfGenders(): void {
     this._EmployeesService.ListOfGenders().subscribe({
@@ -151,12 +162,13 @@ export class EmployeesComponent implements OnInit {
       }
     })
   }
-  getListOfJob(departmentID:number): void {
+  getListOfJob(departmentID: number): void {
+    departmentID ?
     this._JobsService.ListOfJob(departmentID).subscribe({
       next: (res: Employees) => {
         this.listOfJob = res.data;
       }
-    })
+    }) : this.listOfJob = [];
   }
   getListOfDepartment(): void {
     this._DepartmentsService.ListOfDepartment(this.companyID).subscribe({
@@ -218,12 +230,16 @@ export class EmployeesComponent implements OnInit {
     this.image = null;
     this.rangeValue = 0;
     // num == 1 ? this.patchValueForm() : EMPTY
+    this.EmployeeForm.controls["Email"].setValidators( [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]);
     this.modalService.open(content, { size: 'xl' });
+
   }
-  patchValueForm(content: any, Factory: any) {
+  patchValueForm(content: any, company: any) {
+    this.EmployeeForm.reset();
     this.lableForm = 1;
-    this.showEmployee(Factory.id)
-    this.modalService.open(content);
+    this.EmployeeForm.controls["Email"].clearValidators();
+    this.showEmployee(company.id)
+    this.modalService.open(content, { size: 'xl' });
   }
   showEmployee(EmployeeID: number) {
     this.getUpdateEmployee(EmployeeID)
@@ -231,9 +247,44 @@ export class EmployeesComponent implements OnInit {
     this._EmployeesService.getEmployeeById(EmployeeID).subscribe({
       next: (res: ShowEmployees) => {
         this.loadingShow = false;
+        this.getListOfRegions(res.data.state_Id);
+        this.getListOfJob(res.data.department_Id)
+        this.state_id = res.data.state_Id;
+        this.department_id = res.data.department_Id;
         this.EmployeeForm.patchValue({
-          name: res.data.name,
-          nameInEnglish: res.data.nameInEnglish
+          Code: res.data.code,
+          Name: res.data.name,
+          NameInEnglish: res.data.nameInEnglish,
+          // Email: ,
+          Address: res.data.address,
+          University: res.data.university,
+          Qualification: res.data.qualification,
+          // number
+          id: res.data.id,
+          NationalId: res.data.nationalId,
+          Mobile: res.data.mobile,
+          Salary: res.data.salary,
+          // boolean
+          IsDepartmentManager: res.data.isDepartmentManager,
+          // DATE
+          HireDate: this._FormateDateService.recivedFormateDate(res.data.hireDate),
+          GraduateDate: this._FormateDateService.recivedFormateDate(res.data.graduateDate),
+          BirthDate: this._FormateDateService.recivedFormateDate(res.data.birthDate),
+          // LIST ID
+          MilitaryStatus_Id: res.data.militaryStatus_Id,
+          MaritalStatus_Id: res.data.maritalStatus_Id,
+          Status_Id: res.data.status_Id,
+          Region_Id: res.data.region_Id,
+          Gender_Id: res.data.gender_Id,
+          Job_Id: res.data.job_Id,
+          SuperVisor_Id: res.data.superVisor_Id,
+          // optional
+          state_Id: res.data.state_Id,
+          department_Id: res.data.department_Id,
+          // FILES
+          ImagePath: res.data.imagePath,
+          CoverPath: res.data.coverPath,
+          Files: res.data.files,
         })
       }, error: (err: Error) => {
         this.loadingShow = false;
@@ -245,7 +296,18 @@ export class EmployeesComponent implements OnInit {
     return EmployeeId
   }
   EditEmployeeById(): void {
+    this.EmployeeForm.patchValue({
+      HireDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('HireDate').value),
+      GraduateDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('GraduateDate').value),
+      BirthDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('BirthDate').value),
+    })
     let value = this.EmployeeForm.value
+    delete value["ImagePath"];
+    delete value["CoverPath"];
+    delete value["Files"];
+    value["ImagePath"] = this.image;
+    value["CoverPath"] = this.coverPath;
+    value["Files"] = this.files;
     value['id'] = this.EmployeeId;
     this._EmployeesService.getEditEmployee(value).subscribe({
       next: (res: Employees) => {
@@ -260,7 +322,19 @@ export class EmployeesComponent implements OnInit {
     })
   }
   AddEmployee(): void {
+    this.EmployeeForm.patchValue({
+      HireDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('HireDate').value),
+      GraduateDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('GraduateDate').value),
+      BirthDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('BirthDate').value),
+    })
     let value = this.EmployeeForm.value
+    delete value["ImagePath"];
+    delete value["CoverPath"];
+    delete value["Files"];
+    value["ImagePath"] = this.image;
+    value["CoverPath"] = this.coverPath;
+    value["Files"] = this.files;
+
     this._EmployeesService.addEmployee(value).subscribe({
       next: (res: Employees) => {
         this.getEmployees();

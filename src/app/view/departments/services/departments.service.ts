@@ -32,6 +32,6 @@ export class DepartmentsService {
     if(companyId !== 0){
       params.append('companyId',companyId)
     }
-    return this.http.get(`${env.domain}Departments/ListOfDepartments`)
+    return this.http.get(`${env.domain}Departments/ListOfDepartments?companyId=${companyId}`)
   }
 }

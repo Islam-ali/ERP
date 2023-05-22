@@ -1,0 +1,81 @@
+<div class="be-comment-block" *ngIf="Data">
+	<h1 class="comments-title">Comments ({{Data.length}})</h1>
+    <ng-container *ngFor="let comment of Data">
+
+	<div class="be-comment">
+		<div class="be-img-comment">	
+			<a href="javascript: void(0);" *ngIf="comment.commentatorImagePath">
+				<img [src]="comment.commentatorImagePath" [alt]="comment.commentatorName" class="be-ava-comment">
+			</a>
+            <div class="avatar-group-item avatar-xs" *ngIf="!comment.commentatorImagePath">
+                <span class="avatar-title rounded-circle bg-soft bg-primary text-primary">
+                    {{comment.commentatorName.charAt(0)}}
+                </span>
+            </div>
+		</div>
+		<div class="be-comment-content">
+				<span class="be-comment-name">
+					<a href="javascript: void(0);">{{comment.commentatorName}}</a>
+					</span>
+				<span class="be-comment-time">
+					<i class="fa fa-clock-o"></i>
+					{{comment.dateTime}}
+				</span>
+
+			<p class="be-comment-text">
+				{{comment.text}}
+			</p>
+		</div>
+	</div>
+</ng-container>
+
+	<!-- <div class="be-comment">
+		<div class="be-img-comment">	
+			<a href="blog-detail-2.html">
+				<img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" class="be-ava-comment">
+			</a>
+		</div>
+		<div class="be-comment-content">
+			<span class="be-comment-name">
+				<a href="blog-detail-2.html">Phoenix, the Creative Studio</a>
+			</span>
+			<span class="be-comment-time">
+				<i class="fa fa-clock-o"></i>
+				May 27, 2015 at 3:14am
+			</span>
+			<p class="be-comment-text">
+				Nunc ornare cursus lobortis luctus at, leifend est. Fusce hendrerit dui in turpis tristique blandit.
+			</p>
+		</div>
+	</div>
+	<div class="be-comment">
+		<div class="be-img-comment">	
+			<a href="blog-detail-2.html">
+				<img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" class="be-ava-comment">
+			</a>
+		</div>
+		<div class="be-comment-content">
+			<span class="be-comment-name">
+				<a href="blog-detail-2.html">Cüneyt ŞEN</a>
+			</span>
+			<span class="be-comment-time">
+				<i class="fa fa-clock-o"></i>
+				May 27, 2015 at 3:14am
+			</span>
+			<p class="be-comment-text">
+				Cras magna nunc, cursus lobortis vel neque. Duis eleifend lorem non ant
+			</p>
+		</div>
+	</div> -->
+    <form class="form-block" [formGroup]="formComment" (submit)="onSubmit()">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-10 my-2">									
+                <div class="form-group my-2">
+                    <textarea class="form-control" formControlName="text" required placeholder="Your text"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary pull-right">submit</button>
+            </div>
+        </div>
+    </form>
+</div>

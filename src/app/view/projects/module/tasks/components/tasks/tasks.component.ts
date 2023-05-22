@@ -11,7 +11,7 @@ import { TasksService } from '../../services/tasks.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { DataListOfTaskStages, DataTasks, ListOfTaskStages, ShowTask, Tasks } from '../../modal/tasks';
+import { Comments, DataComments, DataListOfTaskStages, DataShowTask, DataTasks, ListOfTaskStages, ShowTask, Tasks } from '../../modal/tasks';
 import { FormateDateService } from 'app/shared/services/formate-date.service';
 import { DropzoneComponent, DropzoneConfigInterface, DropzoneDirective } from 'ngx-dropzone-wrapper';
 @Component({
@@ -20,7 +20,8 @@ import { DropzoneComponent, DropzoneConfigInterface, DropzoneDirective } from 'n
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
-
+  taskData: DataShowTask;
+  allComments:DataComments[];
   imageConfig: DropzoneConfigInterface = {
     paramName: "Files",
     maxFilesize: 10000, // MB
@@ -58,6 +59,7 @@ export class TasksComponent implements OnInit {
   // bread crumb items
   breadCrumbItems: Array<{}>;
   ListOfEmployees:any[]=[];
+  taskID:number = 0;
   constructor(
     private _ActivatedRoute: ActivatedRoute,
     private _TasksService: TasksService,
@@ -136,6 +138,7 @@ export class TasksComponent implements OnInit {
     this._TasksService.getTaskById(taskID).subscribe({
       next: (res: ShowTask ) => {
         this.loadingShow = false;
+        this.taskData = res.data
         this.taskForm.patchValue({
           Title: res.data.title,
           Description: res.data.description,
@@ -236,6 +239,12 @@ export class TasksComponent implements OnInit {
     this.getListOfPriorities();
     this.getListOfEmployees();
   }
+  viewModalTask(content: any, num: number , taskID:number): void {
+    this.lableForm = num;
+    this.GetAllTaskComments(taskID);
+    this.taskID = taskID
+    this.modalService.open(content , {size:'xl'});
+  }
   onSubmit() {
     this.loadingTasks = true;
     if (this.lableForm === 0 && this.taskForm.invalid) {
@@ -248,7 +257,11 @@ export class TasksComponent implements OnInit {
   get form() {
     return this.taskForm.controls;
   }
-  errorImage(path){
-
+  GetAllTaskComments(taskID:number){
+    this._TasksService.GetAllTaskComments(taskID).subscribe({
+      next:(res:Comments)=>{
+        this.allComments = res.data
+      }
+    })
   }
 }

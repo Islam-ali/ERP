@@ -137,8 +137,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6 col-lg-6">
-                    <div class="mb-3" *ngIf="lableForm == 0">
+                <div class="col-xl-6 col-lg-6" *ngIf="lableForm == 0">
+                    <div class="mb-3" >
                         <label class="form-label text-capitalize">{{'GENERAL.EMAIL' | translate}}</label>
                         <div>
                             <input type="email" class="form-control" formControlName="Email"
@@ -380,9 +380,9 @@
                                     <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
                                       (click)="removeImage()">remove</button> -->
                                     <img class="p-0 w-100" title="images" accept="image/*" alt="images"
-                                        [src]="form.ImagePath.value" *ngIf="image" />
-                                    <img class="p-0 w-100" title="images" accept="image/*" alt="images"
-                                        [src]="pathUrl + form.ImagePath.value" *ngIf="form.ImagePath.value" />
+                                        [src]="form.ImagePath.value" *ngIf="form.ImagePath.value" />
+                                    <!-- <img class="p-0 w-100" title="images" accept="image/*" alt="images"
+                                        [src]="form.ImagePath.value" *ngIf="form.ImagePath.value" /> -->
                                 </div>
                             </div>
                         </div>
@@ -398,27 +398,63 @@
                                     <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
                                       (click)="removeImage()">remove</button> -->
                                     <img class="p-0 w-100" title="images" accept="image/*" alt="images"
-                                        [src]="form.CoverPath.value" *ngIf="lableForm == 0" />
-                                    <img class="p-0 w-100" title="images" accept="image/*" alt="images"
-                                        [src]="pathUrl + form.CoverPath.value" *ngIf="lableForm == 1" />
+                                        [src]="form.CoverPath.value"  />
+                                    <!-- <img class="p-0 w-100" title="images" accept="image/*" alt="images"
+                                        [src]="form.CoverPath.value" *ngIf="lableForm == 1" /> -->
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6 col-lg-6">
-                            <div class="mb-3">
-                                <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}}
-                                    {{'GENERAL.tax_card_front_image' |
-                                    translate}}</label>
-                                <input class="form-control" type="file" accept="image/*" (change)="uploadeFiles($event)"
-                                    [ngClass]="{'is-valid': form.Files.dirty && !form.Files.errors ,'is-invalid': form.Files.dirty && form.Files.errors}">
-                                <div class="card-image p-0 px-2 m-2" *ngIf="form.Files.value">
-                                    <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
-                                      (click)="removeImage()">remove</button> -->
-                                    <img class="p-0 w-100" title="images" accept="image/*" alt="images"
-                                        [src]="form.Files.value" *ngIf="lableForm == 0" />
-                                    <img class="p-0 w-100" title="images" accept="image/*" alt="images"
-                                        [src]="pathUrl + form.Files.value" *ngIf="lableForm == 1" />
-                                </div>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <div class="row" formArrayName="Files">
+                            <div *ngFor="let EmployeeArr of Employee.controls; let i = index">
+                                <ng-container [formGroupName]="i">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <!-- <div class="row p-0 m-0"> -->
+                                                <label for="formFile"
+                                                    class="form-label text-capitalize">{{'GENERAL.IMAGE' |
+                                                    translate}}
+                                                    {{'GENERAL.FILES' |
+                                                    translate}}</label>
+                                                <input class="form-control" type="file" accept="image/*"
+                                                    (change)="uploadeFiles($event , i)"
+                                                    [ngClass]="{'is-valid': EmployeeArr.get('File').dirty && !EmployeeArr.get('File').errors ,'is-invalid': EmployeeArr.get('File').dirty && EmployeeArr.get('File').errors}">
+                                                <div class="card-image p-0 px-2 m-2" *ngIf="EmployeeArr.get('path').value != null">
+                                                    <div class="row">
+                                                        <img class="p-0 w-100" title="images" accept="image/*"
+                                                            alt="images" [src]="EmployeeArr.value.path" *ngIf="lableForm == 0" />
+                                                        <img class="p-0 w-100" title="images" accept="image/*"
+                                                            alt="images" [src]="EmployeeArr.value.path"
+                                                            *ngIf="lableForm == 1" />
+                                                    </div>
+                                                <!-- </div> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <!-- <div class="row p-0 m-0"> -->
+                                                <label>{{'GENERAL.DESCRIPTION' | translate}}</label>
+                                                <input type="text" class="form-control" formControlName="Description"
+                                                    [ngClass]="{'is-valid': EmployeeArr.get('Description').dirty && !EmployeeArr.get('Description').errors ,'is-invalid': EmployeeArr.get('Description').dirty && EmployeeArr.get('Description').errors}">
+                                                <div *ngIf="EmployeeArr.get('Description').dirty && EmployeeArr.get('Description').errors"
+                                                    class="invalid-feedback">
+                                                    <span
+                                                        *ngIf="EmployeeArr.get('Description').errors.required">This
+                                                        value is
+                                                        required.</span>
+                                                </div>
+                                            </div>
+                                        <!-- </div> -->
+                                        <div class="col-1" *ngIf="i == Employee.controls.length - 1">
+                                            <label class="hide-lable d-block">.</label>
+                                            <button type="button" class="btn btn-success" (click)="addFormEmployee()">+</button>
+                                        </div>
+                                        <div class="col-1" *ngIf="Employee.controls.length > 1">
+                                            <label class="hide-lable d-block">.</label>
+                                            <button type="button" class="btn btn-danger" (click)="deleteFormEmployee(i)"><i class="bx bxs-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
                     </div>

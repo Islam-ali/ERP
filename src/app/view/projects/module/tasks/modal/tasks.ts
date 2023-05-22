@@ -57,3 +57,19 @@ export interface Tasks {
     assignedEmployeeIds: number[]
   }
   
+  export interface Comments {
+    message: string
+    isSuccess: boolean
+    isActive: boolean
+    data: DataComments[]
+    error: string
+  }
+  
+  export interface DataComments {
+    commentatorName:string
+    dateTime:string
+    id: number
+    text: string
+    commentatorImagePath: string
+  }
+  

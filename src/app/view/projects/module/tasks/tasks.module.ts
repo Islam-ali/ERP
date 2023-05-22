@@ -14,12 +14,14 @@ import { UIModule } from '../../../../shared/ui/ui.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
+import { CommentsComponent } from './components/comments/comments.component';
 // import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
 
-    TasksComponent
+    TasksComponent,
+     CommentsComponent
   ],
   imports: [
     CommonModule,

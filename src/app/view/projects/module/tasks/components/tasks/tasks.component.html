@@ -154,7 +154,7 @@
                 <i class="bx bx-trash fa-1x"></i>
             </div>
             <div class="d-flex align-items-center col" style="cursor: pointer;"
-                (click)="getTaskById(task.id);openModal(addTasks , 1 , task.taskStage_Id)">
+                (click)="viewModalTask(viewTasks , 1 , task.id)">
 
                 <div class="d-flex w-100 justify-content-between">
                     <div>
@@ -218,62 +218,63 @@
     </ng-container>
     <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
         <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="taskForm">
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="mb-3">
-                        <label>{{'GENERAL.TITLE' | translate}}</label>
-                        <input type="text" class="form-control" formControlName="Title"
-                            [ngClass]="{'is-valid': form.Title.dirty && !form.Title.errors ,'is-invalid': form.Title.dirty && form.Title.errors}">
-                        <div *ngIf="form.Title.dirty && form.Title.errors" class="invalid-feedback">
-                            <span *ngIf="form.Title.errors.required">This value is required.</span>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mb-3">
+                            <label>{{'GENERAL.TITLE' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="Title"
+                                [ngClass]="{'is-valid': form.Title.dirty && !form.Title.errors ,'is-invalid': form.Title.dirty && form.Title.errors}">
+                            <div *ngIf="form.Title.dirty && form.Title.errors" class="invalid-feedback">
+                                <span *ngIf="form.Title.errors.required">This value is required.</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="mb-3">
-                        <label>{{'GENERAL.DESCRIPTION' | translate}}</label>
-                        <input type="text" class="form-control" formControlName="Description"
-                            [ngClass]="{'is-valid': form.Description.dirty && !form.Description.errors ,'is-invalid': form.Description.dirty && form.Description.errors}">
-                        <div *ngIf="form.Description.dirty && form.Description.errors" class="invalid-feedback">
-                            <span *ngIf="form.Description.errors.required">This value is required.</span>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mb-3">
+                            <label>{{'GENERAL.DESCRIPTION' | translate}}</label>
+                            <input type="text" class="form-control" formControlName="Description"
+                                [ngClass]="{'is-valid': form.Description.dirty && !form.Description.errors ,'is-invalid': form.Description.dirty && form.Description.errors}">
+                            <div *ngIf="form.Description.dirty && form.Description.errors" class="invalid-feedback">
+                                <span *ngIf="form.Description.errors.required">This value is required.</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="mb-3">
-                        <label>{{'GENERAL.STARTDATE' | translate}}</label>
-                        <div class="input-group clockpicker">
-                            <input type="datetime-local" class="form-control" formControlName="StartDate"
-                                placeholder="yyyy-mm-dd">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mb-3">
+                            <label>{{'GENERAL.STARTDATE' | translate}}</label>
+                            <div class="input-group clockpicker">
+                                <input type="datetime-local" class="form-control" formControlName="StartDate"
+                                    placeholder="yyyy-mm-dd">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="mb-3">
-                        <label>{{'GENERAL.ENDDATE' | translate}}</label>
-                        <div class="input-group clockpicker">
-                            <input type="datetime-local" class="form-control" formControlName="EndDate"
-                                placeholder="yyyy-mm-dd">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mb-3">
+                            <label>{{'GENERAL.ENDDATE' | translate}}</label>
+                            <div class="input-group clockpicker">
+                                <input type="datetime-local" class="form-control" formControlName="EndDate"
+                                    placeholder="yyyy-mm-dd">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-6 col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label text-capitalize">{{'GENERAL.PRIORITY' |
-                            translate}}</label>
-                        <ng-select [items]="ListOfPriorities" formControlName="Priority_Id" bindLabel="name"
-                            bindValue="id"></ng-select>
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label text-capitalize">{{'GENERAL.PRIORITY' |
+                                translate}}</label>
+                            <ng-select [items]="ListOfPriorities" formControlName="Priority_Id" bindLabel="name"
+                                bindValue="id"></ng-select>
+                        </div>
                     </div>
-                </div>
-                <div class="col-xl-6 col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label text-capitalize">{{'GENERAL.ASSIGNED' |
-                            translate}} {{'GENERAL.EMPLOYEE' | translate}}</label>
-                        <ng-select [items]="ListOfEmployees" formControlName="AssignedEmployeeIds" bindLabel="name"
-                            bindValue="id" [multiple]="true"></ng-select>
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label text-capitalize">{{'GENERAL.ASSIGNED' |
+                                translate}} {{'GENERAL.EMPLOYEE' | translate}}</label>
+                            <ng-select [items]="ListOfEmployees" formControlName="AssignedEmployeeIds" bindLabel="name"
+                                bindValue="id" [multiple]="true"></ng-select>
+                        </div>
                     </div>
-                </div>
-                <!-- <div class="col-12">
+                    <!-- <div class="col-12">
             <div class="mb-3">
               <label for="formFile">{{'GENERAL.IMAGE' | translate}} {{'GENERAL.PROJECT' | translate}}</label>
               <input class="form-control" type="file" accept="image/*" id="formFile" (change)="uploadeImage($event)"
@@ -283,6 +284,7 @@
               </div>
             </div>
           </div> -->
+                </div>
             </div>
             <!-- <div class="row">
                 <div class="col-12">
@@ -314,4 +316,121 @@
         </form>
     </div>
 
+</ng-template>
+
+<!-- view Tasks -->
+<ng-template #viewTasks role="document" let-modal>
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <ng-container *ngIf="loadingShow && lableForm == 1">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+    <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
+        <div class="card border-5 pt-2 active pb-0 px-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="col-8 py-1">
+                            <h4 class="card-title "><b>Company Culture</b></h4>
+                        </div>
+                        <div class="col-12">
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <p class="card-text text-muted small">
+                                    <!-- <img src="https://img.icons8.com/color/26/000000/christmas-star.png" class="mr-1 " width="19"
+                                    height="19" id="star"> <span class="vl mr-2 ml-0"></span> -->
+                                    <i class="fa fa-users text-muted "></i> Public <span class="vl ml-1 mr-2 "></span>
+                                    <span></span>Updated by <span class="font-weight-bold"> Bootstrap Team</span> on 1
+                                    Nov
+                                    , 2018
+                                </p>
+                            </h6>
+                        </div>
+                        <div class="col-12">
+                            <p class="btn-outlined btn-black text-muted d-flex align-items-center">
+                                <i class="bx bx-list-minus fa-2x"></i>
+                                <!-- <img src="https://img.icons8.com/metro/26/000000/link.png" width="17" height="17" id="plus"> -->
+                                <small class="mx-2">Description</small>
+                            </p>
+                            <p class="py-2">
+
+                            </p>
+                        </div>
+                        <div class=" col-12 ">
+                            <!-- <a href="#" class="btn btn-outlined btn-black text-muted bg-transparent" data-wow-delay="0.7s"><img
+                                    src="https://img.icons8.com/ios/50/000000/settings.png" width="19" height="19">
+                                <small>SETTINGS</small></a>
+                            <i class="mdi mdi-settings-outline"></i> -->
+                            <p class="btn-outlined btn-black text-muted d-flex align-items-center">
+                                <img src="https://img.icons8.com/metro/26/000000/link.png" width="17" height="17" id="plus">
+                                <small class="mx-2">Attachment</small>
+                            </p>
+                            <div class="card border-5 py-5">
+
+                            </div>
+                            <!-- <p class="btn btn-outlined btn-black text-muted "><img
+                                    src="https://img.icons8.com/metro/26/000000/more.png" width="20" height="20"
+                                    class="mr-2 more"><small>MORE</small></p>
+                            <span class="vl ml-3"></span> -->
+                        </div>
+                        <div class="col-12">
+                            <app-comments [Data]="allComments" [taskID]="taskID"></app-comments>
+                        </div>
+                    </div>
+                    <div class="col-md-4 border-start">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="list-inline">
+                                    <li class="list-inline-item"> <img
+                                            src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1573035860/Pra/Hadie-profile-pic-circle-1.png"
+                                            alt="DP" class="  rounded-circle img-fluid " width="35" height="35">
+                                        <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1573035909/Pra/Loren-profile-pic-circle.png"
+                                            alt="DP" class="  rounded-circle img-fluid " width="35" height="35">
+                                        <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1573035929/Pra/59d280613165c000014cc031_circleniamhhogan.png"
+                                            alt="DP" class="  rounded-circle img-fluid " width="35" height="35">
+                                        <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1573035929/Pra/59d280613165c000014cc031_circleniamhhogan.png"
+                                            alt="DP" class="  rounded-circle img-fluid " width="35" height="35">
+                                        </li>
+                                        <!-- <li class="list-inline-item"> <img src="https://img.icons8.com/ios/50/000000/plus.png" width="30"
+                                            height="30 " class="more">
+                                        </li> -->
+                                    </ul>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-4 py-4 border-top">
+                                        <div class="badge badge-soft-primary d-flex align-items-center p-2 my-2">
+                                            <i class="bx bx-calendar me-1"></i>
+                                            <div class="ms-1">
+                                                <h6 class="text-uppercase fw-weight-bold text-dark
+                                                 mb-0">Wednesday</h6>
+                                                <small class="text-gray mb-0">05 December 2020</small>
+                                            </div>
+                                        </div>
+                                        <div class="badge badge-soft-danger d-flex align-items-center p-2 my-2">
+                                            <i class="bx bx-calendar me-1"></i>
+                                            <div class="ms-1">
+                                                <h6 class="text-uppercase fw-weight-bold text-dark
+                                                 mb-0">Wednesday</h6>
+                                                <small class="text-gray mb-0">05 December 2020</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white px-0 ">
+                    <!-- <div class="row"> -->
+
+    
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
 </ng-template>

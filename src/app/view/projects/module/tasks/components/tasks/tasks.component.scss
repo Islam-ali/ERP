@@ -1,29 +1,94 @@
-*{
+* {
     transition: .3s all;
 }
+
 // .position-badge{
 // position: absolute;
 // top: 50%;
 // left: 0;
 // transform: translate(10px,-50%);
 // }
-.fa-1x{
+.fa-1x {
     font-size: 1rem;
 }
-.delete-icon{
-opacity: 0;
+
+.delete-icon {
+    opacity: 0;
 }
-.task-box:hover{
+
+.task-box:hover {
     border: 1px solid #ddd;
-    .delete-icon{
+
+    .delete-icon {
         opacity: 1;
     }
 }
-.task-list-none{
+
+.task-list-none {
     border: dashed 1px #ddd;
     min-height: 40px;
 }
+
 .avatar-xs {
     height: 1.5rem;
     width: 1.5rem;
 }
+
+#star {
+    margin-left: -5px !important;
+    vertical-align: bottom !important;
+    opacity: 0.5;
+}
+
+
+.more {
+    opacity: 0.5 !important;
+}
+
+.btn:hover {
+    color: black !important;
+}
+
+.vl {
+    margin: 8px !important;
+    width: 2px;
+    border-right: 1px solid #aaaaaa;
+    height: 25px;
+}
+
+
+#plus {
+    opacity: 0.8;
+}
+
+
+.card {
+    border-radius: 10px !important;
+}
+
+a:hover {
+    background-color: #ccc !important;
+}
+
+
+
+.btn-outlined:active {
+    color: #FFF;
+    border-color: #fff !important;
+}
+
+
+img {
+
+    cursor: pointer;
+    overflow: visible;
+}
+
+.btn:focus,
+.btn:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+// .border-left{
+//     border-left: solid 1px #ccc;
+// }

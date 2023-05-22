@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { listData } from 'app/pages/invoices/list/data';
 import { InvoiceList } from 'app/pages/invoices/list/list.model';
 import { EmployeesService } from '../../services/employees.service';
@@ -93,14 +93,33 @@ export class EmployeesComponent implements OnInit {
       // FILES
       ImagePath: [null],
       CoverPath: [null],
-      Files: [null],
+      Files: this._formBuilder.array([this.initFormEmployee()]),
     });
   }
 
   ngOnInit(): void {
     this.getEmployees();
     this.getListsDropdown();
+    // this.Employee.controls[0].get('File').dirty
   }
+  initFormEmployee():FormGroup {
+    return this._formBuilder.group({
+      Description:[null,[Validators.required]],
+      File:[null],
+      path:null
+    })
+  }
+  get Employee() {
+    return this.EmployeeForm.controls["Files"] as FormArray;
+  }
+  addFormEmployee() {
+    this.Employee.push(this.initFormEmployee());
+  }
+  deleteFormEmployee(index: number) {
+    this.Employee.removeAt(index);
+    this.files.splice(index, 1);
+  }
+
   getListsDropdown() {
     this.getListOfMilitaryStatus();
     this.getListOfMaritalStatus();
@@ -210,13 +229,15 @@ export class EmployeesComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]);
     }
   }
-  uploadeFiles(event: any): void {
+  uploadeFiles(event: any , index:number): void {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
-      this.files = event.target.files.item(0)
+      this.Employee.controls[index].patchValue({
+        File: event.target.files[0]
+      })
       reader.onload = (event: any) => {
-        this.EmployeeForm.patchValue({
-          Files: event.target.result
+        this.Employee.controls[index].patchValue({
+          path: event.target.result
         })
       };
       reader.readAsDataURL(event.target.files[0]);
@@ -282,9 +303,15 @@ export class EmployeesComponent implements OnInit {
           state_Id: res.data.state_Id,
           department_Id: res.data.department_Id,
           // FILES
-          ImagePath: res.data.imagePath,
-          CoverPath: res.data.coverPath,
+          ImagePath: res.data.imagePath ? `${this.pathUrl +res.data.imagePath}` : "",
+          CoverPath: res.data.coverPath ? `${this.pathUrl +res.data.coverPath}` : "",
           Files: res.data.files,
+        })
+        res.data.files.forEach((ele:any , index:number)=>{
+          this.Employee.controls[index].patchValue({
+            path: `${this.pathUrl + ele.file}`,
+            Description: ele.description,
+          })
         })
       }, error: (err: Error) => {
         this.loadingShow = false;
@@ -296,18 +323,28 @@ export class EmployeesComponent implements OnInit {
     return EmployeeId
   }
   EditEmployeeById(): void {
-    this.EmployeeForm.patchValue({
-      HireDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('HireDate').value),
-      GraduateDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('GraduateDate').value),
-      BirthDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('BirthDate').value),
-    })
+    // this.EmployeeForm.patchValue({
+    //   HireDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('HireDate').value),
+    //   GraduateDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('GraduateDate').value),
+    //   BirthDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('BirthDate').value),
+    // })
     let value = this.EmployeeForm.value
-    delete value["ImagePath"];
-    delete value["CoverPath"];
-    delete value["Files"];
+    // delete value["ImagePath"];
+    // delete value["CoverPath"];
+    // delete value["Files"];
+    value["HireDate"] = this._FormateDateService.sendFormateDate(this.EmployeeForm.get('HireDate').value);
+    value["GraduateDate"] = this._FormateDateService.sendFormateDate(this.EmployeeForm.get('GraduateDate').value);
+    value["BirthDate"] = this._FormateDateService.sendFormateDate(this.EmployeeForm.get('BirthDate').value);
+
     value["ImagePath"] = this.image;
     value["CoverPath"] = this.coverPath;
-    value["Files"] = this.files;
+    value["IsDepartmentManager"] ? value["IsDepartmentManager"] : value["IsDepartmentManager"] = false;
+    // value["Files"] = this.files;
+    // loop ton sen path
+    value['Files'] = [];
+    this.Employee.controls.forEach((ele:any)=>{
+    value['Files'].push({Description:ele.value.Description,File:ele.value.File})
+    })
     value['id'] = this.EmployeeId;
     this._EmployeesService.getEditEmployee(value).subscribe({
       next: (res: Employees) => {
@@ -322,18 +359,25 @@ export class EmployeesComponent implements OnInit {
     })
   }
   AddEmployee(): void {
-    this.EmployeeForm.patchValue({
-      HireDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('HireDate').value),
-      GraduateDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('GraduateDate').value),
-      BirthDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('BirthDate').value),
-    })
+    // this.EmployeeForm.patchValue({
+    //   HireDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('HireDate').value),
+    //   GraduateDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('GraduateDate').value),
+    //   BirthDate: this._FormateDateService.sendFormateDate(this.EmployeeForm.get('BirthDate').value),
+    // })
     let value = this.EmployeeForm.value
-    delete value["ImagePath"];
-    delete value["CoverPath"];
-    delete value["Files"];
+    value["HireDate"] = this._FormateDateService.sendFormateDate(this.EmployeeForm.get('HireDate').value);
+    value["GraduateDate"] = this._FormateDateService.sendFormateDate(this.EmployeeForm.get('GraduateDate').value);
+    value["BirthDate"] = this._FormateDateService.sendFormateDate(this.EmployeeForm.get('BirthDate').value);
+    value["IsDepartmentManager"] ? value["IsDepartmentManager"] : value["IsDepartmentManager"] = false;
+    // delete value["ImagePath"];
+    // delete value["CoverPath"];
+    // delete value["Files"];
     value["ImagePath"] = this.image;
     value["CoverPath"] = this.coverPath;
-    value["Files"] = this.files;
+    value['Files'] = [];
+    this.Employee.controls.forEach((ele:any)=>{
+    value['Files'].push({Description:ele.value.Description,File:ele.value.File})
+    })
 
     this._EmployeesService.addEmployee(value).subscribe({
       next: (res: Employees) => {

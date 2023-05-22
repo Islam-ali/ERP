@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
 import { EMPTY, Observable } from 'rxjs';
+import { Comments } from '../modal/tasks';
 @Injectable({
   providedIn: 'root'
 })
@@ -61,4 +62,11 @@ export class TasksService {
   EditTaskProgressing(body:any):Observable<any>{
     return this.http.put(`${env.domain}Tasks/EditTaskProgressing`,body)
   }
+  GetAllTaskComments(TaskId:number):Observable<any> {
+    return this.http.get(`${env.domain}Tasks/GetAllTaskComments/${TaskId}`)
+  }
+  AddTaskComment(body:any){
+    return this.http.post(`${env.domain}Tasks/AddTaskComment`,body)
+  }
+
 }

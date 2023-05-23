@@ -257,16 +257,15 @@
         </div>
       </div> -->
 
-      <div class="dropdown d-none d-lg-inline-block ms-1">
+      <div class="dropdown  d-lg-inline-block ms-1">
         <button type="button" class="btn header-item noti-icon" data-toggle="fullscreen" (click)="fullscreen()">
           <i class="bx bx-fullscreen"></i>
         </button>
       </div>
-
-      <!-- <div class="dropdown d-inline-block" ngbDropdown>
+      <div class="dropdown d-inline-block" ngbDropdown>
         <button type="button" class="btn header-item noti-icon" id="page-header-notifications-dropdown"
           ngbDropdownToggle>
-          <i class="bx bx-bell bx-tada"></i>
+          <i class="bx bx-bell" [class]="notiLength > 0 ? 'bx-tada':''"></i>
           <span class="badge bg-danger rounded-pill">3</span>
         </button>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
@@ -282,6 +281,19 @@
             </div>
           </div>
           <ngx-simplebar style="position: relative; height: 230px;">
+                        <a href="javascript: void(0);" class="text-reset notification-item">
+              <div class="media">
+                <img src="assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                <div class="media-body">
+                  <h6 class="mt-0 mb-1">{{ 'HEADER.NOTIFICATIONS.SECOND.TITLE' | translate}}</h6>
+                  <div class="font-size-12 text-muted">
+                    <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.SECOND.TEXT' | translate}}</p>
+                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'HEADER.NOTIFICATIONS.SECOND.TIME' |
+                      translate}}</p>
+                  </div>
+                </div>
+              </div>
+            </a>
             <a href="javascript: void(0);" class="text-reset notification-item">
               <div class="media">
                 <div class="avatar-xs me-3">
@@ -299,19 +311,7 @@
                 </div>
               </div>
             </a>
-            <a href="javascript: void(0);" class="text-reset notification-item">
-              <div class="media">
-                <img src="assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                <div class="media-body">
-                  <h6 class="mt-0 mb-1">{{ 'HEADER.NOTIFICATIONS.SECOND.TITLE' | translate}}</h6>
-                  <div class="font-size-12 text-muted">
-                    <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.SECOND.TEXT' | translate}}</p>
-                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'HEADER.NOTIFICATIONS.SECOND.TIME' |
-                      translate}}</p>
-                  </div>
-                </div>
-              </div>
-            </a>
+
             <a href="javascript: void(0);" class="text-reset notification-item">
               <div class="media">
                 <div class="avatar-xs me-3">
@@ -350,19 +350,20 @@
             </a>
           </div>
         </div>
-      </div> -->
+      </div>
 
       <div class="dropdown d-inline-block" ngbDropdown>
-        <button type="button" class="btn header-item d-flex align-items-center" ngbDropdownToggle id="page-header-user-dropdown">
-          
+        <button type="button" class="btn header-item d-flex align-items-center" ngbDropdownToggle
+          id="page-header-user-dropdown">
+
           <div class="avatar-xs rounded-circle header-profile-user">
             <span class="avatar-title rounded-circle">
-                {{user.charAt(0)}}
+              {{user.charAt(0)}}
             </span>
-        </div>
-        <span class="d-none d-xl-inline-block ms-1">{{user}}</span>
-        <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
-        <!-- <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar"> -->
+          </div>
+          <span class="d-none d-xl-inline-block ms-1">{{user}}</span>
+          <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+          <!-- <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" alt="Header Avatar"> -->
         </button>
         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
           <!-- item-->

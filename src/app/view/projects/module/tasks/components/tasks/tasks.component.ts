@@ -2,45 +2,36 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { tasks } from 'app/pages/tasks/kanbanboard/data';
 import { DndDropEvent } from 'ngx-drag-drop';
 import { environment as env } from '@env/environment';
-
 // import { tasks } from './data';
+import * as signalR from '@microsoft/signalr';
 
 import { Task } from 'app/pages/tasks/kanbanboard/kanabn.model';
 import { ActivatedRoute } from '@angular/router';
 import { TasksService } from '../../services/tasks.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Comments, DataComments, DataListOfTaskStages, DataShowTask, DataTasks, ListOfTaskStages, ShowTask, Tasks } from '../../modal/tasks';
-import { FormateDateService } from 'app/shared/services/formate-date.service';
-import { DropzoneComponent, DropzoneConfigInterface, DropzoneDirective } from 'ngx-dropzone-wrapper';
+import { Atachment, Comments, DataComments, DataListOfTaskStages, DataShowTask, DataTasks, ListOfTaskStages, ShowTask, Tasks } from '../../modal/tasks';
+import { EMPTY } from 'rxjs';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
+  
   taskData: DataShowTask;
   allComments:DataComments[];
-  imageConfig: DropzoneConfigInterface = {
-    paramName: "Files",
-    maxFilesize: 10000, // MB
-    acceptedFiles: "image/*",
-    clickable: true,
-    url: "http://192.168.0.131:44385/api/Tasks/EditTask/1",
-    uploadMultiple: true,
-    addRemoveLinks: true
-  };
+  // onUploadError(args: any): void {
+  //   console.log("onUploadError:", args);
+  // }
 
-  onUploadError(args: any): void {
-    console.log("onUploadError:", args);
-  }
-
-  onUploadSuccess(args: any): void {
-    console.log("onUploadSuccess:", args);
-  }
+  // onUploadSuccess(args: any): void {
+  //   console.log("onUploadSuccess:", args);
+  // }
   lableForm:number = 0;
   loadingSubmit:boolean = false;
+  loaderComments:boolean = true;
   submit:boolean = false;
   domain: string = env.url;
   projectID: number = 0;
@@ -76,16 +67,45 @@ export class TasksComponent implements OnInit {
       Project_Id: [this.projectID],
       Priority_Id: [null],
       AssignedEmployeeIds: [null],
-      Files: [null],
+      TaskAtachments: this._formBuilder.array([]),
       TaskStage_Id:[null],
       Id:null
     })
+  }
+  uploadeFiles(event: any , index:number): void {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      this.TaskAtachments.controls[index].patchValue({
+        File: event.target.files[0]
+      })
+      reader.onload = (event: any) => {
+        this.TaskAtachments.controls[index].patchValue({
+          path: event.target.result
+        })
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+  initformTaskAtachments():FormGroup {
+    return this._formBuilder.group({
+      Description:[null,[Validators.required]],
+      File:[null],
+      path:null
+    })
+  }
+  get TaskAtachments() {
+    return this.taskForm.controls["TaskAtachments"] as FormArray;
+  }
+  addformTaskAtachments() {
+    this.TaskAtachments.push(this.initformTaskAtachments());
+  }
+  deleteformTaskAtachments(index: number) {
+    this.TaskAtachments.removeAt(index);
   }
   ngOnInit() {
     this.taskForm = this.initTaskForm();
     this.projectID = +this._ActivatedRoute.snapshot.params['projectID'];
     this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID'];
-
     this.getAllTasks();
     this.getListOfTaskStages();
     this.breadCrumbItems = [{ label: 'Tasks' }, { label: 'Tasks', active: true }];
@@ -120,6 +140,14 @@ export class TasksComponent implements OnInit {
   }
   EditTask() {
     let value = this.taskForm.value
+    value['TaskAtachments'] = this.taskForm.value.TaskAtachments.map((x:any)=> {
+      const container = {};
+      container['Description'] = x.Description
+      container['File'] = x.File
+      return container;
+    })
+    console.log(value['TaskAtachments']);
+    
     this._TasksService.EditTask(value).subscribe({
       next: (res: Tasks) => {
         this.getAllTasks();
@@ -144,19 +172,25 @@ export class TasksComponent implements OnInit {
           Description: res.data.description,
           Project_Id: res.data.project_Id,
           Priority_Id: res.data.priority_Id,
-          AssignedEmployeeIds: res.data.assignedEmployeeIds,
-          Files: res.data.files,
+          AssignedEmployeeIds: res.data.assignedEmployeeData.map((x)=> x.id),
           StartDate: res.data.startDate,
           EndDate: res.data.endDate,
-          Id:res.data.id
+          Id:res.data.id,
+          TaskStage_Id:res.data.taskStage_Id
+        })
+        this.TaskAtachments.clear();
+        this.addformTaskAtachments();
+        res.data.atachments.forEach((ele:Atachment,index)=>{
+          index > 0 ? this.addformTaskAtachments() : EMPTY
+          this.TaskAtachments.controls[index].patchValue({
+            Description: ele.description ,
+            path:this.domain+ele.file
+          })
         })
       }, error: (err: Error) => {
         this.loadingShow = false;
       }
     })
-  }
-  ChangeActiveOrNotTask() {
-
   }
   RemoveTask(taskID:number) {
     this._TasksService.RemoveTask(taskID).subscribe({
@@ -178,6 +212,7 @@ export class TasksComponent implements OnInit {
   getListOfTasks() {
 
   }
+
   getListOfTaskStages() {
     this._TasksService.ListOfTaskStages().subscribe({
       next: (res: ListOfTaskStages) => {
@@ -233,6 +268,8 @@ export class TasksComponent implements OnInit {
   }
   openModal(content: any, num: number , TaskStage_Id:number): void {
     this.taskForm.reset();
+    this.TaskAtachments.clear();
+    this.addformTaskAtachments();
     this.taskForm.patchValue({TaskStage_Id:TaskStage_Id});
     this.lableForm = num;
     this.modalService.open(content , {size:'xl'});
@@ -241,8 +278,18 @@ export class TasksComponent implements OnInit {
   }
   viewModalTask(content: any, num: number , taskID:number): void {
     this.lableForm = num;
+    this.getTaskById(taskID)
     this.GetAllTaskComments(taskID);
     this.taskID = taskID
+    this.modalService.open(content , {size:'xl'});
+  }
+  editModal(content: any, num: number , taskID:number){
+    this.taskID = taskID;
+    this.getTaskById(taskID)
+    this.GetAllTaskComments(taskID);
+    this.getListOfPriorities();
+    this.getListOfEmployees();
+    this.lableForm = num;
     this.modalService.open(content , {size:'xl'});
   }
   onSubmit() {
@@ -260,6 +307,7 @@ export class TasksComponent implements OnInit {
   GetAllTaskComments(taskID:number){
     this._TasksService.GetAllTaskComments(taskID).subscribe({
       next:(res:Comments)=>{
+        this.loaderComments = false;
         this.allComments = res.data
       }
     })

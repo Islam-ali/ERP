@@ -23,7 +23,7 @@
 				</span>
 
 			<p class="be-comment-text">
-				{{comment.text}}
+				<small>{{comment.text}}</small>
 			</p>
 		</div>
 	</div>
@@ -72,9 +72,9 @@
             <div class="col-2"></div>
             <div class="col-10 my-2">									
                 <div class="form-group my-2">
-                    <textarea class="form-control" formControlName="text" required placeholder="Your text"></textarea>
+                    <textarea class="form-control" (keyup)="mention($event)" formControlName="text" required placeholder="Your text"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary pull-right">submit</button>
+                <button type="submit" [disabled]="formComment.invalid" class="btn btn-primary pull-right">submit</button>
             </div>
         </div>
     </form>

@@ -1,4 +1,4 @@
-export interface Tasks {
+  export interface Tasks {
     message: string
     isSuccess: boolean
     isActive: boolean
@@ -13,18 +13,24 @@ export interface Tasks {
     startDate: string
     endDate: string
     projectName: string
+    priorityId: number
     priorityName: string
     isActive: boolean
     taskStage_Id: number
-    files: string[]
+    atachments: Atachment[]
     assignedEmployeeData: AssignedEmployeeData[]
   }
   
+  export interface Atachment {
+    description: string
+    file: string
+  }
+
   export interface AssignedEmployeeData {
+    id: number
     name: string
     imagePath: string
   }
-
   export interface ListOfTaskStages {
     message: string
     isSuccess: boolean
@@ -53,8 +59,9 @@ export interface Tasks {
     endDate: string
     project_Id: number
     priority_Id: number
-    files: string[]
-    assignedEmployeeIds: number[]
+    taskStage_Id: number
+    atachments: Atachment[]
+    assignedEmployeeData: AssignedEmployeeData[]
   }
   
   export interface Comments {

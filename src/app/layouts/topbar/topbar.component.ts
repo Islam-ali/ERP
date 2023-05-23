@@ -7,7 +7,8 @@ import { environment } from '../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { LanguageService } from '../../core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
-
+import { environment as env } from '@env/environment';
+import * as signalR from '@microsoft/signalr';
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -24,12 +25,12 @@ export class TopbarComponent implements OnInit {
   flagvalue;
   countryName;
   valueset;
-
+  notiLength: number = 1;
   constructor(@Inject(DOCUMENT) private document: any, private router: Router, private authService: AuthenticationService,
-              private authFackservice: AuthfakeauthenticationService,
-              public languageService: LanguageService,
-              public translate: TranslateService,
-              public _cookiesService: CookieService) {
+    private authFackservice: AuthfakeauthenticationService,
+    public languageService: LanguageService,
+    public translate: TranslateService,
+    public _cookiesService: CookieService) {
   }
 
   listLang = [
@@ -45,7 +46,7 @@ export class TopbarComponent implements OnInit {
 
   @Output() settingsButtonClicked = new EventEmitter();
   @Output() mobileMenuButtonClicked = new EventEmitter();
-user:any;
+  user: any;
   ngOnInit() {
     this.openMobileMenu = false;
     this.element = document.documentElement;
@@ -62,19 +63,42 @@ user:any;
     }
 
   }
+  connectionSignalR() {
+    const connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(env.domain + 'notify', {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets,
+      })
+      .build();
 
+    connection
+      .start()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        // return console.log('err', err.toString());
+      });
+
+    connection.on('BroadcastMessage', () => {
+      // this.getTracksOfVehicle();
+
+      // this.getCoordinatesOfTrackInfoByVehicleId(this.id , this.newData[0].routeNumber , this.newData[0].districtId );
+    });
+  }
   setLanguage(text: string, lang: string, flag: string) {
-    let item = {text: text, lang: lang, flag: flag}
-    localStorage.setItem('lang_ERP',JSON.stringify(item))
+    let item = { text: text, lang: lang, flag: flag }
+    localStorage.setItem('lang_ERP', JSON.stringify(item))
     this.countryName = text;
     this.flagvalue = flag;
     this.cookieValue = lang;
     this.languageService.setLanguage(lang);
     // document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");
-    if(lang == 'ar'){
+    if (lang == 'ar') {
       this.document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");
       this.document.getElementsByTagName("html")[0].classList.add("rtl");
-    }else{
+    } else {
       this.document.getElementsByTagName("html")[0].setAttribute("dir", "ltr");
       this.document.getElementsByTagName("html")[0].classList.remove("rtl");
       // this.document.getElementsByTagName("html")[0].classList.add("ltr");
@@ -89,7 +113,7 @@ user:any;
     this.settingsButtonClicked.emit();
   }
 
-  
+
   /**
    * Toggle the menu bar when having mobile screen
    */

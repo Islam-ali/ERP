@@ -150,47 +150,60 @@
 <ng-template #TaskContent let-task='task'>
     <div class="card task-box">
         <div class="card-body p-2 d-flex align-items-center">
-            <div class=" badge rounded-pill delete-icon" style="cursor: pointer;" (click)="RemoveTask(task.id)">
+            <!-- <div class=" badge rounded-pill delete-icon" style="cursor: pointer;" (click)="RemoveTask(task.id)">
                 <i class="bx bx-trash fa-1x"></i>
-            </div>
-            <div class="d-flex align-items-center col" style="cursor: pointer;"
-                (click)="viewModalTask(viewTasks , 1 , task.id)">
+            </div> -->
+
+            <div class="d-flex col" (click)="viewModalTask(viewTasks , 1 , task.id)">
 
                 <div class="d-flex w-100 justify-content-between">
                     <div>
                         <h5 class="font-size-12 p-0 m-0 me-auto d-flex align-items-center">
                             {{task.title}}
                         </h5>
-                        <div class="position-badge mt-2">
+                        <div class="position-badge my-2">
                             <span class="badge rounded-pill badge-soft-secondary font-size-10" [ngClass]=" { 
                   'badge-soft-warning': task.priorityId === 2,
                   'badge-soft-primary': task.priorityId === 3,
                   'badge-soft-danger': task.priorityId === 1 }">{{task.priorityName}}</span>
                         </div>
+                        <div class="avatar-group ">
+                            <div class="avatar-group-item" *ngIf="task?.assignedEmployeeData[0]?.imagePath">
+                                <a href="javascript: void(0);" class="d-inline-block">
+                                    <img src="{{ domain+task?.assignedEmployeeData[0]?.imagePath}}"
+                                        class="rounded-circle avatar-xs" alt="">
+                                </a>
+                            </div>
+                            <div class="avatar-group-item avatar-xs" *ngIf="!task?.assignedEmployeeData[0]?.imagePath">
+                                <span class="avatar-title rounded-circle bg-soft bg-primary text-primary">
+                                    {{task?.assignedEmployeeData[0]?.name.charAt(0)}}
+                                </span>
+                            </div>
+                            <div class="avatar-group-item" *ngIf="task.assignedEmployeeData[1]">
+                                <a href="javascript: void(0);" class="d-inline-block">
+                                    <img src="{{ domain+task.assignedEmployeeData[1]?.imagePath}}"
+                                        class="rounded-circle avatar-xs" alt="">
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     <!-- <p class="text-muted mb-4">{{task.endDate}}</p> -->
-                    <div class="avatar-group ">
-                        <div class="avatar-group-item" *ngIf="task?.assignedEmployeeData[0]?.imagePath">
-                            <a href="javascript: void(0);" class="d-inline-block">
-                                <img src="{{ domain+task?.assignedEmployeeData[0]?.imagePath}}"
-                                    class="rounded-circle avatar-xs" alt="">
-                            </a>
-                        </div>
-                        <div class="avatar-group-item avatar-xs" *ngIf="!task?.assignedEmployeeData[0]?.imagePath">
-                            <span class="avatar-title rounded-circle bg-soft bg-primary text-primary">
-                                {{task?.assignedEmployeeData[0]?.name.charAt(0)}}
-                            </span>
-                        </div>
-                        <div class="avatar-group-item" *ngIf="task.assignedEmployeeData[1]">
-                            <a href="javascript: void(0);" class="d-inline-block">
-                                <img src="{{ domain+task.assignedEmployeeData[1]?.imagePath}}"
-                                    class="rounded-circle avatar-xs" alt="">
-                            </a>
-                        </div>
+                </div>
+            </div>
+            <div ngbDropdown>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false" ngbDropdownToggle>
+                        <i class="mdi mdi-dots-horizontal"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                        <a class="dropdown-item" href="javascript: void(0);"
+                            (click)="(editModal(addTasks , 1 , task.id))"><i class="bx bx-edit"></i>Edit</a>
+                        <a class="dropdown-item" href="javascript: void(0);" (click)="RemoveTask(task.id)"><i
+                                class="bx bx-trash"></i>Delete</a>
                     </div>
                 </div>
             </div>
-
             <!-- <div class="text-end">
           <h5 class="font-size-15 mb-1">$ {{task.budget}}</h5>
           <p class="mb-0 text-muted">Budget</p>
@@ -218,7 +231,7 @@
     </ng-container>
     <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
         <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="taskForm">
-            <div class="col-md-8">
+            <div class="col-12">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="mb-3">
@@ -230,11 +243,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-12">
                         <div class="mb-3">
                             <label>{{'GENERAL.DESCRIPTION' | translate}}</label>
-                            <input type="text" class="form-control" formControlName="Description"
+                            <textarea type="text" class="form-control" formControlName="Description"
                                 [ngClass]="{'is-valid': form.Description.dirty && !form.Description.errors ,'is-invalid': form.Description.dirty && form.Description.errors}">
+                                </textarea>
                             <div *ngIf="form.Description.dirty && form.Description.errors" class="invalid-feedback">
                                 <span *ngIf="form.Description.errors.required">This value is required.</span>
                             </div>
@@ -284,6 +298,60 @@
               </div>
             </div>
           </div> -->
+                    <div class="col-12 mb-4">
+                        <div class="row" formArrayName="TaskAtachments">
+                            <div *ngFor="let Attachment of TaskAtachments.controls; let i = index">
+                                <ng-container [formGroupName]="i">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <!-- <div class="row p-0 m-0"> -->
+                                            <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' |
+                                                translate}}
+                                                {{'GENERAL.FILES' |
+                                                translate}}</label>
+                                            <input class="form-control" type="file" accept="image/*"
+                                                (change)="uploadeFiles($event , i)"
+                                                [ngClass]="{'is-valid': Attachment.get('File').dirty && !Attachment.get('File').errors ,'is-invalid': Attachment.get('File').dirty && Attachment.get('File').errors}">
+                                            <div class="card-image p-0 px-2 m-2"
+                                                *ngIf="Attachment.get('path').value != null">
+                                                <div class="row">
+                                                    <img class="p-0 w-100" title="images" accept="image/*" alt="images"
+                                                        [src]="Attachment.value.path" />
+                                                    <!-- <img class="p-0 w-100" title="images" accept="image/*" alt="images"
+                                                        [src]="domain+Attachment.value.path" *ngIf="lableForm == 1" /> -->
+                                                </div>
+                                                <!-- </div> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <!-- <div class="row p-0 m-0"> -->
+                                            <label>{{'GENERAL.DESCRIPTION' | translate}}</label>
+                                            <input type="text" class="form-control" formControlName="Description"
+                                                [ngClass]="{'is-valid': Attachment.get('Description').dirty && !Attachment.get('Description').errors ,'is-invalid': Attachment.get('Description').dirty && Attachment.get('Description').errors}">
+                                            <div *ngIf="Attachment.get('Description').dirty && Attachment.get('Description').errors"
+                                                class="invalid-feedback">
+                                                <span *ngIf="Attachment.get('Description').errors.required">This
+                                                    value is
+                                                    required.</span>
+                                            </div>
+                                        </div>
+                                        <!-- </div> -->
+                                        <div class="col-1" *ngIf="i == TaskAtachments.controls.length - 1">
+                                            <label class="hide-lable d-block">.</label>
+                                            <button type="button" class="btn btn-success"
+                                                (click)="addformTaskAtachments()">+</button>
+                                        </div>
+                                        <div class="col-1" *ngIf="TaskAtachments.controls.length > 1">
+                                            <label class="hide-lable d-block">.</label>
+                                            <button type="button" class="btn btn-danger"
+                                                (click)="deleteformTaskAtachments(i)"><i
+                                                    class="bx bxs-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- <div class="row">
@@ -336,7 +404,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="col-8 py-1">
-                            <h4 class="card-title "><b>Company Culture</b></h4>
+                            <h4 class="card-title "><b>{{taskData.title}}</b></h4>
                         </div>
                         <div class="col-12">
                             <h6 class="card-subtitle mb-2 text-muted">
@@ -344,21 +412,22 @@
                                     <!-- <img src="https://img.icons8.com/color/26/000000/christmas-star.png" class="mr-1 " width="19"
                                     height="19" id="star"> <span class="vl mr-2 ml-0"></span> -->
                                     <i class="fa fa-users text-muted "></i> Public <span class="vl ml-1 mr-2 "></span>
-                                    <span></span>Updated by <span class="font-weight-bold"> Bootstrap Team</span> on 1
-                                    Nov
-                                    , 2018
+                                    <span>End Date : {{taskData.endDate | date:'fullDate'}}</span>
+                                    <!-- <span></span>Updated by <span class="font-weight-bold"> Team</span> on {{taskData.endDate | date:'fullDate'}} -->
                                 </p>
                             </h6>
                         </div>
                         <div class="col-12">
-                            <p class="btn-outlined btn-black text-muted d-flex align-items-center">
+                            <p class="m-0 btn-outlined btn-black text-muted d-flex align-items-center">
                                 <i class="bx bx-list-minus fa-2x"></i>
                                 <!-- <img src="https://img.icons8.com/metro/26/000000/link.png" width="17" height="17" id="plus"> -->
                                 <small class="mx-2">Description</small>
                             </p>
-                            <p class="py-2">
-
-                            </p>
+                            <div class="border-2 p-2">
+                                <p style="font-size: .8rem;" class="m-0">
+                                    {{taskData.description}}
+                                </p>
+                            </div>
                         </div>
                         <div class=" col-12 ">
                             <!-- <a href="#" class="btn btn-outlined btn-black text-muted bg-transparent" data-wow-delay="0.7s"><img
@@ -366,11 +435,39 @@
                                 <small>SETTINGS</small></a>
                             <i class="mdi mdi-settings-outline"></i> -->
                             <p class="btn-outlined btn-black text-muted d-flex align-items-center">
-                                <img src="https://img.icons8.com/metro/26/000000/link.png" width="17" height="17" id="plus">
+                                <img src="https://img.icons8.com/metro/26/000000/link.png" width="17" height="17"
+                                    id="plus">
                                 <small class="mx-2">Attachment</small>
                             </p>
-                            <div class="card border-5 py-5">
-
+                            <div class="card border-5 py-2">
+                                <div class="row p-0 m-0">
+                                    <ng-container *ngIf="taskData.atachments.length == 0">
+                                        <div class="d-flex justify-content-center align-items-center"
+                                            style="min-height: 100px;">
+                                            <div class="alert alert-warning fade text-center show px-3 mb-0"
+                                                role="alert">
+                                                <div class="mb-1">
+                                                    <i class="bx bx-error-alt h1  text-warning"></i>
+                                                </div>
+                                                <div class="text-center">
+                                                    <h5 class="text-warning ">Not Found Attachment</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="taskData.atachments.length > 0">
+                                        <div class="card col-3 border-2 border-light"
+                                            *ngFor="let atachment of taskData.atachments">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <img class="w-100" [src]="domain+atachment.file"
+                                                        [title]="atachment.description" />
+                                                    <h6 class="text-center py-1 m-0">{{atachment.description}}</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
                             </div>
                             <!-- <p class="btn btn-outlined btn-black text-muted "><img
                                     src="https://img.icons8.com/metro/26/000000/more.png" width="20" height="20"
@@ -378,48 +475,76 @@
                             <span class="vl ml-3"></span> -->
                         </div>
                         <div class="col-12">
-                            <app-comments [Data]="allComments" [taskID]="taskID"></app-comments>
+                            <ng-container *ngIf="loader">
+                                <div class="d-flex justify-content-center align-items-center"
+                                    style="min-height: 300px;">
+                                    <div class="spinner-border text-primary m-1" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container>
+                                <app-comments (reloadeComment)="GetAllTaskComments($event)" [Data]="allComments"
+                                    [taskID]="taskID"></app-comments>
+                            </ng-container>
                         </div>
                     </div>
                     <div class="col-md-4 border-start">
                         <div class="row">
                             <div class="col-md-12">
                                 <ul class="list-inline">
-                                    <li class="list-inline-item"> <img
-                                            src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1573035860/Pra/Hadie-profile-pic-circle-1.png"
-                                            alt="DP" class="  rounded-circle img-fluid " width="35" height="35">
-                                        <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1573035909/Pra/Loren-profile-pic-circle.png"
-                                            alt="DP" class="  rounded-circle img-fluid " width="35" height="35">
-                                        <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1573035929/Pra/59d280613165c000014cc031_circleniamhhogan.png"
-                                            alt="DP" class="  rounded-circle img-fluid " width="35" height="35">
-                                        <img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1573035929/Pra/59d280613165c000014cc031_circleniamhhogan.png"
-                                            alt="DP" class="  rounded-circle img-fluid " width="35" height="35">
-                                        </li>
-                                        <!-- <li class="list-inline-item"> <img src="https://img.icons8.com/ios/50/000000/plus.png" width="30"
+                                    <p class="btn-outlined btn-black text-muted d-flex align-items-center">
+                                        <i class="bx bx-user text-primary"></i>
+                                        <small class="mx-2">Assigned Employees</small>
+                                    </p>
+                                    <li class="list-inline-item w-100 d-flex">
+                                        <ng-container *ngFor="let img of taskData.assignedEmployeeData">
+                                            <div class="avatar-group-item avatar-xs m-1" *ngIf="!img.imagePath">
+                                                <span
+                                                    class="avatar-title rounded-circle bg-soft bg-primary text-primary">
+                                                    {{img.name.charAt(0)}}
+                                                </span>
+                                            </div>
+                                            <img *ngIf="img.imagePath" [src]="domain + img.imagePath" alt="img.name"
+                                                class="m-1 rounded-circle img-fluid " width="35" height="35">
+                                        </ng-container>
+                                    </li>
+                                    <!-- <li class="list-inline-item"> <img src="https://img.icons8.com/ios/50/000000/plus.png" width="30"
                                             height="30 " class="more">
                                         </li> -->
-                                    </ul>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-4 py-4 border-top">
-                                        <div class="badge badge-soft-primary d-flex align-items-center p-2 my-2">
-                                            <i class="bx bx-calendar me-1"></i>
-                                            <div class="ms-1">
-                                                <h6 class="text-uppercase fw-weight-bold text-dark
-                                                 mb-0">Wednesday</h6>
-                                                <small class="text-gray mb-0">05 December 2020</small>
-                                            </div>
-                                        </div>
-                                        <div class="badge badge-soft-danger d-flex align-items-center p-2 my-2">
-                                            <i class="bx bx-calendar me-1"></i>
-                                            <div class="ms-1">
-                                                <h6 class="text-uppercase fw-weight-bold text-dark
-                                                 mb-0">Wednesday</h6>
-                                                <small class="text-gray mb-0">05 December 2020</small>
+                                </ul>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-4 py-4 border-top row">
+                                    <div class="col-6">
+                                        <div class="row p-0 m-0">
+                                            <div class=" badge badge-soft-primary d-flex align-items-center p-2 my-2">
+                                                <i class="bx bx-calendar me-1"></i>
+                                                <div class="ms-1">
+                                                    <p class="text-uppercase fw-weight-bold text-dark
+                                                    mb-0">Start Date</p>
+                                                    <small class="text-gray mb-0">{{taskData.startDate | date:
+                                                        'longDate'}}</small>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-6">
+                                        <div class="row p-0 m-0">
+                                            <div class=" badge badge-soft-danger d-flex align-items-center p-2 my-2">
+                                                <i class="bx bx-calendar me-1"></i>
+                                                <div class="ms-1">
+                                                    <p class="text-uppercase fw-weight-bold text-dark
+                                                 mb-0">End Date</p>
+                                                    <small class="text-gray mb-0">{{taskData.endDate | date:
+                                                        'longDate'}}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
+                            </div>
 
                         </div>
                     </div>
@@ -427,7 +552,7 @@
                 <div class="card-footer bg-white px-0 ">
                     <!-- <div class="row"> -->
 
-    
+
                     <!-- </div> -->
                 </div>
             </div>

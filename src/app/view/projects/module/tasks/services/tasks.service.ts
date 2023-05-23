@@ -14,28 +14,50 @@ export class TasksService {
   }
   addTask(addForm:any):Observable<any>{
     const formDate = new FormData();
-    for(const key in addForm){
-      if(Array.isArray(addForm[key])){
-        addForm[key].forEach((ele:any)=>{
-          formDate.append(key ,ele)
-        })
-      }else{
-        addForm[key] ? formDate.append(key ,addForm[key]) : EMPTY;
+    for (const key in addForm) {
+      if (Array.isArray(addForm[key])) {
+        if (Object.keys(addForm[key][0]).length > 1) {
+          addForm[key].forEach((ele: any, index: number) => {
+            for (const subkey in ele)
+              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+          })
+        }
+        else {
+          addForm[key].forEach((ele: any) => {
+            formDate.append(key, ele)
+          })
+        }
+      } else {
+        typeof addForm[key] === 'number' ? formDate.append(key, addForm[key]) : EMPTY;
+        typeof addForm[key] === 'boolean' ? formDate.append(key, addForm[key]) : EMPTY;
+        typeof addForm[key] === 'string' ? formDate.append(key, addForm[key]) : EMPTY;
+        addForm[key]?.lastModified ? formDate.append(key, addForm[key]) : EMPTY;
       }
-    } 
+    }
     return this.http.post(`${env.domain}Tasks/AddTask`,formDate)
   }
   EditTask(editForm:any):Observable<any>{
     const formDate = new FormData();
-    for(const key in editForm){
-      if(Array.isArray(editForm[key])){
-        editForm[key].forEach((ele:any)=>{
-          formDate.append(key ,ele)
-        })
-      }else{
-        editForm[key] ? formDate.append(key ,editForm[key]) : EMPTY;
+    for (const key in editForm) {
+      if (Array.isArray(editForm[key])) {
+        if (Object.keys(editForm[key][0]).length > 1) {
+          editForm[key].forEach((ele: any, index: number) => {
+            for (const subkey in ele)
+              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+          })
+        }
+        else {
+          editForm[key].forEach((ele: any) => {
+            formDate.append(key, ele)
+          })
+        }
+      } else {
+        typeof editForm[key] === 'number' ? formDate.append(key, editForm[key]) : EMPTY;
+        typeof editForm[key] === 'boolean' ? formDate.append(key, editForm[key]) : EMPTY;
+        typeof editForm[key] === 'string' ? formDate.append(key, editForm[key]) : EMPTY;
+        editForm[key]?.lastModified ? formDate.append(key, editForm[key]) : EMPTY;
       }
-    } 
+    }
     return this.http.put(`${env.domain}Tasks/EditTask/${editForm['Id']}`,formDate)
   }
   getTaskById(TaskId:number):Observable<any>{

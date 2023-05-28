@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
 import { EMPTY, Observable } from 'rxjs';
 import { Comments } from '../modal/tasks';
+import { FormGroup } from '@angular/forms';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +16,7 @@ export class TasksService {
   addTask(addForm:any):Observable<any>{
     const formDate = new FormData();
     for (const key in addForm) {
-      if (Array.isArray(addForm[key])) {
+      if (Array.isArray(addForm[key]) && addForm[key].length > 0) {
         if (Object.keys(addForm[key][0]).length > 1) {
           addForm[key].forEach((ele: any, index: number) => {
             for (const subkey in ele)
@@ -37,10 +38,12 @@ export class TasksService {
     return this.http.post(`${env.domain}Tasks/AddTask`,formDate)
   }
   EditTask(editForm:any):Observable<any>{
+    console.log(editForm);
+    
     const formDate = new FormData();
     for (const key in editForm) {
-      if (Array.isArray(editForm[key])) {
-        if (Object.keys(editForm[key][0]).length > 1) {
+      if (Array.isArray(editForm[key]) && editForm[key].length > 0) {
+        if (Object?.keys(editForm[key][0])?.length > 1) {
           editForm[key].forEach((ele: any, index: number) => {
             for (const subkey in ele)
               ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
@@ -90,5 +93,7 @@ export class TasksService {
   AddTaskComment(body:any){
     return this.http.post(`${env.domain}Tasks/AddTaskComment`,body)
   }
-
+  AddMentionedEmployees(form:any = {}){
+    return this.http.post(`${env.domain}Tasks/AddMentionedEmployees`,form)
+  }
 }

@@ -146,8 +146,6 @@ export class TasksComponent implements OnInit {
       container['File'] = x.File
       return container;
     })
-    console.log(value['TaskAtachments']);
-    
     this._TasksService.EditTask(value).subscribe({
       next: (res: Tasks) => {
         this.getAllTasks();
@@ -178,10 +176,12 @@ export class TasksComponent implements OnInit {
           Id:res.data.id,
           TaskStage_Id:res.data.taskStage_Id
         })
+        // if(res.data.atachments.length > 0){
+        //   this.addformTaskAtachments();
+        // }
         this.TaskAtachments.clear();
-        this.addformTaskAtachments();
         res.data.atachments.forEach((ele:Atachment,index)=>{
-          index > 0 ? this.addformTaskAtachments() : EMPTY
+          this.addformTaskAtachments()
           this.TaskAtachments.controls[index].patchValue({
             Description: ele.description ,
             path:this.domain+ele.file
@@ -269,7 +269,7 @@ export class TasksComponent implements OnInit {
   openModal(content: any, num: number , TaskStage_Id:number): void {
     this.taskForm.reset();
     this.TaskAtachments.clear();
-    this.addformTaskAtachments();
+    // this.addformTaskAtachments();
     this.taskForm.patchValue({TaskStage_Id:TaskStage_Id});
     this.lableForm = num;
     this.modalService.open(content , {size:'xl'});

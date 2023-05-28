@@ -109,3 +109,9 @@
 .form-group textarea.form-input {
     height: 150px;
 }
+.list-mention{
+    cursor: pointer;
+    &:hover{
+        background-color: #f6f8ff;
+    }
+}

@@ -266,7 +266,7 @@
         <button type="button" class="btn header-item noti-icon" id="page-header-notifications-dropdown"
           ngbDropdownToggle>
           <i class="bx bx-bell" [class]="notiLength > 0 ? 'bx-tada':''"></i>
-          <span class="badge bg-danger rounded-pill">3</span>
+          <span class="badge bg-danger rounded-pill">{{notiLength}}</span>
         </button>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
           aria-labelledby="page-header-notifications-dropdown" ngbDropdownMenu>
@@ -281,67 +281,20 @@
             </div>
           </div>
           <ngx-simplebar style="position: relative; height: 230px;">
-                        <a href="javascript: void(0);" class="text-reset notification-item">
-              <div class="media">
-                <img src="assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                <div class="media-body">
-                  <h6 class="mt-0 mb-1">{{ 'HEADER.NOTIFICATIONS.SECOND.TITLE' | translate}}</h6>
-                  <div class="font-size-12 text-muted">
-                    <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.SECOND.TEXT' | translate}}</p>
-                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'HEADER.NOTIFICATIONS.SECOND.TIME' |
-                      translate}}</p>
+            <ng-container *ngFor="let item of messageNotification">
+              <a href="javascript: void(0);" class="text-reset notification-item">
+                <div class="media">
+                  <!-- <img src="assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic"> -->
+                  <div class="media-body">
+                    <h6 class="mt-0 mb-1">{{item.type}}</h6>
+                    <div class="font-size-12 text-muted">
+                      <p class="mb-1">{{ item.description}}</p>
+                      <p class="mb-0"><i class="bx bx-calendar"></i>{{item.dateTime | date: 'long'}}</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </a>
-            <a href="javascript: void(0);" class="text-reset notification-item">
-              <div class="media">
-                <div class="avatar-xs me-3">
-                  <span class="avatar-title bg-primary rounded-circle font-size-16">
-                    <i class="bx bx-cart"></i>
-                  </span>
-                </div>
-                <div class="media-body">
-                  <h6 class="mt-0 mb-1">{{ 'HEADER.NOTIFICATIONS.FIRST.TITLE' | translate}}</h6>
-                  <div class="font-size-12 text-muted">
-                    <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.FIRST.TEXT' | translate}}</p>
-                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
-                      {{ 'HEADER.NOTIFICATIONS.FIRST.TIME' | translate}}</p>
-                  </div>
-                </div>
-              </div>
-            </a>
-
-            <a href="javascript: void(0);" class="text-reset notification-item">
-              <div class="media">
-                <div class="avatar-xs me-3">
-                  <span class="avatar-title bg-success rounded-circle font-size-16">
-                    <i class="bx bx-badge-check"></i>
-                  </span>
-                </div>
-                <div class="media-body">
-                  <h6 class="mt-0 mb-1">{{ 'HEADER.NOTIFICATIONS.THIRD.TITLE' | translate}}</h6>
-                  <div class="font-size-12 text-muted">
-                    <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.THIRD.TEXT' | translate}}</p>
-                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'HEADER.NOTIFICATIONS.THIRD.TIME' |
-                      translate}}</p>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a href="javascript: void(0);" class="text-reset notification-item">
-              <div class="media">
-                <img src="assets/images/users/avatar-4.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                <div class="media-body">
-                  <h6 class="mt-0 mb-1">{{ 'HEADER.NOTIFICATIONS.FOUR.TITLE' | translate}}</h6>
-                  <div class="font-size-12 text-muted">
-                    <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.FOUR.TEXT' | translate}}</p>
-                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'HEADER.NOTIFICATIONS.FOUR.TIME' |
-                      translate}}</p>
-                  </div>
-                </div>
-              </div>
-            </a>
+                </a>
+              </ng-container>
           </ngx-simplebar>
           <div class="p-2 border-top d-grid">
             <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">

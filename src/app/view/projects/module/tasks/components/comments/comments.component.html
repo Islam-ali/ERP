@@ -1,33 +1,33 @@
 <div class="be-comment-block" *ngIf="Data">
 	<h1 class="comments-title">Comments ({{Data.length}})</h1>
-    <ng-container *ngFor="let comment of Data">
+	<ng-container *ngFor="let comment of Data">
 
-	<div class="be-comment">
-		<div class="be-img-comment">	
-			<a href="javascript: void(0);" *ngIf="comment.commentatorImagePath">
-				<img [src]="comment.commentatorImagePath" [alt]="comment.commentatorName" class="be-ava-comment">
-			</a>
-            <div class="avatar-group-item avatar-xs" *ngIf="!comment.commentatorImagePath">
-                <span class="avatar-title rounded-circle bg-soft bg-primary text-primary">
-                    {{comment.commentatorName.charAt(0)}}
-                </span>
-            </div>
-		</div>
-		<div class="be-comment-content">
+		<div class="be-comment">
+			<div class="be-img-comment">
+				<a href="javascript: void(0);" *ngIf="comment.commentatorImagePath">
+					<img [src]="comment.commentatorImagePath" [alt]="comment.commentatorName" class="be-ava-comment">
+				</a>
+				<div class="avatar-group-item avatar-xs" *ngIf="!comment.commentatorImagePath">
+					<span class="avatar-title rounded-circle bg-soft bg-primary text-primary">
+						{{comment.commentatorName.charAt(0)}}
+					</span>
+				</div>
+			</div>
+			<div class="be-comment-content">
 				<span class="be-comment-name">
 					<a href="javascript: void(0);">{{comment.commentatorName}}</a>
-					</span>
+				</span>
 				<span class="be-comment-time">
 					<i class="fa fa-clock-o"></i>
 					{{comment.dateTime}}
 				</span>
 
-			<p class="be-comment-text">
-				<small>{{comment.text}}</small>
-			</p>
+				<p class="be-comment-text">
+					<small>{{comment.text}}</small>
+				</p>
+			</div>
 		</div>
-	</div>
-</ng-container>
+	</ng-container>
 
 	<!-- <div class="be-comment">
 		<div class="be-img-comment">	
@@ -67,15 +67,43 @@
 			</p>
 		</div>
 	</div> -->
-    <form class="form-block" [formGroup]="formComment" (submit)="onSubmit()">
-        <div class="row">
-            <div class="col-2"></div>
-            <div class="col-10 my-2">									
-                <div class="form-group my-2">
-                    <textarea class="form-control" (keyup)="mention($event)" formControlName="text" required placeholder="Your text"></textarea>
-                </div>
-                <button type="submit" [disabled]="formComment.invalid" class="btn btn-primary pull-right">submit</button>
-            </div>
-        </div>
-    </form>
+	<form class="form-block" [formGroup]="formComment" (submit)="onSubmit()">
+		<div class="row">
+			<div class="col-2"></div>
+			<div class="col-10 my-2">
+				<div class="form-group my-2">
+					<textarea class="form-control" #textareaRef formControlName="text"
+						required placeholder="Your text"></textarea>
+						<flx-mentions *ngIf="!submit" [textInputElement]="textareaRef" [menuTemplate]="menuTemplate" [triggerCharacter]="'@'"
+							[getChoiceLabel]="getChoiceLabel" (search)="loadChoices($event)"
+							(selectedChoicesChange)="onSelectedChoicesChange($event)"></flx-mentions>
+				</div>
+				<!-- (menuShow)="onMenuShow()"
+				(menuHide)="onMenuHide()" -->
+
+				<ng-template #menuTemplate let-selectChoice="selectChoice">
+					<ul flxLoader class="flx-selectable-list" [class.loader-only]="!choices.length && loading">
+						<li class="flx-selectable-list-item list-unstyled">
+							<!--single line list with avtar -->
+							<ul class="list-group list card-list list-avatar">
+								<li *ngFor="let user of choices" (click)="selectChoice(user)" class="list-mention list-group-item d-flex align-items-center">
+									<a href="javascript:void(0);" class="avatar-group-item avatar-xs overflow-hidden">
+										<img  class="img-fluid avatar-title rounded-circle bg-soft" *ngIf="user.imagePath" [src]="url + user.imagePath">
+										<!-- <div class="avatar-group-item avatar-xs" > -->
+											<span *ngIf="!user.imagePath" class="avatar-title rounded-circle bg-soft bg-primary text-primary">
+												{{user.name.charAt(0)}}
+											</span>
+										<!-- </div> -->
+									</a>
+									<div class="media-body ms-1">{{ user.name }}</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</ng-template>
+				<button type="submit" [disabled]="formComment.invalid"
+					class="btn btn-primary pull-right">submit</button>
+			</div>
+		</div>
+	</form>
 </div>

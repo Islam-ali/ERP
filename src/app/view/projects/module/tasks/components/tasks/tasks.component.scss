@@ -73,11 +73,10 @@
 }
 
 
-img {
-
-    cursor: pointer;
-    overflow: visible;
-}
+// img {
+//     cursor: pointer;
+//     overflow: visible;
+// }
 
 .btn:focus,
 .btn:active {
@@ -87,3 +86,17 @@ img {
 // .border-left{
 //     border-left: solid 1px #ccc;
 // }
+.addImg{
+    display: flex;
+    min-height: 80px;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: rgb(182, 224, 224);
+    max-width: 100px;
+    cursor: pointer;
+}
+.modal-body{
+    overflow-y: auto;
+    max-height: 88vh;
+}

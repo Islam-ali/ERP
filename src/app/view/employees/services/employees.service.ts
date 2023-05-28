@@ -100,6 +100,8 @@ export class EmployeesService {
   ListOfGenders(): Observable<any> {
     return this.http.get(`${env.domain}Employees/ListOfGenders`)
   }
-
+  ListOfEmployeesForMentioned(departmentID:number):Observable<any>{
+    return this.http.get(`${env.domain}Employees/ListOfEmployeesForMentioned/${departmentID}`)
+  }
 
 }

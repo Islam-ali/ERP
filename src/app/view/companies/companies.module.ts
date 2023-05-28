@@ -26,7 +26,6 @@ import { TranslateModule } from '@ngx-translate/core';
     NgbTooltipModule,
     UiSwitchModule,
     TranslateModule
-
   ]
 })
 export class CompaniesModule { }

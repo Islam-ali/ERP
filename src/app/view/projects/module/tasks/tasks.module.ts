@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA ,NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TasksRoutingModule } from './tasks-routing.module';
@@ -16,7 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { CommentsComponent } from './components/comments/comments.component';
 // import { NgxDropzoneModule } from 'ngx-dropzone';
-
+import { MentionsModule } from '@flxng/mentions';
 @NgModule({
   declarations: [
 
@@ -40,6 +40,8 @@ import { CommentsComponent } from './components/comments/comments.component';
     NgSelectModule,
     DropzoneModule,
     // NgxDropzoneModule
+    MentionsModule
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class TasksModule { }

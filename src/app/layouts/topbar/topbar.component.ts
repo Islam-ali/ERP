@@ -9,6 +9,7 @@ import { LanguageService } from '../../core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { environment as env } from '@env/environment';
 import * as signalR from '@microsoft/signalr';
+import { NotificationsService } from './service/notifications.service';
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -26,11 +27,17 @@ export class TopbarComponent implements OnInit {
   countryName;
   valueset;
   notiLength: number = 1;
-  constructor(@Inject(DOCUMENT) private document: any, private router: Router, private authService: AuthenticationService,
+  messageNotification:any[]=[];
+  constructor(
+    @Inject(DOCUMENT) private document: any,
+    private router: Router,
+    private authService: AuthenticationService,
     private authFackservice: AuthfakeauthenticationService,
     public languageService: LanguageService,
     public translate: TranslateService,
-    public _cookiesService: CookieService) {
+    public _cookiesService: CookieService,
+    private _NotificationsService:NotificationsService
+    ) {
   }
 
   listLang = [
@@ -54,6 +61,9 @@ export class TopbarComponent implements OnInit {
     this.cookieValue = this._cookiesService.get('lang_ERP');
     this.cookieValue = JSON.parse(localStorage.getItem('lang_ERP'))?.lang || 'ar';
 
+    this.GetNotificationsMessages();
+    this.GetNotificationsCount();
+
     const val = this.listLang.filter(x => x.lang === this.cookieValue);
     this.countryName = val.map(element => element.text);
     if (val.length === 0) {
@@ -62,6 +72,20 @@ export class TopbarComponent implements OnInit {
       this.flagvalue = val.map(element => element.flag);
     }
 
+  }
+  GetNotificationsMessages() {
+    this._NotificationsService.GetNotificationsMessages().subscribe({
+      next:(res:any)=>{
+        this.messageNotification = res.data
+      }
+    })
+  }
+  GetNotificationsCount() {
+    this._NotificationsService.GetNotificationsCount().subscribe({
+      next:(res:any)=>{
+        this.notiLength = +res.data
+      }
+    })
   }
   connectionSignalR() {
     const connection = new signalR.HubConnectionBuilder()
@@ -83,7 +107,8 @@ export class TopbarComponent implements OnInit {
 
     connection.on('BroadcastMessage', () => {
       // this.getTracksOfVehicle();
-
+      this.GetNotificationsMessages();
+      this.GetNotificationsCount();
       // this.getCoordinatesOfTrackInfoByVehicleId(this.id , this.newData[0].routeNumber , this.newData[0].districtId );
     });
   }

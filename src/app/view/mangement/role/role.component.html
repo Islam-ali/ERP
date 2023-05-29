@@ -1,0 +1,106 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-6 d-flex align-items-center ">
+                        <h3 class="m-0">{{ 'MENUITEMS.MANGEMENT.LIST.ROLE' | translate }}</h3>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end ">
+                        <button class="btn btn-primary w-md" (click)="openModal(addRole , 0)">{{'GENERAL.ADD' |
+                            translate}} {{ 'GENERAL.ROLE' | translate }} <i class="bx bx-plus-medical"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <ng-container *ngIf="loader">
+                <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                    <div class="spinner-border text-primary m-1" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </ng-container>
+            <div *ngIf="!loader">
+                <div class="table-responsive">
+                    <table class="table project-list-table table-nowrap align-middle table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col">{{'GENERAL.ROLE' | translate}}</th>
+                                <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let Role of allRole;trackBy:getUpdateRole">
+
+                                <td>
+                                    <h5 class="text-truncate font-size-14">
+                                        <a href="javascript: void(0);" class="text-dark">{{Role.name}}</a>
+                                    </h5>
+                                </td>
+                                <td>
+                                    <ul class="list-inline font-size-20 contact-links mb-0">
+                                        <li class="list-inline-item px-2">
+                                            <i class="bx bx-edit"
+                                                (click)="patchValueForm(addRole,Role);getUpdateRole(Role.id)"
+                                                style="cursor: pointer;"></i>
+                                        </li>
+                                        <li class="list-inline-item px-2" (click)="delete(Role.id)">
+                                            <i class="bx bx-trash" style="cursor: pointer;"></i>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+    <!-- end row -->
+</div>
+<!-- Add Modal -->
+<ng-template #addRole role="document" let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title mt-0">
+            <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+            <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+            {{'GENERAL.ROLE' | translate}}
+        </h5>
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <ng-container *ngIf="loadingShow && lableForm == 1">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+    <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
+        <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="RoleForm">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="validationCustom01">{{'GENERAL.NAME' | translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="name"
+                            [ngClass]="{'is-valid': form.name.dirty && !form.name.errors ,'is-invalid': form.name.dirty && form.name.errors}">
+                        <div *ngIf="form.name.dirty && form.name.errors" class="invalid-feedback">
+                            <span *ngIf="form.name.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 text-center">
+                <button class="btn btn-primary" type="submit" [disabled]="RoleForm.invalid">
+                    <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingRole"></i>
+                    <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+                    <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+</ng-template>

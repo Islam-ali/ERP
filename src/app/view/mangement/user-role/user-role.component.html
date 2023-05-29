@@ -1,0 +1,116 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-6 d-flex align-items-center ">
+                        <h3 class="m-0">{{ 'MENUITEMS.MANGEMENT.LIST.USERS' | translate }}</h3>
+                    </div>
+                    <!-- <div class="col-6 d-flex justify-content-end ">
+                        <button class="btn btn-primary w-md">{{'GENERAL.ADD' | translate}} {{ 'GENERAL.user' | translate
+                            }} <i class="bx bx-plus-medical"></i></button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <ng-container *ngIf="loader">
+                <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                    <div class="spinner-border text-primary m-1" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </ng-container>
+            <div *ngIf="!loader">
+                <div class="table-responsive">
+                    <table class="table project-list-table table-nowrap align-middle table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col">{{'GENERAL.USER' | translate}}</th>
+                                <th scope="col">{{'GENERAL.EMAIL' | translate}}</th>
+                                <th scope="col">{{'MENUITEMS.MANGEMENT.LIST.ROLE' | translate}}</th>
+                                <th scope="col">{{'MENUITEMS.MANGEMENT.TEXT' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of DataUserRole;">
+                                <td>
+                                    <h5 class="text-truncate font-size-14">
+                                        <a href="javascript: void(0);" class="text-dark">{{user.userName}}</a>
+                                    </h5>
+                                </td>
+                                <td>{{user.email}}</td>
+                                <td>
+                                    <span *ngFor="let role of user.roles" class="badge"
+                                        [class]="role == 'User' ? 'bg-primary':role == 'Superadmin' ? 'bg-danger' : 'bg-success'">
+                                        <!-- <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingStatus && this.userId == user.id"></i> -->
+                                        <div>
+                                            <span>{{role}}</span>
+                                        </div>
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary  p-0 px-2" (click)="openModal(adduser,user)">Mange</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Add Modal -->
+<ng-template #adduser role="document" let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title mt-0">
+            {{lableForm}}
+        </h5>
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <ng-container *ngIf="loadingShow">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+    <div class="modal-body bg-light" *ngIf="!loadingShow">
+        <!-- <form class="needs-validation" (ngSubmit)="onSubmit()"> -->
+            <div class="table-responsive">
+                <table class="table project-list-table table-nowrap align-middle table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">{{'MENUITEMS.MANGEMENT.LIST.ROLE' | translate}}</th>
+                            <th scope="col">{{'GENERAL.ACTIVE' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let role of DataManageUserRoles.listOfCheckBoxes;">
+                            <td>
+                                <h5 class="text-truncate font-size-14">
+                                    <a href="javascript: void(0);" class="text-dark">{{role.displayValue}}</a>
+                                </h5>
+                            </td>
+                            <td>
+                                <ui-switch defaultBoColor="#dfdfdf" color="#576CBC" size="small"
+                                (change)="pushValue(role.displayValue , $event)"
+                                    [checked]="role.isSelected" class="ms-1"></ui-switch>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="w-100 text-center">
+                <button class="btn btn-primary" (click)="onSubmit()" type="button">
+                    <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingSubmit"></i>
+                    <span>{{'GENERAL.SUBMIT' | translate}}</span>
+                </button>
+            </div>
+        <!-- </form> -->
+    </div>
+
+</ng-template>

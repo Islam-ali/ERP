@@ -7,7 +7,7 @@ import { UIModule } from 'app/shared/ui/ui.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -25,7 +25,8 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule, ReactiveFormsModule ,
     NgbTooltipModule,
     UiSwitchModule,
-    TranslateModule
+    TranslateModule,
+    NgbDropdownModule
   ]
 })
 export class CompaniesModule { }

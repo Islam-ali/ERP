@@ -79,7 +79,7 @@
             </div>
         </div> -->
     </div>
-    <div class="col-xl-8" *ngIf="currentUser.roleName != Role.SuperAdmin">
+    <div class="col-xl-8" *ngIf="currentUser.roleName == Role.Admin">
         <div class="row">
             <div *ngFor="let stat of Data" class="col-md-4">
                 <div class="card mini-stats-wid" style="cursor: pointer;" [routerLink]="['/companies',currentUser.company_Id,stat.url]">

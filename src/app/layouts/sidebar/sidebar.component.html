@@ -8,6 +8,7 @@
     <ul class="metismenu list-unstyled" id="side-menu" #sideMenu>
       <!-- {{menuItems}} -->
       <ng-container *ngFor="let item of menuItems">
+        <ng-container *ngIf="item.role.includes(role)">
         <li class="menu-title" *ngIf="item.isTitle">{{ item.label | translate }}</li>
         <li *ngIf="!item.isTitle && !item.isLayout">
           <a *ngIf="hasItems(item)" href="javascript:void(0);" class="is-parent"
@@ -46,6 +47,7 @@
             </li>
           </ul>
         </li>
+      </ng-container>
       </ng-container>
     </ul>
   </div>

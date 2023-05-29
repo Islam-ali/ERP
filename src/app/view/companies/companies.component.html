@@ -28,10 +28,7 @@
             <div class="col-xl-3 col-sm-6" *ngFor="let data of allCompanies">
                 <div class="card text-center">
                     <div class="card-body row">
-                        <div style="z-index: 99;" class="position-absolute position-delete">
-                            <a href="javascript: void(0);" ngbTooltip="Delete" (click)="remove(data.id)"><i
-                                    class="bx bx-trash fa-2x"></i></a>
-                        </div>
+
                         <div class="col-4">
                             <div class="avatar-md mx-auto mb-4">
                                 <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-16">
@@ -39,7 +36,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-8 text-start">
+                        <div class="col-6 text-start">
                             <h5 class="font-size-15 mb-1"><a href="javascript: void(0);"
                                     class="text-dark">{{data.name}}</a>
                             </h5>
@@ -57,6 +54,22 @@
                                     size="small" class="d-flex"></ui-switch>
                             </div>
                         </div>
+                        <div class="col-2">
+                        <div ngbDropdown >
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" ngbDropdownToggle>
+                                    <i class="mdi mdi-dots-horizontal"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                                    <!-- <a class="dropdown-item" (click)="patchValueForm(addCompany , data)" href="javascript: void(0);"
+                                        ><i class="bx bx-edit"></i>Edit</a> -->
+                                    <a class="dropdown-item" href="javascript: void(0);" (click)="remove(data.id)"><i
+                                            class="bx bx-trash"></i>Delete</a>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
                     </div>
                     <div class="card-footer bg-transparent border-top">
                         <div class="contact-links d-flex font-size-20">

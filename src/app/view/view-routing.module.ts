@@ -15,7 +15,18 @@ const routes: Routes = [
     loadChildren: () => import('../view/companies/companies.module').then(m => m.CompaniesModule),
     canActivate:[AuthGuard],
     data: { roles: [Role.SuperAdmin , Role.Admin] }
-  }
+  },
+  { 
+    path: 'companies/:companyID/departments/:departmentID/projects',
+    loadChildren: () => import('../view/projects/projects.module').then(m => m.ProjectsModule),
+
+  },
+  { 
+    path: 'mangement',
+    loadChildren: () => import('../view/mangement/mangement.module').then(m => m.MangementModule),
+    canActivate:[AuthGuard],
+    data: { roles: [Role.SuperAdmin] }
+  },
 ];
 
 @NgModule({

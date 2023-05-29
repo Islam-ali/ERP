@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   menuItems = [];
 
   @ViewChild('sideMenu') sideMenu: ElementRef;
-
+  role:string = '' ;
   constructor(private eventService: EventService, private router: Router, public translate: TranslateService, private http: HttpClient) {
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
@@ -38,6 +38,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit() {
+    this.role = JSON.parse(localStorage.getItem('user_ERP')).roleName;
     this.initialize();
     this._scrollElement();
   }

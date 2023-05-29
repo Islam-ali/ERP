@@ -99,6 +99,14 @@
     "CLASSIFICATIONS": {
       "TEXT": "Classifications"
     },
+    "MANGEMENT": {
+      "TEXT": "Mangement",
+      "LIST": {
+        "USERS": "Users",
+        "ROLES": "Roles",
+        "PERMISSIONS": "Permissions"
+      }
+    },
     "LAYOUTS": {
       "TEXT": "Layouts",
       "LIST": {
@@ -355,6 +363,7 @@
     "IMAGE":"image",
     "ADD":"add",
     "EDIT":"edit",
+    "SUBMIT":"Submit",
     "STATUS":"status",
     "ACTIVE":"active",
     "NOTACTIVE":"not active",
@@ -380,6 +389,7 @@
     "PRIORITY":"priority",
     "ASSIGNED":"Assigned",
     "FILES":"files",
-    "EMPLOYEE":"Employee"
+    "EMPLOYEE":"Employee",
+    "ROLE":"Role"
   }
 }

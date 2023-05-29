@@ -14,7 +14,7 @@ export class CompaniesService {
   getAllCompanies():Observable<any>{
     return this.http.get(`${env.domain}Companies/GetAllCompanies`)
   }
-  getEditCompany(editForm:any):Observable<any>{
+  EditCompany(editForm:any):Observable<any>{
     return this.http.put(`${env.domain}Companies/EditCompany/${editForm['id']}`,editForm)
   }
   getCompanyById(projectId:number):Observable<any>{

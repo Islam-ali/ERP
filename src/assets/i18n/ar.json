@@ -114,6 +114,14 @@
     "CLASSIFICATIONS": {
       "TEXT": "التصنيفات"
     },
+    "MANGEMENT": {
+      "TEXT": "Mangement",
+      "LIST": {
+        "USERS": "Users",
+        "ROLE": "Role",
+        "PERMISSIONS": "Permissions"
+      }
+    },
     "APPS": {
       "TEXT": "التحكم"
     },
@@ -354,6 +362,7 @@
     "IMAGE": "صورة",
     "ADD": "اضافة",
     "EDIT": "تعديل",
+    "SUBMIT":"Submit",
     "STATUS": "الحالة",
     "ACTIVE": "تفعيل",
     "PENDING": "قيد الانتظار",
@@ -379,6 +388,7 @@
     "PRIORITY":"الأهمية",
     "ASSIGNED":"تكليف",
     "FILES":"الملفات",
-    "EMPLOYEE":" الموظف"
+    "EMPLOYEE":" الموظف",
+    "ROLE":"Role"
 }
 }

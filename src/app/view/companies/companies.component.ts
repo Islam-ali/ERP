@@ -65,8 +65,6 @@ export class CompaniesComponent implements OnInit {
   patchValueForm(content: any, Company: any) {
     this.lableForm = 1;
     this.showCompany(Company.id);
-    console.log(Company.id);
-
     this.companyId = Company.id;
     this.modalService.open(content);
   }
@@ -80,7 +78,8 @@ export class CompaniesComponent implements OnInit {
           name: res.data.name,
           nameInEnglish: res.data.nameInEnglish,
           department_Id: res.data.department_Id,
-
+          code:  res.data.code,
+          address:  res.data.address    
         })
       }, error: (err: Error) => {
         this.loadingShow = false;
@@ -93,7 +92,7 @@ export class CompaniesComponent implements OnInit {
   EditCompanyById(): void {
     let value = this.companyForm.value
     value['id'] = this.companyId;
-    this._CompaniesService.getEditCompany(value).subscribe({
+    this._CompaniesService.EditCompany(value).subscribe({
       next: (res: any) => {
         this.getAllCompanies();
         this.loadingCompany = false;

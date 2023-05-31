@@ -88,8 +88,7 @@ export class Login2Component implements OnInit {
           this.messageError = '';
           this.submitted = false;
           localStorage.setItem('user_ERP', JSON.stringify(res.data))
-          this.router.navigate(['']);
-          const currentUser = this.authenticationService.getUser();
+          this.router.navigateByUrl('/');
           // switch (currentUser.roleName) {
           //   case Role.Admin:
           //     this.router.navigate(['/companies', currentUser.company_Id]);

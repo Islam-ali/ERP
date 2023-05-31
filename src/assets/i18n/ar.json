@@ -115,11 +115,11 @@
       "TEXT": "التصنيفات"
     },
     "MANGEMENT": {
-      "TEXT": "Mangement",
+      "TEXT": "ادارة",
       "LIST": {
-        "USERS": "Users",
-        "ROLE": "Role",
-        "PERMISSIONS": "Permissions"
+        "USERS": "المستخدمين",
+        "ROLES": "ادوار",
+        "PERMISSIONS": "صلاحيات"
       }
     },
     "APPS": {
@@ -389,6 +389,24 @@
     "ASSIGNED":"تكليف",
     "FILES":"الملفات",
     "EMPLOYEE":" الموظف",
-    "ROLE":"Role"
+    "ROLE":"Role",
+    "NATIONALID": "الرقم القومى",
+    "ADDRESS": "العنوان",
+    "UNIVERSITY": "الجامعة",
+    "QUALIFICATION": "المؤهل",
+    "SALARY": "المرتب",
+    "MilitaryStatus": "حالة التجنيد",
+    "MaritalStatus": "الحالة الاجتماعيه",
+    "Status": "الحالة",
+    "STATES": "المحافظات",
+    "REGION": "المدينة",
+    "GENDER": "النوع",
+    "DEPARTMENTS": "القسم",
+    "JOBS": "الوظيفة",
+    "HIREDATE": "تاريخ التعيين",
+    "BIRTHDATE": "تاريخ الميلاد",
+    "GRADUATEDATE": "تاريخ التخرج",
+    "IsEmployeeManager":"مدير القسم"
+
 }
 }

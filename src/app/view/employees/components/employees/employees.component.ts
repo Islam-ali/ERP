@@ -252,6 +252,8 @@ export class EmployeesComponent implements OnInit {
     this.rangeValue = 0;
     // num == 1 ? this.patchValueForm() : EMPTY
     this.EmployeeForm.controls["Email"].setValidators( [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]);
+    this.Employee.clear();
+    this.addFormEmployee();
     this.modalService.open(content, { size: 'xl' });
 
   }
@@ -259,6 +261,8 @@ export class EmployeesComponent implements OnInit {
     this.EmployeeForm.reset();
     this.lableForm = 1;
     this.EmployeeForm.controls["Email"].clearValidators();
+    this.Employee.clear();
+    this.addFormEmployee();
     this.showEmployee(company.id)
     this.modalService.open(content, { size: 'xl' });
   }
@@ -308,6 +312,7 @@ export class EmployeesComponent implements OnInit {
           Files: res.data.files,
         })
         res.data.files.forEach((ele:any , index:number)=>{
+          index > 0 ? this.addFormEmployee() : EMPTY;
           this.Employee.controls[index].patchValue({
             path: `${this.pathUrl + ele.file}`,
             Description: ele.description,

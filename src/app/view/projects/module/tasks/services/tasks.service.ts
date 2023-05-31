@@ -38,8 +38,6 @@ export class TasksService {
     return this.http.post(`${env.domain}Tasks/AddTask`,formDate)
   }
   EditTask(editForm:any):Observable<any>{
-    console.log(editForm);
-    
     const formDate = new FormData();
     for (const key in editForm) {
       if (Array.isArray(editForm[key]) && editForm[key].length > 0) {

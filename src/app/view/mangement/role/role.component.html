@@ -4,11 +4,11 @@
             <div class="card">
                 <div class="card-body row">
                     <div class="col-6 d-flex align-items-center ">
-                        <h3 class="m-0">{{ 'MENUITEMS.MANGEMENT.LIST.ROLE' | translate }}</h3>
+                        <h3 class="m-0">{{ 'MENUITEMS.MANGEMENT.LIST.ROLES' | translate }}</h3>
                     </div>
                     <div class="col-6 d-flex justify-content-end ">
                         <button class="btn btn-primary w-md" (click)="openModal(addRole , 0)">{{'GENERAL.ADD' |
-                            translate}} {{ 'GENERAL.ROLE' | translate }} <i class="bx bx-plus-medical"></i></button>
+                            translate}} {{ 'MENUITEMS.MANGEMENT.LIST.ROLES' | translate }} <i class="bx bx-plus-medical"></i></button>
                     </div>
                 </div>
             </div>
@@ -28,8 +28,9 @@
                     <table class="table project-list-table table-nowrap align-middle table-borderless">
                         <thead>
                             <tr>
-                                <th scope="col">{{'GENERAL.ROLE' | translate}}</th>
+                                <th scope="col">{{'MENUITEMS.MANGEMENT.LIST.ROLES' | translate}}</th>
                                 <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
+                                <th scope="col">{{'MENUITEMS.MANGEMENT.LIST.PERMISSIONS' | translate}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,6 +52,9 @@
                                             <i class="bx bx-trash" style="cursor: pointer;"></i>
                                         </li>
                                     </ul>
+                                </td>
+                                <td>
+                                    <button [routerLink]="['/mangement/permissions',Role.id]" class="btn btn-primary py-0 px-2">{{'MENUITEMS.MANGEMENT.LIST.PERMISSIONS' | translate}}</button>
                                 </td>
                             </tr>
                         </tbody>

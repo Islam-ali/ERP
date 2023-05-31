@@ -27,8 +27,9 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   menuItems = [];
 
   @ViewChild('sideMenu') sideMenu: ElementRef;
-  role:string = '' ;
+  role:string[] = [] ;
   constructor(private eventService: EventService, private router: Router, public translate: TranslateService, private http: HttpClient) {
+    this.role = JSON.parse(localStorage.getItem('user_ERP')).roleNames;
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
         this._activateMenuDropdown();
@@ -38,7 +39,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit() {
-    this.role = JSON.parse(localStorage.getItem('user_ERP')).roleName;
     this.initialize();
     this._scrollElement();
   }
@@ -72,7 +72,10 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }, 300);
   }
-
+  checkRole(role:string[]){
+  const intersection = role.filter(x => this.role.includes(x))
+    return intersection
+  }
   /**
    * remove active and mm-active class
    */

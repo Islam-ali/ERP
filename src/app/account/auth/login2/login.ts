@@ -1,13 +1,13 @@
 export interface LoginRes {
     message: string
     isSuccess: boolean
-    data: Data
+    data: DataLoginRes
     error: string
   }
   
-  export interface Data {
+  export interface DataLoginRes {
     userName: string
-    roleName: string
+    roleNames: string[]
     email: string
     token: string
     expiresOn: string

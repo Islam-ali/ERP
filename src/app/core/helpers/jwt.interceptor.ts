@@ -32,13 +32,14 @@ export class JwtInterceptor implements HttpInterceptor {
         //         });
         //     }
         // }
-        
+
         const lang = JSON.parse(localStorage.getItem('lang_ERP'))?.lang || 'ar'
         const currentUser: any = this.authenticationService.getUser()
         if (currentUser) {
             request = request.clone({
                 setHeaders: {
                     'lang': lang,
+                    'Accept-Language': lang,
                     Authorization: `Bearer ${currentUser.token}`
                 }
             });

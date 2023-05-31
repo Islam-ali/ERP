@@ -26,7 +26,7 @@ export class TopbarComponent implements OnInit {
   flagvalue;
   countryName;
   valueset;
-  notiLength: number = 1;
+  notiLength: number = 0;
   messageNotification:any[]=[];
   constructor(
     @Inject(DOCUMENT) private document: any,

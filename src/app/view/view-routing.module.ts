@@ -9,6 +9,7 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('../view/home/home.module').then(m => m.HomeModule),
     canActivate:[AuthGuard],
+    data: { roles: [Role.SuperAdmin , Role.Admin , Role.User]}
   },
   { 
     path: 'companies',
@@ -19,7 +20,6 @@ const routes: Routes = [
   { 
     path: 'companies/:companyID/departments/:departmentID/projects',
     loadChildren: () => import('../view/projects/projects.module').then(m => m.ProjectsModule),
-
   },
   { 
     path: 'mangement',

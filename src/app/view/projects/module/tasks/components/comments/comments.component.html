@@ -5,7 +5,7 @@
 		<div class="be-comment">
 			<div class="be-img-comment">
 				<a href="javascript: void(0);" *ngIf="comment.commentatorImagePath">
-					<img [src]="comment.commentatorImagePath" [alt]="comment.commentatorName" class="be-ava-comment">
+					<img [src]="url + comment.commentatorImagePath" [alt]="comment.commentatorName" class="be-ava-comment">
 				</a>
 				<div class="avatar-group-item avatar-xs" *ngIf="!comment.commentatorImagePath">
 					<span class="avatar-title rounded-circle bg-soft bg-primary text-primary">

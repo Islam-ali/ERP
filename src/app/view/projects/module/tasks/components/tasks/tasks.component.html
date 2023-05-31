@@ -175,15 +175,20 @@
                                 </a>
                             </div>
                             <div class="avatar-group-item avatar-xs" *ngIf="!task?.assignedEmployeeData[0]?.imagePath">
-                                <span class="avatar-title rounded-circle bg-soft bg-primary text-primary">
+                                <span class="avatar-title rounded-circle bg-primary text-light">
                                     {{task?.assignedEmployeeData[0]?.name.charAt(0)}}
                                 </span>
                             </div>
-                            <div class="avatar-group-item" *ngIf="task.assignedEmployeeData[1]">
+                            <div class="avatar-group-item" *ngIf="task.assignedEmployeeData[1].imagePath ">
                                 <a href="javascript: void(0);" class="d-inline-block">
                                     <img src="{{ domain+task.assignedEmployeeData[1]?.imagePath}}"
                                         class="rounded-circle avatar-xs" alt="">
                                 </a>
+                            </div>
+                            <div class="avatar-group-item avatar-xs" *ngIf="!task?.assignedEmployeeData[1]?.imagePath">
+                                <span class="avatar-title rounded-circle bg-primary text-light">
+                                    {{task?.assignedEmployeeData[0]?.name.charAt(0)}}
+                                </span>
                             </div>
                         </div>
                     </div>

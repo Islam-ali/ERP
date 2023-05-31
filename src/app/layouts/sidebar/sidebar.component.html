@@ -1,14 +1,13 @@
 <!-- ========== Left Sidebar Start ========== -->
-
+<ng-container *ngIf="role.length > 0">
 <ng-template #contentTemplate>
-
   <!--- Sidemenu -->
   <div id="sidebar-menu">
     <!-- Left Menu Start -->
     <ul class="metismenu list-unstyled" id="side-menu" #sideMenu>
       <!-- {{menuItems}} -->
       <ng-container *ngFor="let item of menuItems">
-        <ng-container *ngIf="item.role.includes(role)">
+        <ng-container *ngIf="checkRole(item.role).length > 0">
         <li class="menu-title" *ngIf="item.isTitle">{{ item.label | translate }}</li>
         <li *ngIf="!item.isTitle && !item.isLayout">
           <a *ngIf="hasItems(item)" href="javascript:void(0);" class="is-parent"
@@ -64,4 +63,6 @@
     </div>
   </ngx-simplebar>
 </div>
+</ng-container>
+
 <!-- Left Sidebar End -->

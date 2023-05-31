@@ -152,7 +152,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="mb-3">
-                        <label>{{'GENERAL.MOBILE' | translate}}</label>
+                        <label>{{'GENERAL.MOBILE_NUMBER' | translate}}</label>
                         <input type="text" class="form-control" formControlName="Mobile"
                             [ngClass]="{'is-valid': form.Mobile.dirty && !form.Mobile.errors ,'is-invalid': form.Mobile.dirty && form.Mobile.errors}">
                         <div *ngIf="form.Mobile.dirty && form.Mobile.errors" class="invalid-feedback">
@@ -317,7 +317,7 @@
                 </div>
                 <div class="col-xl-6 col-lg-6" *ngIf="form.SuperVisor_Id.value !== 0">
                     <div class="mb-3">
-                        <label class="form-label text-capitalize">{{'GENERAL.EMPLOYEES' |
+                        <label class="form-label text-capitalize">{{'GENERAL.EMPLOYEE' |
                             translate}}</label>
                         <ng-select
                             [ngClass]="{'is-valid': form.SuperVisor_Id.dirty && !form.SuperVisor_Id.errors ,'is-invalid': form.SuperVisor_Id.dirty && form.SuperVisor_Id.errors}"
@@ -413,8 +413,7 @@
                                         <div class="col-5">
                                             <!-- <div class="row p-0 m-0"> -->
                                                 <label for="formFile"
-                                                    class="form-label text-capitalize">{{'GENERAL.IMAGE' |
-                                                    translate}}
+                                                    class="form-label text-capitalize">
                                                     {{'GENERAL.FILES' |
                                                     translate}}</label>
                                                 <input class="form-control" type="file" accept="image/*"

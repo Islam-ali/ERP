@@ -47,13 +47,24 @@ export class UserRoleComponent implements OnInit {
       }
     })
   }
+  mapListMangeRole(val) {
+    if (val.isSelected == true) {
+      return { displayValue: val.displayValue, isSelected: val.isSelected }
+    } else {
+      return
+    }
+  }
   ManageUserRolesById(userId: string): void {
     this.loadingShow = true;
     this._UserRoleService.ManageUserRolesById(userId).subscribe({
       next: (res: ManageUserRoles) => {
         this.loadingShow = false;
         this.DataManageUserRoles = res.data
+        this.listOfCheckBoxes = this.DataManageUserRoles.listOfCheckBoxes.map(x => this.mapListMangeRole(x))
         this.loader = false;
+        this.value['userId'] = this.DataManageUserRoles.userId
+        this.value['userName'] = this.DataManageUserRoles.userName
+        this.value['listOfCheckBoxes'] = this.listOfCheckBoxes.filter(x => x != undefined || x != null);
       }, error: (err: Error) => {
         this.loader = false;
         this.toastrService.error(err.message);
@@ -63,21 +74,27 @@ export class UserRoleComponent implements OnInit {
 
   openModal(content: any, user: any): void {
     this.lableForm = user.userName;
-    this.ManageUserRolesById(user.id)
     this.listOfCheckBoxes = [];
+    this.ManageUserRolesById(user.id)
     this.modalService.open(content);
   }
-  pushValue(displayValue, event: boolean) {
-    let index = this.listOfCheckBoxes.length > 0 ? this.listOfCheckBoxes.findIndex(x => x.displayValue == displayValue) : -1
-    if (index == -1) {
-      this.listOfCheckBoxes.push({ displayValue: displayValue, isSelected: event })
-      this.value['userId'] = this.DataManageUserRoles.userId
-      this.value['userName'] = this.DataManageUserRoles.userName
-      this.value['listOfCheckBoxes'] = this.listOfCheckBoxes
+  displayValue(val, displayValue) {
+    return (val.displayValue == displayValue)
+  }
+  pushValue(displayValue: string, event: boolean) {
+    let filterList = this.listOfCheckBoxes.filter((x) => x != undefined || x != null);
+    const existed = filterList.findIndex((x) => this.displayValue(x, displayValue));
+    if (event) {
+      if (existed == -1) {
+        filterList.push({ displayValue: displayValue, isSelected: event })
+      }
     } else {
-      this.listOfCheckBoxes.splice(index, 1);
-      this.listOfCheckBoxes.push({ displayValue: displayValue, isSelected: event })
+      filterList.splice(existed, 1);
     }
+    this.value['userId'] = this.DataManageUserRoles.userId
+    this.value['userName'] = this.DataManageUserRoles.userName
+    this.value['listOfCheckBoxes'] = filterList.filter(x => x != undefined || x != null);
+    this.listOfCheckBoxes = filterList;
   }
 
   getUpdateuser(userId: number): number {

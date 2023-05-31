@@ -22,11 +22,12 @@ export class EmployeesService {
     )
   }
   getEditEmployee(editForm: any): Observable<any> {
+    console.log(editForm);
+    
     const formDate = new FormData();
-
     for (const key in editForm) {
-      if (Array.isArray(editForm[key])) {
-        if (Object.keys(editForm[key][0]).length > 1) {
+      if (Array.isArray(editForm[key]) && editForm[key].length > 0) {
+        if (Object?.keys(editForm[key][0])?.length > 1) {
           editForm[key].forEach((ele: any, index: number) => {
             for (const subkey in ele)
               ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;

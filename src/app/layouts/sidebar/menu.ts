@@ -1,8 +1,12 @@
 import { MenuItem } from './menu.model';
 
 function getID() {
-    const UserInfo = JSON.parse(localStorage.getItem('user_ERP'))
-    return {department_Id:UserInfo.department_Id,company_Id:UserInfo.company_Id}
+    const UserInfo = JSON.parse(localStorage.getItem('user_ERP')!)
+    if(UserInfo){
+        return {department_Id:UserInfo.department_Id,company_Id:UserInfo.company_Id}
+    }else{
+        return {department_Id:0,company_Id:0}
+    }
 }
 export const MENU: MenuItem[] = [
     {
@@ -89,12 +93,12 @@ export const MENU: MenuItem[] = [
                         link: '/mangement/role',
                         parentId: 5
                     },
-                    {
-                        id: 13,
-                        label: 'MENUITEMS.MANGEMENT.LIST.PERMISSIONS',
-                        link: '/mangement/permissions',
-                        parentId: 6
-                    }
+                    // {
+                    //     id: 13,
+                    //     label: 'MENUITEMS.MANGEMENT.LIST.PERMISSIONS',
+                    //     link: '/mangement/permissions',
+                    //     parentId: 6
+                    // }
                 ]
     },
     {

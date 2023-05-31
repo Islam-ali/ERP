@@ -4,6 +4,7 @@ import { getFirebaseBackend } from '../../authUtils';
 
 import { User } from '../models/auth.models';
 import { EMPTY } from 'rxjs';
+import { DataLoginRes } from 'app/account/auth/login2/login';
 
 @Injectable({ providedIn: 'root' })
 
@@ -20,7 +21,7 @@ export class AuthenticationService {
     public currentUser(): User {
         return getFirebaseBackend().getAuthenticatedUser();
     }
-    public getUser(){
+    public getUser(): DataLoginRes{
         return JSON.parse(localStorage.getItem('user_ERP')) || null
       }
     /**

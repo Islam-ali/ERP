@@ -8,6 +8,7 @@ export const environment = {
   // domain:'http://192.168.0.110:44385/api/',
   domain:'http://192.168.0.111:44385/api/',
   url:'http://192.168.0.111:44385/',
+  
   firebaseConfig: {
     apiKey: '',
     authDomain: '',

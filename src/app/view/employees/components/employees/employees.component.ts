@@ -12,6 +12,8 @@ import { JobsService } from 'app/view/jobs/Services/jobs.service';
 import { DepartmentsService } from 'app/view/departments/services/departments.service';
 import { FormateDateService } from 'app/shared/services/formate-date.service';
 import { EMPTY } from 'rxjs';
+import { ProfileService } from 'app/view/profile/services/profile.service';
+import { Profile } from 'app/view/profile/modal/profile';
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
@@ -46,6 +48,7 @@ export class EmployeesComponent implements OnInit {
   placement = "top";
   state_id = 0 ;
   department_id = 0;
+  ListOfId:any[]=[];
   constructor(
     private _formBuilder: FormBuilder,
     private _EmployeesService: EmployeesService,
@@ -54,7 +57,8 @@ export class EmployeesComponent implements OnInit {
     private _ActivatedRoute: ActivatedRoute,
     private _JobsService: JobsService,
     private _DepartmentsService: DepartmentsService,
-    private _FormateDateService: FormateDateService
+    private _FormateDateService: FormateDateService,
+    private _ProfileService: ProfileService,
 
   ) {
     this.companyID = this._ActivatedRoute.snapshot.params['companyID'];
@@ -415,6 +419,20 @@ export class EmployeesComponent implements OnInit {
     this._EmployeesService.RemoveEmployee(EmployeeId).subscribe({
       next: (res: Employees) => {
         this.getEmployees();
+        this.toastrService.error(res.message);
+      }, error: (err: Error) => {
+        this.toastrService.error(err.message);
+      }
+    })
+  }
+  RemoveImage(id:number){
+    this.ListOfId.push(id)
+    this.DeleteFileOrMoreOfEmployee();
+  }
+  DeleteFileOrMoreOfEmployee(){
+    this._ProfileService.DeleteFileOrMoreOfEmployee(this.ListOfId).subscribe({
+      next:(res:Profile)=>{
+        this.ListOfId = [];
         this.toastrService.error(res.message);
       }, error: (err: Error) => {
         this.toastrService.error(err.message);

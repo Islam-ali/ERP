@@ -14,6 +14,7 @@ import { LoginRes } from './login';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Role } from 'app/core/modal/role';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login2',
@@ -89,6 +90,8 @@ export class Login2Component implements OnInit {
           this.submitted = false;
           localStorage.setItem('user_ERP', JSON.stringify(res.data))
           this.router.navigateByUrl('/');
+          this.authenticationService.isAuth.next(true);
+          // location.reload();
           // switch (currentUser.roleName) {
           //   case Role.Admin:
           //     this.router.navigate(['/companies', currentUser.company_Id]);

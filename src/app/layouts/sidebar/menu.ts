@@ -2,6 +2,8 @@ import { MenuItem } from './menu.model';
 
 function getID() {
     const UserInfo = JSON.parse(localStorage.getItem('user_ERP')!)
+    console.log(UserInfo);
+    
     if(UserInfo){
         return {department_Id:UserInfo.department_Id,company_Id:UserInfo.company_Id}
     }else{

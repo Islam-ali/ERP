@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { getFirebaseBackend } from '../../authUtils';
 
 import { User } from '../models/auth.models';
-import { EMPTY } from 'rxjs';
+import { BehaviorSubject, EMPTY } from 'rxjs';
 import { DataLoginRes } from 'app/account/auth/login2/login';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +11,8 @@ import { DataLoginRes } from 'app/account/auth/login2/login';
 export class AuthenticationService {
 
     user: User;
-
+    isAuth:BehaviorSubject<boolean> = new BehaviorSubject(false);
+    Auth$ = this.isAuth.asObservable();
     constructor() {
     }
 
@@ -21,6 +22,7 @@ export class AuthenticationService {
     public currentUser(): User {
         return getFirebaseBackend().getAuthenticatedUser();
     }
+
     public getUser(): DataLoginRes{
         return JSON.parse(localStorage.getItem('user_ERP')) || null
       }

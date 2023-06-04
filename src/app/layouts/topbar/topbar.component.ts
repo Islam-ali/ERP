@@ -156,8 +156,9 @@ export class TopbarComponent implements OnInit {
     // } else {
     //   this.authFackservice.logout();
     // }
-    localStorage.removeItem('user_ERP')
-    this.router.navigate(['/account/login']);
+    localStorage.removeItem('user_ERP');
+    location.reload();
+    // this.router.navigate(['/account/login']);
   }
 
   /**

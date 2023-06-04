@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { EventService } from '../../core/services/event.service';
 
 import { SIDEBAR_TYPE } from "../layouts.model";
+import { AuthenticationService } from 'app/core/services/auth.service';
 
 @Component({
   selector: 'app-vertical',
@@ -14,12 +15,13 @@ import { SIDEBAR_TYPE } from "../layouts.model";
 /**
  * Vertical component
  */
-export class VerticalComponent implements OnInit, AfterViewInit {
+export class VerticalComponent implements OnInit, AfterViewInit,OnDestroy {
 
   isCondensed = false;
   sidebartype: string;
-
-  constructor(private router: Router, private eventService: EventService) {
+  UserInfo:any;
+  constructor(private router: Router, private eventService: EventService , private AuthenticationService : AuthenticationService) {
+    
     this.router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
         document.body.classList.remove('sidebar-enable');
@@ -38,15 +40,24 @@ export class VerticalComponent implements OnInit, AfterViewInit {
     this.changeSidebar(this.sidebartype);
 
     document.body.setAttribute('data-layout', 'vertical');
-
+    this.UserInfo = JSON.parse(localStorage.getItem('user_ERP')!)
+    this.AuthenticationService.isAuth.next(true)
+    if(this.UserInfo){
+    }
+    this.isAuth()
   }
-
+  isAuth(){
+    this.AuthenticationService.Auth$.subscribe(res => {
+      return res
+    })
+  }
   isMobile() {
     const ua = navigator.userAgent;
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua);
   }
 
   ngAfterViewInit() {
+
   }
 
   /**
@@ -123,6 +134,10 @@ export class VerticalComponent implements OnInit, AfterViewInit {
       document.body.classList.remove('vertical-collpsed');
     }
   }
-
+ngOnDestroy(): void {
+    this.UserInfo = null;
+    console.log(this.UserInfo);
+    
+}
 
 }

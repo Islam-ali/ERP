@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, OnChanges, OnDestroy } from '@angular/core';
 import MetisMenu from 'metismenujs/dist/metismenujs';
 import { EventService } from '../../core/services/event.service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 import { TranslateService } from '@ngx-translate/core';
+import { log } from 'console';
+import { AuthenticationService } from 'app/core/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,7 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
 /**
  * Sidebar component
  */
-export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
+export class SidebarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @ViewChild('componentRef') scrollRef;
   @Input() isCondensed = false;
   menu: any;
@@ -27,9 +29,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   menuItems = [];
 
   @ViewChild('sideMenu') sideMenu: ElementRef;
-  role:string[] = [] ;
-  constructor(private eventService: EventService, private router: Router, public translate: TranslateService, private http: HttpClient) {
-    this.role = JSON.parse(localStorage.getItem('user_ERP')).roleNames;
+  USERERP: any;
+  constructor(private eventService: EventService, private router: Router, public translate: TranslateService, private http: HttpClient, private AuthenticationService: AuthenticationService) {
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
         this._activateMenuDropdown();
@@ -39,8 +40,11 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit() {
-    this.initialize();
+    this.USERERP = JSON.parse(localStorage.getItem('user_ERP'));
+
+    this.initialize()
     this._scrollElement();
+
   }
 
   ngAfterViewInit() {
@@ -66,14 +70,14 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
       if (document.getElementsByClassName("mm-active").length > 0) {
         const currentPosition = document.getElementsByClassName("mm-active")[0]['offsetTop'];
         if (currentPosition > 500)
-        if(this.scrollRef.SimpleBar !== null)
-          this.scrollRef.SimpleBar.getScrollElement().scrollTop =
-            currentPosition + 300;
+          if (this.scrollRef.SimpleBar !== null)
+            this.scrollRef.SimpleBar.getScrollElement().scrollTop =
+              currentPosition + 300;
       }
     }, 300);
   }
-  checkRole(role:string[]){
-  const intersection = role.filter(x => this.role.includes(x))
+  checkRole(role: string[]) {
+    const intersection = role.filter(x => this.USERERP.roleNames.includes(x))
     return intersection
   }
   /**
@@ -152,5 +156,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
    */
   hasItems(item: MenuItem) {
     return item.subItems !== undefined ? item.subItems.length > 0 : false;
+  }
+  ngOnDestroy(): void {
+    this.USERERP = null
   }
 }

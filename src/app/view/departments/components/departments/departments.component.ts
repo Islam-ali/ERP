@@ -117,7 +117,8 @@ export class DepartmentsComponent implements OnInit {
     })
   }
   AddDepartment(): void {
-    let value = this.DepartmentForm.value
+    let value = this.DepartmentForm.value;
+    value['company_Id'] = this.companyID;
     this._DepartmentsService.addDepartment(value).subscribe({
       next: (res: Departments) => {
         this.getDepartments();

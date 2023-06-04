@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
 })
 export class LoginService {
   constructor(private http: HttpClient) { }
-
   Login(body: FormGroup): Observable<LoginRes> {
     let headers = new HttpHeaders();
     const lang = JSON.parse(localStorage.getItem('lang_ERP'))?.lang || 'ar'

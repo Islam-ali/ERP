@@ -1,7 +1,5 @@
 <div class="container-fluid">
-
   <app-page-title title="Profile" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-
   <div class="row">
     <div class="col-xl-4">
       <div class="card overflow-hidden">
@@ -139,19 +137,15 @@
               </li>
             </ul>
           </div>
-
         </div>
       </div>
       <!-- end card -->
     </div>
-
     <div class="col-xl-8">
-
       <div class="row">
         <div *ngFor="let stat of statData" class="col-md-4">
           <app-stat [title]="stat.title" [value]="stat.value" [icon]="stat.icon"></app-stat>
         </div>
-
       </div>
       <div class="card">
         <div class="card-body">
@@ -163,7 +157,6 @@
           </apx-chart>
         </div>
       </div>
-
       <div class="card">
         <div class="card-body">
           <h4 class="card-title mb-4">My Projects</h4>
@@ -186,7 +179,6 @@
                   <td>20 Oct, 2019</td>
                   <td>$506</td>
                 </tr>
-
                 <tr>
                   <th scope="row">2</th>
                   <td>Skote admin Logo</td>

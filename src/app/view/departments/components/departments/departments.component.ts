@@ -112,7 +112,7 @@ export class DepartmentsComponent implements OnInit {
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingDepartments = false;
-        this.toastrService.error(err.message);
+        this.toastrService.error(`${err}`);
       }
     })
   }

@@ -78,8 +78,8 @@ export class CompaniesComponent implements OnInit {
           name: res.data.name,
           nameInEnglish: res.data.nameInEnglish,
           department_Id: res.data.department_Id,
-          code:  res.data.code,
-          address:  res.data.address    
+          code: res.data.code,
+          address: res.data.address
         })
       }, error: (err: Error) => {
         this.loadingShow = false;
@@ -100,7 +100,8 @@ export class CompaniesComponent implements OnInit {
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingCompany = false;
-        this.toastrService.error(err.message);
+        this.toastrService.error(`${err}`);
+
       }
     })
   }
@@ -114,7 +115,8 @@ export class CompaniesComponent implements OnInit {
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingCompany = false;
-        this.toastrService.error(err.message);
+        this.toastrService.error(`${err}`);
+
       }
     })
   }
@@ -125,7 +127,7 @@ export class CompaniesComponent implements OnInit {
         this.getAllCompanies();
         this.toastrService.error(res.message);
       }, error: (err: Error) => {
-        this.toastrService.error(err.message);
+        this.toastrService.error(`${err}`);
       }
     })
   }
@@ -153,7 +155,8 @@ export class CompaniesComponent implements OnInit {
           this.toastrService.warning(res.message);
         }
       }, error: (err: Error) => {
-        this.toastrService.error(err.message);
+        this.toastrService.error(`${err}`);
+
       }
     })
   }

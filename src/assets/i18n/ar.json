@@ -371,7 +371,7 @@
     "NOTACTIVE": "الغاء تفعيل",
     "ACTION": "الاعدادات",
     "VIEW": "عرض",
-    "MESSAGE_LOGIN": "قم بتسجيل الدخول للمتابعة إلى Tarfok.",
+    "MESSAGE_LOGIN": "قم بتسجيل الدخول للمتابعة إلى ERP.",
     "WELCOME_bACK": "مرحبًا بعودتك !",
     "LOGIN": "تسجيل الدخول",
     "LOGOUT": "تسجيل الخروج",
@@ -406,7 +406,8 @@
     "HIREDATE": "تاريخ التعيين",
     "BIRTHDATE": "تاريخ الميلاد",
     "GRADUATEDATE": "تاريخ التخرج",
-    "IsEmployeeManager":"مدير القسم"
+    "IsEmployeeManager":"مدير القسم",
+    "CODE":"كود"
 
 }
 }

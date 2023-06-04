@@ -20,7 +20,6 @@ export class ErrorInterceptor implements HttpInterceptor {
                 // this.authenticationService.logout();
                 // location.reload();
                 this.router.navigate(['/account/login']);
-
             }
 
             const error = err.error.message || err.statusText;

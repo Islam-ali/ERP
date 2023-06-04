@@ -15,7 +15,7 @@ export const MENU: MenuItem[] = [
         id: 1,
         label: 'MENUITEMS.MENU.TEXT',
         isTitle: true,
-        role:['Admin','Superadmin','User']
+        role:['Admin','Superadmin','User','DepartmentAdmin']
     },
     // {
     //     id: 2,
@@ -57,18 +57,18 @@ export const MENU: MenuItem[] = [
         label: 'MENUITEMS.DASHBOARDS.TEXT',
         icon: 'bx-home-circle',
         link: '/home',
-        role:['Admin','Superadmin','User']
+        role:['Admin','Superadmin','User','DepartmentAdmin']
     },
     {
         id: 7,
         isLayout: true,
-        role:['Admin','Superadmin','User']
+        role:['Admin','Superadmin','User','DepartmentAdmin']
     },
     {
         id: 8,
         label: 'MENUITEMS.APPS.TEXT',
         isTitle: true,
-        role:['Admin','Superadmin','User']
+        role:['Admin','Superadmin','User','DepartmentAdmin']
     },
     {
         id: 3,

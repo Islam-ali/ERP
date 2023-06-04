@@ -90,7 +90,7 @@ export class EmployeesComponent implements OnInit {
       Region_Id: [null, [Validators.required]],
       Gender_Id: [null, [Validators.required]],
       Job_Id: [null, [Validators.required]],
-      SuperVisor_Id: [null, [Validators.required]],
+      SuperVisor_Id: [null],
       // optional
       state_Id: [null],
       department_Id: [null],
@@ -383,6 +383,7 @@ export class EmployeesComponent implements OnInit {
     // delete value["Files"];
     value["ImagePath"] = this.image;
     value["CoverPath"] = this.coverPath;
+    value["SuperVisor_Id"] = 1;
     value['Files'] = [];
     this.Employee.controls.forEach((ele:any)=>{
     value['Files'].push({Description:ele.value.Description,File:ele.value.File})

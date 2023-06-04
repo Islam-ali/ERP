@@ -9,13 +9,13 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('../view/home/home.module').then(m => m.HomeModule),
     canActivate:[AuthGuard],
-    data: { roles: [Role.SuperAdmin , Role.Admin , Role.User]}
+    data: { roles: [Role.SuperAdmin , Role.Admin , Role.User , Role.DepartmentAdmin]}
   },
   { 
     path: 'companies',
     loadChildren: () => import('../view/companies/companies.module').then(m => m.CompaniesModule),
     canActivate:[AuthGuard],
-    data: { roles: [Role.SuperAdmin , Role.Admin] }
+    data: { roles: [Role.SuperAdmin , Role.Admin , Role.DepartmentAdmin] }
   },
   { 
     path: 'companies/:companyID/departments/:departmentID/projects',

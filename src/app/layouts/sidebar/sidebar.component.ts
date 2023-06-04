@@ -8,7 +8,6 @@ import { HttpClient } from '@angular/common/http';
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 import { TranslateService } from '@ngx-translate/core';
-import { log } from 'console';
 import { AuthenticationService } from 'app/core/services/auth.service';
 
 @Component({
@@ -31,6 +30,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges, OnDes
   @ViewChild('sideMenu') sideMenu: ElementRef;
   USERERP: any;
   constructor(private eventService: EventService, private router: Router, public translate: TranslateService, private http: HttpClient, private AuthenticationService: AuthenticationService) {
+    this.USERERP = JSON.parse(localStorage.getItem('user_ERP'));
+    
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
         this._activateMenuDropdown();
@@ -40,9 +41,10 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges, OnDes
   }
 
   ngOnInit() {
-    this.USERERP = JSON.parse(localStorage.getItem('user_ERP'));
+    this.AuthenticationService.Auth$.subscribe(res=>{
+      res ? this.menuItems = MENU : this.menuItems = null
+    })
 
-    this.initialize()
     this._scrollElement();
 
   }
@@ -147,7 +149,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges, OnDes
    * Initialize
    */
   initialize(): void {
-    this.menuItems = MENU;
   }
 
   /**

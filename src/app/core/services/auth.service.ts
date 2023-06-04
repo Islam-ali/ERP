@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { getFirebaseBackend } from '../../authUtils';
-
 import { User } from '../models/auth.models';
 import { BehaviorSubject, EMPTY } from 'rxjs';
 import { DataLoginRes } from 'app/account/auth/login2/login';
@@ -11,8 +10,9 @@ import { DataLoginRes } from 'app/account/auth/login2/login';
 export class AuthenticationService {
 
     user: User;
-    isAuth:BehaviorSubject<boolean> = new BehaviorSubject(false);
+    isAuth:BehaviorSubject<boolean> = new BehaviorSubject(localStorage.getItem('user_ERP') ? true : false);
     Auth$ = this.isAuth.asObservable();
+
     constructor() {
     }
 

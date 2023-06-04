@@ -15,8 +15,18 @@ export class FormateDateService {
   sendFormateDate(date){
     console.log(date);
     var formatedate:any = {}
+    var xDate:any = {}
     if(date.month.toString().length == 1){
-      formatedate = date.year+'-0'+date.month+'-'+date.day
+      date['month'] = '0'+date.month
+      console.log(date);
+      
+      formatedate = date.year+'-'+date.month+'-'+date.day
+    }
+    if(date.day.toString().length == 1){
+      date['day'] = '0'+date.day
+      console.log(date);
+
+      formatedate = date.year+'-'+date.month+'-'+date.day
     }else{
       formatedate = date.year+'-'+date.month+'-'+date.day
     }

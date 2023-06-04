@@ -14,13 +14,13 @@ const routes: Routes = [
     path: ':companyID/departments',
     loadChildren: () => import('../../view/departments/departments.module').then(m => m.DepartmentsModule),
     canActivate: [AuthGuard],
-    data: { roles: [Role.SuperAdmin, Role.Admin] }
+    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin] }
   },
   {
     path: ':companyID/employees',
     loadChildren: () => import('../../view/employees/employees.module').then(m => m.EmployeesModule),
     canActivate: [AuthGuard],
-    data: { roles: [Role.SuperAdmin, Role.Admin] }
+    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin] }
   },
 ];
 

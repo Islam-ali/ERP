@@ -371,7 +371,7 @@
     "REJECTED": "Rejected",
     "VIEW": "view",
     "ACTION": "action",
-    "MESSAGE_LOGIN": "Sign in to continue to Tarfok.",
+    "MESSAGE_LOGIN": "Sign in to continue to ERP.",
     "WELCOME_bACK": "Welcome Back !",
     "LOGIN": "login",
     "LOGOUT": "Logout",
@@ -406,6 +406,7 @@
     "HIREDATE": "Hire Date",
     "BIRTHDATE": "Birth Date",
     "GRADUATEDATE": "Graduate Date",
-    "IsEmployeeManager":"Is Employee Manager"
+    "IsEmployeeManager":"Is Employee Manager",
+    "CODE":"Code"
   }
 }

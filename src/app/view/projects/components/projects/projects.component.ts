@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
+import { FormateDateService } from 'app/shared/services/formate-date.service';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -32,7 +33,8 @@ export class ProjectsComponent implements OnInit {
     private modalService: NgbModal,
     private toastrService: ToastrService,
     private _ActivatedRoute: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    private _FormateDateService:FormateDateService
   ) {
     this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID']
   }
@@ -88,21 +90,23 @@ export class ProjectsComponent implements OnInit {
     this.modalService.open(content);
   }
   
-  formateDate(date){
-    let arrayDate = date.split('-');
-    const objdate = {year:+arrayDate[0],month:+arrayDate[1],day:+arrayDate[2]}
-    return objdate
-  }// {year: 2023, month: 5, day: 13}
-  addFormateDate(date){
-    console.log(date);
-    var formatedate:any = {}
-    if(date.month.toString().length == 1){
-      formatedate = date.year+'-0'+date.month+'-'+date.day
-    }else{
-      formatedate = date.year+'-'+date.month+'-'+date.day
-    }
-    return formatedate
-  }// 2000-01-01
+  // formateDate(date){
+  //   let arrayDate = date.split('-');
+  //   const objdate = {year:+arrayDate[0],month:+arrayDate[1],day:+arrayDate[2]}
+  //   return objdate
+  // }// {year: 2023, month: 5, day: 13}
+  // addFormateDate(date){
+  //   console.log(date);
+  //   var formatedate:any = {}
+  //   if(date.month.toString().length == 1){
+  //     formatedate = date.year+'-0'+date.month+'-'+date.day
+  //   }else{
+  //     formatedate = date.year+'-'+date.month+'-'+date.day
+  //     console.log(formatedate);
+  //   }
+    
+  //   return formatedate
+  // }// 2000-01-01
   showProject(ProjectID: number) {
     this.getUpdateProject(ProjectID)
     this.loadingShow = true;
@@ -113,8 +117,8 @@ export class ProjectsComponent implements OnInit {
           name: res.data.name,
           nameInEnglish: res.data.nameInEnglish,
           department_Id: res.data.department_Id,
-          startDate:  this.formateDate(res.data.startDate) ,
-          endDate: this.formateDate(res.data.endDate),
+          startDate:  this._FormateDateService.recivedFormateDate(res.data.startDate) ,
+          endDate: this._FormateDateService.recivedFormateDate(res.data.endDate),
         })
       }, error: (err: Error) => {
         this.loadingShow = false;
@@ -127,8 +131,8 @@ export class ProjectsComponent implements OnInit {
   EditProjectById(): void {
     this.ProjectForm.patchValue({
       department_Id: this.departmentID,
-      startDate: this.addFormateDate(this.ProjectForm.get('startDate').value),
-      endDate: this.addFormateDate(this.ProjectForm.get('endDate').value),
+      startDate: this._FormateDateService.sendFormateDate(this.ProjectForm.get('startDate').value),
+      endDate: this._FormateDateService.sendFormateDate(this.ProjectForm.get('endDate').value),
     })
     let value = this.ProjectForm.value
     value['id'] = this.ProjectId;
@@ -140,15 +144,16 @@ export class ProjectsComponent implements OnInit {
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingProjects = false;
-        this.toastrService.error(err.message);
+                this.toastrService.error(`${err}`);
+
       }
     })
   }
   AddProject(): void {
     this.ProjectForm.patchValue({
       department_Id: this.departmentID,
-      startDate: this.addFormateDate(this.ProjectForm.get('startDate').value),
-      endDate: this.addFormateDate(this.ProjectForm.get('endDate').value),
+      startDate: this._FormateDateService.sendFormateDate(this.ProjectForm.get('startDate').value),
+      endDate: this._FormateDateService.sendFormateDate(this.ProjectForm.get('endDate').value),
     })
     let value = this.ProjectForm.value
     this._ProjectsService.addProject(value).subscribe({
@@ -159,7 +164,8 @@ export class ProjectsComponent implements OnInit {
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingProjects = false;
-        this.toastrService.error(err.message);
+                this.toastrService.error(`${err}`);
+
       }
     })
   }
@@ -174,7 +180,8 @@ export class ProjectsComponent implements OnInit {
           this.toastrService.warning(res.message);
         }
       }, error: (err: Error) => {
-        this.toastrService.error(err.message);
+                this.toastrService.error(`${err}`);
+
       }
     })
   }
@@ -184,7 +191,8 @@ export class ProjectsComponent implements OnInit {
         this.getProjects();
         this.toastrService.error(res.message);
       }, error: (err: Error) => {
-        this.toastrService.error(err.message);
+                this.toastrService.error(`${err}`);
+
       }
     })
   }

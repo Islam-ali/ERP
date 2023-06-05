@@ -368,7 +368,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
                                 <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}}
@@ -377,12 +377,8 @@
                                 <input class="form-control" type="file" accept="image/*" (change)="uploadeImage($event)"
                                     [ngClass]="{'is-valid': form.ImagePath.dirty && !form.ImagePath.errors ,'is-invalid': form.ImagePath.dirty && form.ImagePath.errors}">
                                 <div class="card-image p-0 px-2 m-2">
-                                    <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
-                                      (click)="removeImage()">remove</button> -->
                                     <img class="p-0 w-100" title="images" accept="image/*" alt="images"
                                         [src]="form.ImagePath.value" *ngIf="form.ImagePath.value" />
-                                    <!-- <img class="p-0 w-100" title="images" accept="image/*" alt="images"
-                                        [src]="form.ImagePath.value" *ngIf="form.ImagePath.value" /> -->
                                 </div>
                             </div>
                         </div>
@@ -395,16 +391,12 @@
                                     (change)="uploadeCoverPath($event)"
                                     [ngClass]="{'is-valid': form.CoverPath.dirty && !form.CoverPath.errors ,'is-invalid': form.CoverPath.dirty && form.CoverPath.errors}">
                                 <div class="card-image p-0 px-2 m-2" *ngIf="form.CoverPath.value">
-                                    <!-- <button type="button" class="w-100 btn btn-danger border-round-0"
-                                      (click)="removeImage()">remove</button> -->
                                     <img class="p-0 w-100" title="images" accept="image/*" alt="images"
                                         [src]="form.CoverPath.value"  />
-                                    <!-- <img class="p-0 w-100" title="images" accept="image/*" alt="images"
-                                        [src]="form.CoverPath.value" *ngIf="lableForm == 1" /> -->
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-12 mb-4">
                         <div class="row" formArrayName="Files">
                             <div *ngFor="let EmployeeArr of Employee.controls; let i = index">

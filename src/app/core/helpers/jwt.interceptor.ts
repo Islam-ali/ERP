@@ -39,7 +39,7 @@ export class JwtInterceptor implements HttpInterceptor {
             request = request.clone({
                 setHeaders: {
                     'lang': lang,
-                    'Accept-Language': lang,
+                    'Accept-Language': `${lang}-${lang == 'ar' ? 'EG':'US'}`,
                     Authorization: `Bearer ${currentUser.token}`
                 }
             });

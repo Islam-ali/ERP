@@ -41,12 +41,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges, OnDes
   }
 
   ngOnInit() {
-    this.AuthenticationService.Auth$.subscribe(res=>{
-      res ? this.menuItems = MENU : this.menuItems = null
-    })
-
     this._scrollElement();
-
+    this.initialize();
   }
 
   ngAfterViewInit() {
@@ -149,6 +145,9 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges, OnDes
    * Initialize
    */
   initialize(): void {
+    this.menuItems = MENU
+    const index = this.menuItems.findIndex((x) => x.id == 33);
+    this.menuItems[index]['link'] = `/companies/${this.USERERP.company_Id}/departments/${this.USERERP.department_Id}/projects`
   }
 
   /**

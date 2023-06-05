@@ -18,14 +18,10 @@ export class FormateDateService {
     var xDate:any = {}
     if(date.month.toString().length == 1){
       date['month'] = '0'+date.month
-      console.log(date);
-      
       formatedate = date.year+'-'+date.month+'-'+date.day
     }
     if(date.day.toString().length == 1){
       date['day'] = '0'+date.day
-      console.log(date);
-
       formatedate = date.year+'-'+date.month+'-'+date.day
     }else{
       formatedate = date.year+'-'+date.month+'-'+date.day

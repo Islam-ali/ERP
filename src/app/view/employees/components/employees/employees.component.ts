@@ -208,31 +208,31 @@ export class EmployeesComponent implements OnInit {
     })
   }
 
-  uploadeImage(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
-      this.image = event.target.files.item(0)
-      reader.onload = (event: any) => {
-        this.EmployeeForm.patchValue({
-          ImagePath: event.target.result
-        })
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }
+  // uploadeImage(event: any): void {
+  //   if (event.target.files && event.target.files[0]) {
+  //     var reader = new FileReader();
+  //     this.image = event.target.files.item(0)
+  //     reader.onload = (event: any) => {
+  //       this.EmployeeForm.patchValue({
+  //         ImagePath: event.target.result
+  //       })
+  //     };
+  //     reader.readAsDataURL(event.target.files[0]);
+  //   }
+  // }
 
-  uploadeCoverPath(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
-      this.coverPath = event.target.files.item(0)
-      reader.onload = (event: any) => {
-        this.EmployeeForm.patchValue({
-          CoverPath: event.target.result
-        })
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }
+  // uploadeCoverPath(event: any): void {
+  //   if (event.target.files && event.target.files[0]) {
+  //     var reader = new FileReader();
+  //     this.coverPath = event.target.files.item(0)
+  //     reader.onload = (event: any) => {
+  //       this.EmployeeForm.patchValue({
+  //         CoverPath: event.target.result
+  //       })
+  //     };
+  //     reader.readAsDataURL(event.target.files[0]);
+  //   }
+  // }
   uploadeFiles(event: any , index:number): void {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
@@ -381,9 +381,9 @@ export class EmployeesComponent implements OnInit {
     // delete value["ImagePath"];
     // delete value["CoverPath"];
     // delete value["Files"];
-    value["ImagePath"] = this.image;
-    value["CoverPath"] = this.coverPath;
-    value["SuperVisor_Id"] = 1;
+    // value["ImagePath"] = this.image;
+    // value["CoverPath"] = this.coverPath;
+    value["SuperVisor_Id"] = this.listOfEmployees.length > 0 ? this.EmployeeForm.get('SuperVisor_Id').value : 1;
     value['Files'] = [];
     this.Employee.controls.forEach((ele:any)=>{
     value['Files'].push({Description:ele.value.Description,File:ele.value.File})

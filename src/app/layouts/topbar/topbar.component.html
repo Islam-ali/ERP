@@ -265,8 +265,8 @@
       <div class="dropdown d-inline-block" ngbDropdown>
         <button type="button" class="btn header-item noti-icon" id="page-header-notifications-dropdown"
           ngbDropdownToggle>
-          <i *ngIf="notiLength > 0" class="bx bx-bell" [class]="notiLength > 0 ? 'bx-tada':''"></i>
-          <span class="badge bg-danger rounded-pill">{{notiLength}}</span>
+          <i class="bx bx-bell" [class]="notiLength > 0 ? 'bx-tada':''"></i>
+          <span *ngIf="notiLength > 0" class="badge bg-danger rounded-pill">{{notiLength}}</span>
         </button>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
           aria-labelledby="page-header-notifications-dropdown" ngbDropdownMenu>

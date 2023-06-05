@@ -104,7 +104,7 @@ export const MENU: MenuItem[] = [
                 ]
     },
     {
-        id: 3,
+        id: 33,
         label: 'MENUITEMS.PROJECTS.TEXT',
         icon: 'bx bx-briefcase-alt-2',
         link: `/companies/${getID().company_Id}/departments/${getID().department_Id}/projects`,

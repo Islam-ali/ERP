@@ -39,7 +39,7 @@ export class PermissionsComponent implements OnInit {
         this.listOfCheckBoxes = this.ManageRolePermissions.listOfCheckBoxes.map(x => this.mapListMangeRole(x))
         this.loader = false;
         this.value['roleId'] = this.ManageRolePermissions.roleId
-        this.value['listOfCheckBoxes'] = this.listOfCheckBoxes .filter(x => x != undefined || x != null);
+        this.value['listOfCheckBoxes'] = this.listOfCheckBoxes.filter(x => x != undefined || x != null);
       }, error: (err: Error) => {
         this.loader = false;
         this.toastrService.error(err.message);
@@ -83,5 +83,45 @@ export class PermissionsComponent implements OnInit {
         this.loadingSubmit = false;
       }
     })
+  }
+  switchBackground(value: any) {
+    switch (value) {
+      case 'All' : 
+      return 'bg-primary' 
+      case 'View' : 
+      return 'bg-primary' 
+        break;
+      case 'Create' : 
+      return 'bg-success' 
+        break;
+      case 'Edit' : 
+      return 'bg-warning'
+        break; 
+      case 'Delete' : 
+      return 'bg-danger'
+        break;
+      default:
+        break;
+    }
+  }
+  switchBackgroundBadge(value: any) {
+    switch (value) {
+      case 'All' : 
+      return 'badge-soft-primary' 
+      case 'View' : 
+      return 'badge-soft-primary' 
+        break;
+      case 'Create' : 
+      return 'badge-soft-success' 
+        break;
+      case 'Edit' : 
+      return 'badge-soft-warning'
+        break; 
+      case 'Delete' : 
+      return 'badge-soft-danger'
+        break;
+      default:
+        break;
+    }
   }
 }

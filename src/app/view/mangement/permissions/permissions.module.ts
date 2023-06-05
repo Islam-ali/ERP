@@ -5,11 +5,13 @@ import { PermissionsRoutingModule } from './permissions-routing.module';
 import { PermissionsComponent } from './permissions.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { UiSwitchModule } from 'ngx-ui-switch';
+import { SplitPermissionsPipe } from './pipes/split-permissions.pipe';
 
 
 @NgModule({
   declarations: [
-    PermissionsComponent
+    PermissionsComponent,
+    SplitPermissionsPipe
   ],
   imports: [
     CommonModule,

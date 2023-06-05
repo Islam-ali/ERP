@@ -32,16 +32,21 @@
                     <table class="table project-list-table table-nowrap align-middle table-borderless">
                         <thead>
                             <tr>
+                                <th scope="col">#</th>
                                 <th scope="col">{{'GENERAL.ROLE' | translate}}</th>
                                 <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let Permission of ManageRolePermissions.listOfCheckBoxes">
-
+                            <tr [class]="switchBackground(Permission.displayValue | splitPermissions:2)" class="bg-opacity-25" *ngFor="let Permission of ManageRolePermissions.listOfCheckBoxes">
+                                <td>
+                                    <div [class]="switchBackgroundBadge(Permission.displayValue | splitPermissions:2)" class="badge font-size-18" style="min-width: 120px;">
+                                        {{Permission.displayValue | splitPermissions:2}}
+                                    </div>
+                                </td>
                                 <td>
                                     <h5 class="text-truncate font-size-14">
-                                        <a href="javascript: void(0);" class="text-dark">{{Permission.displayValue}}</a>
+                                        <a href="javascript: void(0);" class="text-dark">/{{Permission.displayValue | splitPermissions:1}}</a>
                                     </h5>
                                 </td>
                                 <td>

@@ -9,6 +9,8 @@ import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from 'app/core/services/auth.service';
+import { CompaniesService } from 'app/view/companies/companies.service';
+import { promise } from 'protractor';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,19 +21,19 @@ import { AuthenticationService } from 'app/core/services/auth.service';
 /**
  * Sidebar component
  */
-export class SidebarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('componentRef') scrollRef;
   @Input() isCondensed = false;
   menu: any;
   data: any;
-
+  companyIds: any[] = [];
   menuItems = [];
-
+  loadingCompany: boolean = false;
   @ViewChild('sideMenu') sideMenu: ElementRef;
   USERERP: any;
-  constructor(private eventService: EventService, private router: Router, public translate: TranslateService, private http: HttpClient, private AuthenticationService: AuthenticationService) {
+  constructor(private _CompaniesService: CompaniesService, private eventService: EventService, private router: Router, public translate: TranslateService, private http: HttpClient, private AuthenticationService: AuthenticationService) {
     this.USERERP = JSON.parse(localStorage.getItem('user_ERP'));
-    
+
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
         this._activateMenuDropdown();
@@ -41,15 +43,18 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges, OnDes
   }
 
   ngOnInit() {
+    this.getAllCompanies();
     this._scrollElement();
-    this.initialize();
   }
 
-  ngAfterViewInit() {
+  // ngAfterViewInit() {
+  //   this.menu = new MetisMenu(this.sideMenu.nativeElement);
+  //   this._activateMenuDropdown();
+  // }
+  _MetisMenu() {
     this.menu = new MetisMenu(this.sideMenu.nativeElement);
     this._activateMenuDropdown();
   }
-
   toggleMenu(event) {
     event.currentTarget.nextElementSibling.classList.toggle('mm-show');
   }
@@ -62,6 +67,16 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges, OnDes
     } else if (this.menu) {
       this.menu.dispose();
     }
+  }
+  getAllCompanies() {
+    this._CompaniesService.getAllCompanies().subscribe({
+      next: (res: any) => {
+        this.companyIds = res.data;
+        this.loadingCompany = true
+
+        this.initialize();
+      }
+    })
   }
   _scrollElement() {
     setTimeout(() => {
@@ -144,10 +159,12 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges, OnDes
   /**
    * Initialize
    */
-  initialize(): void {
-    this.menuItems = MENU
-    const index = this.menuItems.findIndex((x) => x.id == 33);
-    this.menuItems[index]['link'] = `/companies/${this.USERERP.company_Id}/departments/${this.USERERP.department_Id}/projects`
+  initialize() {
+    this.FetchMenue().then((m:any) => this.menuItems = m).finally(() => 
+    setTimeout(() => {
+      this._MetisMenu()
+    },100)
+    )
   }
 
   /**
@@ -160,4 +177,95 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges, OnDes
   ngOnDestroy(): void {
     this.USERERP = null
   }
+  FetchMenue(){
+    const menu: MenuItem[] = [
+      {
+        id: 1,
+        label: 'MENUITEMS.MENU.TEXT',
+        isTitle: true,
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
+      },
+      {
+        id: 2,
+        label: 'MENUITEMS.DASHBOARDS.TEXT',
+        icon: 'bx-home-circle',
+        link: '/home',
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
+      },
+      {
+        id: 3,
+        isLayout: true,
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
+      },
+      {
+        id: 4,
+        label: 'MENUITEMS.APPS.TEXT',
+        isTitle: true,
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
+      },
+      {
+        id: 5,
+        label: 'MENUITEMS.COMPANIES.TEXT',
+        icon: 'bx bxs-user-detail',
+        role: ['Superadmin'],
+        subItems: []
+      },
+      {
+        id: 9,
+        label: 'MENUITEMS.MANGEMENT.TEXT',
+        icon: 'bx bx-cog',
+        role: ['Superadmin'],
+        subItems: [
+          {
+            id: 10,
+            label: 'MENUITEMS.MANGEMENT.LIST.USERS',
+            link: '/mangement/user-role',
+            parentId: 4
+          },
+          {
+            id: 11,
+            label: 'MENUITEMS.MANGEMENT.LIST.ROLES',
+            link: '/mangement/role',
+            parentId: 5
+          },
+        ]
+      },
+      {
+        id: 12,
+        label: 'MENUITEMS.PROJECTS.TEXT',
+        icon: 'bx bx-briefcase-alt-2',
+        link: `/companies/${this.USERERP.company_Id}/departments/${this.USERERP.department_Id}/projects`,
+        role: ['User']
+      },
+    ];
+
+    this.companyIds.forEach((ele, index) => {
+      let companyItem = {
+        label: ele.name,
+        id: ele.id ,
+        parentId: index + 22,
+        subItems: []
+      }
+      let items:any[] = [
+        {
+          id: ele.id + index,
+          label: 'MENUITEMS.DEPARTMENTS.TEXT',
+          link: `/companies/${ele.id}/departments`,
+          parentId:  ele.id + index
+        },
+        {
+          id: 13,
+          label: 'MENUITEMS.EMPLOYEES.TEXT',
+          link: `/companies/${ele.id}/employees`,
+          parentId:  ele.id + index
+        }
+      ]
+      menu[4].subItems.push(companyItem);
+      menu[4].subItems[0].subItems = items
+    })
+    return  new Promise((resolve, reject) => {
+        resolve(menu)
+    })
+  }
 }
+

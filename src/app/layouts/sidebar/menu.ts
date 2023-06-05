@@ -3,11 +3,11 @@ import { MenuItem } from './menu.model';
 function getID() {
     const UserInfo = JSON.parse(localStorage.getItem('user_ERP')!)
     console.log(UserInfo);
-    
-    if(UserInfo){
-        return {department_Id:UserInfo.department_Id,company_Id:UserInfo.company_Id}
-    }else{
-        return {department_Id:0,company_Id:0}
+
+    if (UserInfo) {
+        return { department_Id: UserInfo.department_Id, company_Id: UserInfo.company_Id }
+    } else {
+        return { department_Id: 0, company_Id: 0 }
     }
 }
 export const MENU: MenuItem[] = [
@@ -15,7 +15,7 @@ export const MENU: MenuItem[] = [
         id: 1,
         label: 'MENUITEMS.MENU.TEXT',
         isTitle: true,
-        role:['Admin','Superadmin','User','DepartmentAdmin']
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
     },
     // {
     //     id: 2,
@@ -57,58 +57,79 @@ export const MENU: MenuItem[] = [
         label: 'MENUITEMS.DASHBOARDS.TEXT',
         icon: 'bx-home-circle',
         link: '/home',
-        role:['Admin','Superadmin','User','DepartmentAdmin']
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
     },
     {
         id: 7,
         isLayout: true,
-        role:['Admin','Superadmin','User','DepartmentAdmin']
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
     },
     {
         id: 8,
         label: 'MENUITEMS.APPS.TEXT',
         isTitle: true,
-        role:['Admin','Superadmin','User','DepartmentAdmin']
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
     },
     {
         id: 3,
         label: 'MENUITEMS.COMPANIES.TEXT',
         icon: 'bx bxs-user-detail',
-        link: '/companies',
-        role:['Superadmin']
+        role: ['Superadmin'],
+        subItems: [
+            {
+                id: 13,
+                label: '',
+                link: '',
+                parentId: 4,
+                subItems: [
+                    {
+                        id: 13,
+                        label: 'MENUITEMS.DEPARTMENTS.TEXT',
+                        link: '',
+                        parentId: 5
+                    },
+                    {
+                        id: 13,
+                        label: 'MENUITEMS.EMPLOYEES.TEXT',
+                        link: '',
+                        parentId: 5
+                    },
+                ]
+            },
+        ]
     },
     {
         id: 3,
         label: 'MENUITEMS.MANGEMENT.TEXT',
         icon: 'bx bx-cog',
-        role:['Superadmin'],
+        role: ['Superadmin'],
         subItems: [
-                    {
-                        id: 13,
-                        label: 'MENUITEMS.MANGEMENT.LIST.USERS',
-                        link: '/mangement/user-role',
-                        parentId: 4
-                    },
-                    {
-                        id: 13,
-                        label: 'MENUITEMS.MANGEMENT.LIST.ROLES',
-                        link: '/mangement/role',
-                        parentId: 5
-                    },
-                    // {
-                    //     id: 13,
-                    //     label: 'MENUITEMS.MANGEMENT.LIST.PERMISSIONS',
-                    //     link: '/mangement/permissions',
-                    //     parentId: 6
-                    // }
-                ]
+            {
+                id: 13,
+                label: 'MENUITEMS.MANGEMENT.LIST.USERS',
+                link: '/mangement/user-role',
+                parentId: 4
+            },
+            {
+                id: 13,
+                label: 'MENUITEMS.MANGEMENT.LIST.ROLES',
+                link: '/mangement/role',
+                parentId: 5
+            },
+            // {
+            //     id: 13,
+            //     label: 'MENUITEMS.MANGEMENT.LIST.PERMISSIONS',
+            //     link: '/mangement/permissions',
+            //     parentId: 6
+            // }
+        ]
     },
     {
         id: 33,
         label: 'MENUITEMS.PROJECTS.TEXT',
         icon: 'bx bx-briefcase-alt-2',
         link: `/companies/${getID().company_Id}/departments/${getID().department_Id}/projects`,
-        role:['User']
+        role: ['User']
     },
     // {
     //     id: 10,

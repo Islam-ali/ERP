@@ -8,7 +8,8 @@ export const environment = {
   // domain:'http://192.168.0.110:44385/api/',
   domain:'http://192.168.0.111:44385/api/',
   url:'http://192.168.0.111:44385/',
-  
+  // domain:'https://erp.afaqci.com/api/',
+  // url:'https://erp.afaqci.com/',
   firebaseConfig: {
     apiKey: '',
     authDomain: '',

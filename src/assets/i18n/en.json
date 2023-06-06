@@ -78,6 +78,9 @@
     "DEPARTMENTS": {
       "TEXT": "Departments"
     },
+    "CLIENTS": {
+      "TEXT": "Clients"
+    },
     "JOBS": {
       "TEXT": "Jobs"
     },
@@ -349,6 +352,7 @@
     "FACTORY": "FACTORY",
     "CLASSIFICATION": "CLASSIFICATION",
     "PROJECT": "Project",
+    "CLIENT":"Client",
     "JOB": "Job",
     "TASK": "Task",
     "PERCENTAGE": "percentage",
@@ -407,6 +411,10 @@
     "BIRTHDATE": "Birth Date",
     "GRADUATEDATE": "Graduate Date",
     "IsEmployeeManager":"Is Employee Manager",
-    "CODE":"Code"
+    "CODE":"Code",
+    "GENERALMANAGERNAME":"general Manager Name",
+    "SALESMANAGERNAME":"sales Manager Name",
+    "JOBCATEGORY":"Job Category",
+    "CLIENTJOB":"Client Job"
   }
 }

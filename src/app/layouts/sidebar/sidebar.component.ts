@@ -237,6 +237,13 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         link: `/companies/${this.USERERP.company_Id}/departments/${this.USERERP.department_Id}/projects`,
         role: ['User']
       },
+      {
+        id: 13,
+        label: 'MENUITEMS.CLIENTS.TEXT',
+        icon: 'bx bx-briefcase-alt-2',
+        link: `/clients`,
+        role: ['Superadmin']
+      },
     ];
 
     this.companyIds.forEach((ele, index) => {

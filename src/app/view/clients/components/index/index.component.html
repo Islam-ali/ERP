@@ -1,0 +1,237 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-6 d-flex align-items-center ">
+                        <h3 class="m-0">{{'MENUITEMS.CLIENTS.TEXT' | translate}}</h3>
+                      </div>
+                    <div class="col-6 d-flex justify-content-end ">
+                        <button class="btn btn-primary w-md" (click)="openModal(addClient , 0)">
+                            {{'GENERAL.ADD' | translate}} {{'GENERAL.CLIENT' | translate}}
+                            <i class="bx bx-plus-medical"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-container *ngIf="loader">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!loader && clientsData.length > 0">
+        <div class="row">
+            <div class="col-xl-3 col-sm-6" *ngFor="let data of clientsData">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <div class="avatar-sm mx-auto mb-4">
+                            <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-16">
+                                {{data.name.charAt(0)}}
+                            </span>
+                        </div>
+                        <h5 class="font-size-15 mb-1"><a href="javascript: void(0);" class="text-dark">{{data.name}}</a>
+                        </h5>
+                        <p class="text-muted m-0">{{data.email}}</p>
+                        <p dir="ltr" class="text-muted m-0 my-2">{{data.mobile}}</p>
+                        <div>
+                            <!-- <a href="javascript: void(0);"
+                                [ngClass]="{'bg-warning' : data.isActive  == 1 ,'bg-success': data.isActive  == 2 ,'bg-danger' : data.isActive  == 3}"
+                                class="badge font-size-11 m-1"> -->
+                            <span class="badge" [class]="data.isActive == true ? 'bg-success':'bg-warning'">
+                                <span *ngIf="data.isActive == true">{{'GENERAL.ACTIVE' | translate}}</span>
+                                <span *ngIf="data.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
+                            </span>
+                            <!-- </a> -->
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-top">
+                        <div class="contact-links d-flex font-size-20">
+                            <div class="flex-fill">
+                                <button class="btn btn-light py-1" type="button" (click)="patchValueForm(addClient,data);getUpdateClients(data.id)">{{'GENERAL.EDIT' | translate}}<i
+                                        class="ms-1 bx bx-edit"></i></button>
+                            </div>
+                            <div class="flex-fill d-flex align-items-center justify-content-center">
+                                <ui-switch defaultBoColor="#dfdfdf" (change)="ChangeActiveOrNotDepartment(data.id)"
+                                    [checked]="data.isActive == true" size="small" class="d-flex"></ui-switch>
+                            </div>
+                            <!-- <div class="flex-fill">
+                            <a href="javascript: void(0);" ngbTooltip="Edit"
+                                (click)="patchValueForm(addFactory,data);getUpdateFactory(data.id)"><i
+                                    class="bx bx-edit"></i></a>
+                        </div>
+                        <div class="flex-fill">
+                            <a href="javascript: void(0);" ngbTooltip="Delete" (click)="delete(data.id)"><i
+                                    class="bx bx-trash"></i></a>
+                        </div> -->
+                        <div class="flex-fill">
+                            <a href="javascript: void(0);" ngbTooltip="Delete" (click)="delete(data.id)"><i
+                                    class="bx bx-trash"></i></a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!loader && clientsData.length == 0">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="alert alert-warning fade text-center show px-3 mb-0" role="alert">
+                <div class="mb-3">
+                    <i class="bx bx-error-alt h1  text-warning"></i>
+                </div>
+
+                <div class="text-center">
+                    <h5 class="text-warning ">Not Found Result</h5>
+                    <div class="text-center">
+                        <button type="button" (click)="goBack"
+                            class="btn btn-link text-decoration-none text-warning"> <i
+                                class="mdi mdi-arrow-left"></i>Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+<!-- Add Modal -->
+<ng-template #addClient let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title mt-0">
+            <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+            <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+            {{ 'GENERAL.CLIENT' | translate }}
+        </h5>
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <ng-container *ngIf="loadingShow && lableForm == 1">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+
+    <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
+        <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="clientsForm">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.ARABIC_NAME' |
+                            translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="name"
+                        [ngClass]="{'is-valid': form.name.dirty && !form.name.errors ,'is-invalid': form.name.dirty && form.name.errors}">
+                        <div *ngIf="form.name.dirty && form.name.errors" class="invalid-feedback">
+                            <span *ngIf="form.name.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.ENGLISH_NAME' |
+                            translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="nameInEnglish"
+                            [ngClass]="{'is-valid': form.nameInEnglish.dirty && !form.nameInEnglish.errors ,'is-invalid': form.nameInEnglish.dirty && form.nameInEnglish.errors}">
+                        <div *ngIf="form.nameInEnglish.dirty && form.nameInEnglish.errors" class="invalid-feedback">
+                            <span *ngIf="form.nameInEnglish.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.EMAIL' | translate}}</label>
+                        <div>
+                            <input type="email" class="form-control" formControlName="email"
+                                [ngClass]="{'is-valid': form.email.dirty && !form.email.errors ,'is-invalid': form.email.dirty && form.email.errors}" />
+                            <div *ngIf="form.email.dirty && form.email.errors" class="invalid-feedback">
+                                <span *ngIf="form.email.errors.required">This value is required.</span>
+                                <span *ngIf="form.email.errors.email">This value should be a valid email.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.COMPANY' |
+                            translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="company"
+                            [ngClass]="{'is-valid': form.company.dirty && !form.company.errors ,'is-invalid': form.company.dirty && form.company.errors}">
+                        <div *ngIf="form.company.dirty && form.company.errors" class="invalid-feedback">
+                            <span *ngIf="form.company.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.MOBILE_NUMBER' |
+                            translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="mobile"
+                            [ngClass]="{'is-valid': form.mobile.dirty && !form.mobile.errors ,'is-invalid': form.mobile.dirty && form.mobile.errors}">
+                        <div *ngIf="form.mobile.dirty && form.mobile.errors" class="invalid-feedback">
+                            <span *ngIf="form.mobile.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.GENERALMANAGERNAME' |
+                            translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="generalManagerName"
+                            [ngClass]="{'is-valid': form.generalManagerName.dirty && !form.generalManagerName.errors ,'is-invalid': form.generalManagerName.dirty && form.generalManagerName.errors}">
+                        <div *ngIf="form.generalManagerName.dirty && form.generalManagerName.errors" class="invalid-feedback">
+                            <span *ngIf="form.generalManagerName.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.SALESMANAGERNAME' |
+                            translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="salesManagerName"
+                            [ngClass]="{'is-valid': form.salesManagerName.dirty && !form.salesManagerName.errors ,'is-invalid': form.salesManagerName.dirty && form.salesManagerName.errors}">
+                        <div *ngIf="form.salesManagerName.dirty && form.salesManagerName.errors" class="invalid-feedback">
+                            <span *ngIf="form.salesManagerName.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.ADDRESS' |
+                            translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="address"
+                            [ngClass]="{'is-valid': form.address.dirty && !form.address.errors ,'is-invalid': form.address.dirty && form.address.errors}">
+                        <div *ngIf="form.address.dirty && form.address.errors" class="invalid-feedback">
+                            <span *ngIf="form.address.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.JOBCATEGORY' |
+                            translate}}</label>
+                        <ng-select [items]="ListOfClientJobCategories" formControlName="clientJobCategory_Id" (change)="getListOfClientJobs($event.id)" bindLabel="name"
+                            bindValue="id"></ng-select>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.CLIENTJOB' |
+                            translate}}</label>
+                        <ng-select [items]="ListOfClientJobs" formControlName="clientJob_Id" bindLabel="name"
+                            bindValue="id"></ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 text-center">
+                <button class="btn btn-primary" type="submit" [disabled]="clientsForm.invalid">
+                    <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingclients"></i>
+                    <span *ngIf="lableForm == 1">{{'GENERAL.EDIT' | translate}}</span>
+                    <span *ngIf="lableForm == 0">{{'GENERAL.ADD' | translate}}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

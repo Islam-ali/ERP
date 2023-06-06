@@ -93,6 +93,9 @@
     "DEPARTMENTS": {
       "TEXT": "الاقسام"
     },
+    "CLIENTS": {
+      "TEXT": "العملاء"
+    },
     "EMPLOYEES":{
       "TEXT": "الموظفين"
     },
@@ -349,6 +352,7 @@
     "FACTORY": "المصنع",
     "CLASSIFICATION": "التصنيف",
     "PROJECT":"المشروع",
+    "CLIENT":"العميل",
     "JOB":"الوظيفة",
     "TASK":"مهمة",
     "PERCENTAGE": "النسبة",
@@ -407,7 +411,10 @@
     "BIRTHDATE": "تاريخ الميلاد",
     "GRADUATEDATE": "تاريخ التخرج",
     "IsEmployeeManager":"مدير القسم",
-    "CODE":"كود"
-
+    "CODE":"كود",
+    "GENERALMANAGERNAME":"المدير العام",
+    "SALESMANAGERNAME":"مدير المبيعات",
+    "JOBCATEGORY":"تصنيف فئة العمل",
+    "CLIENTJOB":"فئة العمل"
 }
 }

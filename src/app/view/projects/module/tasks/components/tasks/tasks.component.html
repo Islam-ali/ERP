@@ -353,7 +353,7 @@
                                             <div class="col-1" *ngIf="TaskAtachments.controls.length > 1">
                                                 <label class="hide-lable d-block">.</label>
                                                 <button type="button" class="btn btn-danger"
-                                                    (click)="deleteformTaskAtachments(i)"><i
+                                                    (click)="deleteformTaskAtachments(i);RemoveImage(Attachment.get('id').value)"><i
                                                         class="bx bxs-trash"></i></button>
                                             </div>
                                         </div>

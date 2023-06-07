@@ -24,6 +24,7 @@
   export interface Atachment {
     description: string
     file: string
+    id:number
   }
 
   export interface AssignedEmployeeData {

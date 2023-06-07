@@ -15,7 +15,7 @@ export class RoleService {
   }
   CreateRole(body:any): Observable<allRole> {
     const headers= new HttpHeaders().set('content-type', 'application/json')
-    return this.http.post<allRole>(`${env.domain}Perm/CreateRole`, `${body.name}` ,  { 'headers': headers });
+    return this.http.post<allRole>(`${env.domain}Perm/CreateRole`, body ,  { 'headers': headers });
   }
   UpdateRole(body: any, RoleID: number): Observable<allRole> {
     return this.http.put<allRole>(`${env.domain}Perm/UpdateRole/${RoleID}`, body);

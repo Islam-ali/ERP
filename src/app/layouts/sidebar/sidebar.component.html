@@ -4,7 +4,7 @@
   <div id="sidebar-menu">
     <!-- Left Menu Start -->
     <ul class="metismenu list-unstyled" id="side-menu" #sideMenu>
-      <ng-container *ngIf="USERERP && loadingCompany">
+      <ng-container *ngIf="USERERP">
       <!-- {{menuItems}} -->
       <ng-container *ngFor="let item of menuItems">
         <ng-container *ngIf="checkRole(item.role).length > 0">
@@ -31,7 +31,7 @@
                 [attr.data-parent]="subitem.parentId" routerLinkActive="active">
                 {{ subitem.label | translate}}
               </a>
-              <a *ngIf="hasItems(subitem)" class="side-nav-link-a-ref has-arrow" href="javascript:void(0);"
+              <a *ngIf="hasItems(subitem)" class="side-nav-link-a-ref has-arrow text-truncate" href="javascript:void(0);"
                 [attr.data-parent]="subitem.parentId">
                 {{ subitem.label | translate}}
               </a>

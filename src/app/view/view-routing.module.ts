@@ -36,7 +36,7 @@ const routes: Routes = [
     path: 'clients',
     loadChildren: () => import('../view/clients/clients.module').then(m => m.ClientsModule),
     canActivate:[AuthGuard],
-    data: { roles: [Role.SuperAdmin] }
+    data: { roles: [Role.SuperAdmin , Role.ClintAdmin] }
   },
 ];
 

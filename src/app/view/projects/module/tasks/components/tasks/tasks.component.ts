@@ -29,6 +29,7 @@ export class TasksComponent implements OnInit {
   // onUploadSuccess(args: any): void {
   //   console.log("onUploadSuccess:", args);
   // }
+  ListOfId:number[]=[];
   lableForm:number = 0;
   loadingSubmit:boolean = false;
   loaderComments:boolean = true;
@@ -90,7 +91,8 @@ export class TasksComponent implements OnInit {
     return this._formBuilder.group({
       Description:[null,[Validators.required]],
       File:[null],
-      path:null
+      path:null,
+      id:0
     })
   }
   get TaskAtachments() {
@@ -140,10 +142,11 @@ export class TasksComponent implements OnInit {
   }
   EditTask() {
     let value = this.taskForm.value
-    value['TaskAtachments'] = this.taskForm.value.TaskAtachments.map((x:any)=> {
+    value['TaskAtachments'] = this.taskForm.value.TaskAtachments.map((x:any) => {
       const container = {};
       container['Description'] = x.Description
       container['File'] = x.File
+      container['id'] = x.id
       return container;
     })
     this._TasksService.EditTask(value).subscribe({
@@ -184,6 +187,7 @@ export class TasksComponent implements OnInit {
           this.addformTaskAtachments()
           this.TaskAtachments.controls[index].patchValue({
             Description: ele.description ,
+            id: ele.id ,
             path:this.domain+ele.file
           })
         })
@@ -209,8 +213,19 @@ export class TasksComponent implements OnInit {
       }
     })
   }
-  getListOfTasks() {
-
+  RemoveImage(id:number){
+    this.ListOfId.push(id)
+    this.DeleteFileOrMoreOfTasks();
+  }
+  DeleteFileOrMoreOfTasks(){
+    this._TasksService.DeleteFileOrMoreOfTasks(this.ListOfId).subscribe({
+      next:(res:Tasks)=>{
+        this.ListOfId = [];
+        this.toastrService.error(res.message);
+      }, error: (err: Error) => {
+        this.toastrService.error(err.message);
+      }
+    })
   }
 
   getListOfTaskStages() {

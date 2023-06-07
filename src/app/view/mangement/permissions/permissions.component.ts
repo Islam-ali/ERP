@@ -35,11 +35,12 @@ export class PermissionsComponent implements OnInit {
     this._PermissionsService.GetManageRolePermissions(this.roleId).subscribe({
       next: (res: Permissions) => {
         this.loader = false;
-        this.ManageRolePermissions = res.data
-        this.listOfCheckBoxes = this.ManageRolePermissions.listOfCheckBoxes.map(x => this.mapListMangeRole(x))
+        this.ManageRolePermissions = res.data;
+        this.listOfCheckBoxes = [];
+        // this.listOfCheckBoxes = this.ManageRolePermissions.listOfCheckBoxes.map(x => this.mapListMangeRole(x))
         this.loader = false;
-        this.value['roleId'] = this.ManageRolePermissions.roleId
-        this.value['listOfCheckBoxes'] = this.listOfCheckBoxes.filter(x => x != undefined || x != null);
+        // this.value['roleId'] = this.ManageRolePermissions.roleId
+        // this.value['listOfCheckBoxes'] = this.listOfCheckBoxes.filter(x => x != undefined || x != null);
       }, error: (err: Error) => {
         this.loader = false;
         this.toastrService.error(err.message);
@@ -57,18 +58,14 @@ export class PermissionsComponent implements OnInit {
     }
   }
   pushValue(displayValue: string, event: boolean) {
-    let filterList = this.listOfCheckBoxes.filter((x) => x != undefined || x != null);
-    const existed = filterList.findIndex((x) => this.displayValue(x, displayValue));
-    if (event) {
-      if (existed == -1) {
-        filterList.push({ displayValue: displayValue, isSelected: event })
-      }
+    const existed = this.listOfCheckBoxes.findIndex((x) => this.displayValue(x, displayValue));
+    if (existed !== -1) {
+      this.listOfCheckBoxes[existed]['isSelected'] = event
     } else {
-      filterList.splice(existed, 1);
+      this.listOfCheckBoxes.push({ displayValue: displayValue, isSelected: event })
     }
     this.value['roleId'] = this.ManageRolePermissions.roleId
-    this.value['listOfCheckBoxes'] = filterList.filter(x => x != undefined || x != null);
-    this.listOfCheckBoxes = filterList;
+    this.value['listOfCheckBoxes'] = this.listOfCheckBoxes
   }
   onSubmit() {
     this.loadingSubmit = true;
@@ -86,19 +83,19 @@ export class PermissionsComponent implements OnInit {
   }
   switchBackground(value: any) {
     switch (value) {
-      case 'All' : 
-      return 'bg-primary' 
-      case 'View' : 
-      return 'bg-primary' 
+      case 'All':
+        return 'bg-primary'
+      case 'View':
+        return 'bg-primary'
         break;
-      case 'Create' : 
-      return 'bg-success' 
+      case 'Create':
+        return 'bg-success'
         break;
-      case 'Edit' : 
-      return 'bg-warning'
-        break; 
-      case 'Delete' : 
-      return 'bg-danger'
+      case 'Edit':
+        return 'bg-warning'
+        break;
+      case 'Delete':
+        return 'bg-danger'
         break;
       default:
         break;
@@ -106,19 +103,19 @@ export class PermissionsComponent implements OnInit {
   }
   switchBackgroundBadge(value: any) {
     switch (value) {
-      case 'All' : 
-      return 'badge-soft-primary' 
-      case 'View' : 
-      return 'badge-soft-primary' 
+      case 'All':
+        return 'badge-soft-primary'
+      case 'View':
+        return 'badge-soft-primary'
         break;
-      case 'Create' : 
-      return 'badge-soft-success' 
+      case 'Create':
+        return 'badge-soft-success'
         break;
-      case 'Edit' : 
-      return 'badge-soft-warning'
-        break; 
-      case 'Delete' : 
-      return 'badge-soft-danger'
+      case 'Edit':
+        return 'badge-soft-warning'
+        break;
+      case 'Delete':
+        return 'badge-soft-danger'
         break;
       default:
         break;

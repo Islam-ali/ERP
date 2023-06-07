@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
 import { EMPTY, Observable } from 'rxjs';
@@ -44,7 +44,7 @@ export class TasksService {
         if (Object?.keys(editForm[key][0])?.length > 1) {
           editForm[key].forEach((ele: any, index: number) => {
             for (const subkey in ele)
-              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+            subkey ?  formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
           })
         }
         else {
@@ -94,4 +94,14 @@ export class TasksService {
   AddMentionedEmployees(form:any = {}){
     return this.http.post(`${env.domain}Tasks/AddMentionedEmployees`,form)
   }
-}
+  DeleteFileOrMoreOfTasks(listOfId:any[]=[]): Observable<any>{
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify(listOfId),
+      };
+      return this.http.delete<any>(`${env.domain}Tasks/DeleteFileOrMoreOfTask`, options)
+    }
+  }
+

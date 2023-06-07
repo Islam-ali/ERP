@@ -43,7 +43,7 @@ export class IndexComponent implements OnInit {
       name: [null, [Validators.required]],
       nameInEnglish: [null, [Validators.required]],
       company: [null, [Validators.required]],
-      mobile: [null, [Validators.required]],
+      mobile: [null, [Validators.required, Validators.pattern('[0-9]+')]],
       activity: [null],
       generalManagerName: [null],
       salesManagerName: [null],

@@ -6,6 +6,7 @@ import { Error } from 'app/core/helpers/error';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
+import { SharedService } from 'app/shared/services/shared.service';
 @Component({
   selector: 'app-companies',
   templateUrl: './companies.component.html',
@@ -30,6 +31,8 @@ export class CompaniesComponent implements OnInit {
     private toastrService: ToastrService,
     private modalService: NgbModal,
     private _ActivatedRoute: ActivatedRoute,
+    private _SharedService: SharedService
+
   ) {
   }
   ngOnInit(): void {
@@ -98,6 +101,7 @@ export class CompaniesComponent implements OnInit {
         this.loadingCompany = false;
         this.modalService.dismissAll();
         this.toastrService.success(res.message);
+        this._SharedService.isAddCompany.next(true)
       }, error: (err: Error) => {
         this.loadingCompany = false;
         this.toastrService.error(`${err}`);
@@ -113,6 +117,7 @@ export class CompaniesComponent implements OnInit {
         this.loadingCompany = false;
         this.modalService.dismissAll();
         this.toastrService.success(res.message);
+        this._SharedService.isAddCompany.next(true)
       }, error: (err: Error) => {
         this.loadingCompany = false;
         this.toastrService.error(`${err}`);
@@ -126,6 +131,7 @@ export class CompaniesComponent implements OnInit {
       next: (res: any) => {
         this.getAllCompanies();
         this.toastrService.error(res.message);
+        this._SharedService.isAddCompany.next(true)
       }, error: (err: Error) => {
         this.toastrService.error(`${err}`);
       }

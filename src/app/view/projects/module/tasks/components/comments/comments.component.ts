@@ -7,6 +7,7 @@ import { EmployeesService } from 'app/view/employees/services/employees.service'
 import { Observable } from 'rxjs';
 import { Error } from 'app/core/helpers/error';
 import { ToastrService } from 'ngx-toastr';
+import { AuthenticationService } from 'app/core/services/auth.service';
 
 @Component({
   selector: 'app-comments',
@@ -27,6 +28,7 @@ export class CommentsComponent implements OnInit {
     private _TasksService: TasksService,
     private _EmployeesService: EmployeesService,
     private toastrService: ToastrService,
+    private _AuthenticationService:AuthenticationService
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +47,7 @@ export class CommentsComponent implements OnInit {
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
       .withUrl(env.domain + 'notify', {
+        accessTokenFactory:() => `${this._AuthenticationService.getUser().token}`,
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets,
       })

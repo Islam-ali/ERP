@@ -108,7 +108,7 @@ export class EmployeesComponent implements OnInit {
   }
   initFormEmployee():FormGroup {
     return this._formBuilder.group({
-      Description:[null,[Validators.required]],
+      Description:[null],
       File:[null],
       path:null
     })

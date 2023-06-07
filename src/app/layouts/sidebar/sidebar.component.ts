@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from 'app/core/services/auth.service';
 import { CompaniesService } from 'app/view/companies/companies.service';
 import { promise } from 'protractor';
+import { SharedService } from 'app/shared/services/shared.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -31,7 +32,14 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   loadingCompany: boolean = false;
   @ViewChild('sideMenu') sideMenu: ElementRef;
   USERERP: any;
-  constructor(private _CompaniesService: CompaniesService, private eventService: EventService, private router: Router, public translate: TranslateService, private http: HttpClient, private AuthenticationService: AuthenticationService) {
+  constructor(private _CompaniesService: CompaniesService,
+    private eventService: EventService,
+    private router: Router,
+    public translate: TranslateService,
+    private http: HttpClient,
+    private AuthenticationService: AuthenticationService,
+    private _SharedService: SharedService
+  ) {
     this.USERERP = JSON.parse(localStorage.getItem('user_ERP'));
 
     router.events.forEach((event) => {
@@ -43,7 +51,16 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    this.getAllCompanies();
+    this._SharedService.isReloadeCompany.subscribe(res=>{
+      if(res) this.getAllCompanies();
+      console.log('xx');
+      
+    })
+    if (this.USERERP.company_Id == 0) {
+      this.getAllCompanies();
+    } else {
+      this.initialize();
+    }
     this._scrollElement();
   }
 
@@ -72,9 +89,8 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
     this._CompaniesService.getAllCompanies().subscribe({
       next: (res: any) => {
         this.companyIds = res.data;
-        this.loadingCompany = true
-
         this.initialize();
+        this.loadingCompany = true
       }
     })
   }
@@ -160,10 +176,10 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
    * Initialize
    */
   initialize() {
-    this.FetchMenue().then((m:any) => this.menuItems = m).finally(() => 
-    setTimeout(() => {
-      this._MetisMenu()
-    },100)
+    this.FetchMenue().then((m: any) => this.menuItems = m).finally(() =>
+      setTimeout(() => {
+        this._MetisMenu()
+      }, 100)
     )
   }
 
@@ -177,7 +193,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy(): void {
     this.USERERP = null
   }
-  FetchMenue(){
+  FetchMenue() {
     const menu: MenuItem[] = [
       {
         id: 1,
@@ -208,7 +224,13 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         label: 'MENUITEMS.COMPANIES.TEXT',
         icon: 'bx bxs-user-detail',
         role: ['Superadmin'],
-        subItems: []
+        subItems: [
+          {
+            id: 155,
+            label: 'MENUITEMS.DASHBOARDS.TEXT',
+            link: '/companies',
+          }
+        ]
       },
       {
         id: 9,
@@ -242,36 +264,39 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         label: 'MENUITEMS.CLIENTS.TEXT',
         icon: 'bx bx-briefcase-alt-2',
         link: `/clients`,
-        role: ['Superadmin']
+        role: ['Superadmin', 'ClintAdmin']
       },
     ];
 
-    this.companyIds.forEach((ele, index) => {
-      let companyItem = {
-        label: ele.name,
-        id: ele.id ,
-        parentId: index + 22,
-        subItems: []
-      }
-      let items:any[] = [
-        {
-          id: ele.id + index,
-          label: 'MENUITEMS.DEPARTMENTS.TEXT',
-          link: `/companies/${ele.id}/departments`,
-          parentId:  ele.id + index
-        },
-        {
-          id: 13,
-          label: 'MENUITEMS.EMPLOYEES.TEXT',
-          link: `/companies/${ele.id}/employees`,
-          parentId:  ele.id + index
+    if (this.USERERP.company_Id == 0) {
+      this.companyIds.forEach((ele, index) => {
+        let companyItem = {
+          label: ele.name,
+          id: ele.id,
+          parentId: index + 22,
+          icon: 'bx bx-briefcase-alt-2',
+          subItems: []
         }
-      ]
-      menu[4].subItems.push(companyItem);
-      menu[4].subItems[0].subItems = items
-    })
-    return  new Promise((resolve, reject) => {
-        resolve(menu)
+        let items: any[] = [
+          {
+            id: ele.id + index,
+            label: 'MENUITEMS.DEPARTMENTS.TEXT',
+            link: `/companies/${ele.id}/departments`,
+            parentId: ele.id + index
+          },
+          {
+            id: 13,
+            label: 'MENUITEMS.EMPLOYEES.TEXT',
+            link: `/companies/${ele.id}/employees`,
+            parentId: ele.id + index
+          }
+        ]
+        menu[4].subItems.push(companyItem);
+        menu[4].subItems[index + 1].subItems = items
+      })
+    }
+    return new Promise((resolve, reject) => {
+      resolve(menu)
     })
   }
 }

@@ -5,7 +5,7 @@
                 <div class="card-body row">
                     <div class="col-6 d-flex align-items-center ">
                         <h3 class="m-0">{{'MENUITEMS.CLIENTS.TEXT' | translate}}</h3>
-                      </div>
+                    </div>
                     <div class="col-6 d-flex justify-content-end ">
                         <button class="btn btn-primary w-md" (click)="openModal(addClient , 0)">
                             {{'GENERAL.ADD' | translate}} {{'GENERAL.CLIENT' | translate}}
@@ -24,55 +24,56 @@
     </ng-container>
     <ng-container *ngIf="!loader && clientsData.length > 0">
         <div class="row">
-            <div class="col-xl-3 col-sm-6" *ngFor="let data of clientsData">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <div class="avatar-sm mx-auto mb-4">
-                            <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-16">
-                                {{data.name.charAt(0)}}
-                            </span>
-                        </div>
-                        <h5 class="font-size-15 mb-1"><a href="javascript: void(0);" class="text-dark">{{data.name}}</a>
-                        </h5>
-                        <p class="text-muted m-0">{{data.email}}</p>
-                        <p dir="ltr" class="text-muted m-0 my-2">{{data.mobile}}</p>
-                        <div>
-                            <!-- <a href="javascript: void(0);"
-                                [ngClass]="{'bg-warning' : data.isActive  == 1 ,'bg-success': data.isActive  == 2 ,'bg-danger' : data.isActive  == 3}"
-                                class="badge font-size-11 m-1"> -->
-                            <span class="badge" [class]="data.isActive == true ? 'bg-success':'bg-warning'">
-                                <span *ngIf="data.isActive == true">{{'GENERAL.ACTIVE' | translate}}</span>
-                                <span *ngIf="data.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
-                            </span>
-                            <!-- </a> -->
-                        </div>
-                    </div>
-                    <div class="card-footer bg-transparent border-top">
-                        <div class="contact-links d-flex font-size-20">
-                            <div class="flex-fill">
-                                <button class="btn btn-light py-1" type="button" [disabled]="!data.isActive" (click)="patchValueForm(addClient,data);getUpdateClients(data.id)">{{'GENERAL.EDIT' | translate}}<i
-                                        class="ms-1 bx bx-edit"></i></button>
-                            </div>
-                            <div class="flex-fill d-flex align-items-center justify-content-center">
+            <div class="table-responsive">
+                <table class="table project-list-table table-nowrap align-middle table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">{{'GENERAL.NAME' | translate}}</th>
+                            <th scope="col">{{'GENERAL.EMAIL' | translate}}</th>
+                            <th scope="col">{{'GENERAL.MOBILE_NUMBER' | translate}}</th>
+                            <th scope="col">{{'GENERAL.ACTIVE' | translate}}</th>
+                            <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
+                            <th scope="col" class="text-center">{{'GENERAL.ACTION' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of clientsData;">
+                            <td>
+                                <h5 class="text-truncate font-size-14">
+                                    <a href="javascript: void(0);" class="text-dark">{{data.name}}</a>
+                                </h5>
+                            </td>
+                            <td>{{data.email}}</td>
+                            <td>{{data.mobile}}</td>
+                            <td>
+                                <span class="badge" [class]="data.isActive == true ? 'bg-success':'bg-warning'">
+                                    <span *ngIf="data.isActive == true">{{'GENERAL.ACTIVE' | translate}}</span>
+                                    <span *ngIf="data.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
+                                </span>
+                            </td>
+                            <td class="text-center">
                                 <ui-switch defaultBoColor="#dfdfdf" (change)="ChangeActiveOrNotDepartment(data.id)"
-                                    [checked]="data.isActive == true" size="small" class="d-flex"></ui-switch>
-                            </div>
-                            <!-- <div class="flex-fill">
-                            <a href="javascript: void(0);" ngbTooltip="Edit"
-                                (click)="patchValueForm(addFactory,data);getUpdateFactory(data.id)"><i
-                                    class="bx bx-edit"></i></a>
-                        </div>
-                        <div class="flex-fill">
-                            <a href="javascript: void(0);" ngbTooltip="Delete" (click)="delete(data.id)"><i
-                                    class="bx bx-trash"></i></a>
-                        </div> -->
-                        <div class="flex-fill">
-                            <a href="javascript: void(0);" ngbTooltip="Delete" (click)="delete(data.id)"><i
-                                    class="bx bx-trash"></i></a>
-                        </div>
-                        </div>
-                    </div>
-                </div>
+                                [checked]="data.isActive == true" size="small" class="d-flex justify-content-center"></ui-switch>
+                            </td>
+                            <td class="d-flex">
+                                <div class="flex-fill">
+                                    <button class="btn btn-light py-1" type="button" [disabled]="!data.isActive"
+                                        (click)="patchValueForm(addClient,data);getUpdateClients(data.id)">{{'GENERAL.EDIT'
+                                        | translate}}<i class="ms-1 bx bx-edit"></i></button>
+                                </div>
+                                <div class="flex-fill">
+                                    <button class="btn btn-light py-1" type="button"
+                                        (click)="viewClientDetails(viewClient,data.id)">{{'GENERAL.VIEW' | translate}}<i
+                                            class="mdi mdi-eye-outline ms-1"></i></button>
+                                </div>
+                                <div class="flex-fill">
+                                    <button class="btn btn-light py-1" type="button" (click)="delete(data.id)"><i
+                                            class="bx bx-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </ng-container>
@@ -86,9 +87,8 @@
                 <div class="text-center">
                     <h5 class="text-warning ">Not Found Result</h5>
                     <div class="text-center">
-                        <button type="button" (click)="goBack"
-                            class="btn btn-link text-decoration-none text-warning"> <i
-                                class="mdi mdi-arrow-left"></i>Back</button>
+                        <button type="button" (click)="goBack" class="btn btn-link text-decoration-none text-warning">
+                            <i class="mdi mdi-arrow-left"></i>Back</button>
                     </div>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                         <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.ARABIC_NAME' |
                             translate}}</label>
                         <input type="text" class="form-control" id="validationCustom01" formControlName="name"
-                        [ngClass]="{'is-valid': form.name.dirty && !form.name.errors ,'is-invalid': form.name.dirty && form.name.errors}">
+                            [ngClass]="{'is-valid': form.name.dirty && !form.name.errors ,'is-invalid': form.name.dirty && form.name.errors}">
                         <div *ngIf="form.name.dirty && form.name.errors" class="invalid-feedback">
                             <span *ngIf="form.name.errors.required">This value is required.</span>
                         </div>
@@ -178,23 +178,29 @@
 
                 <div class="col-xl-6 col-lg-6">
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.GENERALMANAGERNAME' |
+                        <label for="validationCustom01"
+                            class="form-label text-capitalize">{{'GENERAL.GENERALMANAGERNAME' |
                             translate}}</label>
-                        <input type="text" class="form-control" id="validationCustom01" formControlName="generalManagerName"
+                        <input type="text" class="form-control" id="validationCustom01"
+                            formControlName="generalManagerName"
                             [ngClass]="{'is-valid': form.generalManagerName.dirty && !form.generalManagerName.errors ,'is-invalid': form.generalManagerName.dirty && form.generalManagerName.errors}">
-                        <div *ngIf="form.generalManagerName.dirty && form.generalManagerName.errors" class="invalid-feedback">
+                        <div *ngIf="form.generalManagerName.dirty && form.generalManagerName.errors"
+                            class="invalid-feedback">
                             <span *ngIf="form.generalManagerName.errors.required">This value is required.</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-xl-6 col-lg-6">
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.SALESMANAGERNAME' |
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.SALESMANAGERNAME'
+                            |
                             translate}}</label>
-                        <input type="text" class="form-control" id="validationCustom01" formControlName="salesManagerName"
+                        <input type="text" class="form-control" id="validationCustom01"
+                            formControlName="salesManagerName"
                             [ngClass]="{'is-valid': form.salesManagerName.dirty && !form.salesManagerName.errors ,'is-invalid': form.salesManagerName.dirty && form.salesManagerName.errors}">
-                        <div *ngIf="form.salesManagerName.dirty && form.salesManagerName.errors" class="invalid-feedback">
+                        <div *ngIf="form.salesManagerName.dirty && form.salesManagerName.errors"
+                            class="invalid-feedback">
                             <span *ngIf="form.salesManagerName.errors.required">This value is required.</span>
                         </div>
                     </div>
@@ -212,10 +218,18 @@
                 </div>
                 <div class="col-xl-6 col-lg-6">
                     <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.DEPARTMENT' |
+                            translate}}</label>
+                        <ng-select [items]="listOfDepartment" formControlName="department_Id" bindLabel="name"
+                            bindValue="id"></ng-select>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
                         <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.JOBCATEGORY' |
                             translate}}</label>
-                        <ng-select [items]="ListOfClientJobCategories" formControlName="clientJobCategory_Id" (change)="getListOfClientJobs($event.id)" bindLabel="name"
-                            bindValue="id"></ng-select>
+                        <ng-select [items]="ListOfClientJobCategories" formControlName="clientJobCategory_Id"
+                            (change)="getListOfClientJobs($event.id)" bindLabel="name" bindValue="id"></ng-select>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6">
@@ -223,6 +237,14 @@
                         <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.CLIENTJOB' |
                             translate}}</label>
                         <ng-select [items]="ListOfClientJobs" formControlName="clientJob_Id" bindLabel="name"
+                            bindValue="id"></ng-select>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.COMMUNICATIONWAYS' |
+                            translate}}</label>
+                        <ng-select [items]="listOfClientCommunicationWays" formControlName="clientCommunicationWay_Id" bindLabel="name"
                             bindValue="id"></ng-select>
                     </div>
                 </div>
@@ -235,5 +257,111 @@
                 </button>
             </div>
         </form>
+    </div>
+</ng-template>
+
+<ng-template #viewClient let-modal>
+    <div class="modal-header">
+        <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <ng-container *ngIf="loadingShow">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+            <div class="spinner-border text-primary m-1" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+    <div class="modal-body" *ngIf="!loadingShow">
+        <section id="content" class="container">
+            <div class="page-heading my-3">
+                <div class="media clearfix">
+                    <div class="media-body va-m">
+                        <h2 class="media-heading">{{clientDetails.name}}
+                            <small> - {{clientDetails.company}}</small>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <span class="panel-icon">
+                                <i class="fa fa-star"></i>
+                            </span>
+                            <span class="panel-title"> Client Details</span>
+                        </div>
+                        <div class="panel-body pn">
+                            <table class="table mbn tc-icon-1 tc-med-2 tc-bold-last">
+                                <thead>
+                                    <tr class="hidden">
+                                        <!-- <th class="mw30">#</th> -->
+                                        <th>#</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>name</td>
+                                        <td>
+                                            {{clientDetails.name}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>email</td>
+                                        <td>
+                                            {{clientDetails.email}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>address</td>
+                                        <td>
+                                            {{clientDetails.address}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>mobile</td>
+                                        <td>
+                                            {{clientDetails.mobile}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>company</td>
+                                        <td>
+                                            {{clientDetails.company}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>department</td>
+                                        <td>
+                                            {{clientDetails.departmentName}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>generalManagerName</td>
+                                        <td>
+                                            {{clientDetails.generalManagerName}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>salesManagerName</td>
+                                        <td>
+                                            {{clientDetails.salesManagerName}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Activity</td>
+                                        <td>
+                                            {{clientDetails.activity}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <app-comments-client [Data]="allClientComments" [client_Id]="client_Id" (reloadeClientComments)="GetAllClientsComments()"></app-comments-client>
+            </div>
+        </section>
     </div>
 </ng-template>

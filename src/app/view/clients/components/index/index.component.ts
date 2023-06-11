@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Pagination } from 'app/core/modal/modal';
-import { Clients, DataClients, DataListOfClientJobs, ListOfClientJobs, showClient } from '../../modal/clients';
+import { AllClientsComments, Clients, DataClients, DataListOfClientJobs, DataShowClientsComments, DatashowClient, ListOfClientJobs, showClient } from '../../modal/clients';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { CountriesService } from 'app/pages/countries/countries.service';
 import { Location } from '@angular/common';
+import { Content } from '@angular/compiler/src/render3/r3_ast';
+import { DepartmentsService } from 'app/view/departments/services/departments.service';
 
 @Component({
   selector: 'app-index',
@@ -18,7 +20,7 @@ export class IndexComponent implements OnInit {
   ListOfClientJobs: DataListOfClientJobs[];
   ListOfClientJobCategories: DataListOfClientJobs[];
   classificationID: number = 0;
-  clientsData: DataClients[];
+  clientsData: DataClients[] = [];
   pagination: Pagination;
   pageNumber: number = 1;
   clientsForm: FormGroup;
@@ -30,15 +32,26 @@ export class IndexComponent implements OnInit {
   loader: boolean = true;
   rangeValue: number = 0;
   loadingShow: boolean = false;
+  clientDetails: DatashowClient;
+  currentUser: any;
+  listOfDepartment: any[] = [];
+  loaderComments: boolean = false;
+  allClientComments:DataShowClientsComments [] = [];
+  client_Id:number = 0;
+  companyID:number = 0;
+  listOfClientCommunicationWays:DataListOfClientJobs[];
   constructor(
     private _ActivatedRoute: ActivatedRoute,
     private _ClientsService: ClientService,
+    private _DepartmentsService: DepartmentsService,
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
     private toastrService: ToastrService,
     private _CountriesService: CountriesService,
     private _location: Location
   ) {
+    this.currentUser = JSON.parse(localStorage.getItem('user_ERP'))
+    this.companyID = this._ActivatedRoute.snapshot.params['companyID']
     this.clientsForm = this._formBuilder.group({
       name: [null, [Validators.required]],
       nameInEnglish: [null, [Validators.required]],
@@ -50,22 +63,41 @@ export class IndexComponent implements OnInit {
       email: [null, [Validators.email]],
       address: [null],
       clientJob_Id: [null],
-      clientJobCategory_Id: [null]
+      clientJobCategory_Id: [null],
+      department_Id: [null],
+      clientCommunicationWay_Id:[null]
     });
   }
 
   ngOnInit(): void {
+    this.ListOfClientCommunicationWays();
+    this.ListOfDepartment();
     this.getClients();
     this.getListOfClientJobCategories();
     // this.clientsForm.controls.clientJobCategory_Id.valueChanges.subscribe(val => {
     //   this.getListOfClientJobs(val)
     // })
   }
-
   getClients(): void {
-    this._ClientsService.getClients().subscribe({
+    this._ClientsService.getClients(this.currentUser.department_Id).subscribe({
       next: (res: Clients) => {
         this.clientsData = res.data;
+        this.loader = false
+      }
+    })
+  }
+  ListOfDepartment(): void {
+    this._DepartmentsService.ListOfDepartment(this.companyID).subscribe({
+      next: (res: Clients) => {
+        this.listOfDepartment = res.data;
+        this.loader = false
+      }
+    })
+  }
+  ListOfClientCommunicationWays(): void {
+    this._ClientsService.ListOfClientCommunicationWays().subscribe({
+      next: (res: ListOfClientJobs) => {
+        this.listOfClientCommunicationWays = res.data;
         this.loader = false
       }
     })
@@ -91,14 +123,21 @@ export class IndexComponent implements OnInit {
   }
   patchValueForm(content: any, Clients: any) {
     this.lableForm = 1;
-    this.showClients(Clients.id)
+    this.showClients(Clients.id);
     this.modalService.open(content, { size: 'lg' });
   }
-  showClients(countryId: number) {
+  viewClientDetails(content: any, clientId: number) {
+    this.client_Id = clientId;
+    this.showClients(clientId);
+    this.modalService.open(content, { size: 'lg' });
+    this.GetAllClientsComments()
+  }
+  showClients(clientId: number) {
     this.loadingShow = true;
-    this._ClientsService.getclientById(countryId).subscribe({
+    this._ClientsService.getclientById(clientId).subscribe({
       next: (res: showClient) => {
         this.loadingShow = false;
+        this.clientDetails = res.data;
         this.getListOfClientJobs(res.data.clientJobCategory_Id);
         this.clientsForm.patchValue({
           name: res.data.name,
@@ -111,7 +150,9 @@ export class IndexComponent implements OnInit {
           email: res.data.email,
           address: res.data.address,
           clientJob_Id: res.data.clientJob_Id,
-          clientJobCategory_Id: res.data.clientJobCategory_Id
+          clientJobCategory_Id: res.data.clientJobCategory_Id,
+          department_Id: res.data.department_Id,
+          clientCommunicationWay_Id:res.data.clientCommunicationWay_Id
         })
       }, error: (err: Error) => {
         this.loadingShow = false;
@@ -148,7 +189,7 @@ export class IndexComponent implements OnInit {
       }, error: (err: Error) => {
         this.loadingclients = false;
         console.log(err);
-        
+
       }
     })
   }
@@ -189,5 +230,13 @@ export class IndexComponent implements OnInit {
   }
   goBack() {
     this._location.back();
+  }
+  GetAllClientsComments() {
+    this._ClientsService.GetAllClientsComments(this.client_Id).subscribe({
+      next: (res: AllClientsComments) => {
+        this.loaderComments = false;
+        this.allClientComments = res.data
+      }
+    })
   }
 }

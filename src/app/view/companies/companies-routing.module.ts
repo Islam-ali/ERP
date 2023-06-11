@@ -14,19 +14,19 @@ const routes: Routes = [
     path: ':companyID/departments',
     loadChildren: () => import('../../view/departments/departments.module').then(m => m.DepartmentsModule),
     canActivate: [AuthGuard],
-    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin] }
+    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin] }
   },
   {
     path: ':companyID/employees',
     loadChildren: () => import('../../view/employees/employees.module').then(m => m.EmployeesModule),
     canActivate: [AuthGuard],
-    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin] }
+    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin] }
   },
   {
     path: ':companyID/clients',
     loadChildren: () => import('../../view/clients/clients.module').then(m => m.ClientsModule),
     canActivate: [AuthGuard],
-    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin] }
+    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin] }
   },
 ];
 

@@ -56,11 +56,11 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       console.log('xx');
       
     })
-    if (this.USERERP.company_Id == 0) {
+    // if (this.USERERP.company_Id == 0) {
       this.getAllCompanies();
-    } else {
-      this.initialize();
-    }
+    // } else {
+    //   this.initialize();
+    // }
     this._scrollElement();
   }
 
@@ -223,7 +223,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         id: 5,
         label: 'MENUITEMS.COMPANIES.TEXT',
         icon: 'bx bxs-user-detail',
-        role: ['Superadmin'],
+        role: ['Superadmin','ClintAdmin'],
         subItems: [
           {
             id: 155,
@@ -261,7 +261,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       },
     ];
 
-    if (this.USERERP.company_Id == 0) {
+    // if (this.USERERP.company_Id == 0) {
       this.companyIds.forEach((ele, index) => {
         let companyItem = {
           label: ele.name,
@@ -293,7 +293,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         menu[4].subItems.push(companyItem);
         menu[4].subItems[index + 1].subItems = items
       })
-    }
+    // }
     return new Promise((resolve, reject) => {
       resolve(menu)
     })

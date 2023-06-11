@@ -415,6 +415,8 @@
     "GENERALMANAGERNAME":"المدير العام",
     "SALESMANAGERNAME":"مدير المبيعات",
     "JOBCATEGORY":"تصنيف فئة العمل",
-    "CLIENTJOB":"فئة العمل"
+    "CLIENTJOB":"فئة العمل",
+    "COMMUNICATIONWAYS":"طرق التواصل"
+
 }
 }

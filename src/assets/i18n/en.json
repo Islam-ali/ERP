@@ -415,6 +415,7 @@
     "GENERALMANAGERNAME":"general Manager Name",
     "SALESMANAGERNAME":"sales Manager Name",
     "JOBCATEGORY":"Job Category",
-    "CLIENTJOB":"Client Job"
+    "CLIENTJOB":"Client Job",
+    "COMMUNICATIONWAYS":"CommunicationWays"
   }
 }

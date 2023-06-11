@@ -259,13 +259,6 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         link: `/companies/${this.USERERP.company_Id}/departments/${this.USERERP.department_Id}/projects`,
         role: ['User']
       },
-      {
-        id: 13,
-        label: 'MENUITEMS.CLIENTS.TEXT',
-        icon: 'bx bx-briefcase-alt-2',
-        link: `/clients`,
-        role: ['Superadmin', 'ClintAdmin']
-      },
     ];
 
     if (this.USERERP.company_Id == 0) {
@@ -288,6 +281,12 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
             id: 13,
             label: 'MENUITEMS.EMPLOYEES.TEXT',
             link: `/companies/${ele.id}/employees`,
+            parentId: ele.id + index
+          },
+          {
+            id: 14,
+            label: 'MENUITEMS.CLIENTS.TEXT',
+            link: `/companies/${ele.id}/clients`,
             parentId: ele.id + index
           }
         ]

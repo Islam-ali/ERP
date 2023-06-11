@@ -22,6 +22,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin] }
   },
+  {
+    path: ':companyID/clients',
+    loadChildren: () => import('../../view/clients/clients.module').then(m => m.ClientsModule),
+    canActivate: [AuthGuard],
+    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin] }
+  },
 ];
 
 @NgModule({

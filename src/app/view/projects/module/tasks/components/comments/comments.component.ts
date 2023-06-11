@@ -38,8 +38,6 @@ export class CommentsComponent implements OnInit {
     })
     this.loadChoices('');
     this.formComment.valueChanges.subscribe((res: any) => {
-      console.log(this.submit);
-
       this.submit = false
     })
   }
@@ -117,7 +115,6 @@ export class CommentsComponent implements OnInit {
     this.mentions = choices;
   }
   async getUsers() {
-
     this.loading = true;
     this._EmployeesService.ListOfEmployeesForMentioned(this.departmentID).subscribe({
       next: (res: any) => {

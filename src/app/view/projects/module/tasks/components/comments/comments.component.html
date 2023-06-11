@@ -5,7 +5,8 @@
 		<div class="be-comment">
 			<div class="be-img-comment">
 				<a href="javascript: void(0);" *ngIf="comment.commentatorImagePath">
-					<img [src]="url + comment.commentatorImagePath" [alt]="comment.commentatorName" class="be-ava-comment">
+					<img [src]="url + comment.commentatorImagePath" [alt]="comment.commentatorName"
+						class="be-ava-comment">
 				</a>
 				<div class="avatar-group-item avatar-xs" *ngIf="!comment.commentatorImagePath">
 					<span class="avatar-title rounded-circle bg-soft bg-primary text-primary">
@@ -28,72 +29,31 @@
 			</div>
 		</div>
 	</ng-container>
-
-	<!-- <div class="be-comment">
-		<div class="be-img-comment">	
-			<a href="blog-detail-2.html">
-				<img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" class="be-ava-comment">
-			</a>
-		</div>
-		<div class="be-comment-content">
-			<span class="be-comment-name">
-				<a href="blog-detail-2.html">Phoenix, the Creative Studio</a>
-			</span>
-			<span class="be-comment-time">
-				<i class="fa fa-clock-o"></i>
-				May 27, 2015 at 3:14am
-			</span>
-			<p class="be-comment-text">
-				Nunc ornare cursus lobortis luctus at, leifend est. Fusce hendrerit dui in turpis tristique blandit.
-			</p>
-		</div>
-	</div>
-	<div class="be-comment">
-		<div class="be-img-comment">	
-			<a href="blog-detail-2.html">
-				<img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" class="be-ava-comment">
-			</a>
-		</div>
-		<div class="be-comment-content">
-			<span class="be-comment-name">
-				<a href="blog-detail-2.html">Cüneyt ŞEN</a>
-			</span>
-			<span class="be-comment-time">
-				<i class="fa fa-clock-o"></i>
-				May 27, 2015 at 3:14am
-			</span>
-			<p class="be-comment-text">
-				Cras magna nunc, cursus lobortis vel neque. Duis eleifend lorem non ant
-			</p>
-		</div>
-	</div> -->
 	<form class="form-block" [formGroup]="formComment" (submit)="onSubmit()">
 		<div class="row">
 			<div class="col-2"></div>
 			<div class="col-10 my-2">
 				<div class="form-group my-2">
-					<textarea class="form-control" #textareaRef formControlName="text"
-						required placeholder="Your text"></textarea>
-						<flx-mentions *ngIf="!submit" [textInputElement]="textareaRef" [menuTemplate]="menuTemplate" [triggerCharacter]="'@'"
-							[getChoiceLabel]="getChoiceLabel" (search)="loadChoices($event)"
-							(selectedChoicesChange)="onSelectedChoicesChange($event)"></flx-mentions>
+					<textarea class="form-control" #textareaRef formControlName="text" required
+						placeholder="Your text"></textarea>
+					<flx-mentions *ngIf="!submit" [textInputElement]="textareaRef" [menuTemplate]="menuTemplate"
+						[triggerCharacter]="'@'" [getChoiceLabel]="getChoiceLabel" (search)="loadChoices($event)"
+						(selectedChoicesChange)="onSelectedChoicesChange($event)"></flx-mentions>
 				</div>
-				<!-- (menuShow)="onMenuShow()"
-				(menuHide)="onMenuHide()" -->
-
 				<ng-template #menuTemplate let-selectChoice="selectChoice">
 					<ul flxLoader class="flx-selectable-list" [class.loader-only]="!choices.length && loading">
 						<li class="flx-selectable-list-item list-unstyled">
 							<!--single line list with avtar -->
 							<ul class="list-group list card-list list-avatar">
-								<li *ngFor="let user of choices" (click)="selectChoice(user)" class="list-mention list-group-item d-flex align-items-center">
+								<li *ngFor="let user of choices" (click)="selectChoice(user)"
+									class="list-mention list-group-item d-flex align-items-center">
 									<a href="javascript:void(0);" class="avatar-group-item avatar-xs overflow-hidden">
-										<img  class="img-fluid avatar-title rounded-circle bg-soft" *ngIf="user.imagePath" [src]="url + user.imagePath">
-										<!-- <div class="avatar-group-item avatar-xs" > -->
-											<span *ngIf="!user.imagePath" class="avatar-title rounded-circle bg-soft bg-primary text-primary">
-												{{user.name.charAt(0)}}
-											</span>
-										<!-- </div> -->
+										<img class="img-fluid avatar-title rounded-circle bg-soft"
+											*ngIf="user.imagePath" [src]="url + user.imagePath">
+										<span *ngIf="!user.imagePath"
+											class="avatar-title rounded-circle bg-soft bg-primary text-primary">
+											{{user.name.charAt(0)}}
+										</span>
 									</a>
 									<div class="media-body ms-1">{{ user.name }}</div>
 								</li>

@@ -8,13 +8,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UIModule } from 'app/shared/ui/ui.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CommentsClientComponent } from './components/comments-client/comments-client.component';
 
 
 @NgModule({
   declarations: [
     IndexComponent,
+    CommentsClientComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgxIntlTelInputModule,
     NgbPaginationModule,
     NgSelectModule,
+    NgbDropdownModule
   ]
 })
 export class ClientsModule { }

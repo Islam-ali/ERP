@@ -51,6 +51,7 @@
     "firebase": "^8.6.8",
     "google-libphonenumber": "^3.2.32",
     "intl-tel-input": "^17.0.3",
+    "jwt-decode": "^3.1.2",
     "metismenujs": "^1.2.1",
     "ng-apexcharts": "^1.5.12",
     "ng-chartist": "^4.1.0",

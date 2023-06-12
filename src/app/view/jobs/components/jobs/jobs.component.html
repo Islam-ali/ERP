@@ -7,7 +7,7 @@
               <h3 class="m-0">{{'MENUITEMS.JOBS.TEXT' | translate}}</h3>
             </div>
             <div class="col-6 d-flex justify-content-end ">
-              <button class="btn btn-primary w-md" (click)="openModal(addJobs , 0)">
+              <button *ngIf="_AuthenticationService.checkPermission('Permissions.Jobs.Create')" class="btn btn-primary w-md" (click)="openModal(addJobs , 0)">
                 {{'GENERAL.ADD' | translate}} {{'GENERAL.JOB' | translate}}
                 <i class="bx bx-plus-medical"></i></button>
             </div>
@@ -56,11 +56,11 @@
                   </td>
                   <td>
                     <ul class="list-inline font-size-20 contact-links mb-0">
-                      <li class="list-inline-item px-2">
+                      <li *ngIf="_AuthenticationService.checkPermission('Permissions.Jobs.Edit')" class="list-inline-item px-2">
                         <i class="bx bx-edit" (click)="patchValueForm(addJobs,Job);getUpdateJob(Job.id)"
                           style="cursor: pointer;"></i>
                       </li>
-                      <li class="list-inline-item px-2" (click)="delete(Job.id)">
+                      <li *ngIf="_AuthenticationService.checkPermission('Permissions.Jobs.Delete')" class="list-inline-item px-2" (click)="delete(Job.id)">
                         <i class="bx bx-trash" style="cursor: pointer;"></i>
                       </li>
                     </ul>

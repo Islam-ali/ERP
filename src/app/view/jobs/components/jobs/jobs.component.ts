@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import {Location} from '@angular/common';
 import { JobsService } from '../../Services/jobs.service';
+import { AuthenticationService } from 'app/core/services/auth.service';
 @Component({
   selector: 'app-jobs',
   templateUrl: './jobs.component.html',
@@ -31,7 +32,9 @@ export class JobsComponent implements OnInit {
     private modalService: NgbModal,
     private toastrService: ToastrService,
     private _ActivatedRoute: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    public _AuthenticationService : AuthenticationService
+
   ) {
     this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID']
   }

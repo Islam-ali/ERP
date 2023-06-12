@@ -3,5 +3,6 @@ export enum Role {
     Admin = 'Admin',
     SuperAdmin = 'Superadmin',
     DepartmentAdmin = 'DepartmentAdmin',
-    ClintAdmin = 'ClintAdmin'
+    ClintAdmin = 'ClintAdmin',
+    ClientView = 'ClientView'
 }

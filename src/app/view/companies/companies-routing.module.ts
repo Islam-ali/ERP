@@ -8,25 +8,30 @@ const routes: Routes = [
   {
     path: '', component: CompaniesComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.SuperAdmin] }
+       data: {permission: ['Permissions.Auth.All']}
+
+    // data: { roles: [Role.SuperAdmin] }
   },
   {
     path: ':companyID/departments',
     loadChildren: () => import('../../view/departments/departments.module').then(m => m.DepartmentsModule),
     canActivate: [AuthGuard],
-    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin] }
+    data: { permission: ['Permissions.Departments.All'] }
+    // data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin] }
   },
   {
     path: ':companyID/employees',
     loadChildren: () => import('../../view/employees/employees.module').then(m => m.EmployeesModule),
     canActivate: [AuthGuard],
-    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin] }
+    data: { permission: ['Permissions.Employees.All'] }
+    // data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin] }
   },
   {
     path: ':companyID/clients',
     loadChildren: () => import('../../view/clients/clients.module').then(m => m.ClientsModule),
     canActivate: [AuthGuard],
-    data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin] }
+    data: { permission: ['Permissions.Clients.All'] }
+    // data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin , Role.ClientView] }
   },
 ];
 

@@ -7,7 +7,7 @@
               <h3 class="m-0">{{'MENUITEMS.PROJECTS.TEXT' | translate}}</h3>
             </div>
             <div class="col-6 d-flex justify-content-end ">
-              <button class="btn btn-primary w-md" (click)="openModal(addProjects , 0)">
+              <button *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.Create')" class="btn btn-primary w-md" (click)="openModal(addProjects , 0)">
                 {{'GENERAL.ADD' | translate}} {{'GENERAL.PROJECT' | translate}}
                 <i class="bx bx-plus-medical"></i></button>
             </div>
@@ -33,7 +33,7 @@
                   <th scope="col">{{'GENERAL.STATUS' | translate}}</th>
                   <th scope="col" class="text-center">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
                   <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
-                  <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.TASKS.TEXT' | translate}}</th>
+                  <th *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.All')" scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.TASKS.TEXT' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
@@ -57,15 +57,15 @@
                   <td>
                     <ul class="list-inline font-size-20 contact-links mb-0">
                       <li class="list-inline-item px-2">
-                        <i class="bx bx-edit" (click)="patchValueForm(addProjects,project);getUpdateProject(project.id)"
+                        <i class="bx bx-edit" *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.Edit')" (click)="patchValueForm(addProjects,project);getUpdateProject(project.id)"
                           style="cursor: pointer;"></i>
                       </li>
-                      <li class="list-inline-item px-2" (click)="delete(project.id)">
+                      <li *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.Delete')" class="list-inline-item px-2" (click)="delete(project.id)">
                         <i class="bx bx-trash" style="cursor: pointer;"></i>
                       </li>
                     </ul>
                   </td>
-                  <td>
+                  <td *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.All')">
                     <button type="button" class="btn btn-primary btn-sm px-4 btn-rounded" [routerLink]="[project.id , 'tasks']">{{'GENERAL.VIEW' | translate}}</button>
                   </td>
                 </tr>
@@ -79,7 +79,6 @@
                   <div class="mb-3">
                       <i class="bx bx-error-alt h1  text-warning"></i>
                   </div>
-  
                   <div class="text-center">
                       <h5 class="text-warning ">Not Found Result</h5>
                       <div class="text-center">

@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     public translate: TranslateService,
     private http: HttpClient,
-    private AuthenticationService: AuthenticationService,
+    public _AuthenticationService : AuthenticationService,
     private _SharedService: SharedService
   ) {
     this.USERERP = JSON.parse(localStorage.getItem('user_ERP'));
@@ -51,17 +51,19 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    this._SharedService.isReloadeCompany.subscribe(res=>{
-      if(res) this.getAllCompanies();
+    this._SharedService.isReloadeCompany.subscribe(res => {
+      if (res) this.GetCompanyOrThroughToken();
       console.log('xx');
-      
+
     })
     // if (this.USERERP.company_Id == 0) {
-      this.getAllCompanies();
+    this.GetCompanyOrThroughToken();
     // } else {
     //   this.initialize();
     // }
     this._scrollElement();
+    console.log(this._AuthenticationService.DecodedToken);
+    
   }
 
   // ngAfterViewInit() {
@@ -85,8 +87,8 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       this.menu.dispose();
     }
   }
-  getAllCompanies() {
-    this._CompaniesService.getAllCompanies().subscribe({
+  GetCompanyOrThroughToken() {
+    this._CompaniesService.GetCompanyOrThroughToken().subscribe({
       next: (res: any) => {
         this.companyIds = res.data;
         this.initialize();
@@ -199,36 +201,43 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         id: 1,
         label: 'MENUITEMS.MENU.TEXT',
         isTitle: true,
-        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
+        permission:''
       },
       {
         id: 2,
         label: 'MENUITEMS.DASHBOARDS.TEXT',
         icon: 'bx-home-circle',
         link: '/home',
-        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
+        permission:''
       },
       {
         id: 3,
         isLayout: true,
-        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
+        permission:''
       },
       {
         id: 4,
         label: 'MENUITEMS.APPS.TEXT',
         isTitle: true,
-        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin']
+        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
+        permission:''
       },
       {
         id: 5,
         label: 'MENUITEMS.COMPANIES.TEXT',
         icon: 'bx bxs-user-detail',
-        role: ['Superadmin','ClintAdmin'],
+        role: ['Superadmin', 'ClintAdmin','ClientView'],
+        permission:'Permissions.Companies.All',
         subItems: [
           {
-            id: 155,
+            id: 15,
             label: 'MENUITEMS.DASHBOARDS.TEXT',
             link: '/companies',
+            role: ['Superadmin'],
+            permission:'Permissions.Auth.All',
           }
         ]
       },
@@ -237,18 +246,23 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         label: 'MENUITEMS.MANGEMENT.TEXT',
         icon: 'bx bx-cog',
         role: ['Superadmin'],
+        permission:'Permissions.Auth.All',
         subItems: [
           {
             id: 10,
             label: 'MENUITEMS.MANGEMENT.LIST.USERS',
             link: '/mangement/user-role',
-            parentId: 4
+            parentId: 4,
+            role: ['Superadmin'],
+            permission:'Permissions.Auth.All',
           },
           {
             id: 11,
             label: 'MENUITEMS.MANGEMENT.LIST.ROLES',
             link: '/mangement/role',
-            parentId: 5
+            parentId: 5,
+            role: ['Superadmin'],
+            permission:'Permissions.Auth.All',
           },
         ]
       },
@@ -257,42 +271,52 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         label: 'MENUITEMS.PROJECTS.TEXT',
         icon: 'bx bx-briefcase-alt-2',
         link: `/companies/${this.USERERP.company_Id}/departments/${this.USERERP.department_Id}/projects`,
-        role: ['User']
+        role: ['User'],
+        permission:'Permissions.Projects.All',
       },
     ];
 
     // if (this.USERERP.company_Id == 0) {
-      this.companyIds.forEach((ele, index) => {
-        let companyItem = {
-          label: ele.name,
-          id: ele.id,
-          parentId: index + 22,
-          icon: 'bx bx-briefcase-alt-2',
-          subItems: []
+    this.companyIds.forEach((ele, index) => {
+      let companyItem = {
+        label: ele.name,
+        id: ele.id,
+        parentId: index + 22,
+        icon: 'bx bx-briefcase-alt-2',
+        role: ['Superadmin' , 'ClintAdmin','ClientView'],
+        permission:'Permissions.Companies.All',
+        subItems: []
+
+      }
+      let items: any[] = [
+        {
+          id: ele.id + index,
+          label: 'MENUITEMS.DEPARTMENTS.TEXT',
+          link: `/companies/${ele.id}/departments`,
+          parentId: ele.id + index,
+          role: ['Superadmin'],
+          permission:'Permissions.Departments.All',
+        },
+        {
+          id: 13,
+          label: 'MENUITEMS.EMPLOYEES.TEXT',
+          link: `/companies/${ele.id}/employees`,
+          parentId: ele.id + index,
+          role: ['Superadmin'],
+          permission:'Permissions.Employees.All',
+        },
+        {
+          id: 14,
+          label: 'MENUITEMS.CLIENTS.TEXT',
+          link: `/companies/${ele.id}/clients`,
+          parentId: ele.id + index,
+          role: ['Superadmin','ClintAdmin','ClientView'],
+          permission:'Permissions.Clients.All',
         }
-        let items: any[] = [
-          {
-            id: ele.id + index,
-            label: 'MENUITEMS.DEPARTMENTS.TEXT',
-            link: `/companies/${ele.id}/departments`,
-            parentId: ele.id + index
-          },
-          {
-            id: 13,
-            label: 'MENUITEMS.EMPLOYEES.TEXT',
-            link: `/companies/${ele.id}/employees`,
-            parentId: ele.id + index
-          },
-          {
-            id: 14,
-            label: 'MENUITEMS.CLIENTS.TEXT',
-            link: `/companies/${ele.id}/clients`,
-            parentId: ele.id + index
-          }
-        ]
-        menu[4].subItems.push(companyItem);
-        menu[4].subItems[index + 1].subItems = items
-      })
+      ]
+      menu[4].subItems.push(companyItem);
+      menu[4].subItems[index + 1].subItems = items
+    })
     // }
     return new Promise((resolve, reject) => {
       resolve(menu)

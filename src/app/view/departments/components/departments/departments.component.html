@@ -7,7 +7,7 @@
             <h3 class="m-0">{{'MENUITEMS.DEPARTMENTS.TEXT' | translate}}</h3>
           </div>
           <div class="col-6 d-flex justify-content-end ">
-            <button class="btn btn-primary w-md" (click)="openModal(addDepartment , 0)">
+            <button *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Create')" class="btn btn-primary w-md" (click)="openModal(addDepartment , 0)">
               {{'GENERAL.ADD' | translate}} {{'GENERAL.DEPARTMENT' | translate}}
               <i class="bx bx-plus-medical"></i></button>
           </div>
@@ -33,8 +33,8 @@
                 <th scope="col">{{'GENERAL.STATUS' | translate}}</th>
                 <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
                 <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
-                <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.PROJECTS.TEXT' | translate}}</th>
-                <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.JOBS.TEXT' | translate}}</th>
+                <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.All')">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.PROJECTS.TEXT' | translate}}</th>
+                <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Jobs.All')">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.JOBS.TEXT' | translate}}</th>
                 <!-- <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.EMPLOYEES.TEXT' | translate}}</th> -->
               </tr>
             </thead>
@@ -58,21 +58,21 @@
                 </td>
                 <td>
                   <ul class="list-inline font-size-20 contact-links mb-0">
-                    <li class="list-inline-item px-2">
+                    <li class="list-inline-item px-2" *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Edit')" >
                       <i class="bx bx-edit"
                         (click)="patchValueForm(addDepartment,department);showDepartment(department.id)"
                         style="cursor: pointer;"></i>
                     </li>
-                    <li class="list-inline-item px-2" (click)="delete(department.id)">
+                    <li  *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Delete')" class="list-inline-item px-2" (click)="delete(department.id)">
                       <i class="bx bx-trash" style="cursor: pointer;"></i>
                     </li>
                   </ul>
                 </td>
-                <td>
+                <td *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.All')">
                   <button type="button" class="btn btn-primary btn-sm px-4 btn-rounded"
                     [routerLink]="[department.id , 'projects']">{{'GENERAL.VIEW' | translate}}</button>
                 </td>
-                <td>
+                <td *ngIf="_AuthenticationService.checkPermission('Permissions.Jobs.All')">
                   <button type="button" class="btn btn-primary btn-sm px-4 btn-rounded"
                     [routerLink]="[department.id , 'jobs']">{{'GENERAL.VIEW' | translate}}</button>
                 </td>

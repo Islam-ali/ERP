@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { FormateDateService } from 'app/shared/services/formate-date.service';
+import { AuthenticationService } from 'app/core/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -36,7 +37,8 @@ export class ProfileComponent implements OnInit {
     private modalService: NgbModal,
     private toastrService: ToastrService,
     private _ActivatedRoute: ActivatedRoute,
-    private _FormateDateService: FormateDateService
+    private _FormateDateService: FormateDateService,
+    public _AuthenticationService : AuthenticationService
   ) {
 
     this.EmployeeForm = this._formBuilder.group({

@@ -20,6 +20,7 @@ export interface DataClients {
     clientJob_Id: number
     isActive: boolean
     clientCommunicationWay_Id:number
+    communicationWayName:string
 }
 
 export interface ListOfClientJobs {
@@ -73,5 +74,6 @@ export interface ListOfClientJobs {
     department_Id: number
     departmentName:string
     clientCommunicationWay_Id:number
+    communicationWayName:string
   }
   

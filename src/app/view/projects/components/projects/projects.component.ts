@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
 import { FormateDateService } from 'app/shared/services/formate-date.service';
+import { AuthenticationService } from 'app/core/services/auth.service';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -34,7 +35,9 @@ export class ProjectsComponent implements OnInit {
     private toastrService: ToastrService,
     private _ActivatedRoute: ActivatedRoute,
     private _location: Location,
-    private _FormateDateService:FormateDateService
+    private _FormateDateService:FormateDateService,
+    public _AuthenticationService : AuthenticationService
+
   ) {
     this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID']
   }

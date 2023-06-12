@@ -9,23 +9,28 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('../view/home/home.module').then(m => m.HomeModule),
     canActivate:[AuthGuard],
-    data: { roles: [Role.SuperAdmin , Role.Admin , Role.User , Role.DepartmentAdmin]}
+    data: {permission: ['']}
+    // data: { roles: [Role.SuperAdmin , Role.Admin , Role.User , Role.DepartmentAdmin ,Role.ClientView]}
   },
   { 
     path: 'companies',
     loadChildren: () => import('../view/companies/companies.module').then(m => m.CompaniesModule),
     canActivate:[AuthGuard],
-    data: { roles: [Role.SuperAdmin , Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin] }
+    data: {permission: ['Permissions.Companies.All']}
+    // data: { roles: [Role.SuperAdmin , Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin , Role.ClientView] }
   },
   { 
     path: 'companies/:companyID/departments/:departmentID/projects',
     loadChildren: () => import('../view/projects/projects.module').then(m => m.ProjectsModule),
+    canActivate:[AuthGuard],
+    data: {permission: ['Permissions.Projects.All']}
   },
   { 
     path: 'mangement',
     loadChildren: () => import('../view/mangement/mangement.module').then(m => m.MangementModule),
     canActivate:[AuthGuard],
-    data: { roles: [Role.SuperAdmin] }
+    data: {permission: ['Permissions.Auth.All']}
+    // data: { roles: [Role.SuperAdmin] }
   },
   { 
     path: 'profile',

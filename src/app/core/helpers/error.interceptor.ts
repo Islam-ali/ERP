@@ -20,8 +20,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                 // this.authenticationService.logout();
                 // location.reload();
                 this.router.navigate(['/account/login']);
+            }else if(err.status === 403){
+                const error = 'Not Exist Permmision'
             }
-
             const error = err.error.message || err.statusText;
             return throwError(error);
         }));

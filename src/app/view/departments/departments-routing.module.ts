@@ -13,6 +13,7 @@ const routes: Routes = [
   { 
     path: ':departmentID/jobs',
     loadChildren: () => import('../../view/jobs/jobs.module').then(m => m.JobsModule),
+    data: {permission: ['Permissions.Jobs.All']}
     // canActivate:[AuthGuard],
     // data: { roles: [Role.SuperAdmin , Role.Admin] }
   },

@@ -16,8 +16,8 @@ export class IndexComponent implements OnInit {
   ]
   currentUser: any;
   Role: any = Role;
-  constructor(private authenticationService: AuthenticationService) {
-    this.currentUser = this.authenticationService.getUser();
+  constructor(    public _AuthenticationService : AuthenticationService    ) {
+    this.currentUser = this._AuthenticationService.getUser();
   }
 
   ngOnInit(): void {

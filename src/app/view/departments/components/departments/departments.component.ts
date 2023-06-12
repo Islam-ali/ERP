@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY } from 'rxjs';
+import { AuthenticationService } from 'app/core/services/auth.service';
 
 @Component({
   selector: 'app-departments',
@@ -31,7 +32,8 @@ export class DepartmentsComponent implements OnInit {
     private _DepartmentsService: DepartmentsService,
     private modalService: NgbModal,
     private toastrService: ToastrService,
-    private _ActivatedRoute: ActivatedRoute
+    private _ActivatedRoute: ActivatedRoute,
+    public _AuthenticationService : AuthenticationService
 
   ) {
     this.companyID = this._ActivatedRoute.snapshot.params['companyID']

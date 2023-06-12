@@ -29,4 +29,7 @@ export class CompaniesService {
   addCompany(addForm:any):Observable<any>{
     return this.http.post(`${env.domain}Companies/AddCompany`,addForm)
   }
+  GetCompanyOrThroughToken():Observable<any>{
+    return this.http.get(`${env.domain}Companies/GetCompanyOrThroughToken`)
+  }
 }

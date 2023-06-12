@@ -4,18 +4,27 @@ import { getFirebaseBackend } from '../../authUtils';
 import { User } from '../models/auth.models';
 import { BehaviorSubject, EMPTY } from 'rxjs';
 import { DataLoginRes } from 'app/account/auth/login2/login';
-
+import jwt_decode from 'jwt-decode';
 @Injectable({ providedIn: 'root' })
 
 export class AuthenticationService {
 
     user: User;
-    isAuth:BehaviorSubject<boolean> = new BehaviorSubject(localStorage.getItem('user_ERP') ? true : false);
+    isAuth: BehaviorSubject<boolean> = new BehaviorSubject(localStorage.getItem('user_ERP') ? true : false);
     Auth$ = this.isAuth.asObservable();
-
+    DecodedToken: any;
     constructor() {
     }
-
+    getDecodedAccessToken(): any {
+        try {
+            return this.DecodedToken = jwt_decode(this.getUser().token);
+        } catch (Error) {
+            return null;
+        }
+    }
+    checkPermission(value: string) {
+        return this.DecodedToken.Permission.includes(value)
+    }
     /**
      * Returns the current user
      */
@@ -23,9 +32,9 @@ export class AuthenticationService {
         return getFirebaseBackend().getAuthenticatedUser();
     }
 
-    public getUser(): DataLoginRes{
+    public getUser(): DataLoginRes {
         return JSON.parse(localStorage.getItem('user_ERP')) || null
-      }
+    }
     /**
      * Performs the auth
      * @param email email of user

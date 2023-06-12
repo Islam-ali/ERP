@@ -8,7 +8,8 @@
                         <h3 class="m-0">{{ 'MENUITEMS.COMPANIES.TEXT' | translate }}</h3>
                     </div>
                     <div class="col-6 d-flex justify-content-end ">
-                        <div class="btn btn-primary w-md" (click)="openModal(addCompany , 0)">
+                        <div *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Create')"
+                            class="btn btn-primary w-md" (click)="openModal(addCompany , 0)">
                             {{'GENERAL.ADD' | translate}}
                             {{'GENERAL.COMPANY' | translate}}<i class="bx bx-plus-medical ms-1"></i></div>
                     </div>
@@ -55,35 +56,35 @@
                             </div>
                         </div>
                         <div class="col-2">
-                        <div ngbDropdown >
-                            <div class="dropdown">
-                                <button class="btn dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false" ngbDropdownToggle>
-                                    <i class="mdi mdi-dots-horizontal"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                                    <!-- <a class="dropdown-item" (click)="patchValueForm(addCompany , data)" href="javascript: void(0);"
+                            <div ngbDropdown>
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle p-0" type="button" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                                        <i class="mdi mdi-dots-horizontal"></i>
+                                    </button>
+                                    <div *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Delete')" class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                                        <!-- <a class="dropdown-item" (click)="patchValueForm(addCompany , data)" href="javascript: void(0);"
                                         ><i class="bx bx-edit"></i>Edit</a> -->
-                                    <a class="dropdown-item" href="javascript: void(0);" (click)="remove(data.id)"><i
-                                            class="bx bx-trash"></i>Delete</a>
+                                        <a class="dropdown-item" href="javascript: void(0);"
+                                            (click)="remove(data.id)"><i class="bx bx-trash"></i>Delete</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div> 
-                    </div>
+                        </div>
                     </div>
                     <div class="card-footer bg-transparent border-top">
                         <div class="contact-links d-flex font-size-20">
-                            <div class="flex-fill">
+                            <div class="flex-fill" *ngIf="_AuthenticationService.checkPermission('Permissions.Departments.All')">
                                 <button class="btn btn-outline-primary py-1" type="button"
                                     [routerLink]="[data.id,'departments']">{{'MENUITEMS.DEPARTMENTS.TEXT' |
                                     translate}}<i class="ms-1 bx bx-show"></i></button>
                             </div>
-                            <div class="flex-fill">
+                            <div class="flex-fill" *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.All')">
                                 <button class="btn btn-outline-info py-1" type="button"
                                     [routerLink]="[data.id,'employees']">{{'MENUITEMS.EMPLOYEES.TEXT' |
                                     translate}}<i class="ms-1 bx bx-show"></i></button>
                             </div>
-                            <div class="flex-fill">
+                            <div class="flex-fill" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.All')">
                                 <button class="btn btn-outline-success py-1" type="button"
                                     [routerLink]="[data.id,'clients']">{{'MENUITEMS.CLIENTS.TEXT' |
                                     translate}}<i class="ms-1 bx bx-show"></i></button>

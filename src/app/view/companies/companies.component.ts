@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from 'app/shared/services/shared.service';
+import { AuthenticationService } from 'app/core/services/auth.service';
 @Component({
   selector: 'app-companies',
   templateUrl: './companies.component.html',
@@ -31,7 +32,8 @@ export class CompaniesComponent implements OnInit {
     private toastrService: ToastrService,
     private modalService: NgbModal,
     private _ActivatedRoute: ActivatedRoute,
-    private _SharedService: SharedService
+    private _SharedService: SharedService,
+    public _AuthenticationService : AuthenticationService
 
   ) {
   }

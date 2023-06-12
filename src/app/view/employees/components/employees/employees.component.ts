@@ -14,6 +14,7 @@ import { FormateDateService } from 'app/shared/services/formate-date.service';
 import { EMPTY } from 'rxjs';
 import { ProfileService } from 'app/view/profile/services/profile.service';
 import { Profile } from 'app/view/profile/modal/profile';
+import { AuthenticationService } from 'app/core/services/auth.service';
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
@@ -59,6 +60,8 @@ export class EmployeesComponent implements OnInit {
     private _DepartmentsService: DepartmentsService,
     private _FormateDateService: FormateDateService,
     private _ProfileService: ProfileService,
+    public _AuthenticationService : AuthenticationService
+
 
   ) {
     this.companyID = this._ActivatedRoute.snapshot.params['companyID'];

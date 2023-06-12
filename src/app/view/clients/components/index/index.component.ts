@@ -10,6 +10,7 @@ import { CountriesService } from 'app/pages/countries/countries.service';
 import { Location } from '@angular/common';
 import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { DepartmentsService } from 'app/view/departments/services/departments.service';
+import { AuthenticationService } from 'app/core/services/auth.service';
 
 @Component({
   selector: 'app-index',
@@ -36,10 +37,11 @@ export class IndexComponent implements OnInit {
   currentUser: any;
   listOfDepartment: any[] = [];
   loaderComments: boolean = false;
-  allClientComments:DataShowClientsComments [] = [];
-  client_Id:number = 0;
-  companyID:number = 0;
-  listOfClientCommunicationWays:DataListOfClientJobs[];
+  allClientComments: DataShowClientsComments[] = [];
+  client_Id: number = 0;
+  companyID: number = 0;
+  clientCommunicationWay_Id: number = 0;
+  listOfClientCommunicationWays: DataListOfClientJobs[];
   constructor(
     private _ActivatedRoute: ActivatedRoute,
     private _ClientsService: ClientService,
@@ -48,7 +50,8 @@ export class IndexComponent implements OnInit {
     private modalService: NgbModal,
     private toastrService: ToastrService,
     private _CountriesService: CountriesService,
-    private _location: Location
+    private _location: Location,
+    public _AuthenticationService:AuthenticationService
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('user_ERP'))
     this.companyID = this._ActivatedRoute.snapshot.params['companyID']
@@ -65,13 +68,11 @@ export class IndexComponent implements OnInit {
       clientJob_Id: [null],
       clientJobCategory_Id: [null],
       department_Id: [null],
-      clientCommunicationWay_Id:[null]
+      // clientCommunicationWay_Id:[null]
     });
   }
 
   ngOnInit(): void {
-    this.ListOfClientCommunicationWays();
-    this.ListOfDepartment();
     this.getClients();
     this.getListOfClientJobCategories();
     // this.clientsForm.controls.clientJobCategory_Id.valueChanges.subscribe(val => {
@@ -83,14 +84,18 @@ export class IndexComponent implements OnInit {
       next: (res: Clients) => {
         this.clientsData = res.data;
         this.loader = false
+        this.ListOfClientCommunicationWays();
+        this.ListOfDepartment();
+      },error:(err:Error)=>{
+        this.loader = false;
       }
     })
   }
+
   ListOfDepartment(): void {
     this._DepartmentsService.ListOfDepartment(this.companyID).subscribe({
       next: (res: Clients) => {
         this.listOfDepartment = res.data;
-        this.loader = false
       }
     })
   }
@@ -98,7 +103,6 @@ export class IndexComponent implements OnInit {
     this._ClientsService.ListOfClientCommunicationWays().subscribe({
       next: (res: ListOfClientJobs) => {
         this.listOfClientCommunicationWays = res.data;
-        this.loader = false
       }
     })
   }
@@ -152,8 +156,8 @@ export class IndexComponent implements OnInit {
           clientJob_Id: res.data.clientJob_Id,
           clientJobCategory_Id: res.data.clientJobCategory_Id,
           department_Id: res.data.department_Id,
-          clientCommunicationWay_Id:res.data.clientCommunicationWay_Id
         })
+        this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id
       }, error: (err: Error) => {
         this.loadingShow = false;
       }
@@ -192,6 +196,20 @@ export class IndexComponent implements OnInit {
 
       }
     })
+  }
+  EditClientCommunicationWay(client_Id:number,clientCommunicationWay_Id:number){
+    let value = {};
+    value['id'] = client_Id,
+    value['clientCommunicationWay_Id'] = clientCommunicationWay_Id
+    this._ClientsService.EditClientCommunicationWay(value).subscribe({
+      next:(res:Clients) =>{
+        this.getClients();
+        this.toastrService.success(res.message);
+      },error:(err:Error)=> {
+        this.toastrService.error(`${err}`);
+      }
+    })
+
   }
   ChangeActiveOrNotDepartment(ClientId: number) {
     this._ClientsService.ChangeActiveOrNotDepartment(ClientId).subscribe({

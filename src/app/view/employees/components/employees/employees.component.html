@@ -7,7 +7,7 @@
                         <h3 class="m-0">{{'MENUITEMS.EMPLOYEES.TEXT' | translate}}</h3>
                     </div>
                     <div class="col-6 d-flex justify-content-end ">
-                        <button class="btn btn-primary w-md" (click)="openModal(addEmployee , 0)">
+                        <button *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Create')" class="btn btn-primary w-md" (click)="openModal(addEmployee , 0)">
                             {{'GENERAL.ADD' | translate}} {{'GENERAL.EMPLOYEE' | translate}}
                             <i class="bx bx-plus-medical"></i></button>
                     </div>
@@ -26,9 +26,9 @@
                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                                <a class="dropdown-item" href="javascript: void(0);"
+                                <a *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Edit')" class="dropdown-item" href="javascript: void(0);"
                                     (click)="patchValueForm( addEmployee , list )">Edit</a>
-                                <a class="dropdown-item" href="javascript: void(0);"
+                                <a *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Delete')" class="dropdown-item" href="javascript: void(0);"
                                     (click)="delete(list.id)">Delete</a>
                             </div>
                         </div>
@@ -317,7 +317,7 @@
                 </div>
                 <div class="col-xl-6 col-lg-6" *ngIf="form.SuperVisor_Id.value !== 0">
                     <div class="mb-3">
-                        <label class="form-label text-capitalize">{{'GENERAL.EMPLOYEE' |
+                        <label class="form-label text-capitalize">{{'GENERAL.SUPERVISOR' |
                             translate}}</label>
                         <ng-select
                             [ngClass]="{'is-valid': form.SuperVisor_Id.dirty && !form.SuperVisor_Id.errors ,'is-invalid': form.SuperVisor_Id.dirty && form.SuperVisor_Id.errors}"

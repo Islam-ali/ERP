@@ -42,4 +42,7 @@ export class ClientService {
   RemoveClient(clientId):Observable<Clients>{
     return this.http.delete<Clients>(`${env.domain}Clients/RemoveClient/${clientId}`)
   }
+  EditClientCommunicationWay(value:any):Observable<any>{
+    return this.http.put(`${env.domain}Clients/EditClientCommunicationWay/${value.id}`,value)
+  }
 }

@@ -7,7 +7,7 @@
                         <h3 class="m-0">{{'MENUITEMS.CLIENTS.TEXT' | translate}}</h3>
                     </div>
                     <div class="col-6 d-flex justify-content-end ">
-                        <button class="btn btn-primary w-md" (click)="openModal(addClient , 0)">
+                        <button *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Create')" class="btn btn-primary w-md" (click)="openModal(addClient , 0)">
                             {{'GENERAL.ADD' | translate}} {{'GENERAL.CLIENT' | translate}}
                             <i class="bx bx-plus-medical"></i></button>
                     </div>
@@ -24,7 +24,7 @@
     </ng-container>
     <ng-container *ngIf="!loader && clientsData.length > 0">
         <div class="row">
-            <div class="table-responsive">
+            <div style="min-width: 500px;">
                 <table class="table project-list-table table-nowrap align-middle table-borderless">
                     <thead>
                         <tr>
@@ -33,6 +33,7 @@
                             <th scope="col">{{'GENERAL.MOBILE_NUMBER' | translate}}</th>
                             <th scope="col">{{'GENERAL.ACTIVE' | translate}}</th>
                             <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
+                            <th scope="col">{{'GENERAL.COMMUNICATIONWAYS' | translate}}</th>
                             <th scope="col" class="text-center">{{'GENERAL.ACTION' | translate}}</th>
                         </tr>
                     </thead>
@@ -53,24 +54,47 @@
                             </td>
                             <td class="text-center">
                                 <ui-switch defaultBoColor="#dfdfdf" (change)="ChangeActiveOrNotDepartment(data.id)"
-                                [checked]="data.isActive == true" size="small" class="d-flex justify-content-center"></ui-switch>
+                                    [checked]="data.isActive == true" size="small"
+                                    class="d-flex justify-content-center"></ui-switch>
+                            </td>
+                            <td>
+                                {{data.communicationWayName}}
                             </td>
                             <td class="d-flex">
-                                <div class="flex-fill">
-                                    <button class="btn btn-light py-1" type="button" [disabled]="!data.isActive"
-                                        (click)="patchValueForm(addClient,data);getUpdateClients(data.id)">{{'GENERAL.EDIT'
-                                        | translate}}<i class="ms-1 bx bx-edit"></i></button>
+                                <div ngbDropdown>
+                                    <div class="dropdown  active">
+                                        <button class="btn dropdown-toggle" type="button" ngbDropdownToggle>
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                                            <div class="dropdown-item" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">
+                                                <button class="btn btn-light w-100 py-1" type="button"
+                                                    [disabled]="!data.isActive"
+                                                    (click)="patchValueForm(addClient,data);getUpdateClients(data.id)">{{'GENERAL.EDIT'
+                                                    | translate}}<i class="ms-1 bx bx-edit"></i></button>
+                                            </div>
+                                            <div class="dropdown-item" >
+                                                <button class="btn btn-light w-100 py-1" type="button"
+                                                    (click)="viewClientDetails(viewClient,data.id)">{{'GENERAL.VIEW' |
+                                                    translate}}<i class="mdi mdi-eye-outline ms-1"></i></button>
+                                            </div>
+                                            <div class="dropdown-item" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">
+                                                <button class="btn btn-light w-100 py-1" type="button"
+                                                    (click)="delete(data.id)">{{'GENERAL.DELETE' |
+                                                    translate}}<i class="bx bx-trash"></i></button>
+                                            </div>
+                                            <div class="col-12" style="min-width: 120px;" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">
+                                                <ng-select [items]="listOfClientCommunicationWays"
+                                                (change)="EditClientCommunicationWay(data.id , $event.id)"
+                                                    [(ngModel)]="data.clientCommunicationWay_Id" bindLabel="name"
+                                                    bindValue="id"></ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="flex-fill">
-                                    <button class="btn btn-light py-1" type="button"
-                                        (click)="viewClientDetails(viewClient,data.id)">{{'GENERAL.VIEW' | translate}}<i
-                                            class="mdi mdi-eye-outline ms-1"></i></button>
-                                </div>
-                                <div class="flex-fill">
-                                    <button class="btn btn-light py-1" type="button" (click)="delete(data.id)"><i
-                                            class="bx bx-trash"></i></button>
-                                </div>
+
                             </td>
+
                         </tr>
                     </tbody>
                 </table>
@@ -163,6 +187,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-xl-6 col-lg-6">
                     <div class="mb-3">
                         <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.MOBILE_NUMBER' |
@@ -237,14 +262,6 @@
                         <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.CLIENTJOB' |
                             translate}}</label>
                         <ng-select [items]="ListOfClientJobs" formControlName="clientJob_Id" bindLabel="name"
-                            bindValue="id"></ng-select>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6">
-                    <div class="mb-3">
-                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.COMMUNICATIONWAYS' |
-                            translate}}</label>
-                        <ng-select [items]="listOfClientCommunicationWays" formControlName="clientCommunicationWay_Id" bindLabel="name"
                             bindValue="id"></ng-select>
                     </div>
                 </div>
@@ -360,7 +377,8 @@
                         </div>
                     </div>
                 </div>
-                <app-comments-client [Data]="allClientComments" [client_Id]="client_Id" (reloadeClientComments)="GetAllClientsComments()"></app-comments-client>
+                <app-comments-client [Data]="allClientComments" [client_Id]="client_Id"
+                    (reloadeClientComments)="GetAllClientsComments()"></app-comments-client>
             </div>
         </section>
     </div>

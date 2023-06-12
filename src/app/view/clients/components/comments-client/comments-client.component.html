@@ -31,7 +31,7 @@
 	</ng-container>
 	<form class="form-block" [formGroup]="formComment" (submit)="onSubmit()">
 		<div class="row">
-			<div class="col-2"></div>
+			<!-- <div class="col-2"></div> -->
 			<div class="col-10 my-2">
                 <textarea class="w-100 p-2" formControlName="text" cols="30" rows="4"></textarea>
 				<button type="submit" [disabled]="formComment.invalid"

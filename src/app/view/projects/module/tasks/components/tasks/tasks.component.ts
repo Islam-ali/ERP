@@ -13,6 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Atachment, Comments, DataComments, DataListOfTaskStages, DataShowTask, DataTasks, ListOfTaskStages, ShowTask, Tasks } from '../../modal/tasks';
 import { EMPTY } from 'rxjs';
+import { AuthenticationService } from 'app/core/services/auth.service';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
@@ -58,6 +59,8 @@ export class TasksComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
     private toastrService: ToastrService,
+    public _AuthenticationService : AuthenticationService
+
   ) { }
   initTaskForm(): FormGroup {
     return this._formBuilder.group({

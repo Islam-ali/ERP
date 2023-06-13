@@ -27,8 +27,9 @@
                         </ng-container>
                     </div>
                     <div class="text-center d-grid mt-2">
-                        <a href="javascript: void(0);" class="btn btn-primary" (click)="openModal(addTasks,0 ,1)"><i
-                                class="mdi mdi-plus me-1"></i>
+                        <a href="javascript: void(0);" class="btn btn-primary"
+                            *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Create')"
+                            (click)="openModal(addTasks,0 ,1)"><i class="mdi mdi-plus me-1"></i>
                             Add New</a>
                     </div>
                 </div>
@@ -63,8 +64,9 @@
                         </ng-container>
                     </div>
                     <div class="text-center d-grid mt-2">
-                        <a href="javascript: void(0);" class="btn btn-primary" (click)="openModal(addTasks,0 ,2)"><i
-                                class="mdi mdi-plus me-1"></i>
+                        <a href="javascript: void(0);"
+                            *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Create')"
+                            class="btn btn-primary" (click)="openModal(addTasks,0 ,2)"><i class="mdi mdi-plus me-1"></i>
                             Add New</a>
                     </div>
                 </div>
@@ -199,9 +201,9 @@
                         <i class="mdi mdi-dots-horizontal"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                        <a class="dropdown-item" href="javascript: void(0);"
+                        <a *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Edit')" class="dropdown-item" href="javascript: void(0);"
                             (click)="(editModal(addTasks , 1 , task.id))"><i class="bx bx-edit"></i>Edit</a>
-                        <a class="dropdown-item" href="javascript: void(0);" (click)="RemoveTask(task.id)"><i
+                        <a *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Delete')" class="dropdown-item" href="javascript: void(0);" (click)="RemoveTask(task.id)"><i
                                 class="bx bx-trash"></i>Delete</a>
                     </div>
                 </div>

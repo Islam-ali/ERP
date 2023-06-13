@@ -270,14 +270,14 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
           },
         ]
       },
-      {
-        id: 12,
-        label: 'MENUITEMS.PROJECTS.TEXT',
-        icon: 'bx bx-briefcase-alt-2',
-        link: `/companies/${this.USERERP.company_Id}/departments/${this.USERERP.department_Id}/projects`,
-        role: ['User'],
-        permission:'Permissions.Projects.All',
-      },
+      // {
+      //   id: 12,
+      //   label: 'MENUITEMS.PROJECTS.TEXT',
+      //   icon: 'bx bx-briefcase-alt-2',
+      //   link: `/companies/${this.USERERP.company_Id}/departments/${this.USERERP.department_Id}/projects`,
+      //   role: ['User'],
+      //   permission:'Permissions.Projects.All',
+      // },
     ];
 
     // if (this.USERERP.company_Id == 0) {

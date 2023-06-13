@@ -11,8 +11,8 @@ import { environment as env } from '@env/environment';
 export class IndexComponent implements OnInit {
   URL:string = env.url
   Data: any[] = [
-    { title: 'MENUITEMS.DEPARTMENTS.TEXT', value: '', icon: 'bx bx-food-menu',url:'departments' },
-    { title: 'MENUITEMS.EMPLOYEES.TEXT', value: '', icon: 'bx bxs-user-detail',url:'employees' },
+    { title: 'MENUITEMS.DEPARTMENTS.TEXT', value: '', icon: 'bx bx-food-menu',url:'departments',permission:'Permissions.Departments.All' },
+    { title: 'MENUITEMS.EMPLOYEES.TEXT', value: '', icon: 'bx bxs-user-detail',url:'employees',permission:'Permissions.Employees.All' },
   ]
   currentUser: any;
   Role: any = Role;

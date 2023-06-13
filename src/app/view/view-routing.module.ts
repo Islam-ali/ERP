@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'companies',
     loadChildren: () => import('../view/companies/companies.module').then(m => m.CompaniesModule),
     canActivate:[AuthGuard],
-    data: {permission: ['Permissions.Companies.All']}
+    data: {permission: ['Permissions.Companies.All','Permissions.Departments.All','Permissions.Employees.All','Permissions.Clients.All']}
     // data: { roles: [Role.SuperAdmin , Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin , Role.ClientView] }
   },
   { 

@@ -28,17 +28,19 @@ export class AuthGuard implements CanActivate {
         const currentUser = this.authenticationService.getUser();
         if (currentUser) {
             this.authenticationService.getDecodedAccessToken();
-            const  permissions  = route.data;
-            
+            const permissions = route.data;
+
             let z = [];
-            if(permissions.permission){
+            if (permissions.permission) {
                 for (let j = 0; j < permissions.permission.length; j++) {
-                for (let i = 0; i < this.authenticationService.DecodedToken.Permission.length; i++) {
-                        if(permissions.permission[j] == this.authenticationService.DecodedToken.Permission[i]){
-                            z.push( permissions.permission[j])
+                    for (let i = 0; i < this.authenticationService.DecodedToken.Permission.length; i++) {
+                        if (permissions.permission[j] == this.authenticationService.DecodedToken.Permission[i]) {
+                            z.push(permissions.permission[j])
                         }
                     }
                 }
+                console.log(z);
+                
                 if (z.length == 0 && permissions.permission[0] !== '') {
                     this.router.navigate(['/account/login']);
                     return false;

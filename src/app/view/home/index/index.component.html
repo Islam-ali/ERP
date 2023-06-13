@@ -80,26 +80,27 @@
             </div>
         </div> -->
     </div>
-    <div class="col-xl-8"
-        *ngIf="_AuthenticationService.checkPermission('Permissions.Departments.All') || _AuthenticationService.checkPermission('Permissions.Employees.All')">
+    <div class="col-xl-8">
         <div class="row">
-            <div *ngFor="let stat of Data" class="col-md-4">
-                <div class="card mini-stats-wid" style="cursor: pointer;"
-                    [routerLink]="['/companies',currentUser.company_Id,stat.url]">
-                    <div class="card-body">
-                        <div class="media d-flex align-items-center">
-                            <div class="media-body">
-                                <h4>{{stat.title | translate}}</h4>
-                            </div>
-                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
-                                <span class="avatar-title">
-                                    <i class="bx {{stat.icon | translate}} font-size-24"></i>
-                                </span>
+            <ng-container *ngFor="let stat of Data">
+                <div  *ngIf="_AuthenticationService.checkPermission(stat.permission)" class="col-md-4">
+                    <div class="card mini-stats-wid" style="cursor: pointer;"
+                        [routerLink]="['/companies',currentUser.company_Id,stat.url]">
+                        <div class="card-body">
+                            <div class="media d-flex align-items-center">
+                                <div class="media-body">
+                                    <h4>{{stat.title | translate}}</h4>
+                                </div>
+                                <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                                    <span class="avatar-title">
+                                        <i class="bx {{stat.icon | translate}} font-size-24"></i>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </ng-container>
         </div>
     </div>
 </div>

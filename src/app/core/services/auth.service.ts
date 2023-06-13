@@ -17,7 +17,7 @@ export class AuthenticationService {
     }
     getDecodedAccessToken(): any {
         try {
-            return this.DecodedToken = jwt_decode(this.getUser().token);
+            this.DecodedToken = jwt_decode(this.getUser().token);
         } catch (Error) {
             return null;
         }

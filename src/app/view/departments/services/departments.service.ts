@@ -13,7 +13,7 @@ export class DepartmentsService {
     return this.http.get(`${env.domain}Departments/GetAllDepartments?companyId=${companyId}`)
   }
   getEditDepartment(editForm:any):Observable<any>{
-    return this.http.put(`${env.domain}Departments/EditDepartment/${editForm['company_Id']}`,editForm)
+    return this.http.put(`${env.domain}Departments/EditDepartment/${editForm['id']}`,editForm)
   }
   getDepartmentById(projectId:number):Observable<any>{
     return this.http.get(`${env.domain}Departments/GetDepartmentById/${projectId}`)

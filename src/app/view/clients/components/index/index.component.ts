@@ -11,6 +11,8 @@ import { Location } from '@angular/common';
 import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { DepartmentsService } from 'app/view/departments/services/departments.service';
 import { AuthenticationService } from 'app/core/services/auth.service';
+import { EmployeesService } from 'app/view/employees/services/employees.service';
+import { Employees } from 'app/view/employees/modal/employees';
 
 @Component({
   selector: 'app-index',
@@ -42,6 +44,9 @@ export class IndexComponent implements OnInit {
   companyID: number = 0;
   clientCommunicationWay_Id: number = 0;
   listOfClientCommunicationWays: DataListOfClientJobs[];
+  listOfStates: any[] = [];
+  listOfRegion: any[] = [];
+  state_Id: number = 0;
   constructor(
     private _ActivatedRoute: ActivatedRoute,
     private _ClientsService: ClientService,
@@ -51,22 +56,24 @@ export class IndexComponent implements OnInit {
     private toastrService: ToastrService,
     private _CountriesService: CountriesService,
     private _location: Location,
-    public _AuthenticationService:AuthenticationService
+    public _AuthenticationService: AuthenticationService,
+    private _EmployeesService: EmployeesService
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('user_ERP'))
     this.companyID = this._ActivatedRoute.snapshot.params['companyID']
     this.clientsForm = this._formBuilder.group({
-      name: [null, [Validators.required]],
-      nameInEnglish: [null, [Validators.required]],
-      company: [null, [Validators.required]],
+      companyName: [null, [Validators.required]],
+      // nameInEnglish: [null, [Validators.required]],
+      // company: [null, [Validators.required]],
       mobile: [null, [Validators.required, Validators.pattern('[0-9]+')]],
       activity: [null],
       generalManagerName: [null],
       salesManagerName: [null],
       email: [null, [Validators.email]],
-      address: [null],
+      // address: [null],
       clientJob_Id: [null],
       clientJobCategory_Id: [null],
+      region_Id: [null],
       department_Id: [null],
       // clientCommunicationWay_Id:[null]
     });
@@ -75,6 +82,7 @@ export class IndexComponent implements OnInit {
   ngOnInit(): void {
     this.getClients();
     this.getListOfClientJobCategories();
+    this.getListOfStates();
     // this.clientsForm.controls.clientJobCategory_Id.valueChanges.subscribe(val => {
     //   this.getListOfClientJobs(val)
     // })
@@ -86,7 +94,7 @@ export class IndexComponent implements OnInit {
         this.loader = false
         this.ListOfClientCommunicationWays();
         this.ListOfDepartment();
-      },error:(err:Error)=>{
+      }, error: (err: Error) => {
         this.loader = false;
       }
     })
@@ -124,6 +132,7 @@ export class IndexComponent implements OnInit {
     this.lableForm = num;
     this.clientsForm.reset();
     this.modalService.open(content, { size: 'lg' });
+    this.state_Id = 0
   }
   patchValueForm(content: any, Clients: any) {
     this.lableForm = 1;
@@ -140,23 +149,24 @@ export class IndexComponent implements OnInit {
     this.loadingShow = true;
     this._ClientsService.getclientById(clientId).subscribe({
       next: (res: showClient) => {
+        this.state_Id = res.data.state_Id;
+        this.getListOfRegions(this.state_Id);
         this.loadingShow = false;
         this.clientDetails = res.data;
         this.getListOfClientJobs(res.data.clientJobCategory_Id);
         this.clientsForm.patchValue({
-          name: res.data.name,
-          nameInEnglish: res.data.nameInEnglish,
-          company: res.data.company,
+          companyName: res.data.companyName,
           mobile: res.data.mobile,
           activity: res.data.activity,
           generalManagerName: res.data.generalManagerName,
           salesManagerName: res.data.salesManagerName,
           email: res.data.email,
-          address: res.data.address,
           clientJob_Id: res.data.clientJob_Id,
           clientJobCategory_Id: res.data.clientJobCategory_Id,
+          region_Id: res.data.region_Id,
           department_Id: res.data.department_Id,
         })
+
         this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id
       }, error: (err: Error) => {
         this.loadingShow = false;
@@ -182,6 +192,22 @@ export class IndexComponent implements OnInit {
       }
     })
   }
+  getListOfStates(): void {
+    this._EmployeesService.ListOfStates().subscribe({
+      next: (res: Employees) => {
+        this.listOfStates = res.data;
+      }
+    })
+  }
+  getListOfRegions(stateID: number): void {
+    console.log(stateID);
+    stateID ?
+      this._EmployeesService.ListOfRegions(stateID).subscribe({
+        next: (res: Employees) => {
+          this.listOfRegion = res.data;
+        }
+      }) : this.listOfRegion = [];
+  }
   getAddClients(): void {
     let value = this.clientsForm.value
     this._ClientsService.addClient(value).subscribe({
@@ -197,15 +223,15 @@ export class IndexComponent implements OnInit {
       }
     })
   }
-  EditClientCommunicationWay(client_Id:number,clientCommunicationWay_Id:number){
+  EditClientCommunicationWay(client_Id: number, clientCommunicationWay_Id: number) {
     let value = {};
     value['id'] = client_Id,
-    value['clientCommunicationWay_Id'] = clientCommunicationWay_Id
+      value['clientCommunicationWay_Id'] = clientCommunicationWay_Id
     this._ClientsService.EditClientCommunicationWay(value).subscribe({
-      next:(res:Clients) =>{
+      next: (res: Clients) => {
         this.getClients();
         this.toastrService.success(res.message);
-      },error:(err:Error)=> {
+      }, error: (err: Error) => {
         this.toastrService.error(`${err}`);
       }
     })

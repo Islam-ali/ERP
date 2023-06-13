@@ -41,7 +41,7 @@
                         <tr *ngFor="let data of clientsData;">
                             <td>
                                 <h5 class="text-truncate font-size-14">
-                                    <a href="javascript: void(0);" class="text-dark">{{data.name}}</a>
+                                    <a href="javascript: void(0);" class="text-dark">{{data.companyName}}</a>
                                 </h5>
                             </td>
                             <td>{{data.email}}</td>
@@ -142,16 +142,16 @@
             <div class="row">
                 <div class="col-xl-6 col-lg-6">
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.ARABIC_NAME' |
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.Name' |
                             translate}}</label>
-                        <input type="text" class="form-control" id="validationCustom01" formControlName="name"
-                            [ngClass]="{'is-valid': form.name.dirty && !form.name.errors ,'is-invalid': form.name.dirty && form.name.errors}">
-                        <div *ngIf="form.name.dirty && form.name.errors" class="invalid-feedback">
-                            <span *ngIf="form.name.errors.required">This value is required.</span>
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="companyName"
+                            [ngClass]="{'is-valid': form.companyName.dirty && !form.companyName.errors ,'is-invalid': form.companyName.dirty && form.companyName.errors}">
+                        <div *ngIf="form.companyName.dirty && form.companyName.errors" class="invalid-feedback">
+                            <span *ngIf="form.companyName.errors.required">This value is required.</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6 col-lg-6">
+                <!-- <div class="col-xl-6 col-lg-6">
                     <div class="mb-3">
                         <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.ENGLISH_NAME' |
                             translate}}</label>
@@ -161,7 +161,7 @@
                             <span *ngIf="form.nameInEnglish.errors.required">This value is required.</span>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="col-xl-6 col-lg-6">
                     <div class="mb-3">
                         <label class="form-label text-capitalize">{{'GENERAL.EMAIL' | translate}}</label>
@@ -178,11 +178,11 @@
 
                 <div class="col-xl-6 col-lg-6">
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.COMPANY' |
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.ACTIVITY' |
                             translate}}</label>
-                        <input type="text" class="form-control" id="validationCustom01" formControlName="company"
-                            [ngClass]="{'is-valid': form.company.dirty && !form.company.errors ,'is-invalid': form.company.dirty && form.company.errors}">
-                        <div *ngIf="form.company.dirty && form.company.errors" class="invalid-feedback">
+                        <input type="text" class="form-control" id="validationCustom01" formControlName="activity"
+                            [ngClass]="{'is-valid': form.activity.dirty && !form.activity.errors ,'is-invalid': form.activity.dirty && form.activity.errors}">
+                        <div *ngIf="form.activity.dirty && form.activity.errors" class="invalid-feedback">
                             <span *ngIf="form.company.errors.required">This value is required.</span>
                         </div>
                     </div>
@@ -232,17 +232,6 @@
                 </div>
                 <div class="col-xl-6 col-lg-6">
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.ADDRESS' |
-                            translate}}</label>
-                        <input type="text" class="form-control" id="validationCustom01" formControlName="address"
-                            [ngClass]="{'is-valid': form.address.dirty && !form.address.errors ,'is-invalid': form.address.dirty && form.address.errors}">
-                        <div *ngIf="form.address.dirty && form.address.errors" class="invalid-feedback">
-                            <span *ngIf="form.address.errors.required">This value is required.</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6">
-                    <div class="mb-3">
                         <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.DEPARTMENT' |
                             translate}}</label>
                         <ng-select [items]="listOfDepartment" formControlName="department_Id" bindLabel="name"
@@ -263,6 +252,28 @@
                             translate}}</label>
                         <ng-select [items]="ListOfClientJobs" formControlName="clientJob_Id" bindLabel="name"
                             bindValue="id"></ng-select>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.STATES' |
+                            translate}}</label>
+                        <ng-select
+                            [items]="listOfStates" [(ngModel)]="state_Id" [ngModelOptions]="{standalone: true}" (change)="getListOfRegions($event?.id)"
+                            bindLabel="name" bindValue="id"></ng-select>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.REGION' |
+                            translate}}</label>
+                        <ng-select
+                            [ngClass]="{'is-valid': form.region_Id.dirty && !form.region_Id.errors ,'is-invalid': form.region_Id.dirty && form.region_Id.errors}"
+                            [items]="listOfRegion" formControlName="region_Id" bindLabel="name"
+                            bindValue="id"></ng-select>
+                        <div *ngIf="form.region_Id.dirty && form.region_Id.errors" class="invalid-feedback">
+                            <span *ngIf="form.region_Id.errors.required">This value is required.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -293,8 +304,8 @@
             <div class="page-heading my-3">
                 <div class="media clearfix">
                     <div class="media-body va-m">
-                        <h2 class="media-heading">{{clientDetails.name}}
-                            <small> - {{clientDetails.company}}</small>
+                        <h2 class="media-heading">{{clientDetails.companyName}}
+                            <!-- <small> - {{clientDetails.company}}</small> -->
                         </h2>
                     </div>
                 </div>
@@ -321,7 +332,7 @@
                                     <tr>
                                         <td>name</td>
                                         <td>
-                                            {{clientDetails.name}}
+                                            {{clientDetails.companyName}}
                                         </td>
                                     </tr>
                                     <tr>
@@ -340,12 +351,6 @@
                                         <td>mobile</td>
                                         <td>
                                             {{clientDetails.mobile}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>company</td>
-                                        <td>
-                                            {{clientDetails.company}}
                                         </td>
                                     </tr>
                                     <tr>

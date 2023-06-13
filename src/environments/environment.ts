@@ -7,7 +7,8 @@ export const environment = {
   defaultauth: 'fackbackend',
   domain:'http://192.168.0.102:5019/api/',
   url:'http://192.168.0.102:5019/',
-
+  // domain:'https://ERP.afaqci.com/api/',
+  // url:'https://ERP.afaqci.com/',
   // domain:'http://192.168.0.102:44385/api/',
   // url:'http://192.168.0.102:44385/',
   // domain:'https://erp.afaqci.com/api/',

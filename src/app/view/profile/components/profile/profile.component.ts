@@ -89,6 +89,7 @@ export class ProfileComponent implements OnInit {
           this.Employee.controls[index].patchValue({
             path: `${this.pathUrl + ele.filePath}`,
             id: ele.id,
+            Description:ele.description
           })
         })
       }, error: (err: Error) => {
@@ -98,6 +99,7 @@ export class ProfileComponent implements OnInit {
   }
   initFormEmployee(): FormGroup {
     return this._formBuilder.group({
+      Description:[null],
       id: [null],
       File: [null],
       path: null
@@ -168,7 +170,7 @@ export class ProfileComponent implements OnInit {
     // loop ton sen path
     value['Files'] = [];
     this.Employee.controls.forEach((ele: any) => {
-      value['Files'].push({ id: ele.value.id, File: ele.value.File })
+      value['Files'].push({ id: ele.value.id, File: ele.value.File ,Description:ele.value.Description})
     })
     value['id'] = this.EmployeeId;
     this._ProfileService.getEditEmployee(value).subscribe({

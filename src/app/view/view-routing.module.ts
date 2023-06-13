@@ -37,6 +37,7 @@ const routes: Routes = [
     loadChildren: () => import('../view/profile/profile.module').then(m => m.ProfileModule),
     canActivate:[AuthGuard]
   },
+  { path: '**', redirectTo: 'home' }
   // { 
   //   path: 'clients',
   //   loadChildren: () => import('../view/clients/clients.module').then(m => m.ClientsModule),

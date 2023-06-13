@@ -27,7 +27,7 @@ export class TopbarComponent implements OnInit {
   countryName;
   valueset;
   notiLength: number = 0;
-  messageNotification:any[]=[];
+  messageNotification: any[] = [];
   constructor(
     @Inject(DOCUMENT) private document: any,
     private router: Router,
@@ -36,8 +36,8 @@ export class TopbarComponent implements OnInit {
     public languageService: LanguageService,
     public translate: TranslateService,
     public _cookiesService: CookieService,
-    private _NotificationsService:NotificationsService
-    ) {
+    private _NotificationsService: NotificationsService
+  ) {
   }
 
   listLang = [
@@ -60,9 +60,9 @@ export class TopbarComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user_ERP'))?.userName
     this.cookieValue = this._cookiesService.get('lang_ERP');
     this.cookieValue = JSON.parse(localStorage.getItem('lang_ERP'))?.lang || 'ar';
-
     this.GetNotificationsMessages();
     this.GetNotificationsCount();
+    this.connectionSignalR();
 
     const val = this.listLang.filter(x => x.lang === this.cookieValue);
     this.countryName = val.map(element => element.text);
@@ -75,14 +75,14 @@ export class TopbarComponent implements OnInit {
   }
   GetNotificationsMessages() {
     this._NotificationsService.GetNotificationsMessages().subscribe({
-      next:(res:any)=>{
+      next: (res: any) => {
         this.messageNotification = res.data
       }
     })
   }
   GetNotificationsCount() {
     this._NotificationsService.GetNotificationsCount().subscribe({
-      next:(res:any)=>{
+      next: (res: any) => {
         this.notiLength = +res.data
       }
     })
@@ -90,7 +90,7 @@ export class TopbarComponent implements OnInit {
   connectionSignalR() {
     const connection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Information)
-      .withUrl(env.domain + 'notify', {
+      .withUrl(env.url + 'notify', {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets,
       })
@@ -106,10 +106,8 @@ export class TopbarComponent implements OnInit {
       });
 
     connection.on('BroadcastMessage', () => {
-      // this.getTracksOfVehicle();
       this.GetNotificationsMessages();
       this.GetNotificationsCount();
-      // this.getCoordinatesOfTrackInfoByVehicleId(this.id , this.newData[0].routeNumber , this.newData[0].districtId );
     });
   }
   setLanguage(text: string, lang: string, flag: string) {

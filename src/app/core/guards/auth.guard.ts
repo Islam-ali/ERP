@@ -39,8 +39,6 @@ export class AuthGuard implements CanActivate {
                         }
                     }
                 }
-                console.log(z);
-                
                 if (z.length == 0 && permissions.permission[0] !== '') {
                     this.router.navigate(['/account/login']);
                     return false;

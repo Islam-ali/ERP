@@ -39,7 +39,7 @@ export class ClientService {
   ListOfClientCommunicationWays():Observable<ListOfClientJobs>{
     return this.http.get<ListOfClientJobs>(`${env.domain}Clients/ListOfClientCommunicationWays`)
   }
-  RemoveClient(clientId):Observable<Clients>{
+  RemoveClient(clientId:number):Observable<Clients>{
     return this.http.delete<Clients>(`${env.domain}Clients/RemoveClient/${clientId}`)
   }
   EditClientCommunicationWay(value:any):Observable<any>{

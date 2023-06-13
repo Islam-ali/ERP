@@ -34,7 +34,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   USERERP: any;
   constructor(private _CompaniesService: CompaniesService,
     private eventService: EventService,
-    private router: Router,
+    public router: Router,
     public translate: TranslateService,
     private http: HttpClient,
     public _AuthenticationService : AuthenticationService,
@@ -53,16 +53,15 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this._SharedService.isReloadeCompany.subscribe(res => {
       if (res) this.GetCompanyOrThroughToken();
-      console.log('xx');
 
     })
+    
     // if (this.USERERP.company_Id == 0) {
     this.GetCompanyOrThroughToken();
     // } else {
     //   this.initialize();
     // }
     this._scrollElement();
-    console.log(this._AuthenticationService.DecodedToken);
     
   }
 
@@ -87,6 +86,10 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       this.menu.dispose();
     }
   }
+  checkRouting(route:string){
+    route !== undefined ? this.router.url.includes(route) : false;
+    return this.router.url.includes(route)
+  }
   GetCompanyOrThroughToken() {
     this._CompaniesService.GetCompanyOrThroughToken().subscribe({
       next: (res: any) => {
@@ -107,7 +110,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       }
     }, 300);
   }
-  checkRole(role: string[]) {
+  checkRole(role: string[]) {    
     const intersection = role.filter(x => this.USERERP.roleNames.includes(x))
     return intersection
   }
@@ -125,6 +128,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
    * Activate the parent dropdown
    */
   _activateMenuDropdown() {
+    
     this._removeAllClass('mm-active');
     this._removeAllClass('mm-show');
     const links = document.getElementsByClassName('side-nav-link-ref');
@@ -281,8 +285,9 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       let companyItem = {
         label: ele.name,
         id: ele.id,
-        parentId: index + 22,
+        parentId: index + 222,
         icon: 'bx bx-briefcase-alt-2',
+        link: `/companies/${ele.id}`,
         role: ['Superadmin' , 'ClintAdmin','ClientView'],
         permission:'Permissions.Companies.All',
         subItems: []

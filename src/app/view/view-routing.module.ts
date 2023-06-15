@@ -4,9 +4,9 @@ import { AuthGuard } from 'app/core/guards/auth.guard';
 import { Role } from 'app/core/modal/role';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home',pathMatch:'full'},
+  { path: '', redirectTo: '',pathMatch:'full'},
   {
-    path: 'home',
+    path: '',
     loadChildren: () => import('../view/home/home.module').then(m => m.HomeModule),
     canActivate:[AuthGuard],
     data: {permission: ['']}

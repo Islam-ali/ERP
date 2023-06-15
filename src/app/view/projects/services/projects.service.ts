@@ -11,6 +11,9 @@ export class ProjectsService {
   getAllProjects(companyId:number):Observable<any>{
     return this.http.get(`${env.domain}projects/GetAllProjects/${companyId}`)
   }
+  GetAllProjectsByCompanyOrDepartmentId(companyId:number):Observable<any>{
+    return this.http.get(`${env.domain}projects/GetAllProjectsByCompanyOrDepartmentId/${companyId}`)
+  }
   EditProject(editForm:any):Observable<any>{
     return this.http.put(`${env.domain}Projects/EditProject/${editForm['id']}`,editForm)
   }

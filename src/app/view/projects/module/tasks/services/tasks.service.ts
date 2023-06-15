@@ -103,5 +103,9 @@ export class TasksService {
       };
       return this.http.delete<any>(`${env.domain}Tasks/DeleteFileOrMoreOfTask`, options)
     }
+    
+    GetAllTasksByCompanyOrDepartmentId(companyId:number):Observable<any>{
+      return this.http.get(`${env.domain}Tasks/GetAllTasksByCompanyOrDepartmentIdy/${companyId}`)
+    }
   }
 

@@ -15,15 +15,16 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
+            let error = '';
             if (err.status === 401) {
                 // auto logout if 401 response returned from api
                 // this.authenticationService.logout();
                 // location.reload();
                 this.router.navigate(['/account/login']);
             }else if(err.status === 403){
-                const error = 'Not Exist Permmision'
+                 error = 'Not Exist Permmision'
             }
-            const error = err.error.message || err.statusText;
+             error = err.error || err.statusText;
             return throwError(error);
         }));
     }

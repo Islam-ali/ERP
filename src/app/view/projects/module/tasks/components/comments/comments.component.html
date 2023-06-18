@@ -22,7 +22,6 @@
 					<i class="fa fa-clock-o"></i>
 					{{comment.dateTime}}
 				</span>
-
 				<p class="be-comment-text">
 					<small>{{comment.text}}</small>
 				</p>
@@ -34,7 +33,7 @@
 			<div class="col-2"></div>
 			<div class="col-10 my-2">
 				<div class="form-group my-2">
-					<textarea class="form-control" #textareaRef formControlName="text" required
+					<textarea class="form-control" #textareaRef formControlName="Text" required
 						placeholder="Your text"></textarea>
 					<flx-mentions *ngIf="!submit" [textInputElement]="textareaRef" [menuTemplate]="menuTemplate"
 						[triggerCharacter]="'@'" [getChoiceLabel]="getChoiceLabel" (search)="loadChoices($event)"

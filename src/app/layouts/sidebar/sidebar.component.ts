@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
     public router: Router,
     public translate: TranslateService,
     private http: HttpClient,
-    public _AuthenticationService : AuthenticationService,
+    public _AuthenticationService: AuthenticationService,
     private _SharedService: SharedService
   ) {
     this.USERERP = JSON.parse(localStorage.getItem('user_ERP'));
@@ -55,14 +55,14 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       if (res) this.GetCompanyOrThroughToken();
 
     })
-    
+
     // if (this.USERERP.company_Id == 0) {
     this.GetCompanyOrThroughToken();
     // } else {
     //   this.initialize();
     // }
     this._scrollElement();
-    
+
   }
 
   // ngAfterViewInit() {
@@ -86,7 +86,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       this.menu.dispose();
     }
   }
-  checkRouting(route:string){
+  checkRouting(route: string) {
     route !== undefined ? this.router.url.includes(route) : false;
     return this.router.url.includes(route)
   }
@@ -110,7 +110,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       }
     }, 300);
   }
-  checkRole(role: string[]) {    
+  checkRole(role: string[]) {
     const intersection = role.filter(x => this.USERERP.roleNames.includes(x))
     return intersection
   }
@@ -128,7 +128,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
    * Activate the parent dropdown
    */
   _activateMenuDropdown() {
-    
+
     this._removeAllClass('mm-active');
     this._removeAllClass('mm-show');
     const links = document.getElementsByClassName('side-nav-link-ref');
@@ -206,7 +206,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         label: 'MENUITEMS.MENU.TEXT',
         isTitle: true,
         role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
-        permission:''
+        permission: ''
       },
       {
         id: 2,
@@ -214,34 +214,34 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         icon: 'bx-home-circle',
         link: '/home',
         role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
-        permission:''
+        permission: ''
       },
       {
         id: 3,
         isLayout: true,
         role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
-        permission:''
+        permission: ''
       },
       {
         id: 4,
         label: 'MENUITEMS.APPS.TEXT',
         isTitle: true,
         role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
-        permission:''
+        permission: ''
       },
       {
         id: 5,
         label: 'MENUITEMS.COMPANIES.TEXT',
         icon: 'bx bxs-user-detail',
-        role: ['Superadmin', 'ClintAdmin','ClientView'],
-        permission:'Permissions.Companies.All',
+        role: ['Superadmin', 'ClintAdmin', 'ClientView'],
+        permission: 'Permissions.Companies.All',
         subItems: [
           {
             id: 15,
             label: 'MENUITEMS.DASHBOARDS.TEXT',
             link: '/companies',
             role: ['Superadmin'],
-            permission:'Permissions.Auth.All',
+            permission: 'Permissions.Auth.All',
           }
         ]
       },
@@ -250,7 +250,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         label: 'MENUITEMS.MANGEMENT.TEXT',
         icon: 'bx bx-cog',
         role: ['Superadmin'],
-        permission:'Permissions.Auth.All',
+        permission: 'Permissions.Auth.All',
         subItems: [
           {
             id: 10,
@@ -258,7 +258,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
             link: '/mangement/user-role',
             parentId: 4,
             role: ['Superadmin'],
-            permission:'Permissions.Auth.All',
+            permission: 'Permissions.Auth.All',
           },
           {
             id: 11,
@@ -266,7 +266,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
             link: '/mangement/role',
             parentId: 5,
             role: ['Superadmin'],
-            permission:'Permissions.Auth.All',
+            permission: 'Permissions.Auth.All',
           },
         ]
       },
@@ -288,10 +288,8 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         parentId: index + 222,
         icon: 'bx bx-briefcase-alt-2',
         link: `/companies/${ele.id}`,
-        role: ['Superadmin' , 'ClintAdmin','ClientView'],
-        permission:'Permissions.Companies.All',
+        permission: 'Permissions.Companies.All',
         subItems: []
-
       }
       let items: any[] = [
         {
@@ -299,28 +297,45 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
           label: 'MENUITEMS.DEPARTMENTS.TEXT',
           link: `/companies/${ele.id}/departments`,
           parentId: ele.id + index,
-          role: ['Superadmin'],
-          permission:'Permissions.Departments.All',
+          permission: 'Permissions.Departments.All',
+        },
+        {
+          id: ele.id + index + 44,
+          label: 'MENUITEMS.PROJECTS.TEXT',
+          // link: `/companies/${ele.id}/departments/`,
+          parentId: ele.id + index + 33,
+          permission: 'Permissions.Departments.All',
+          subItems: []
         },
         {
           id: 13,
           label: 'MENUITEMS.EMPLOYEES.TEXT',
           link: `/companies/${ele.id}/employees`,
           parentId: ele.id + index,
-          role: ['Superadmin'],
-          permission:'Permissions.Employees.All',
+          permission: 'Permissions.Employees.All',
         },
         {
           id: 14,
           label: 'MENUITEMS.CLIENTS.TEXT',
           link: `/companies/${ele.id}/clients`,
           parentId: ele.id + index,
-          role: ['Superadmin','ClintAdmin','ClientView'],
-          permission:'Permissions.Clients.All',
+          permission: 'Permissions.Clients.All',
         }
       ]
+      let ProjectItem:any[] = [];
+      ele.companyProjects.forEach((subele, subIndex) => {
+        ProjectItem.push({
+          label: subele.name,
+          id: subele.id,
+          parentId: subIndex + 333,
+          link: `/companies/${ele.id}/departments/${subele.departmentId}/projects/${subele.id}/tasks`,
+          permission: 'Permissions.Departments.All',
+        })
+      })
+      
       menu[4].subItems.push(companyItem);
-      menu[4].subItems[index + 1].subItems = items
+      menu[4].subItems[index + 1].subItems = items;
+      menu[4].subItems[index + 1].subItems[1].subItems = ProjectItem
     })
     // }
     return new Promise((resolve, reject) => {

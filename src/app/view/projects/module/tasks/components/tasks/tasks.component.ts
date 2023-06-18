@@ -108,11 +108,16 @@ export class TasksComponent implements OnInit {
     this.TaskAtachments.removeAt(index);
   }
   ngOnInit() {
-    this.taskForm = this.initTaskForm();
-    this.projectID = +this._ActivatedRoute.snapshot.params['projectID'];
-    this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID'];
-    this.getAllTasks();
-    this.getListOfTaskStages();
+    this._ActivatedRoute.paramMap.subscribe((param:any)=>{
+      this.taskForm = this.initTaskForm();
+      console.log(param);      
+      this.projectID = +param.params['projectID']
+      this.departmentID = +param.params['departmentID']
+      this.getAllTasks();
+      this.getListOfTaskStages();
+    })
+    // this.projectID = +this._ActivatedRoute.snapshot.params['projectID'];
+    // this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID'];
     this.breadCrumbItems = [{ label: 'Tasks' }, { label: 'Tasks', active: true }];
   }
 

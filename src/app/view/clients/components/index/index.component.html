@@ -83,7 +83,7 @@
                                                     (click)="delete(data.id)">{{'GENERAL.DELETE' |
                                                     translate}}<i class="bx bx-trash"></i></button>
                                             </div>
-                                            <div class="col-12" style="min-width: 120px;" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">
+                                            <div class="col-12" style="min-width: 120px;" *ngIf="_AuthenticationService.checkPermission('Permissions.ClientCommunicationWay.Edit')">
                                                 <ng-select [items]="listOfClientCommunicationWays"
                                                 (change)="EditClientCommunicationWay(data.id , $event.id)"
                                                     [(ngModel)]="data.clientCommunicationWay_Id" bindLabel="name"

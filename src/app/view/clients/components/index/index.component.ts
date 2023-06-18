@@ -218,8 +218,7 @@ export class IndexComponent implements OnInit {
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingclients = false;
-        console.log(err);
-
+        this.toastrService.success(err.message);
       }
     })
   }
@@ -232,7 +231,7 @@ export class IndexComponent implements OnInit {
         this.getClients();
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
-        this.toastrService.error(`${err}`);
+        this.toastrService.error(err.message);
       }
     })
 
@@ -247,7 +246,7 @@ export class IndexComponent implements OnInit {
           this.toastrService.warning(res.message);
         }
       }, error: (err: Error) => {
-        this.toastrService.error(`${err}`);
+        this.toastrService.error(err.message);
       }
     })
   }

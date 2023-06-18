@@ -89,6 +89,8 @@ export class TasksService {
     return this.http.get(`${env.domain}Tasks/GetAllTaskComments/${TaskId}`)
   }
   AddTaskComment(body:any){
+    console.log(body);
+    
     return this.http.post(`${env.domain}Tasks/AddTaskComment`,body)
   }
   AddMentionedEmployees(form:any = {}){
@@ -105,7 +107,7 @@ export class TasksService {
     }
     
     GetAllTasksByCompanyOrDepartmentId(companyId:number):Observable<any>{
-      return this.http.get(`${env.domain}Tasks/GetAllTasksByCompanyOrDepartmentIdy/${companyId}`)
+      return this.http.get(`${env.domain}Tasks/GetAllTasksByCompanyOrDepartmentId/${companyId}`)
     }
   }
 

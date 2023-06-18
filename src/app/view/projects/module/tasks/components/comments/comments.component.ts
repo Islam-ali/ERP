@@ -23,6 +23,12 @@ export class CommentsComponent implements OnInit {
   formComment: FormGroup;
   ListOfEmployee: any[] = [];
   url: string = env.url;
+  Text = ``;
+  loading = false;
+  choices: any[] = [];
+  mentions: any[] = [];
+  elementCreated: string = '';
+  submit: boolean = false;
   constructor(
     private _FormBuilder: FormBuilder,
     private _TasksService: TasksService,
@@ -33,7 +39,7 @@ export class CommentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.formComment = this._FormBuilder.group({
-      text: [null, [Validators.required]],
+      Text: [null, [Validators.required]],
       // task_Id:[null,[Validators.required]],
     })
     this.loadChoices('');
@@ -41,38 +47,37 @@ export class CommentsComponent implements OnInit {
       this.submit = false
     })
   }
-  connectionSignalR() {
-    const connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Information)
-      .withUrl(env.domain + 'notify', {
-        accessTokenFactory:() => `${this._AuthenticationService.getUser().token}`,
-        skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets,
-      })
-      .build();
+  // connectionSignalR() {
+  //   const connection = new signalR.HubConnectionBuilder()
+  //     .configureLogging(signalR.LogLevel.Information)
+  //     .withUrl(env.domain + 'notify', {
+  //       accessTokenFactory:() => `${this._AuthenticationService.getUser().token}`,
+  //       skipNegotiation: true,
+  //       transport: signalR.HttpTransportType.WebSockets,
+  //     })
+  //     .build();
 
-    connection
-      .start()
-      .then(() => {
-        console.log('SignalR Connected!');
-      })
-      .catch((err) => {
-        return console.log('err.toString()', err.toString());
-      });
+  //   connection
+  //     .start()
+  //     .then(() => {
+  //       console.log('SignalR Connected!');
+  //     })
+  //     .catch((err) => {
+  //       return console.log('err.toString()', err.toString());
+  //     });
 
-    connection.on('BroadcastMessage', () => {
-      // this.getTracksOfVehicle();
-      this.reloadeComment.emit(this.taskID)
-      // this.getCoordinatesOfTrackInfoByVehicleId(this.id , this.newData[0].routeNumber , this.newData[0].districtId );
-    });
-  }
+  //   connection.on('BroadcastMessage', () => {
+  //     // this.getTracksOfVehicle();
+  //     this.reloadeComment.emit(this.taskID)
+  //     // this.getCoordinatesOfTrackInfoByVehicleId(this.id , this.newData[0].routeNumber , this.newData[0].districtId );
+  //   });
+  // }
   onSubmit() {
     let value = this.formComment.value
     value['task_Id'] = this.taskID
     const formMention: any = {};
     this._TasksService.AddTaskComment(value).subscribe({
       next: (res: any) => {
-        this.formComment.reset();
         this.getUsers();
         formMention['taskId'] = this.taskID;
         formMention['employeesIds'] = this.mentions.map( x => x.choice.id)        
@@ -80,17 +85,14 @@ export class CommentsComponent implements OnInit {
           this.AddMentionedEmployees(formMention);
         }
         this.mentions = [];
+        this.formComment.reset();
         this.submit = true;
         this.reloadeComment.emit(this.taskID)
+      },error:(err:any)=>{
       }
     })
   }
-  text = ``;
-  loading = false;
-  choices: any[] = [];
-  mentions: any[] = [];
-  elementCreated: string = '';
-  submit: boolean = false;
+
 
   async loadChoices(searchTerm: string): Promise<any[]> {
     const users = await this.getUsers();

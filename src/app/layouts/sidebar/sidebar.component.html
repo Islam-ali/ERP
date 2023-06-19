@@ -19,8 +19,8 @@
                   *ngIf="item.badge">{{item.badge.text |
                   translate}} </span>
               </a>
-              <a [routerLink]="item.link" *ngIf="!hasItems(item)" class="side-nav-link-ref"
-                [class.active]="checkRouting(item.link)" class="active">
+              <a [routerLink]="item.link" routerLinkActive="active" *ngIf="!hasItems(item)" class="side-nav-link-ref"
+                [class.active]="checkRouting(item.link)">
                 <i class="bx {{ item.icon }}" *ngIf="item.icon"></i>
                 <span> {{ item.label | translate }}</span>
                 <span class="badge rounded-pill bg-{{item.badge.variant}} float-end"
@@ -31,34 +31,36 @@
                 <li *ngFor="let subitem of item.subItems">
                   <ng-container
                     *ngIf="!subitem.permission || _AuthenticationService.checkPermission(subitem.permission)">
-                    <a [routerLink]="subitem.link" *ngIf="!hasItems(subitem)" class="side-nav-link-ref"
-                      [attr.data-parent]="subitem.parentId" [class.active]="checkRouting(subitem.link)">
-                      {{ subitem.label | translate}}
-                    </a>
-                    <a *ngIf="hasItems(subitem)" class="side-nav-link-a-ref has-arrow "
-                      href="javascript:void(0);" [attr.data-parent]="subitem.parentId"
+                    <a [routerLink]="subitem.link" routerLinkActive="active" *ngIf="!hasItems(subitem)"
+                      class="side-nav-link-ref" [attr.data-parent]="subitem.parentId"
                       [class.active]="checkRouting(subitem.link)">
                       {{ subitem.label | translate}}
                     </a>
-                    <ul *ngIf="hasItems(subitem)" class="sub-menu mm-collapse" aria-expanded="false">
+                    <a *ngIf="hasItems(subitem)" class="side-nav-link-a-ref has-arrow" href="javascript:void(0);"
+                      [attr.data-parent]="subitem.parentId" [class.active]="checkRouting(subitem.link)">
+                      {{ subitem.label | translate}}
+                    </a>
+                    <ul *ngIf="hasItems(subitem)" class="sub-menu " aria-expanded="false">
                       <li *ngFor="let subSubitem of subitem.subItems">
                         <ng-container
                           *ngIf="!subSubitem.permission || _AuthenticationService.checkPermission(subSubitem.permission)">
-                          <a *ngIf="!hasItems(subSubitem)" [attr.data-parent]="subSubitem.parentId" [routerLink]="subSubitem.link"
-                            [class.active]="checkRouting(subSubitem.link)" class="side-nav-link-ref">
+                          <a *ngIf="!hasItems(subSubitem)" [attr.data-parent]="subSubitem.parentId"
+                            [routerLink]="subSubitem.link" [class.active]="checkRouting(subSubitem.link)"
+                            class="side-nav-link-ref">
                             {{ subSubitem.label | translate }}
                           </a>
-                          <a *ngIf="hasItems(subSubitem)" class="side-nav-link-a-ref has-arrow "
+                          <a *ngIf="hasItems(subSubitem)" class="side-nav-link-a-ref has-arrow"
                             href="javascript:void(0);" [attr.data-parent]="subSubitem.parentId"
                             [class.active]="checkRouting(subSubitem.link)">
                             {{ subSubitem.label | translate}}
                           </a>
-                          <ul *ngIf="hasItems(subSubitem)" class="sub-menu mm-collapse" aria-expanded="false">
+                          <ul *ngIf="hasItems(subSubitem)" class="sub-menu" aria-expanded="false">
                             <li *ngFor="let subSubSubitem of subSubitem.subItems">
                               <ng-container
                                 *ngIf="!subSubSubitem.permission || _AuthenticationService.checkPermission(subSubSubitem.permission)">
                                 <a [attr.data-parent]="subSubSubitem.parentId" [routerLink]="subSubSubitem.link"
-                                  [class.active]="checkRouting(subSubSubitem.link)" class="side-nav-link-ref">
+                                  routerLinkActive="active" [class.active]="checkRouting(subSubSubitem.link)"
+                                  class="side-nav-link-ref">
                                   {{ subSubSubitem.label | translate }}
                                 </a>
                               </ng-container>

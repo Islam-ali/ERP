@@ -6,7 +6,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UIModule } from 'app/shared/ui/ui.module';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -20,7 +20,8 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     FormsModule,
     UIModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    NgbNavModule
   ]
 })
 export class ProfileModule { }

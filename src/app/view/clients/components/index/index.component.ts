@@ -135,6 +135,7 @@ export class IndexComponent implements OnInit {
     this.state_Id = 0
   }
   patchValueForm(content: any, Clients: any) {
+    this.client_Id = Clients.id;
     this.lableForm = 1;
     this.showClients(Clients.id);
     this.modalService.open(content, { size: 'lg' });
@@ -222,10 +223,12 @@ export class IndexComponent implements OnInit {
       }
     })
   }
-  EditClientCommunicationWay(client_Id: number, clientCommunicationWay_Id: number) {
+  EditClientCommunicationWay( clientCommunicationWay_Id: number) {
     let value = {};
-    value['id'] = client_Id,
-      value['clientCommunicationWay_Id'] = clientCommunicationWay_Id
+    
+    value['id'] = this.client_Id,
+    value['clientCommunicationWay_Id'] = clientCommunicationWay_Id
+    console.log(value);
     this._ClientsService.EditClientCommunicationWay(value).subscribe({
       next: (res: Clients) => {
         this.getClients();

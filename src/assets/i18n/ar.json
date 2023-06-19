@@ -362,6 +362,7 @@
     "EMAIL": "البريد الالكترونى",
     "MOBILE_NUMBER": "رقم الموبيل",
     "PASSWORD": "كلمة المرور",
+    "ACTIVITY":"النشاط",
     "PASSWORD_CONFIRMATION": "تأكيد كلمة المرور",
     "IMAGE": "صورة",
     "ADD": "اضافة",

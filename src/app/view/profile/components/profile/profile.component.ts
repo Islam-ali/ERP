@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { FormateDateService } from 'app/shared/services/formate-date.service';
 import { AuthenticationService } from 'app/core/services/auth.service';
+import { OwnedTasksService } from '../../services/owned-tasks.service';
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +31,9 @@ export class ProfileComponent implements OnInit {
   loader: boolean = true;
   loadingShow: boolean = false;
   placement = "top";
-  ListOfId:number[]=[];
+  ListOfId: number[] = [];
+  textTask:string = '';
+  allTasks:any[] = [];
   constructor(
     private _ProfileService: ProfileService,
     private _formBuilder: FormBuilder,
@@ -38,7 +41,8 @@ export class ProfileComponent implements OnInit {
     private toastrService: ToastrService,
     private _ActivatedRoute: ActivatedRoute,
     private _FormateDateService: FormateDateService,
-    public _AuthenticationService : AuthenticationService
+    public _AuthenticationService: AuthenticationService,
+    private _OwnedTasksService:OwnedTasksService
   ) {
 
     this.EmployeeForm = this._formBuilder.group({
@@ -58,6 +62,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.Profile();
+    this.GetAllOwnedTasks();
   }
   Profile() {
     this.loaderProfile = true;
@@ -89,7 +94,7 @@ export class ProfileComponent implements OnInit {
           this.Employee.controls[index].patchValue({
             path: `${this.pathUrl + ele.filePath}`,
             id: ele.id,
-            Description:ele.description
+            Description: ele.description
           })
         })
       }, error: (err: Error) => {
@@ -97,9 +102,47 @@ export class ProfileComponent implements OnInit {
       }
     })
   }
+  GetAllOwnedTasks(){
+    this._OwnedTasksService.GetAllOwnedTasks().subscribe({
+      next:(res:any)=>{
+        this.allTasks = res.data
+      }
+    })
+  }
+  addOwnedTask(){
+    const form = {'name':this.textTask}
+    this._OwnedTasksService.addOwnedTask(form).subscribe({
+      next:(res:any)=>{
+        this.toastrService.success(res.message);
+        this.GetAllOwnedTasks();
+      },error:(err:Error)=>{
+        this.toastrService.warning(err.message)
+      }
+    })
+  }
+  ChangeActiveOrNotOwnedTask(id:number){
+    this._OwnedTasksService.ChangeActiveOrNotOwnedTask(id).subscribe({
+      next:(res:any)=>{
+        res.isActive ? this.toastrService.warning(res.message) : this.toastrService.success(res.message);
+        this.GetAllOwnedTasks();
+      },error:(err:Error)=>{
+        this.toastrService.warning(err.message)
+      }
+    })
+  }
+  RemoveTask(id:number){
+    this._OwnedTasksService.RemoveOwnedTask(id).subscribe({
+      next:(res:any)=>{
+        this.toastrService.error(res.message)
+        this.GetAllOwnedTasks();
+      },error:(err:Error)=>{
+        this.toastrService.error(err.message)
+      }
+    })
+  }
   initFormEmployee(): FormGroup {
     return this._formBuilder.group({
-      Description:[null],
+      Description: [null],
       id: [null],
       File: [null],
       path: null
@@ -170,7 +213,7 @@ export class ProfileComponent implements OnInit {
     // loop ton sen path
     value['Files'] = [];
     this.Employee.controls.forEach((ele: any) => {
-      value['Files'].push({ id: ele.value.id, File: ele.value.File ,Description:ele.value.Description})
+      value['Files'].push({ id: ele.value.id, File: ele.value.File, Description: ele.value.Description })
     })
     value['id'] = this.EmployeeId;
     this._ProfileService.getEditEmployee(value).subscribe({
@@ -195,13 +238,13 @@ export class ProfileComponent implements OnInit {
   get form() {
     return this.EmployeeForm.controls;
   }
-  Remove(id:number){
+  Remove(id: number) {
     this.ListOfId.push(id)
     this.DeleteFileOrMoreOfEmployee();
   }
-  DeleteFileOrMoreOfEmployee(){
+  DeleteFileOrMoreOfEmployee() {
     this._ProfileService.DeleteFileOrMoreOfEmployee(this.ListOfId).subscribe({
-      next:(res:Profile)=>{
+      next: (res: Profile) => {
         this.ListOfId = [];
         this.toastrService.error(res.message);
         this.Profile();

@@ -371,6 +371,7 @@
     "SUBMIT": "Submit",
     "STATUS": "status",
     "ACTIVE": "active",
+    "ACTIVITY":"Activity",
     "NOTACTIVE": "not active",
     "PENDING": "Pending",
     "ACCEPT": "Accept",

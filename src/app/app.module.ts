@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
-import { environment } from '../environments/environment';
+import { environment as env } from '@env/environment';
 
 import { NgbNavModule, NgbAccordionModule, NgbTooltipModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CarouselModule } from 'ngx-owl-carousel-o';
@@ -25,10 +25,10 @@ import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { FakeBackendInterceptor } from './core/helpers/fake-backend';
 import { ToastrModule } from 'ngx-toastr';
-import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
-
-if (environment.defaultauth === 'firebase') {
-  initFirebaseBackend(environment.firebaseConfig);
+import { APP_BASE_HREF, HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
+// import { environment } from "../environments/environment.prod";
+if (env.defaultauth === 'firebase') {
+  initFirebaseBackend(env.firebaseConfig);
 } else {
   // tslint:disable-next-line: no-unused-expression
   FakeBackendInterceptor;
@@ -78,6 +78,7 @@ export function createTranslateLoader(http: HttpClient): any {
     // LoaderService,
     // { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptorService, multi: true },
     // { provide: LocationStrategy, useClass: PathLocationStrategy },
+    // {provide: APP_BASE_HREF, useValue: '' } ,
     {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
 })

@@ -60,7 +60,7 @@ export class TopbarComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user_ERP'))?.userName
     this.cookieValue = this._cookiesService.get('lang_ERP');
     this.cookieValue = JSON.parse(localStorage.getItem('lang_ERP'))?.lang || 'ar';
-    this.GetNotificationsMessages();
+    // this.GetNotificationsMessages();
     this.GetNotificationsCount();
     this.connectionSignalR();
 
@@ -76,7 +76,9 @@ export class TopbarComponent implements OnInit {
   GetNotificationsMessages() {
     this._NotificationsService.GetNotificationsMessages().subscribe({
       next: (res: any) => {
-        this.messageNotification = res.data
+        this.messageNotification = res.data;
+      this.GetNotificationsCount();
+
       }
     })
   }
@@ -106,7 +108,6 @@ export class TopbarComponent implements OnInit {
       });
 
     connection.on('BroadcastMessage', () => {
-      this.GetNotificationsMessages();
       this.GetNotificationsCount();
     });
   }

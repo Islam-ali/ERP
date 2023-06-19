@@ -7,7 +7,8 @@
                         <h3 class="m-0">{{'MENUITEMS.CLIENTS.TEXT' | translate}}</h3>
                     </div>
                     <div class="col-6 d-flex justify-content-end ">
-                        <button *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Create')" class="btn btn-primary w-md" (click)="openModal(addClient , 0)">
+                        <button *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Create')"
+                            class="btn btn-primary w-md" (click)="openModal(addClient , 0)">
                             {{'GENERAL.ADD' | translate}} {{'GENERAL.CLIENT' | translate}}
                             <i class="bx bx-plus-medical"></i></button>
                     </div>
@@ -24,7 +25,7 @@
     </ng-container>
     <ng-container *ngIf="!loader && clientsData.length > 0">
         <div class="row">
-            <div style="min-width: 500px;">
+            <div style="min-width: 500px;overflow: auto;">
                 <table class="table project-list-table table-nowrap align-middle table-borderless">
                     <thead>
                         <tr>
@@ -40,8 +41,9 @@
                     <tbody>
                         <tr *ngFor="let data of clientsData;">
                             <td>
-                                <h5 class="text-truncate font-size-14">
-                                    <a href="javascript: void(0);" class="text-dark">{{data.companyName}}</a>
+                                <h5 class="text-truncate font-size-14" style="max-width: 200px;">
+                                    <a href="javascript: void(0);"
+                                        class="text-dark text-truncate">{{data.companyName}}</a>
                                 </h5>
                             </td>
                             <td>{{data.email}}</td>
@@ -61,37 +63,57 @@
                                 {{data.communicationWayName}}
                             </td>
                             <td class="d-flex">
-                                <div ngbDropdown>
+                                <div class="mx-1"
+                                    *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">
+                                    <button class="btn btn-light w-100 py-1" type="button" [disabled]="!data.isActive"
+                                        (click)="patchValueForm(addClient,data);getUpdateClients(data.id)">{{'GENERAL.EDIT'
+                                        | translate}}<i class="ms-1 bx bx-edit"></i></button>
+                                </div>
+                                <div class="mx-1">
+                                    <button class="btn btn-light w-100 py-1" type="button"
+                                        (click)="viewClientDetails(viewClient,data.id)">{{'GENERAL.VIEW' |
+                                        translate}}<i class="mdi mdi-eye-outline ms-1"></i></button>
+                                </div>
+                                <div class="mx-1"
+                                    *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">
+                                    <button class="btn btn-light w-100 py-1" type="button"
+                                        (click)="delete(data.id)">{{'GENERAL.DELETE' |
+                                        translate}}<i class="bx bx-trash"></i></button>
+                                </div>
+                                <!-- <div ngbDropdown>
                                     <div class="dropdown  active">
                                         <button class="btn dropdown-toggle" type="button" ngbDropdownToggle>
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                                            <div class="dropdown-item" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">
+                                            <div class="dropdown-item"
+                                                *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">
                                                 <button class="btn btn-light w-100 py-1" type="button"
                                                     [disabled]="!data.isActive"
                                                     (click)="patchValueForm(addClient,data);getUpdateClients(data.id)">{{'GENERAL.EDIT'
                                                     | translate}}<i class="ms-1 bx bx-edit"></i></button>
                                             </div>
-                                            <div class="dropdown-item" >
+                                            <div class="dropdown-item">
                                                 <button class="btn btn-light w-100 py-1" type="button"
                                                     (click)="viewClientDetails(viewClient,data.id)">{{'GENERAL.VIEW' |
                                                     translate}}<i class="mdi mdi-eye-outline ms-1"></i></button>
                                             </div>
-                                            <div class="dropdown-item" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">
+                                            <div class="dropdown-item"
+                                                *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">
                                                 <button class="btn btn-light w-100 py-1" type="button"
                                                     (click)="delete(data.id)">{{'GENERAL.DELETE' |
                                                     translate}}<i class="bx bx-trash"></i></button>
                                             </div>
-                                            <div class="col-12" style="min-width: 120px;" *ngIf="_AuthenticationService.checkPermission('Permissions.ClientCommunicationWay.Edit')">
+                                            <div class="col-12" style="min-width: 120px;"
+                                                *ngIf="_AuthenticationService.checkPermission('Permissions.ClientCommunicationWay.Edit')">
                                                 <ng-select [items]="listOfClientCommunicationWays"
-                                                (change)="EditClientCommunicationWay(data.id , $event.id)"
+                                                    (change)="EditClientCommunicationWay(data.id , $event.id)"
                                                     [(ngModel)]="data.clientCommunicationWay_Id" bindLabel="name"
                                                     bindValue="id"></ng-select>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                             </td>
 
@@ -107,7 +129,6 @@
                 <div class="mb-3">
                     <i class="bx bx-error-alt h1  text-warning"></i>
                 </div>
-
                 <div class="text-center">
                     <h5 class="text-warning ">Not Found Result</h5>
                     <div class="text-center">
@@ -142,7 +163,7 @@
             <div class="row">
                 <div class="col-xl-6 col-lg-6">
                     <div class="mb-3">
-                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.Name' |
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.NAME' |
                             translate}}</label>
                         <input type="text" class="form-control" id="validationCustom01" formControlName="companyName"
                             [ngClass]="{'is-valid': form.companyName.dirty && !form.companyName.errors ,'is-invalid': form.companyName.dirty && form.companyName.errors}">
@@ -258,9 +279,8 @@
                     <div class="mb-3">
                         <label class="form-label text-capitalize">{{'GENERAL.STATES' |
                             translate}}</label>
-                        <ng-select
-                            [items]="listOfStates" [(ngModel)]="state_Id" [ngModelOptions]="{standalone: true}" (change)="getListOfRegions($event?.id)"
-                            bindLabel="name" bindValue="id"></ng-select>
+                        <ng-select [items]="listOfStates" [(ngModel)]="state_Id" [ngModelOptions]="{standalone: true}"
+                            (change)="getListOfRegions($event?.id)" bindLabel="name" bindValue="id"></ng-select>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6">
@@ -382,6 +402,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-6 my-2" style="min-width: 120px;"
+                *ngIf="_AuthenticationService.checkPermission('Permissions.ClientCommunicationWay.Edit')">
+                <ng-select [items]="listOfClientCommunicationWays"
+                    (change)="EditClientCommunicationWay($event.id)"
+                    [(ngModel)]="clientDetails.clientCommunicationWay_Id" bindLabel="name"
+                    bindValue="id"></ng-select>
+            </div>
                 <app-comments-client [Data]="allClientComments" [client_Id]="client_Id"
                     (reloadeClientComments)="GetAllClientsComments()"></app-comments-client>
             </div>

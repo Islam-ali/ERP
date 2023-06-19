@@ -94,7 +94,7 @@ export class Login2Component implements OnInit {
           this.toastrService.success(res.message ? res.message : 'تم تسجيل الدخول بنجاح');
         }, error: (err: Error) => {
           this.submitted = false;
-          this.messageError = err
+          this.messageError = err.message
         },
       })
     }

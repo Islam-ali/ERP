@@ -263,9 +263,9 @@
         </button>
       </div>
       <div class="dropdown d-inline-block" ngbDropdown>
-        <button type="button" class="btn header-item noti-icon" id="page-header-notifications-dropdown"
+        <button type="button" (click)="GetNotificationsMessages()" class="btn header-item noti-icon" id="page-header-notifications-dropdown"
           ngbDropdownToggle>
-          <i class="bx bx-bell" [class]="notiLength > 0 ? 'bx-tada':''"></i>
+          <i  class="bx bx-bell" [class]="notiLength > 0 ? 'bx-tada':''"></i>
           <span *ngIf="notiLength > 0" class="badge bg-danger rounded-pill">{{notiLength}}</span>
         </button>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
@@ -275,9 +275,9 @@
               <div class="col">
                 <h6 class="m-0">{{ 'HEADER.NOTIFICATIONS.TITLE' | translate}} </h6>
               </div>
-              <div class="col-auto">
+              <!-- <div class="col-auto">
                 <a href="javascript: void(0);" class="small">{{ 'HEADER.NOTIFICATIONS.VIEW_ALL' | translate}}</a>
-              </div>
+              </div> -->
             </div>
           </div>
           <ngx-simplebar style="position: relative; height: 230px;">
@@ -296,12 +296,12 @@
                 </a>
               </ng-container>
           </ngx-simplebar>
-          <div class="p-2 border-top d-grid">
+          <!-- <div class="p-2 border-top d-grid">
             <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
               <i class="mdi mdi-arrow-right-circle me-1"></i> <span key="t-view-more">{{
                 'HEADER.NOTIFICATIONS.LOAD_MORE' | translate}}</span>
             </a>
-          </div>
+          </div> -->
         </div>
       </div>
 

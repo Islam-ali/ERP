@@ -86,9 +86,9 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       this.menu.dispose();
     }
   }
-  checkRouting(route: string) {
-    route !== undefined ? this.router.url.includes(route) : false;
-    return this.router.url.includes(route)
+  checkRouting(route: string) :boolean {
+  let check = route !== undefined ? this.router.url.includes(route) : false;
+    return true ;
   }
   GetCompanyOrThroughToken() {
     this._CompaniesService.GetCompanyOrThroughToken().subscribe({
@@ -129,8 +129,8 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
    */
   _activateMenuDropdown() {
 
-    this._removeAllClass('mm-active');
-    this._removeAllClass('mm-show');
+    // this._removeAllClass('mm-active');
+    // this._removeAllClass('mm-show');
     const links = document.getElementsByClassName('side-nav-link-ref');
     let menuItemEl = null;
     // tslint:disable-next-line: prefer-for-of

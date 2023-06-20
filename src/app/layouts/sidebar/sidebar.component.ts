@@ -86,9 +86,9 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       this.menu.dispose();
     }
   }
-  checkRouting(route: string) :boolean {
-  let check = route !== undefined ? this.router.url.includes(route) : false;
-    return true ;
+  checkRouting(route: string): boolean {
+    let check = route !== undefined ? this.router.url.includes(route) : false;
+    return check;
   }
   GetCompanyOrThroughToken() {
     this._CompaniesService.GetCompanyOrThroughToken().subscribe({
@@ -206,7 +206,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         label: 'MENUITEMS.MENU.TEXT',
         isTitle: true,
         role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
-        permission: ''
+        permission: '',
       },
       {
         id: 2,
@@ -214,7 +214,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         icon: 'bx-home-circle',
         link: '/home',
         role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
-        permission: ''
+        permission: '',
       },
       {
         id: 3,
@@ -235,6 +235,10 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         icon: 'bx bxs-user-detail',
         role: ['Superadmin', 'ClintAdmin', 'ClientView'],
         permission: 'Permissions.Companies.All',
+        // badge: {
+        //   variant: 'success',
+        //   text: '2',
+        // },
         subItems: [
           {
             id: 15,
@@ -304,7 +308,11 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
           label: 'MENUITEMS.PROJECTS.TEXT',
           // link: `/companies/${ele.id}/departments/`,
           parentId: ele.id + index + 33,
-          permission: 'Permissions.Departments.All',
+          permission: 'Permissions.Projects.All',
+          // badge: {
+          //   variant: 'success',
+          //   text: '2',
+          // },
           subItems: []
         },
         {
@@ -313,6 +321,10 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
           link: `/companies/${ele.id}/employees`,
           parentId: ele.id + index,
           permission: 'Permissions.Employees.All',
+          // badge: {
+          //   variant: 'success',
+          //   text: '2',
+          // },
         },
         {
           id: 14,
@@ -322,7 +334,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
           permission: 'Permissions.Clients.All',
         }
       ]
-      let ProjectItem:any[] = [];
+      let ProjectItem: any[] = [];
       ele.companyProjects.forEach((subele, subIndex) => {
         ProjectItem.push({
           label: subele.name,
@@ -332,7 +344,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
           permission: 'Permissions.Departments.All',
         })
       })
-      
+
       menu[4].subItems.push(companyItem);
       menu[4].subItems[index + 1].subItems = items;
       menu[4].subItems[index + 1].subItems[1].subItems = ProjectItem

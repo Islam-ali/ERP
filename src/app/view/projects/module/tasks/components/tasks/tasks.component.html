@@ -423,7 +423,7 @@
                                 <p class="card-text text-muted small">
                                     <!-- <img src="https://img.icons8.com/color/26/000000/christmas-star.png" class="mr-1 " width="19"
                                     height="19" id="star"> <span class="vl mr-2 ml-0"></span> -->
-                                    <i class="fa fa-users text-muted "></i> Public <span class="vl ml-1 mr-2 "></span>
+                                    <i class="fa fa-users text-muted "></i>
                                     <span>End Date : {{taskData.endDate | date:'fullDate'}}</span>
                                     <!-- <span></span>Updated by <span class="font-weight-bold"> Team</span> on {{taskData.endDate | date:'fullDate'}} -->
                                 </p>
@@ -511,13 +511,13 @@
                                     </p>
                                     <li class="list-inline-item w-100 d-flex">
                                         <ng-container *ngFor="let img of taskData.assignedEmployeeData">
-                                            <div class="avatar-group-item avatar-sm m-1" *ngIf="!img.imagePath">
+                                            <div class="avatar-group-item avatar-sm m-1" placement="top" ngbTooltip="{{img.name}}" *ngIf="!img.imagePath">
                                                 <span
                                                     class="avatar-title rounded-circle bg-soft bg-primary text-primary">
                                                     {{img.name.charAt(0)}}
                                                 </span>
                                             </div>
-                                            <div class="avatar-group-item avatar-sm m-1" *ngIf="img.imagePath">
+                                            <div class="avatar-group-item avatar-sm m-1" placement="top" ngbTooltip="{{img.name}}" *ngIf="img.imagePath">
                                                 <img [src]="domain + img.imagePath" [alt]="img.name"
                                                     class="m-0 img-fluid avatar-title p-0 rounded-circle bg-soft ">
                                             </div>

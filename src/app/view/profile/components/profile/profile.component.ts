@@ -22,6 +22,7 @@ export class ProfileComponent implements OnInit {
   ProfileData: ProfileData;
   pathUrl: string = env.url;
   EmployeeForm: FormGroup;
+  OwnedTasksForm: FormGroup;
   image: any;
   coverPath: any;
   files: any[] = [];
@@ -32,8 +33,10 @@ export class ProfileComponent implements OnInit {
   loadingShow: boolean = false;
   placement = "top";
   ListOfId: number[] = [];
-  textTask:string = '';
-  allTasks:any[] = [];
+  textTask: string = '';
+  allTasks: any[] = [];
+  pageNumber:number = 1;
+  totalRecords:number = 0;
   constructor(
     private _ProfileService: ProfileService,
     private _formBuilder: FormBuilder,
@@ -42,7 +45,7 @@ export class ProfileComponent implements OnInit {
     private _ActivatedRoute: ActivatedRoute,
     private _FormateDateService: FormateDateService,
     public _AuthenticationService: AuthenticationService,
-    private _OwnedTasksService:OwnedTasksService
+    private _OwnedTasksService: OwnedTasksService
   ) {
 
     this.EmployeeForm = this._formBuilder.group({
@@ -58,8 +61,42 @@ export class ProfileComponent implements OnInit {
       // FILES
       Files: this._formBuilder.array([this.initFormEmployee()]),
     });
+    this.OwnedTasksForm = this._formBuilder.group({
+      Name: ['',[Validators.required]],
+      StartDate: [null],
+      EndDate: [null],
+      Files: this._formBuilder.array([this.initFormOwnedTasks()]),
+    })
   }
-
+  initFormOwnedTasks():FormGroup {
+    return this._formBuilder.group({
+      File:[null],
+      path:null
+    })
+  }
+  get OwnedTasksArray() {
+    return this.OwnedTasksForm.controls["Files"] as FormArray;
+  }
+  addFormOwnedTasks() {
+    this.OwnedTasksArray.push(this.initFormOwnedTasks());
+  }
+  deleteFormOwnedTasks(index: number) {
+    this.OwnedTasksArray.removeAt(index);
+  }
+  uploadeFilesOwnedTasks(event: any , index:number): void {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      this.OwnedTasksArray.controls[index].patchValue({
+        File: event.target.files[0]
+      })
+      reader.onload = (event: any) => {
+        this.OwnedTasksArray.controls[index].patchValue({
+          path: event.target.result
+        })
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
   ngOnInit(): void {
     this.Profile();
     this.GetAllOwnedTasks();
@@ -102,40 +139,68 @@ export class ProfileComponent implements OnInit {
       }
     })
   }
-  GetAllOwnedTasks(){
-    this._OwnedTasksService.GetAllOwnedTasks().subscribe({
-      next:(res:any)=>{
-        this.allTasks = res.data
+  pagination(event:any){
+    console.log(event);
+    this.pageNumber = event;
+    this.GetAllOwnedTasks();
+
+  }
+  GetAllOwnedTasks() {
+    this._OwnedTasksService.GetAllOwnedTasks(this.pageNumber).subscribe({
+      next: (res: any) => {
+        this.allTasks = res.data.data
+        this.totalRecords = res.data.totalRecords
       }
     })
   }
-  addOwnedTask(){
-    const form = {'name':this.textTask}
-    this._OwnedTasksService.addOwnedTask(form).subscribe({
-      next:(res:any)=>{
+  addOwnedTask() {
+    let value = this.OwnedTasksForm.value
+    value['Name'] = value.Name
+    value['StartDate'] = this._FormateDateService.sendFormateDate(this.OwnedTasksForm.get('StartDate').value);
+    value['EndDate'] = this._FormateDateService.sendFormateDate(this.OwnedTasksForm.get('EndDate').value);
+    value['Files'] = this.OwnedTasksArray.value.map((x)=> x.File)
+    this._OwnedTasksService.addOwnedTask(value).subscribe({
+      next: (res: any) => {
+        this.OwnedTasksForm.reset();
+        this.OwnedTasksArray.clear();
+        this.addFormOwnedTasks();
         this.toastrService.success(res.message);
         this.GetAllOwnedTasks();
-      },error:(err:Error)=>{
+      }, error: (err: Error) => {
         this.toastrService.warning(err.message)
       }
     })
   }
-  ChangeActiveOrNotOwnedTask(id:number){
+  ChangeActiveOrNotOwnedTask(id: number) {
     this._OwnedTasksService.ChangeActiveOrNotOwnedTask(id).subscribe({
-      next:(res:any)=>{
-        res.isActive ? this.toastrService.warning(res.message) : this.toastrService.success(res.message);
+      next: (res: any) => {
+        !res.isActive ? this.toastrService.warning(res.message) : this.toastrService.success(res.message);
         this.GetAllOwnedTasks();
-      },error:(err:Error)=>{
+      }, error: (err: Error) => {
         this.toastrService.warning(err.message)
       }
     })
   }
-  RemoveTask(id:number){
+  uploadeFiles(event: any, index: number): void {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      this.Employee.controls[index].patchValue({
+        File: event.target.files[0],
+      })
+      reader.onload = (event: any) => {
+        this.Employee.controls[index].patchValue({
+          path: event.target.result
+        })
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+  RemoveTask(id: number) {
     this._OwnedTasksService.RemoveOwnedTask(id).subscribe({
-      next:(res:any)=>{
+      next: (res: any) => {
         this.toastrService.error(res.message)
         this.GetAllOwnedTasks();
-      },error:(err:Error)=>{
+      }, error: (err: Error) => {
         this.toastrService.error(err.message)
       }
     })
@@ -185,7 +250,7 @@ export class ProfileComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]);
     }
   }
-  uploadeFiles(event: any, index: number): void {
+  OwnedTasks(event: any, index: number): void {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
       this.Employee.controls[index].patchValue({

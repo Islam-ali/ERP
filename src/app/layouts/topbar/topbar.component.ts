@@ -28,6 +28,8 @@ export class TopbarComponent implements OnInit {
   valueset;
   notiLength: number = 0;
   messageNotification: any[] = [];
+  loader:boolean = false;
+
   constructor(
     @Inject(DOCUMENT) private document: any,
     private router: Router,
@@ -74,11 +76,12 @@ export class TopbarComponent implements OnInit {
 
   }
   GetNotificationsMessages() {
+    this.loader = true;
     this._NotificationsService.GetNotificationsMessages().subscribe({
       next: (res: any) => {
         this.messageNotification = res.data;
-      this.GetNotificationsCount();
-
+        this.loader = false;
+        this.GetNotificationsCount();
       }
     })
   }

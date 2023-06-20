@@ -3,11 +3,14 @@ export interface Clients {
   message: string
   isSuccess: boolean
   isActive: boolean
-  data: DataClients[]
+  data: DataClients
   error: string
 }
-
-export interface DataClients {
+export interface DataClients{
+  data:DataDataClients[],
+  totalRecords:number
+}
+export interface DataDataClients {
   id: number
   name: string
   company: string

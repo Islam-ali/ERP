@@ -31,8 +31,10 @@
               <tr>
                 <th scope="col">{{'GENERAL.DEPARTMENT' | translate}}</th>
                 <th scope="col">{{'GENERAL.STATUS' | translate}}</th>
-                <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
-                <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
+                <th scope="col" class="text-center">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
+                <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Edit') ||
+                _AuthenticationService.checkPermission('Permissions.Companies.Delete')"
+                >{{'GENERAL.ACTION' | translate}}</th>
                 <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.All')">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.PROJECTS.TEXT' | translate}}</th>
                 <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Jobs.All')">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.JOBS.TEXT' | translate}}</th>
                 <!-- <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.EMPLOYEES.TEXT' | translate}}</th> -->
@@ -56,7 +58,8 @@
                     (change)="ChangeActiveOrNotDepartment(department.id);showDepartment(department.id)"
                     [checked]="department.isActive" class="ms-1"></ui-switch>
                 </td>
-                <td>
+                <td *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Edit') ||
+                _AuthenticationService.checkPermission('Permissions.Companies.Delete')">
                   <ul class="list-inline font-size-20 contact-links mb-0">
                     <li class="list-inline-item px-2" *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Edit')" >
                       <i class="bx bx-edit"

@@ -280,7 +280,16 @@
               </div> -->
             </div>
           </div>
-          <ngx-simplebar style="position: relative; height: 230px;">
+          <div>
+            <ng-container *ngIf="loader">
+              <div class="d-flex justify-content-center align-items-center" style="min-height: 220px;">
+                <div class="spinner-border text-primary m-1" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <ngx-simplebar *ngIf="!loader" style="position: relative; height: 230px;">
             <ng-container *ngFor="let item of messageNotification">
               <a href="javascript: void(0);" class="text-reset notification-item">
                 <div class="media">

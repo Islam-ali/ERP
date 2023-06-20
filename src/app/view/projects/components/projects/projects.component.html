@@ -32,7 +32,9 @@
                   <th scope="col">{{'GENERAL.PROJECT' | translate}}</th>
                   <th scope="col">{{'GENERAL.STATUS' | translate}}</th>
                   <th scope="col" class="text-center">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
-                  <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
+                  <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.Edit') ||
+                  _AuthenticationService.checkPermission('Permissions.Projects.Delete')"
+                  >{{'GENERAL.ACTION' | translate}}</th>
                   <th *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.All')" scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.TASKS.TEXT' | translate}}</th>
                 </tr>
               </thead>
@@ -54,7 +56,8 @@
                       (change)="ChangeActiveOrNotProject(project.id);"
                       [checked]="project.isActive" class="ms-1"></ui-switch>
                   </td>
-                  <td>
+                  <td *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.Edit') ||
+                  _AuthenticationService.checkPermission('Permissions.Projects.Delete')">
                     <ul class="list-inline font-size-20 contact-links mb-0">
                       <li class="list-inline-item px-2">
                         <i class="bx bx-edit" *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.Edit')" (click)="patchValueForm(addProjects,project);getUpdateProject(project.id)"

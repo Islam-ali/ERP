@@ -419,6 +419,10 @@
     "SALESMANAGERNAME":"sales Manager Name",
     "JOBCATEGORY":"Job Category",
     "CLIENTJOB":"Client Job",
-    "COMMUNICATIONWAYS":"CommunicationWays"
+    "COMMUNICATIONWAYS":"CommunicationWays",
+    "DATE":"Date",
+    "PERSONAL_INFORMATION":"Personal Information",
+    "tASKS":"Tasks",
+    "DAILY_TASKS":"Daily Tasks"
   }
 }

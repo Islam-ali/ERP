@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
 import { Observable } from 'rxjs';
@@ -12,8 +12,12 @@ export class ClientService {
   addClient(body:any): Observable<Clients> {
     return this.http.post<Clients>(`${env.domain}Clients/AddClient`, body);
   }
-  getClients(departmentId:number): Observable<Clients> {
-    return this.http.get<Clients>(`${env.domain}Clients/GetAllClients?departmentId=${departmentId}`);
+  getClients(value:any): Observable<Clients> {
+    const data = new HttpParams();
+    for(let key in value){
+      data.append(`${key}`,`${value[key]}`)
+    }
+    return this.http.get<Clients>(`${env.domain}Clients/GetAllClients`,{params: value});
   }
   GetAllClientsComments(ClientId:number): Observable<AllClientsComments> {
     return this.http.get<AllClientsComments>(`${env.domain}ClientComments/GetAllClientsComments/${ClientId}`);

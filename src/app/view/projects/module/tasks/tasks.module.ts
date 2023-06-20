@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DndModule } from 'ngx-drag-drop';
-import { NgbDropdownModule, NgbModalModule, NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModalModule, NgbDatepickerModule, NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { UIModule } from '../../../../shared/ui/ui.module';
 import { TranslateModule } from '@ngx-translate/core';
@@ -40,7 +40,8 @@ import { MentionsModule } from '@flxng/mentions';
     NgSelectModule,
     DropzoneModule,
     // NgxDropzoneModule
-    MentionsModule
+    MentionsModule,
+    NgbTooltipModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

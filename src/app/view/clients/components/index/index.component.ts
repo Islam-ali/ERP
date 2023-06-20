@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Pagination } from 'app/core/modal/modal';
-import { AllClientsComments, Clients, DataClients, DataListOfClientJobs, DataShowClientsComments, DatashowClient, ListOfClientJobs, showClient } from '../../modal/clients';
+import { AllClientsComments, Clients, DataClients, DataDataClients, DataListOfClientJobs, DataShowClientsComments, DatashowClient, ListOfClientJobs, showClient } from '../../modal/clients';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -23,7 +23,7 @@ export class IndexComponent implements OnInit {
   ListOfClientJobs: DataListOfClientJobs[];
   ListOfClientJobCategories: DataListOfClientJobs[];
   classificationID: number = 0;
-  clientsData: DataClients[] = [];
+  clientsData: DataDataClients[] = [];
   pagination: Pagination;
   pageNumber: number = 1;
   clientsForm: FormGroup;
@@ -47,6 +47,7 @@ export class IndexComponent implements OnInit {
   listOfStates: any[] = [];
   listOfRegion: any[] = [];
   state_Id: number = 0;
+  totalRecords:number = 0;
   constructor(
     private _ActivatedRoute: ActivatedRoute,
     private _ClientsService: ClientService,
@@ -60,7 +61,11 @@ export class IndexComponent implements OnInit {
     private _EmployeesService: EmployeesService
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('user_ERP'))
-    this.companyID = this._ActivatedRoute.snapshot.params['companyID']
+    this._ActivatedRoute.paramMap.subscribe((param:any)=>{
+      this.companyID = +param.params['companyID'];
+    this.getClients();
+    })
+    // this.companyID = this._ActivatedRoute.snapshot.params['companyID']
     this.clientsForm = this._formBuilder.group({
       companyName: [null, [Validators.required]],
       // nameInEnglish: [null, [Validators.required]],
@@ -87,10 +92,23 @@ export class IndexComponent implements OnInit {
     //   this.getListOfClientJobs(val)
     // })
   }
+  paginationClients(event:number){
+    this.pageNumber = event;
+    this.getClients();
+  }
   getClients(): void {
-    this._ClientsService.getClients(this.currentUser.department_Id).subscribe({
+    const value = {};
+    value['CompanyId'] = this.companyID;
+    value['DepartmentId'] = this.currentUser.department_Id;
+    value['CompanyName'] = '';
+    value['ClientCommunicationWay_Id'] = '';
+    value['PageSize'] = 10;
+    value['PageNumber'] = this.pageNumber;
+  
+    this._ClientsService.getClients(value).subscribe({
       next: (res: Clients) => {
-        this.clientsData = res.data;
+        this.clientsData = res.data.data;
+        this.totalRecords = res.data.totalRecords
         this.loader = false
         this.ListOfClientCommunicationWays();
         this.ListOfDepartment();
@@ -102,7 +120,7 @@ export class IndexComponent implements OnInit {
 
   ListOfDepartment(): void {
     this._DepartmentsService.ListOfDepartment(this.companyID).subscribe({
-      next: (res: Clients) => {
+      next: (res: any) => {
         this.listOfDepartment = res.data;
       }
     })

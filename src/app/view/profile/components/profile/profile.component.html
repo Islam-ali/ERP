@@ -6,7 +6,7 @@
     </div>
 </ng-container>
 <ng-container *ngIf="!loaderProfile">
-    <div class="container">
+    <div class="container-fluid">
         <div class="main-body">
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
@@ -42,7 +42,7 @@
                             class="nav-tabs nav-tabs-custom justify-content-center pt-2">
                             <li [ngbNavItem]="1">
                                 <a ngbNavLink>
-                                    Personal Information
+                                    {{ 'GENERAL.PERSONAL_INFORMATION'| translate}}
                                 </a>
                                 <ng-template ngbNavContent>
                                     <div>
@@ -171,7 +171,7 @@
                             </li>
                             <li [ngbNavItem]="2">
                                 <a ngbNavLink>
-                                    Tasks
+                                    {{ 'GENERAL.tASKS'| translate}}
                                 </a>
                                 <ng-template ngbNavContent>
                                     <div>
@@ -179,38 +179,178 @@
                                             <div class="card">
                                                 <div class="card-body p-5">
 
-                                                    <form class="d-flex justify-content-center align-items-center mb-4">
-                                                        <div class="form-outline flex-fill">
-                                                            <input type="text" id="form2" [(ngModel)]="textTask"
-                                                                [ngModelOptions]="{standalone: true}"
+                                                    <form (submit)="addOwnedTask()"
+                                                        class="d-flex row justify-content-center align-items-center mb-4 "
+                                                        [formGroup]="OwnedTasksForm">
+                                                        <div class="form-outline flex-fill mb-3 col-md-4">
+                                                            <label>{{'GENERAL.DESCRIPTION' | translate}}</label>
+                                                            <input type="text" id="form2" formControlName="Name"
                                                                 class="form-control" />
                                                         </div>
-                                                        <button type="button" (click)="addOwnedTask()"
-                                                            class="btn btn-info ms-2"
-                                                            [disabled]="!textTask">Add</button>
+                                                        <div class="mb-3 col-md-4">
+                                                            <label>{{'GENERAL.STARTDATE' | translate}}</label>
+                                                            <div class="input-group clockpicker">
+                                                                <input ngbDatepicker class="form-control"
+                                                                    formControlName="StartDate" autoClose="false"
+                                                                    placeholder="yyyy-mm-dd" #startDate="ngbDatepicker"
+                                                                    (click)="startDate.toggle()">
+                                                                <div class="input-group-append"
+                                                                    (click)="startDate.toggle()">
+                                                                    <span class="input-group-text"><i
+                                                                            class="mdi mdi-calendar"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 col-md-4">
+                                                            <label>{{'GENERAL.ENDDATE' | translate}}</label>
+                                                            <div class="input-group clockpicker">
+                                                                <input ngbDatepicker class="form-control"
+                                                                    formControlName="EndDate" autoClose="false"
+                                                                    placeholder="yyyy-mm-dd" #endDate="ngbDatepicker"
+                                                                    (click)="endDate.toggle()">
+                                                                <div class="input-group-append"
+                                                                    (click)="endDate.toggle()">
+                                                                    <span class="input-group-text"><i
+                                                                            class="mdi mdi-calendar"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 mb-4">
+                                                            <div class="row" formArrayName="Files">
+                                                                <div class="col-md-6"
+                                                                    *ngFor="let OwnedTask of OwnedTasksArray.controls; let i = index">
+                                                                    <ng-container [formGroupName]="i">
+                                                                        <div>
+                                                                            <div class="row">
+                                                                                <div class="col-8">
+                                                                                    <!-- <div class="row p-0 m-0"> -->
+                                                                                    <label for="formFile"
+                                                                                        class="form-label text-capitalize">
+                                                                                        {{'GENERAL.FILES' |
+                                                                                        translate}}</label>
+                                                                                    <input class="form-control"
+                                                                                        type="file" accept="image/*"
+                                                                                        (change)="uploadeFilesOwnedTasks($event , i)"
+                                                                                        [ngClass]="{'is-valid': OwnedTask.get('File').dirty && !OwnedTask.get('File').errors ,'is-invalid': OwnedTask.get('File').dirty && OwnedTask.get('File').errors}">
+                                                                                    <div class="card-image p-0 px-2 m-2"
+                                                                                        *ngIf="OwnedTask.get('path').value != null">
+                                                                                        <div class="row">
+                                                                                            <img class="p-0 w-100"
+                                                                                                title="images"
+                                                                                                accept="image/*"
+                                                                                                alt="images"
+                                                                                                [src]="OwnedTask.value.path" />
+                                                                                        </div>
+                                                                                        <!-- </div> -->
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-2"
+                                                                                    *ngIf="i == OwnedTasksArray.controls.length - 1">
+                                                                                    <label
+                                                                                        class="hide-lable d-block">.</label>
+                                                                                    <button type="button"
+                                                                                        class="btn btn-success"
+                                                                                        (click)="addFormOwnedTasks()">+</button>
+                                                                                </div>
+                                                                                <div class="col-2"
+                                                                                    *ngIf="OwnedTasksArray.controls.length > 1">
+                                                                                    <label
+                                                                                        class="hide-lable d-block">.</label>
+                                                                                    <button type="button"
+                                                                                        class="btn btn-danger"
+                                                                                        (click)="deleteFormOwnedTasks(i)"><i
+                                                                                            class="bx bxs-trash"></i></button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-info ms-2"
+                                                            [disabled]="OwnedTasksForm.invalid">Add</button>
                                                     </form>
                                                     <ul class="list-group mb-0"
-                                                        style="max-height: 500px;overflow-y: auto;">
+                                                        >
                                                         <!-- <li class="list-group-item d-flex align-items-center border-0 mb-2 rounded"
                                                       style="background-color: #f4f6f7;">
                                                       <input class="form-check-input me-2" type="checkbox" value="" aria-label="..." checked />
                                                       <s>Dapibus ac facilisis in</s>
                                                     </li> -->
-                                                        <ng-container *ngFor="let item of allTasks">
-                                                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 mb-2 rounded"
-                                                                style="background-color: #f4f6f7;">
-                                                                <div>
-                                                                    <input class="form-check-input me-2"
-                                                                        (change)="ChangeActiveOrNotOwnedTask(item.id)"
-                                                                        type="checkbox" [checked]="item.isActive"
-                                                                        value="" aria-label="..." />
-                                                                    <span
-                                                                        [style.text-decoration]="item.isActive ?'line-through' : ''">{{item.name}}</span>
+                                                        <ng-container>
+                                                            <div class="col-lg-12">
+                                                                <ng-container *ngIf="!allTasks">
+                                                                    <div class="d-flex justify-content-center align-items-center"
+                                                                        style="min-height: 300px;">
+                                                                        <div class="spinner-border text-primary m-1"
+                                                                            role="status">
+                                                                            <span class="sr-only">Loading...</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </ng-container>
+                                                                <div *ngIf="allTasks">
+                                                                    <div class="table-responsive">
+                                                                        <table
+                                                                            class="table project-list-table table-nowrap align-middle table-borderless">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th scope="col">#</th>
+                                                                                    <th scope="col">
+                                                                                        {{'GENERAL.DESCRIPTION' |
+                                                                                        translate}}</th>
+                                                                                    <th>
+                                                                                        {{'GENERAL.STARTDATE' |
+                                                                                        translate}}
+                                                                                    </th>
+                                                                                    <th>
+                                                                                        {{'GENERAL.ENDDATE' |
+                                                                                        translate}}
+                                                                                    </th>
+                                                                                    <th scope="col">
+                                                                                        {{'GENERAL.DELETE'
+                                                                                        | translate}}</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr *ngFor="let item of allTasks">
+                                                                                    <td>
+                                                                                        <input
+                                                                                            class="form-check-input me-2"
+                                                                                            (change)="ChangeActiveOrNotOwnedTask(item.id)"
+                                                                                            type="checkbox"
+                                                                                            [checked]="item.isActive"
+                                                                                            value="" aria-label="..." />
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <h5
+                                                                                            class="text-truncate font-size-14">
+                                                                                            <a href="javascript: void(0);"
+                                                                                                class="text-dark" [style.text-decoration]="item.isActive ?'line-through' : ''">{{item.name}}</a>
+                                                                                        </h5>
+                                                                                    </td>
+                                                                                    <td>{{item.startDate | date:'MM / dd / yyyy'}}</td>
+                                                                                    <td>{{item.endDate | date:'MM / dd / yyyy'}}</td>
+                                                                                    <td>
+                                                                                        <button type="button"
+                                                                                            class="btn btn-danger p-1"
+                                                                                            (click)="RemoveTask(item.id)"><i
+                                                                                                class="bx bxs-trash"></i></button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <div class="w-100 mx-auto">
+                                                                    <ngb-pagination [collectionSize]="totalRecords" [pageSize]="10" (pageChange)="pagination($event)" [(page)]="pageNumber" [maxSize]="5" [rotate]="true" [ellipses]="false"
+                                                                    [boundaryLinks]="true"></ngb-pagination>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <button type="button" class="btn btn-danger p-1"
-                                                                    (click)="RemoveTask(item.id)"><i
-                                                                        class="bx bxs-trash"></i></button>
-                                                            </li>
+                                                            </div>
+                                                            <!-- <li class="list-group-item d-flex justify-content-between align-items-center border-0 mb-2 rounded"
+                                                                style="background-color: #f4f6f7;">
+                      
+
+                                                            </li> -->
                                                         </ng-container>
                                                     </ul>
 
@@ -219,6 +359,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                </ng-template>
+                            </li>
+                            <li [ngbNavItem]="3">
+                                <a ngbNavLink>
+                                    {{ 'GENERAL.DAILY_TASKS'| translate}}
+                                </a>
+                                <ng-template ngbNavContent>
+                                    <app-daily-tasks></app-daily-tasks>
                                 </ng-template>
                             </li>
                         </ul>

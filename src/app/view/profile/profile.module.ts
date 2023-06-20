@@ -6,12 +6,14 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UIModule } from 'app/shared/ui/ui.module';
-import { NgbDatepickerModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { DailyTasksComponent } from './components/profile/daily-tasks/daily-tasks.component';
 
 
 @NgModule({
   declarations: [
-    ProfileComponent
+    ProfileComponent,
+    DailyTasksComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { NgbDatepickerModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     UIModule,
     NgbDatepickerModule,
-    NgbNavModule
+    NgbNavModule,
+    NgbPaginationModule
   ]
 })
 export class ProfileModule { }

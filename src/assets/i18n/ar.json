@@ -419,7 +419,10 @@
     "SALESMANAGERNAME":"مدير المبيعات",
     "JOBCATEGORY":"تصنيف فئة العمل",
     "CLIENTJOB":"فئة العمل",
-    "COMMUNICATIONWAYS":"طرق التواصل"
-
+    "COMMUNICATIONWAYS":"طرق التواصل",
+    "DATE":"تاريخ",
+    "PERSONAL_INFORMATION":"معلومات شخصية",
+    "tASKS":"المهام",
+    "DAILY_TASKS":"المهام اليومية"
 }
 }

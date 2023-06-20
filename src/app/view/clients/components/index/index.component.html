@@ -121,6 +121,11 @@
                     </tbody>
                 </table>
             </div>
+            <div class="w-100 mx-auto py-2">
+                <ngb-pagination [collectionSize]="totalRecords" [pageSize]="5" (pageChange)="paginationClients($event)"
+                    [(page)]="pageNumber" [maxSize]="5" [rotate]="true" [ellipses]="false"
+                    [boundaryLinks]="true"></ngb-pagination>
+            </div>
         </div>
     </ng-container>
     <ng-container *ngIf="!loader && clientsData.length == 0">
@@ -201,8 +206,8 @@
                     <div class="mb-3">
                         <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.ACTIVITY' |
                             translate}}</label>
-                        <input type="text" class="form-control" id="validationCustom01" formControlName="activity"
-                            [ngClass]="{'is-valid': form.activity.dirty && !form.activity.errors ,'is-invalid': form.activity.dirty && form.activity.errors}">
+                        <textarea type="text" class="form-control" id="validationCustom01" formControlName="activity"
+                            [ngClass]="{'is-valid': form.activity.dirty && !form.activity.errors ,'is-invalid': form.activity.dirty && form.activity.errors}"></textarea>
                         <div *ngIf="form.activity.dirty && form.activity.errors" class="invalid-feedback">
                             <span *ngIf="form.company.errors.required">This value is required.</span>
                         </div>
@@ -403,12 +408,11 @@
                     </div>
                 </div>
                 <div class="col-6 my-2" style="min-width: 120px;"
-                *ngIf="_AuthenticationService.checkPermission('Permissions.ClientCommunicationWay.Edit')">
-                <ng-select [items]="listOfClientCommunicationWays"
-                    (change)="EditClientCommunicationWay($event.id)"
-                    [(ngModel)]="clientDetails.clientCommunicationWay_Id" bindLabel="name"
-                    bindValue="id"></ng-select>
-            </div>
+                    *ngIf="_AuthenticationService.checkPermission('Permissions.ClientCommunicationWay.Edit')">
+                    <ng-select [items]="listOfClientCommunicationWays" (change)="EditClientCommunicationWay($event.id)"
+                        [(ngModel)]="clientDetails.clientCommunicationWay_Id" bindLabel="name"
+                        bindValue="id"></ng-select>
+                </div>
                 <app-comments-client [Data]="allClientComments" [client_Id]="client_Id"
                     (reloadeClientComments)="GetAllClientsComments()"></app-comments-client>
             </div>

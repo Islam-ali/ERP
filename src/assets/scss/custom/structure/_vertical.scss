@@ -115,12 +115,12 @@
       }
 
       ul.sub-menu {
-        padding: 0;
+        // padding: 0;
 
         li {
 
           a {
-            padding: .4rem 1.5rem .4rem 3.5rem;
+            // padding: .4rem 1.5rem .4rem 3.5rem;
             font-size: 13px;
             color: $sidebar-menu-sub-item-color;
 
@@ -130,11 +130,11 @@
           }
 
           ul.sub-menu {
-            padding: 0;
+            // padding: 0;
 
             li {
               a {
-                padding: .4rem 1.5rem .4rem 4.5rem;
+                // padding: .4rem 1.5rem .4rem 4.5rem;
                 font-size: 13px;
 
 
@@ -175,7 +175,7 @@
   .active {
     color: $sidebar-menu-item-active-color !important;
     font-weight: 800;
-    background-color: #ccc;
+    background-color: #b8d1ff !important;
 
     i {
       color: $sidebar-menu-item-active-color !important;

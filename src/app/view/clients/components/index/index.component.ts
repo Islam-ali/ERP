@@ -47,7 +47,7 @@ export class IndexComponent implements OnInit {
   listOfStates: any[] = [];
   listOfRegion: any[] = [];
   state_Id: number = 0;
-  totalRecords:number = 0;
+  totalRecords: number = 0;
   constructor(
     private _ActivatedRoute: ActivatedRoute,
     private _ClientsService: ClientService,
@@ -61,16 +61,18 @@ export class IndexComponent implements OnInit {
     private _EmployeesService: EmployeesService
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('user_ERP'))
-    this._ActivatedRoute.paramMap.subscribe((param:any)=>{
+    this._ActivatedRoute.paramMap.subscribe((param: any) => {
+      this.loader = true;
       this.companyID = +param.params['companyID'];
-    this.getClients();
+      this.getClients();
     })
     // this.companyID = this._ActivatedRoute.snapshot.params['companyID']
     this.clientsForm = this._formBuilder.group({
       companyName: [null, [Validators.required]],
       // nameInEnglish: [null, [Validators.required]],
-      // company: [null, [Validators.required]],
-      mobile: [null, [Validators.required, Validators.pattern('[0-9]+')]],
+      // company: [null, [Validators.required , Validators.pattern('[0-9]+')]],
+      mobile: [null],
+      addressInDetail: [null],
       activity: [null],
       generalManagerName: [null],
       salesManagerName: [null],
@@ -92,7 +94,7 @@ export class IndexComponent implements OnInit {
     //   this.getListOfClientJobs(val)
     // })
   }
-  paginationClients(event:number){
+  paginationClients(event: number) {
     this.pageNumber = event;
     this.getClients();
   }
@@ -104,7 +106,7 @@ export class IndexComponent implements OnInit {
     value['ClientCommunicationWay_Id'] = '';
     value['PageSize'] = 10;
     value['PageNumber'] = this.pageNumber;
-  
+
     this._ClientsService.getClients(value).subscribe({
       next: (res: Clients) => {
         this.clientsData = res.data.data;
@@ -241,11 +243,11 @@ export class IndexComponent implements OnInit {
       }
     })
   }
-  EditClientCommunicationWay( clientCommunicationWay_Id: number) {
+  EditClientCommunicationWay(clientCommunicationWay_Id: number) {
     let value = {};
-    
+
     value['id'] = this.client_Id,
-    value['clientCommunicationWay_Id'] = clientCommunicationWay_Id
+      value['clientCommunicationWay_Id'] = clientCommunicationWay_Id
     console.log(value);
     this._ClientsService.EditClientCommunicationWay(value).subscribe({
       next: (res: Clients) => {

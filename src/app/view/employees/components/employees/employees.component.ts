@@ -15,6 +15,7 @@ import { EMPTY } from 'rxjs';
 import { ProfileService } from 'app/view/profile/services/profile.service';
 import { Profile } from 'app/view/profile/modal/profile';
 import { AuthenticationService } from 'app/core/services/auth.service';
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
@@ -60,9 +61,8 @@ export class EmployeesComponent implements OnInit {
     private _DepartmentsService: DepartmentsService,
     private _FormateDateService: FormateDateService,
     private _ProfileService: ProfileService,
-    public _AuthenticationService : AuthenticationService
-
-
+    public _AuthenticationService : AuthenticationService,
+    private _location: Location,
   ) {
     this.companyID = this._ActivatedRoute.snapshot.params['companyID'];
     this.departmentID = this._ActivatedRoute.snapshot.params['departmentID']!;
@@ -103,7 +103,9 @@ export class EmployeesComponent implements OnInit {
       Files: this._formBuilder.array([this.initFormEmployee()]),
     });
   }
-
+  goBack() {
+    this._location.back();
+  }
   ngOnInit(): void {
     this.getEmployees();
     this.getListsDropdown();
@@ -140,6 +142,8 @@ export class EmployeesComponent implements OnInit {
     this._EmployeesService.getAllEmployees(this.companyID).subscribe({
       next: (res: Employees) => {
         this.allEmployees = res.data;
+        this.loader = false;
+      },error:(err:Error) => {
         this.loader = false;
       }
     })

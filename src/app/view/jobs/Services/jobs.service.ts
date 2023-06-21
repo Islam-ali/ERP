@@ -9,8 +9,8 @@ export class JobsService {
 
   constructor(private http:HttpClient) { }
 
-  getAllJobs(DepartmentId:number):Observable<any>{
-    return this.http.get(`${env.domain}Jobs/GetAllJobs?Department_Id=${DepartmentId}`)
+  getAllJobs(companyID:number):Observable<any>{
+    return this.http.get(`${env.domain}Jobs/GetAllJobs?Company_Id=${companyID}`)
   }
   EditJob(editForm:any):Observable<any>{
     return this.http.put(`${env.domain}Jobs/EditJob/${editForm['id']}`,editForm)

@@ -8,6 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
 import { FormateDateService } from 'app/shared/services/formate-date.service';
 import { AuthenticationService } from 'app/core/services/auth.service';
+import { DepartmentsService } from 'app/view/departments/services/departments.service';
+import { Employees } from 'app/view/employees/modal/employees';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -15,7 +17,7 @@ import { AuthenticationService } from 'app/core/services/auth.service';
 })
 export class ProjectsComponent implements OnInit {
 
-
+  listOfDepartment:any[]=[];
   ProjectForm: FormGroup;
   image: any;
   submit: boolean = false;
@@ -27,7 +29,8 @@ export class ProjectsComponent implements OnInit {
   loader: boolean = true;
   rangeValue: number = 0;
   loadingShow: boolean = false;
-  departmentID: number = 0;
+  // departmentID: number = 0;
+  companyID: number = 0;
   constructor(
     private _formBuilder: FormBuilder,
     private _ProjectsService: ProjectsService,
@@ -36,10 +39,17 @@ export class ProjectsComponent implements OnInit {
     private _ActivatedRoute: ActivatedRoute,
     private _location: Location,
     private _FormateDateService:FormateDateService,
-    public _AuthenticationService : AuthenticationService
+    private _DepartmentsService:DepartmentsService,
+    public _AuthenticationService : AuthenticationService,
+
 
   ) {
-    this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID']
+    this._ActivatedRoute.paramMap.subscribe((param:any)=>{
+      this.companyID = +param.params['companyID'];
+      this.getProjects();
+      this.getListOfDepartment();
+    })
+    // this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID'];
   }
   goBack() {
     this._location.back();
@@ -50,12 +60,11 @@ export class ProjectsComponent implements OnInit {
       nameInEnglish: [null, [Validators.required]],
       startDate: [null, [Validators.required]],
       endDate: [null, [Validators.required]],
-      department_Id: this.departmentID
+      department_Id: [null]
     });
-    this.getProjects();
   }
   getProjects(): void {
-    this._ProjectsService.getAllProjects(this.departmentID).subscribe({
+    this._ProjectsService.getAllProjects(this.companyID).subscribe({
       next: (res: Projects) => {
         this.allProjects = res.data;
         this.loader = false;
@@ -73,6 +82,13 @@ export class ProjectsComponent implements OnInit {
       };
       reader.readAsDataURL(event.target.files[0]);
     }
+  }
+  getListOfDepartment(): void {
+    this._DepartmentsService.ListOfDepartment(this.companyID).subscribe({
+      next: (res: Employees) => {
+        this.listOfDepartment = res.data;
+      }
+    })
   }
   // 0 : add
   // 1 : Edit
@@ -133,7 +149,7 @@ export class ProjectsComponent implements OnInit {
   }
   EditProjectById(): void {
     this.ProjectForm.patchValue({
-      department_Id: this.departmentID,
+      // department_Id: this.departmentID ? this.departmentID : this.ProjectForm.get('department_Id').value,
       startDate: this._FormateDateService.sendFormateDate(this.ProjectForm.get('startDate').value),
       endDate: this._FormateDateService.sendFormateDate(this.ProjectForm.get('endDate').value),
     })
@@ -154,7 +170,7 @@ export class ProjectsComponent implements OnInit {
   }
   AddProject(): void {
     this.ProjectForm.patchValue({
-      department_Id: this.departmentID,
+      // department_Id: this.departmentID ? this.departmentID : this.ProjectForm.get('department_Id').value,
       startDate: this._FormateDateService.sendFormateDate(this.ProjectForm.get('startDate').value),
       endDate: this._FormateDateService.sendFormateDate(this.ProjectForm.get('endDate').value),
     })

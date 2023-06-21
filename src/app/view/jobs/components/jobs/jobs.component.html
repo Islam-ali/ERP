@@ -26,10 +26,11 @@
         </ng-container>
         <div *ngIf="!loader && allJobs.length > 0">
           <div class="table-responsive">
-            <table class="table Job-list-table table-nowrap align-middle table-borderless">
+            <table class="table project-list-table table-nowrap align-middle table-borderless">
               <thead>
                 <tr>
                   <th scope="col">{{'GENERAL.JOB' | translate}}</th>
+                  <th scope="col">{{'GENERAL.DEPARTMENT' | translate}}</th>
                   <th scope="col">{{'GENERAL.STATUS' | translate}}</th>
                   <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
                   <th scope="col">{{'GENERAL.ACTION' | translate}}</th>
@@ -43,6 +44,7 @@
                       <a href="javascript: void(0);" class="text-dark">{{Job.name}}</a>
                     </h5>
                   </td>
+                  <td>{{Job.departmentName}}</td>
                   <td>
                     <span class="badge min-w-55" [class]="Job.isActive == true ? 'bg-success':'bg-warning'">
                         <span *ngIf="Job.isActive == true">{{'GENERAL.ACTIVE' | translate}}</span>
@@ -164,6 +166,18 @@
     <div class="modal-body" *ngIf="!loadingShow || lableForm == 0">
       <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="JobForm">
         <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label class="form-label text-capitalize">{{'GENERAL.DEPARTMENTS' |
+                translate}}</label>
+              <ng-select
+                [ngClass]="{'is-valid': form.department_Id.dirty && !form.department_Id.errors ,'is-invalid': form.department_Id.dirty && form.department_Id.errors}"
+                [items]="listOfDepartment" formControlName="department_Id" bindLabel="name" bindValue="id"></ng-select>
+              <div *ngIf="form.department_Id.dirty && form.department_Id.errors" class="invalid-feedback">
+                <span *ngIf="form.department_Id.errors.required">This value is required.</span>
+              </div>
+            </div>
+          </div>
           <div class="col-12">
             <div class="mb-3">
               <label for="validationCustom01">{{'GENERAL.ENGLISH_NAME' | translate}}</label>

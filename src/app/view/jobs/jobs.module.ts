@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UIModule } from 'app/shared/ui/ui.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { UIModule } from 'app/shared/ui/ui.module';
     FormsModule,
     UIModule,
     TranslateModule,
+    NgSelectModule
   ]
 })
 export class JobsModule { }

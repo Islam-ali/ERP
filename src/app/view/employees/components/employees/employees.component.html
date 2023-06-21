@@ -7,7 +7,8 @@
                         <h3 class="m-0">{{'MENUITEMS.EMPLOYEES.TEXT' | translate}}</h3>
                     </div>
                     <div class="col-6 d-flex justify-content-end ">
-                        <button *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Create')" class="btn btn-primary w-md" (click)="openModal(addEmployee , 0)">
+                        <button *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Create')"
+                            class="btn btn-primary w-md" (click)="openModal(addEmployee , 0)">
                             {{'GENERAL.ADD' | translate}} {{'GENERAL.EMPLOYEE' | translate}}
                             <i class="bx bx-plus-medical"></i></button>
                     </div>
@@ -16,8 +17,15 @@
         </div>
     </div>
     <div class="row">
-        <ng-container *ngFor="let list of allEmployees">
-            <div class="col-xl-4 col-sm-6">
+        <ng-container *ngIf="loader">
+            <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                <div class="spinner-border text-primary m-1" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!loader && allEmployees.length > 0">
+            <div class="col-xl-4 col-sm-6" *ngFor="let list of allEmployees">
                 <div class="card">
                     <div class="card-body">
                         <div class="float-end dropdown ms-2" ngbDropdown>
@@ -26,9 +34,11 @@
                                 <i class="mdi mdi-dots-horizontal font-size-18"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                                <a *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Edit')" class="dropdown-item" href="javascript: void(0);"
+                                <a *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Edit')"
+                                    class="dropdown-item" href="javascript: void(0);"
                                     (click)="patchValueForm( addEmployee , list )">Edit</a>
-                                <a *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Delete')" class="dropdown-item" href="javascript: void(0);"
+                                <a *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Delete')"
+                                    class="dropdown-item" href="javascript: void(0);"
                                     (click)="delete(list.id)">Delete</a>
                             </div>
                         </div>
@@ -71,6 +81,23 @@
                                     </ul>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!loader && allEmployees.length == 0">
+            <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                <div class="alert alert-warning fade text-center show px-3 mb-0" role="alert">
+                    <div class="mb-3">
+                        <i class="bx bx-error-alt h1  text-warning"></i>
+                    </div>
+                    <div class="text-center">
+                        <h5 class="text-warning ">Not Found Result</h5>
+                        <div class="text-center">
+                            <button type="button" (click)="goBack()"
+                                class="btn btn-link text-decoration-none text-warning"> <i
+                                    class="mdi mdi-arrow-left"></i>Back</button>
                         </div>
                     </div>
                 </div>
@@ -138,7 +165,7 @@
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6" *ngIf="lableForm == 0">
-                    <div class="mb-3" >
+                    <div class="mb-3">
                         <label class="form-label text-capitalize">{{'GENERAL.EMAIL' | translate}}</label>
                         <div>
                             <input type="email" class="form-control" formControlName="Email"
@@ -404,45 +431,45 @@
                                     <div class="row">
                                         <div class="col-5">
                                             <!-- <div class="row p-0 m-0"> -->
-                                                <label for="formFile"
-                                                    class="form-label text-capitalize">
-                                                    {{'GENERAL.FILES' |
-                                                    translate}}</label>
-                                                <input class="form-control" type="file" accept="image/*"
-                                                    (change)="uploadeFiles($event , i)"
-                                                    [ngClass]="{'is-valid': EmployeeArr.get('File').dirty && !EmployeeArr.get('File').errors ,'is-invalid': EmployeeArr.get('File').dirty && EmployeeArr.get('File').errors}">
-                                                <div class="card-image p-0 px-2 m-2" *ngIf="EmployeeArr.get('path').value != null">
-                                                    <div class="row">
-                                                        <img class="p-0 w-100" title="images" accept="image/*"
-                                                            alt="images" [src]="EmployeeArr.value.path" *ngIf="lableForm == 0" />
-                                                        <img class="p-0 w-100" title="images" accept="image/*"
-                                                            alt="images" [src]="EmployeeArr.value.path"
-                                                            *ngIf="lableForm == 1" />
-                                                    </div>
+                                            <label for="formFile" class="form-label text-capitalize">
+                                                {{'GENERAL.FILES' |
+                                                translate}}</label>
+                                            <input class="form-control" type="file" accept="image/*"
+                                                (change)="uploadeFiles($event , i)"
+                                                [ngClass]="{'is-valid': EmployeeArr.get('File').dirty && !EmployeeArr.get('File').errors ,'is-invalid': EmployeeArr.get('File').dirty && EmployeeArr.get('File').errors}">
+                                            <div class="card-image p-0 px-2 m-2"
+                                                *ngIf="EmployeeArr.get('path').value != null">
+                                                <div class="row">
+                                                    <img class="p-0 w-100" title="images" accept="image/*" alt="images"
+                                                        [src]="EmployeeArr.value.path" *ngIf="lableForm == 0" />
+                                                    <img class="p-0 w-100" title="images" accept="image/*" alt="images"
+                                                        [src]="EmployeeArr.value.path" *ngIf="lableForm == 1" />
+                                                </div>
                                                 <!-- </div> -->
                                             </div>
                                         </div>
                                         <div class="col-5">
                                             <!-- <div class="row p-0 m-0"> -->
-                                                <label>{{'GENERAL.DESCRIPTION' | translate}}</label>
-                                                <input type="text" class="form-control" formControlName="Description"
-                                                    [ngClass]="{'is-valid': EmployeeArr.get('Description').dirty && !EmployeeArr.get('Description').errors ,'is-invalid': EmployeeArr.get('Description').dirty && EmployeeArr.get('Description').errors}">
-                                                <div *ngIf="EmployeeArr.get('Description').dirty && EmployeeArr.get('Description').errors"
-                                                    class="invalid-feedback">
-                                                    <span
-                                                        *ngIf="EmployeeArr.get('Description').errors.required">This
-                                                        value is
-                                                        required.</span>
-                                                </div>
+                                            <label>{{'GENERAL.DESCRIPTION' | translate}}</label>
+                                            <input type="text" class="form-control" formControlName="Description"
+                                                [ngClass]="{'is-valid': EmployeeArr.get('Description').dirty && !EmployeeArr.get('Description').errors ,'is-invalid': EmployeeArr.get('Description').dirty && EmployeeArr.get('Description').errors}">
+                                            <div *ngIf="EmployeeArr.get('Description').dirty && EmployeeArr.get('Description').errors"
+                                                class="invalid-feedback">
+                                                <span *ngIf="EmployeeArr.get('Description').errors.required">This
+                                                    value is
+                                                    required.</span>
                                             </div>
+                                        </div>
                                         <!-- </div> -->
                                         <div class="col-1" *ngIf="i == Employee.controls.length - 1">
                                             <label class="hide-lable d-block">.</label>
-                                            <button type="button" class="btn btn-success" (click)="addFormEmployee()">+</button>
+                                            <button type="button" class="btn btn-success"
+                                                (click)="addFormEmployee()">+</button>
                                         </div>
                                         <div class="col-1" *ngIf="Employee.controls.length > 1">
                                             <label class="hide-lable d-block">.</label>
-                                            <button type="button" class="btn btn-danger" (click)="deleteFormEmployee(i)"><i class="bx bxs-trash"></i></button>
+                                            <button type="button" class="btn btn-danger"
+                                                (click)="deleteFormEmployee(i)"><i class="bx bxs-trash"></i></button>
                                         </div>
                                     </div>
                                 </ng-container>

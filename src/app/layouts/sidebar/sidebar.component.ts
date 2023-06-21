@@ -87,7 +87,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   checkRouting(route: string): boolean {
-    let check = route !== undefined ? this.router.url.includes(route) : false;
+    let check = route !== undefined ? this.router.url == route : false;
     return check;
   }
   GetCompanyOrThroughToken() {
@@ -296,18 +296,26 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         subItems: []
       }
       let items: any[] = [
+
         {
-          id: ele.id + index,
+          id: ele.id,
           label: 'MENUITEMS.DEPARTMENTS.TEXT',
           link: `/companies/${ele.id}/departments`,
           parentId: ele.id + index,
           permission: 'Permissions.Departments.All',
         },
         {
-          id: ele.id + index + 44,
+          id: ele.id,
+          label: 'MENUITEMS.JOBS.TEXT',
+          link: `/companies/${ele.id}/departments/0/jobs`,
+          parentId: ele.id + index,
+          permission: 'Permissions.Jobs.All',
+        },
+        {
+          id: ele.id,
           label: 'MENUITEMS.PROJECTS.TEXT',
-          // link: `/companies/${ele.id}/departments/`,
-          parentId: ele.id + index + 33,
+          link: `/companies/${ele.id}/departments/0/projects`,
+          parentId: ele.id,
           permission: 'Permissions.Projects.All',
           // badge: {
           //   variant: 'success',
@@ -316,7 +324,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
           subItems: []
         },
         {
-          id: 13,
+          id: ele.id,
           label: 'MENUITEMS.EMPLOYEES.TEXT',
           link: `/companies/${ele.id}/employees`,
           parentId: ele.id + index,
@@ -327,7 +335,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
           // },
         },
         {
-          id: 14,
+          id: ele.id,
           label: 'MENUITEMS.CLIENTS.TEXT',
           link: `/companies/${ele.id}/clients`,
           parentId: ele.id + index,
@@ -335,15 +343,15 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         }
       ]
       let ProjectItem: any[] = [];
-      ele.companyProjects.forEach((subele, subIndex) => {
-        ProjectItem.push({
-          label: subele.name,
-          id: subele.id,
-          parentId: subIndex + 333,
-          link: `/companies/${ele.id}/departments/${subele.departmentId}/projects/${subele.id}/tasks`,
-          permission: 'Permissions.Departments.All',
-        })
-      })
+      // ele.companyProjects.forEach((subele, subIndex) => {
+      //   ProjectItem.push({
+      //     label: subele.name,
+      //     id: subele.id,
+      //     parentId: subIndex + 333,
+      //     link: `/companies/${ele.id}/departments/${subele.departmentId}/projects/${subele.id}/tasks`,
+      //     permission: 'Permissions.Departments.All',
+      //   })
+      // })
 
       menu[4].subItems.push(companyItem);
       menu[4].subItems[index + 1].subItems = items;

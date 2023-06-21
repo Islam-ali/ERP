@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment as env } from '@env/environment';
 import { EMPTY, Observable } from 'rxjs';
 @Injectable({
@@ -7,8 +7,13 @@ import { EMPTY, Observable } from 'rxjs';
 })
 export class OwnedTasksService {
   constructor(private http: HttpClient) { }
-  GetAllOwnedTasks(pageNumber:number): Observable<any> {
-    return this.http.get<any>(`${env.domain}OwnedTasks/GetAllOwnedTasks?PageSize=10&PageNumber=${pageNumber}`)
+  GetAllOwnedTasks(filter:any): Observable<any> {
+    let params = new HttpParams();
+    for(let item in filter)
+    if (filter[item]) {
+        params = params.set(item, filter[item])
+    }
+    return this.http.get<any>(`${env.domain}OwnedTasks/GetAllOwnedTasks`,{params})
   }
   addOwnedTask(form:any = {}){
     const formDate = new FormData();

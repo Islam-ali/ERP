@@ -26,7 +26,7 @@
                 <li *ngFor="let subitem of item.subItems">
                   <ng-container
                     *ngIf="!subitem.permission || _AuthenticationService.checkPermission(subitem.permission)">
-                    <a [routerLink]="subitem.link" routerLinkActive="active" *ngIf="!hasItems(subitem)"
+                    <a [routerLink]="subitem.link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" *ngIf="!hasItems(subitem)"
                       class="side-nav-link-ref" [attr.data-parent]="subitem.parentId"
                       >
                       {{ subitem.label | translate}}
@@ -44,7 +44,7 @@
                         <ng-container
                           *ngIf="!subSubitem.permission || _AuthenticationService.checkPermission(subSubitem.permission)">
                           <a *ngIf="!hasItems(subSubitem)" [attr.data-parent]="subSubitem.parentId"
-                            [routerLink]="subSubitem.link" [class.active]="checkRouting(subSubitem.link)"
+                            [routerLink]="subSubitem.link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" [class.active]="checkRouting(subSubitem.link)"
                             class="side-nav-link-ref">
                             {{ subSubitem.label | translate }}
                             <span class="badge rounded-pill float-end bg-{{subSubitem.badge.variant}}"

@@ -32,7 +32,7 @@
                             <th scope="col">{{'GENERAL.NAME' | translate}}</th>
                             <th scope="col">{{'GENERAL.EMAIL' | translate}}</th>
                             <th scope="col">{{'GENERAL.MOBILE_NUMBER' | translate}}</th>
-                            <th scope="col">{{'GENERAL.ACTIVE' | translate}}</th>
+                            <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">{{'GENERAL.ACTIVE' | translate}}</th>
                             <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
                             <th scope="col">{{'GENERAL.COMMUNICATIONWAYS' | translate}}</th>
                             <th scope="col" class="text-center">{{'GENERAL.ACTION' | translate}}</th>
@@ -47,14 +47,14 @@
                                 </h5>
                             </td>
                             <td>{{data.email}}</td>
-                            <td>{{data.mobile}}</td>
+                            <td class="text-truncate" style="max-width: 200px;">{{data.mobile}}</td>
                             <td>
                                 <span class="badge" [class]="data.isActive == true ? 'bg-success':'bg-warning'">
                                     <span *ngIf="data.isActive == true">{{'GENERAL.ACTIVE' | translate}}</span>
                                     <span *ngIf="data.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
                                 </span>
                             </td>
-                            <td class="text-center">
+                            <td class="text-center" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">
                                 <ui-switch defaultBoColor="#dfdfdf" (change)="ChangeActiveOrNotDepartment(data.id)"
                                     [checked]="data.isActive == true" size="small"
                                     class="d-flex justify-content-center"></ui-switch>
@@ -122,7 +122,7 @@
                 </table>
             </div>
             <div class="w-100 mx-auto py-2">
-                <ngb-pagination [collectionSize]="totalRecords" [pageSize]="5" (pageChange)="paginationClients($event)"
+                <ngb-pagination [collectionSize]="totalRecords" [pageSize]="10" (pageChange)="paginationClients($event)"
                     [(page)]="pageNumber" [maxSize]="5" [rotate]="true" [ellipses]="false"
                     [boundaryLinks]="true"></ngb-pagination>
             </div>
@@ -218,11 +218,26 @@
                     <div class="mb-3">
                         <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.MOBILE_NUMBER' |
                             translate}}</label>
-                        <input type="text" class="form-control" id="validationCustom01" formControlName="mobile"
-                            [ngClass]="{'is-valid': form.mobile.dirty && !form.mobile.errors ,'is-invalid': form.mobile.dirty && form.mobile.errors}">
+                        <textarea type="text" class="form-control" id="validationCustom01" formControlName="mobile"
+                            [ngClass]="{'is-valid': form.mobile.dirty && !form.mobile.errors ,'is-invalid': form.mobile.dirty && form.mobile.errors}"></textarea>
                         <div *ngIf="form.mobile.dirty && form.mobile.errors" class="invalid-feedback">
                             <span *ngIf="form.mobile.errors.required">This value is required.</span>
-                            <span *ngIf="form.mobile.errors.pattern">This value must be number</span>
+                            <!-- <span *ngIf="form.mobile.errors.pattern">This value must be number</span> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01"
+                            class="form-label text-capitalize">{{'GENERAL.ADDRESS' |
+                            translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01"
+                            formControlName="addressInDetail"
+                            [ngClass]="{'is-valid': form.addressInDetail.dirty && !form.addressInDetail.errors ,'is-invalid': form.addressInDetail.dirty && form.addressInDetail.errors}">
+                        <div *ngIf="form.addressInDetail.dirty && form.addressInDetail.errors"
+                            class="invalid-feedback">
+                            <span *ngIf="form.addressInDetail.errors.required">This value is required.</span>
                         </div>
                     </div>
                 </div>

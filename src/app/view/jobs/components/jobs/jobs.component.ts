@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import {Location} from '@angular/common';
 import { JobsService } from '../../Services/jobs.service';
 import { AuthenticationService } from 'app/core/services/auth.service';
+import { DepartmentsService } from 'app/view/departments/services/departments.service';
+import { Employees } from 'app/view/employees/modal/employees';
 @Component({
   selector: 'app-jobs',
   templateUrl: './jobs.component.html',
@@ -17,6 +19,7 @@ export class JobsComponent implements OnInit {
   JobForm: FormGroup;
   image: any;
   submit: boolean = false;
+  listOfDepartment:any[]=[];
   allJobs: DataJobs[] = [];
   lableForm: number = 0;
   jobID: number = 0;
@@ -25,7 +28,8 @@ export class JobsComponent implements OnInit {
   loader: boolean = true;
   rangeValue: number = 0;
   loadingShow: boolean = false;
-  departmentID: number = 0;
+  // departmentID: number = 0;
+  companyID: number = 0;
   constructor(
     private _formBuilder: FormBuilder,
     private _JobsService: JobsService,
@@ -33,10 +37,16 @@ export class JobsComponent implements OnInit {
     private toastrService: ToastrService,
     private _ActivatedRoute: ActivatedRoute,
     private _location: Location,
-    public _AuthenticationService : AuthenticationService
+    public _AuthenticationService : AuthenticationService,
+    private _DepartmentsService: DepartmentsService
 
   ) {
-    this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID']
+    // this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID'];
+    this._ActivatedRoute.paramMap.subscribe((param:any)=>{
+      this.companyID = +param.params['companyID'];
+      this.getJobs();
+      this.getListOfDepartment();
+    })
   }
   goBack() {
     this._location.back();
@@ -45,15 +55,22 @@ export class JobsComponent implements OnInit {
     this.JobForm = this._formBuilder.group({
       name: [null, [Validators.required]],
       nameInEnglish: [null, [Validators.required]],
-      department_Id: this.departmentID
+      department_Id: [null,[Validators.required]]
     });
     this.getJobs();
   }
   getJobs(): void {
-    this._JobsService.getAllJobs(this.departmentID).subscribe({
+    this._JobsService.getAllJobs(this.companyID).subscribe({
       next: (res: Jobs) => {
         this.allJobs = res.data;
         this.loader = false;
+      }
+    })
+  }
+  getListOfDepartment(): void {
+    this._DepartmentsService.ListOfDepartment(this.companyID).subscribe({
+      next: (res: Employees) => {
+        this.listOfDepartment = res.data;
       }
     })
   }
@@ -113,9 +130,9 @@ export class JobsComponent implements OnInit {
     })
   }
   AddJob(): void {
-    this.JobForm.patchValue({
-      department_Id: this.departmentID
-    })
+    // this.JobForm.patchValue({
+    //   department_Id: this.departmentID
+    // })
     let value = this.JobForm.value
     this._JobsService.addJob(value).subscribe({
       next: (res: Jobs) => {

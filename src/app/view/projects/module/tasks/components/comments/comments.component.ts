@@ -29,6 +29,8 @@ export class CommentsComponent implements OnInit {
   mentions: any[] = [];
   elementCreated: string = '';
   submit: boolean = false;
+  files: any[] = [];
+  uploadedFiles: any[] = [];
   constructor(
     private _FormBuilder: FormBuilder,
     private _TasksService: TasksService,
@@ -75,6 +77,7 @@ export class CommentsComponent implements OnInit {
   onSubmit() {
     let value = this.formComment.value
     value['task_Id'] = this.taskID
+    value['Files'] = this.uploadedFiles
     const formMention: any = {};
     this._TasksService.AddTaskComment(value).subscribe({
       next: (res: any) => {
@@ -85,6 +88,8 @@ export class CommentsComponent implements OnInit {
           this.AddMentionedEmployees(formMention);
         }
         this.mentions = [];
+        this.uploadedFiles = [];
+        this.files = [];
         this.formComment.reset();
         this.submit = true;
         this.reloadeComment.emit(this.taskID)
@@ -123,6 +128,23 @@ export class CommentsComponent implements OnInit {
         this.ListOfEmployee = res.data
       }
     })
+  }
+  onImageSelected(event: any): void {
+    if (event.target.files && event.target.files[0]) {
+      var filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        this.uploadedFiles.push(event.target.files.item(i));
+        reader.onload = (event: any) => {
+          this.files.push(event.target.result);
+        };
+        reader.readAsDataURL(event.target.files[i]);
+      }
+    }
+  }
+  removeImage(index: number) {
+    this.uploadedFiles.splice(index, 1)
+    this.files.splice(index, 1)
   }
   AddMentionedEmployees(form: any = {}) {
     this._TasksService.AddMentionedEmployees(form).subscribe({

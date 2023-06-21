@@ -25,7 +25,7 @@
         </div>
       </ng-container>
       <div *ngIf="!loader">
-        <div class="table-responsive">
+        <div class="table-responsive" *ngIf="allDepartments.length > 0">
           <table class="table project-list-table table-nowrap align-middle table-borderless">
             <thead>
               <tr>
@@ -35,8 +35,8 @@
                 <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Edit') ||
                 _AuthenticationService.checkPermission('Permissions.Companies.Delete')"
                 >{{'GENERAL.ACTION' | translate}}</th>
-                <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.All')">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.PROJECTS.TEXT' | translate}}</th>
-                <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Jobs.All')">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.JOBS.TEXT' | translate}}</th>
+                <!-- <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.All')">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.PROJECTS.TEXT' | translate}}</th> -->
+                <!-- <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Jobs.All')">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.JOBS.TEXT' | translate}}</th> -->
                 <!-- <th scope="col">{{'GENERAL.VIEW' | translate}} {{'MENUITEMS.EMPLOYEES.TEXT' | translate}}</th> -->
               </tr>
             </thead>
@@ -71,14 +71,14 @@
                     </li>
                   </ul>
                 </td>
-                <td *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.All')">
+                <!-- <td *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.All')">
                   <button type="button" class="btn btn-primary btn-sm px-4 btn-rounded"
                     [routerLink]="[department.id , 'projects']">{{'GENERAL.VIEW' | translate}}</button>
                 </td>
                 <td *ngIf="_AuthenticationService.checkPermission('Permissions.Jobs.All')">
                   <button type="button" class="btn btn-primary btn-sm px-4 btn-rounded"
                     [routerLink]="[department.id , 'jobs']">{{'GENERAL.VIEW' | translate}}</button>
-                </td>
+                </td> -->
                 <!-- <td>
                   <button type="button" class="btn btn-primary btn-sm px-4 btn-rounded"
                     [routerLink]="[department.id , 'employees']">{{'GENERAL.VIEW' | translate}}</button>
@@ -87,6 +87,23 @@
             </tbody>
           </table>
         </div>
+        <ng-container *ngIf="allDepartments.length == 0">
+          <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+              <div class="alert alert-warning fade text-center show px-3 mb-0" role="alert">
+                  <div class="mb-3">
+                      <i class="bx bx-error-alt h1  text-warning"></i>
+                  </div>
+                  <div class="text-center">
+                      <h5 class="text-warning ">Not Found Result</h5>
+                      <div class="text-center">
+                          <button type="button" (click)="goBack()"
+                              class="btn btn-link text-decoration-none text-warning"> <i
+                                  class="mdi mdi-arrow-left"></i>Back</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </ng-container>
       </div>
       <!-- <div *ngFor="let Factory of allFactories;trackBy:getUpdateFactory" class="col-xl-4 col-sm-6">
           <div class="card">

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { AllClientsComments, Clients, ListOfClientJobs } from '../modal/clients';
 
 @Injectable({
@@ -23,7 +23,28 @@ export class ClientService {
     return this.http.get<AllClientsComments>(`${env.domain}ClientComments/GetAllClientsComments/${ClientId}`);
   }
   AddClientComment(body:any): Observable<any> {
-    return this.http.post<any>(`${env.domain}ClientComments/AddClientComment`, body);
+    const formDate = new FormData();
+    for (const key in body) {
+      if (Array.isArray(body[key]) && body[key].length > 0) {
+        if (Object?.keys(body[key][0])?.length > 1) {
+          body[key].forEach((ele: any, index: number) => {
+            for (const subkey in ele)
+              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+          })
+        }
+        else {
+          body[key].forEach((ele: any) => {
+            formDate.append(key, ele)
+          })
+        }
+      } else {
+        typeof body[key] === 'number' ? formDate.append(key, body[key]) : EMPTY;
+        typeof body[key] === 'boolean' ? formDate.append(key, body[key]) : EMPTY;
+        typeof body[key] === 'string' ? formDate.append(key, body[key]) : EMPTY;
+        body[key]?.lastModified ? formDate.append(key, body[key]) : EMPTY;
+      }
+    }
+    return this.http.post<any>(`${env.domain}ClientComments/AddClientComment`, formDate);
   }
   getclientById(clientId:number):Observable<any>{
     return this.http.get(`${env.domain}Clients/GetClientById/${clientId}`)

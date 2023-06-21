@@ -8,12 +8,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UIModule } from 'app/shared/ui/ui.module';
 import { NgbDatepickerModule, NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { DailyTasksComponent } from './components/profile/daily-tasks/daily-tasks.component';
+import { OwnedTasksComponent } from './components/profile/owned-tasks/owned-tasks.component';
 
 
 @NgModule({
   declarations: [
     ProfileComponent,
-    DailyTasksComponent
+    DailyTasksComponent,
+    OwnedTasksComponent
   ],
   imports: [
     CommonModule,

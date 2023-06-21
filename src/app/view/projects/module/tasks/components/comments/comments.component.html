@@ -22,15 +22,21 @@
 					<i class="fa fa-clock-o"></i>
 					{{comment.dateTime}}
 				</span>
-				<p class="be-comment-text">
+				<div class="be-comment-text">
 					<small>{{comment.text}}</small>
-				</p>
+					<div class="row ">
+						<div class="card-image p-0 px-2 m-2" style="min-width: 50px !important;"
+							*ngFor="let file of comment.files;let i = index">
+							<img class="p-0 w-100" title="images" alt="images" [src]="url+file" />
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</ng-container>
 	<form class="form-block" [formGroup]="formComment" (submit)="onSubmit()">
 		<div class="row">
-			<div class="col-2"></div>
+			<!-- <div class="col-2"></div> -->
 			<div class="col-10 my-2">
 				<div class="form-group my-2">
 					<textarea class="form-control" #textareaRef formControlName="Text" required
@@ -60,6 +66,22 @@
 						</li>
 					</ul>
 				</ng-template>
+				<div class="col-12">
+					<div class="mb-3">
+						<label for="formFile">{{'GENERAL.FILES' | translate}}</label>
+						<input class="form-control" type="file" multiple accept="image/*" id="formFile"
+							(change)="onImageSelected($event)">
+						<ng-container *ngIf="files.length > 0">
+							<div class="row">
+								<div class="card-image p-0 px-2 m-2" *ngFor="let file of files;let i = index">
+									<button type="button" class="w-100 btn btn-danger border-round-0 p-0"
+										(click)="removeImage(i)">remove</button>
+									<img class="p-0 w-100" title="images" alt="images" [src]="file" />
+								</div>
+							</div>
+						</ng-container>
+					</div>
+				</div>
 				<button type="submit" [disabled]="formComment.invalid"
 					class="btn btn-primary pull-right">submit</button>
 			</div>

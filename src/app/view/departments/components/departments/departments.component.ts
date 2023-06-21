@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { AuthenticationService } from 'app/core/services/auth.service';
-
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-departments',
   templateUrl: './departments.component.html',
@@ -26,16 +26,21 @@ export class DepartmentsComponent implements OnInit {
   loader: boolean = true;
   rangeValue: number = 0;
   loadingShow: boolean = false;
-  companyID:number = 0 ;
+  companyID: number = 0;
   constructor(
     private _formBuilder: FormBuilder,
     private _DepartmentsService: DepartmentsService,
     private modalService: NgbModal,
     private toastrService: ToastrService,
     private _ActivatedRoute: ActivatedRoute,
-    public _AuthenticationService : AuthenticationService
-
+    public _AuthenticationService: AuthenticationService,
+    private _location: Location,
   ) {
+    this._ActivatedRoute.paramMap.subscribe((param: any) => {
+      this.companyID = +param.params['companyID'];
+      this.getDepartments();
+
+    })
     this.companyID = this._ActivatedRoute.snapshot.params['companyID']
     this.DepartmentForm = this._formBuilder.group({
       name: [null, [Validators.required]],
@@ -43,10 +48,11 @@ export class DepartmentsComponent implements OnInit {
       company_Id: this.companyID
     });
   }
-
+  goBack() {
+    this._location.back();
+  }
   ngOnInit(): void {
 
-    this.getDepartments();
   }
   getDepartments(): void {
     this._DepartmentsService.getAllDepartments(this.companyID).subscribe({

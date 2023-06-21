@@ -194,7 +194,9 @@
                     <!-- <p class="text-muted mb-4">{{task.endDate}}</p> -->
                 </div>
             </div>
-            <div ngbDropdown>
+            <div *ngIf="
+            _AuthenticationService.checkPermission('Permissions.Tasks.Edit') ||
+_AuthenticationService.checkPermission('Permissions.Tasks.Delete')" ngbDropdown>
                 <div class="dropdown">
                     <button class="btn dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false" ngbDropdownToggle>
@@ -501,33 +503,8 @@
                             </ng-container>
                         </div>
                     </div>
-                    <div class="col-md-4 border-start">
+                    <div class="col-md-4 border-end">
                         <div class="row">
-                            <div class="col-md-12">
-                                <ul class="list-inline">
-                                    <p class="btn-outlined btn-black text-muted d-flex align-items-center">
-                                        <i class="bx bx-user text-primary"></i>
-                                        <b class="mx-2">Assigned Employees</b>
-                                    </p>
-                                    <li class="list-inline-item w-100 d-flex">
-                                        <ng-container *ngFor="let img of taskData.assignedEmployeeData">
-                                            <div class="avatar-group-item avatar-sm m-1" placement="top" ngbTooltip="{{img.name}}" *ngIf="!img.imagePath">
-                                                <span
-                                                    class="avatar-title rounded-circle bg-soft bg-primary text-primary">
-                                                    {{img.name.charAt(0)}}
-                                                </span>
-                                            </div>
-                                            <div class="avatar-group-item avatar-sm m-1" placement="top" ngbTooltip="{{img.name}}" *ngIf="img.imagePath">
-                                                <img [src]="domain + img.imagePath" [alt]="img.name"
-                                                    class="m-0 img-fluid avatar-title p-0 rounded-circle bg-soft ">
-                                            </div>
-                                        </ng-container>
-                                    </li>
-                                    <!-- <li class="list-inline-item"> <img src="https://img.icons8.com/ios/50/000000/plus.png" width="30"
-                                            height="30 " class="more">
-                                        </li> -->
-                                </ul>
-                            </div>
                             <div class="col-md-12">
                                 <div class="mb-4 py-4 border-top row">
                                     <div class="col-6">
@@ -544,7 +521,7 @@
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <div class="row p-0 m-0">
+                                        <div class="row p-0 m-0" style="max-height: 300px;overflow-y: auto;">
                                             <div class=" badge badge-soft-danger d-flex align-items-center p-2 my-2">
                                                 <i class="bx bx-calendar me-1"></i>
                                                 <div class="ms-1">
@@ -559,6 +536,33 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <ul class="list-inline">
+                                    <p class="btn-outlined btn-black text-muted d-flex align-items-center">
+                                        <i class="bx bx-user text-primary"></i>
+                                        <b class="mx-2">Assigned Employees</b>
+                                    </p>
+                                    <li class="list-inline-item w-100 d-flex align-items-center">
+                                        <ng-container *ngFor="let img of taskData.assignedEmployeeData">
+                                            <div class="avatar-group-item avatar-xs m-1" placement="top" ngbTooltip="{{img.name}}" *ngIf="!img.imagePath">
+                                                <span
+                                                    class="avatar-title rounded-circle bg-soft bg-primary text-primary">
+                                                    {{img.name.charAt(0)}}
+                                                </span>
+                                            </div>
+                                            <div class="avatar-group-item avatar-xs m-1" placement="top" ngbTooltip="{{img.name}}" *ngIf="img.imagePath">
+                                                <img [src]="domain + img.imagePath" [alt]="img.name"
+                                                    class="m-0 img-fluid avatar-title p-0 rounded-circle bg-soft ">
+                                            </div>
+                                            <p class="my-auto">{{img.name}}</p>
+                                        </ng-container>
+                                    </li>
+                                    <!-- <li class="list-inline-item"> <img src="https://img.icons8.com/ios/50/000000/plus.png" width="30"
+                                            height="30 " class="more">
+                                        </li> -->
+                                </ul>
+                            </div>
+
 
                         </div>
                     </div>

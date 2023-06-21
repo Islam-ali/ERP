@@ -37,7 +37,7 @@ export class EmployeesComponent implements OnInit {
   rangeValue: number = 0;
   loadingShow: boolean = false;
   companyID: number = 0;
-  departmentID: number = 0;
+  // departmentID: number = 0;
   listOfMilitaryStatus: any[] = [];
   listOfMaritalStatus: any[] = [];
   listOfStates: any[] = [];
@@ -64,8 +64,12 @@ export class EmployeesComponent implements OnInit {
     public _AuthenticationService : AuthenticationService,
     private _location: Location,
   ) {
-    this.companyID = this._ActivatedRoute.snapshot.params['companyID'];
-    this.departmentID = this._ActivatedRoute.snapshot.params['departmentID']!;
+    this._ActivatedRoute.paramMap.subscribe((param:any)=>{
+      this.companyID = +param.params['companyID'];
+      this.getEmployees();
+      this.getListsDropdown();
+    })
+    // this.departmentID = this._ActivatedRoute.snapshot.params['departmentID']!;
 
     this.EmployeeForm = this._formBuilder.group({
       Code: [null],
@@ -107,8 +111,7 @@ export class EmployeesComponent implements OnInit {
     this._location.back();
   }
   ngOnInit(): void {
-    this.getEmployees();
-    this.getListsDropdown();
+
     // this.Employee.controls[0].get('File').dirty
   }
   initFormEmployee():FormGroup {

@@ -167,24 +167,24 @@
                   'badge-soft-danger': task.priorityId === 1 }">{{task.priorityName}}</span>
                         </div>
                         <div class="avatar-group" *ngIf="task?.assignedEmployeeData.length > 0">
-                            <div class="avatar-group-item" *ngIf="task?.assignedEmployeeData[0]">
+                            <div class="avatar-group-item" *ngIf="task?.assignedEmployeeData[0]?.imagePath">
                                 <a href="javascript: void(0);" class="d-inline-block">
                                     <img src="{{ domain+task?.assignedEmployeeData[0]?.imagePath}}"
                                         class="rounded-circle avatar-xs" alt="">
                                 </a>
                             </div>
-                            <div class="avatar-group-item avatar-xs" *ngIf="!task?.assignedEmployeeData[0]">
+                            <div class="avatar-group-item avatar-xs" *ngIf="!task?.assignedEmployeeData[0]?.imagePath">
                                 <span class="avatar-title rounded-circle bg-primary text-light">
                                     {{task?.assignedEmployeeData[0]?.name.charAt(0)}}
                                 </span>
                             </div>
-                            <div class="avatar-group-item" *ngIf="task.assignedEmployeeData[1]">
+                            <div class="avatar-group-item" *ngIf="task.assignedEmployeeData[1]?.imagePath">
                                 <a href="javascript: void(0);" class="d-inline-block">
                                     <img src="{{ domain+task.assignedEmployeeData[1]?.imagePath}}"
                                         class="rounded-circle avatar-xs" alt="">
                                 </a>
                             </div>
-                            <div class="avatar-group-item avatar-xs" *ngIf="!task?.assignedEmployeeData[1]">
+                            <div class="avatar-group-item avatar-xs" *ngIf="!task?.assignedEmployeeData[1]?.imagePath">
                                 <span class="avatar-title rounded-circle bg-primary text-light">
                                     {{task?.assignedEmployeeData[1]?.name.charAt(0)}}
                                 </span>
@@ -286,6 +286,14 @@ _AuthenticationService.checkPermission('Permissions.Tasks.Delete')" ngbDropdown>
                                 bindValue="id"></ng-select>
                         </div>
                     </div>
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="mb-3">
+                          <label class="form-label text-capitalize">{{'GENERAL.DEPARTMENTS' |
+                            translate}}</label>
+                          <ng-select
+                            [items]="listOfDepartment" (change)="getListOfEmployees($event.id)" bindLabel="name" bindValue="id"></ng-select>
+                        </div>
+                      </div>
                     <div class="col-xl-6 col-lg-6">
                         <div class="mb-3">
                             <label class="form-label text-capitalize">{{'GENERAL.ASSIGNED' |
@@ -425,8 +433,8 @@ _AuthenticationService.checkPermission('Permissions.Tasks.Delete')" ngbDropdown>
                                 <p class="card-text text-muted small">
                                     <!-- <img src="https://img.icons8.com/color/26/000000/christmas-star.png" class="mr-1 " width="19"
                                     height="19" id="star"> <span class="vl mr-2 ml-0"></span> -->
-                                    <i class="fa fa-users text-muted "></i>
-                                    <span>End Date : {{taskData.endDate | date:'fullDate'}}</span>
+                                    <!-- <i class="fa fa-users text-muted "></i>
+                                    <span>End Date : {{taskData.endDate | date:'fullDate'}}</span> -->
                                     <!-- <span></span>Updated by <span class="font-weight-bold"> Team</span> on {{taskData.endDate | date:'fullDate'}} -->
                                 </p>
                             </h6>
@@ -542,8 +550,8 @@ _AuthenticationService.checkPermission('Permissions.Tasks.Delete')" ngbDropdown>
                                         <i class="bx bx-user text-primary"></i>
                                         <b class="mx-2">Assigned Employees</b>
                                     </p>
-                                    <li class="list-inline-item w-100 d-flex align-items-center">
-                                        <ng-container *ngFor="let img of taskData.assignedEmployeeData">
+                                    <li *ngFor="let img of taskData.assignedEmployeeData" class="list-inline-item w-100 d-flex align-items-center">
+                                        <ng-container>
                                             <div class="avatar-group-item avatar-xs m-1" placement="top" ngbTooltip="{{img.name}}" *ngIf="!img.imagePath">
                                                 <span
                                                     class="avatar-title rounded-circle bg-soft bg-primary text-primary">

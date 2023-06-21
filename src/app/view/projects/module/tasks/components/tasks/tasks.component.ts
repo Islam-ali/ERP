@@ -14,6 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Atachment, Comments, DataComments, DataListOfTaskStages, DataShowTask, DataTasks, ListOfTaskStages, ShowTask, Tasks } from '../../modal/tasks';
 import { EMPTY } from 'rxjs';
 import { AuthenticationService } from 'app/core/services/auth.service';
+import { DepartmentsService } from 'app/view/departments/services/departments.service';
+import { Employees } from 'app/view/employees/modal/employees';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
@@ -53,15 +55,31 @@ export class TasksComponent implements OnInit {
   breadCrumbItems: Array<{}>;
   ListOfEmployees:any[]=[];
   taskID:number = 0;
+  companyID:number = 0;
+  listOfDepartment:any[]=[];
+
   constructor(
     private _ActivatedRoute: ActivatedRoute,
     private _TasksService: TasksService,
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
     private toastrService: ToastrService,
-    public _AuthenticationService : AuthenticationService
+    public _AuthenticationService : AuthenticationService,
+    private _DepartmentsService:DepartmentsService,
 
-  ) { }
+
+  ) { 
+    this._ActivatedRoute.paramMap.subscribe((param:any)=>{
+      this.taskForm = this.initTaskForm();
+      console.log(param);      
+      this.projectID = +param.params['projectID']
+      this.departmentID = +param.params['departmentID'];
+      this.companyID = +param.params['companyID'];
+      this.getListOfDepartment();
+      this.getAllTasks();
+      this.getListOfTaskStages();
+    })
+  }
   initTaskForm(): FormGroup {
     return this._formBuilder.group({
       Title: [null, [Validators.required]],
@@ -108,19 +126,18 @@ export class TasksComponent implements OnInit {
     this.TaskAtachments.removeAt(index);
   }
   ngOnInit() {
-    this._ActivatedRoute.paramMap.subscribe((param:any)=>{
-      this.taskForm = this.initTaskForm();
-      console.log(param);      
-      this.projectID = +param.params['projectID']
-      this.departmentID = +param.params['departmentID']
-      this.getAllTasks();
-      this.getListOfTaskStages();
-    })
+
     // this.projectID = +this._ActivatedRoute.snapshot.params['projectID'];
     // this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID'];
     this.breadCrumbItems = [{ label: 'Tasks' }, { label: 'Tasks', active: true }];
   }
-
+  getListOfDepartment(): void {
+    this._DepartmentsService.ListOfDepartment(this.companyID).subscribe({
+      next: (res: Employees) => {
+        this.listOfDepartment = res.data;
+      }
+    })
+  }
   getAllTasks() {
     this._TasksService.getAllTasks(this.projectID).subscribe({
       next: (res: Tasks) => {
@@ -243,8 +260,8 @@ export class TasksComponent implements OnInit {
       }
     })
   }
-  getListOfEmployees() {
-    this._TasksService.ListOfEmployees(this.departmentID).subscribe({
+  getListOfEmployees(departmentID:number) {
+    this._TasksService.ListOfEmployees(departmentID).subscribe({
       next: (res: any) => {
         this.ListOfEmployees = res.data;
       }
@@ -280,6 +297,7 @@ export class TasksComponent implements OnInit {
     this._TasksService.EditTaskProgressing(value).subscribe({
       next: (res: any) => {
         this.getAllTasks();
+        
       }
     })
   }
@@ -297,7 +315,7 @@ export class TasksComponent implements OnInit {
     this.lableForm = num;
     this.modalService.open(content , {size:'xl'});
     this.getListOfPriorities();
-    this.getListOfEmployees();
+    // this.getListOfEmployees();
   }
   viewModalTask(content: any, num: number , taskID:number): void {
     this.lableForm = num;
@@ -311,7 +329,7 @@ export class TasksComponent implements OnInit {
     this.getTaskById(taskID)
     this.GetAllTaskComments(taskID);
     this.getListOfPriorities();
-    this.getListOfEmployees();
+    // this.getListOfEmployees();
     this.lableForm = num;
     this.modalService.open(content , {size:'xl'});
   }

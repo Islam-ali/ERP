@@ -244,8 +244,8 @@ export class IndexComponent implements OnInit {
     })
   }
   EditClientCommunicationWay(clientCommunicationWay_Id: number) {
+    
     let value = {};
-
     value['id'] = this.client_Id,
       value['clientCommunicationWay_Id'] = clientCommunicationWay_Id
     console.log(value);

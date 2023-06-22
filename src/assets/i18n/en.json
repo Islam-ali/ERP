@@ -423,6 +423,7 @@
     "DATE":"Date",
     "PERSONAL_INFORMATION":"Personal Information",
     "tASKS":"Tasks",
-    "DAILY_TASKS":"Done"
+    "DAILY_TASKS":"Done",
+    "FOLLOWINGTYPE":"Following Type"
   }
 }

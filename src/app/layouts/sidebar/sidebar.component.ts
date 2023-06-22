@@ -307,14 +307,14 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         {
           id: ele.id,
           label: 'MENUITEMS.JOBS.TEXT',
-          link: `/companies/${ele.id}/departments/0/jobs`,
+          link: `/companies/${ele.id}/jobs`,
           parentId: ele.id + index,
           permission: 'Permissions.Jobs.All',
         },
         {
           id: ele.id,
           label: 'MENUITEMS.PROJECTS.TEXT',
-          link: `/companies/${ele.id}/departments/0/projects`,
+          link: `/companies/${ele.id}/projects`,
           parentId: ele.id,
           permission: 'Permissions.Projects.All',
           // badge: {

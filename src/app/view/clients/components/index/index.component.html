@@ -230,18 +230,6 @@
                     </div>
                 </div>
 
-                <div class="col-xl-6 col-lg-6">
-                    <div class="mb-3">
-                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.ADDRESS' |
-                            translate}}</label>
-                        <input type="text" class="form-control" id="validationCustom01"
-                            formControlName="addressInDetail"
-                            [ngClass]="{'is-valid': form.addressInDetail.dirty && !form.addressInDetail.errors ,'is-invalid': form.addressInDetail.dirty && form.addressInDetail.errors}">
-                        <div *ngIf="form.addressInDetail.dirty && form.addressInDetail.errors" class="invalid-feedback">
-                            <span *ngIf="form.addressInDetail.errors.required">This value is required.</span>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="col-xl-6 col-lg-6">
                     <div class="mb-3">
@@ -315,6 +303,49 @@
                         <div *ngIf="form.region_Id.dirty && form.region_Id.errors" class="invalid-feedback">
                             <span *ngIf="form.region_Id.errors.required">This value is required.</span>
                         </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.ADDRESS' |
+                            translate}}</label>
+                        <input type="text" class="form-control" id="validationCustom01"
+                            formControlName="addressInDetail"
+                            [ngClass]="{'is-valid': form.addressInDetail.dirty && !form.addressInDetail.errors ,'is-invalid': form.addressInDetail.dirty && form.addressInDetail.errors}">
+                        <div *ngIf="form.addressInDetail.dirty && form.addressInDetail.errors" class="invalid-feedback">
+                            <span *ngIf="form.addressInDetail.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label text-capitalize">{{'GENERAL.FOLLOWINGTYPE' |
+                            translate}}</label>
+                        <ng-select
+                            [ngClass]="{'is-valid': form.clientType_Id.dirty && !form.clientType_Id.errors ,'is-invalid': form.clientType_Id.dirty && form.clientType_Id.errors}"
+                            [items]="listOfClientTypes" formControlName="clientType_Id" bindLabel="name"
+                            bindValue="id"></ng-select>
+                        <div *ngIf="form.clientType_Id.dirty && form.clientType_Id.errors" class="invalid-feedback">
+                            <span *ngIf="form.clientType_Id.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="formFile">{{'GENERAL.FILES' | translate}}</label>
+                        <input class="form-control" type="file" multiple accept="image/*" id="formFile"
+                            (change)="uploadImg($event)">
+                        <ng-container *ngIf="pathImage">
+                            <div class="row">
+                                <div class="card-image p-0 px-2 m-2">
+                                    <button type="button" class="w-100 btn btn-danger border-round-0"
+                                        (click)="pathImage = null">remove</button>
+                                    <img class="p-0 w-100" title="images" alt="images" [src]="pathImage" />
+                                </div>
+                            </div>
+                        </ng-container>
                     </div>
                 </div>
             </div>

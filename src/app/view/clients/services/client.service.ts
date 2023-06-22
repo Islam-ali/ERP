@@ -10,7 +10,28 @@ import { AllClientsComments, Clients, ListOfClientJobs } from '../modal/clients'
 export class ClientService {
   constructor(private http: HttpClient) { }
   addClient(body:any): Observable<Clients> {
-    return this.http.post<Clients>(`${env.domain}Clients/AddClient`, body);
+    const formDate = new FormData();
+    for (const key in body) {
+      if (Array.isArray(body[key]) && body[key].length > 0) {
+        if (Object?.keys(body[key][0])?.length > 1) {
+          body[key].forEach((ele: any, index: number) => {
+            for (const subkey in ele)
+              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+          })
+        }
+        else {
+          body[key].forEach((ele: any) => {
+            formDate.append(key, ele)
+          })
+        }
+      } else {
+        typeof body[key] === 'number' ? formDate.append(key, body[key]) : EMPTY;
+        typeof body[key] === 'boolean' ? formDate.append(key, body[key]) : EMPTY;
+        typeof body[key] === 'string' ? formDate.append(key, body[key]) : EMPTY;
+        body[key]?.lastModified ? formDate.append(key, body[key]) : EMPTY;
+      }
+    }
+    return this.http.post<Clients>(`${env.domain}Clients/AddClient`, formDate);
   }
   getClients(value:any): Observable<Clients> {
     const data = new HttpParams();
@@ -52,8 +73,29 @@ export class ClientService {
   ChangeActiveOrNotDepartment(clientId:number):Observable<any>{
     return this.http.put(`${env.domain}Clients/ChangeActiveOrNotClient/${clientId}`,{})
   }
-  updateClients(value:any,clientId:number):Observable<any>{
-    return this.http.put(`${env.domain}Clients/EditClient/${clientId}`,value)
+  updateClients(body:any,clientId:number):Observable<any>{
+    const formDate = new FormData();
+    for (const key in body) {
+      if (Array.isArray(body[key]) && body[key].length > 0) {
+        if (Object?.keys(body[key][0])?.length > 1) {
+          body[key].forEach((ele: any, index: number) => {
+            for (const subkey in ele)
+              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+          })
+        }
+        else {
+          body[key].forEach((ele: any) => {
+            formDate.append(key, ele)
+          })
+        }
+      } else {
+        typeof body[key] === 'number' ? formDate.append(key, body[key]) : EMPTY;
+        typeof body[key] === 'boolean' ? formDate.append(key, body[key]) : EMPTY;
+        typeof body[key] === 'string' ? formDate.append(key, body[key]) : EMPTY;
+        body[key]?.lastModified ? formDate.append(key, body[key]) : EMPTY;
+      }
+    }
+    return this.http.put(`${env.domain}Clients/EditClient/${clientId}`,formDate)
   }
   ListOfClientJobs(JobsID:number):Observable<ListOfClientJobs>{
     return this.http.get<ListOfClientJobs>(`${env.domain}Clients/ListOfClientJobs/${JobsID}`)
@@ -69,5 +111,8 @@ export class ClientService {
   }
   EditClientCommunicationWay(value:any):Observable<any>{
     return this.http.put(`${env.domain}Clients/EditClientCommunicationWay/${value.id}`,value)
+  }
+  ListOfClientTypes():Observable<ListOfClientJobs>{
+    return this.http.get<ListOfClientJobs>(`${env.domain}Clients/ListOfClientTypes`)
   }
 }

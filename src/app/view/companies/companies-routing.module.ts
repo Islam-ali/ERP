@@ -26,6 +26,13 @@ const routes: Routes = [
     data: { permission: ['Permissions.Employees.All'] }
     // data: { roles: [Role.SuperAdmin, Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin] }
   },
+  { 
+    path: ':companyID/jobs',
+    loadChildren: () => import('../../view/jobs/jobs.module').then(m => m.JobsModule),
+    data: {permission: ['Permissions.Jobs.All']}
+    // canActivate:[AuthGuard],
+    // data: { roles: [Role.SuperAdmin , Role.Admin] }
+  },
   {
     path: ':companyID/clients',
     loadChildren: () => import('../../view/clients/clients.module').then(m => m.ClientsModule),

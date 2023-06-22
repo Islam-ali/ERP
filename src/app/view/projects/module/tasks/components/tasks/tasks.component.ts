@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { tasks } from 'app/pages/tasks/kanbanboard/data';
 import { DndDropEvent } from 'ngx-drag-drop';
 import { environment as env } from '@env/environment';
@@ -6,7 +6,7 @@ import { environment as env } from '@env/environment';
 import * as signalR from '@microsoft/signalr';
 
 import { Task } from 'app/pages/tasks/kanbanboard/kanabn.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TasksService } from '../../services/tasks.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -21,10 +21,10 @@ import { Employees } from 'app/view/employees/modal/employees';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss']
 })
-export class TasksComponent implements OnInit {
-  
+export class TasksComponent implements OnInit , AfterViewInit {
+  @ViewChild('viewTasks') viewTasksRef!: ElementRef;
   taskData: DataShowTask;
-  allComments:DataComments[];
+  allComments: DataComments[];
   // onUploadError(args: any): void {
   //   console.log("onUploadError:", args);
   // }
@@ -32,11 +32,11 @@ export class TasksComponent implements OnInit {
   // onUploadSuccess(args: any): void {
   //   console.log("onUploadSuccess:", args);
   // }
-  ListOfId:number[]=[];
-  lableForm:number = 0;
-  loadingSubmit:boolean = false;
-  loaderComments:boolean = true;
-  submit:boolean = false;
+  ListOfId: number[] = [];
+  lableForm: number = 0;
+  loadingSubmit: boolean = false;
+  loaderComments: boolean = true;
+  submit: boolean = false;
   domain: string = env.url;
   projectID: number = 0;
   departmentID: number = 0;
@@ -47,16 +47,16 @@ export class TasksComponent implements OnInit {
   inprogressTasks: DataTasks[] = [];
   inReviewTasks: DataTasks[] = []
   doneTasks: DataTasks[] = [];
-  ListOfPriorities:any[] = [];
+  ListOfPriorities: any[] = [];
   taskForm: FormGroup;
   loadingTasks: boolean = false;
   loadingShow: boolean = false;
   // bread crumb items
   breadCrumbItems: Array<{}>;
-  ListOfEmployees:any[]=[];
-  taskID:number = 0;
-  companyID:number = 0;
-  listOfDepartment:any[]=[];
+  ListOfEmployees: any[] = [];
+  taskID: number = 0;
+  companyID: number = 0;
+  listOfDepartment: any[] = [];
 
   constructor(
     private _ActivatedRoute: ActivatedRoute,
@@ -64,20 +64,30 @@ export class TasksComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private modalService: NgbModal,
     private toastrService: ToastrService,
-    public _AuthenticationService : AuthenticationService,
-    private _DepartmentsService:DepartmentsService,
+    public _AuthenticationService: AuthenticationService,
+    private _DepartmentsService: DepartmentsService,
+    private router: Router
 
-
-  ) { 
-    this._ActivatedRoute.paramMap.subscribe((param:any)=>{
-      this.taskForm = this.initTaskForm();
-      console.log(param);      
+  ) {
+    this._ActivatedRoute.paramMap.subscribe((param: any) => {
       this.projectID = +param.params['projectID']
-      this.departmentID = +param.params['departmentID'];
       this.companyID = +param.params['companyID'];
-      this.getListOfDepartment();
+      this.taskForm = this.initTaskForm();
       this.getAllTasks();
       this.getListOfTaskStages();
+    })
+  }
+  ngAfterViewInit() {
+    this._ActivatedRoute.queryParamMap.subscribe((param: any) => {
+      this.taskID = +param.params['taskId'];
+      param.params['taskId'] ? this.viewModalTask(this.viewTasksRef, 1, this.taskID) : EMPTY
+    })
+  }
+  GetDepartmentIdByProjectId(){
+    this._TasksService.GetDepartmentIdByProjectId(this.projectID).subscribe({
+      next: (res: any) => {
+        this.departmentID = +res.data
+      }
     })
   }
   initTaskForm(): FormGroup {
@@ -90,11 +100,12 @@ export class TasksComponent implements OnInit {
       Priority_Id: [null],
       AssignedEmployeeIds: [null],
       TaskAtachments: this._formBuilder.array([]),
-      TaskStage_Id:[null],
-      Id:null
+      TaskStage_Id: [null],
+      Id: null,
+      // department_Id:[null]
     })
   }
-  uploadeFiles(event: any , index:number): void {
+  uploadeFiles(event: any, index: number): void {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
       this.TaskAtachments.controls[index].patchValue({
@@ -108,12 +119,12 @@ export class TasksComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]);
     }
   }
-  initformTaskAtachments():FormGroup {
+  initformTaskAtachments(): FormGroup {
     return this._formBuilder.group({
-      Description:[null,[Validators.required]],
-      File:[null],
-      path:null,
-      id:0
+      Description: [null, [Validators.required]],
+      File: [null],
+      path: null,
+      id: 0
     })
   }
   get TaskAtachments() {
@@ -126,22 +137,24 @@ export class TasksComponent implements OnInit {
     this.TaskAtachments.removeAt(index);
   }
   ngOnInit() {
-
+    this.GetDepartmentIdByProjectId();
     // this.projectID = +this._ActivatedRoute.snapshot.params['projectID'];
     // this.departmentID = +this._ActivatedRoute.snapshot.params['departmentID'];
     this.breadCrumbItems = [{ label: 'Tasks' }, { label: 'Tasks', active: true }];
   }
-  getListOfDepartment(): void {
-    this._DepartmentsService.ListOfDepartment(this.companyID).subscribe({
-      next: (res: Employees) => {
-        this.listOfDepartment = res.data;
-      }
-    })
-  }
+  // getListOfDepartment(): void {
+  //   this._DepartmentsService.ListOfDepartment(this.companyID).subscribe({
+  //     next: (res: Employees) => {
+  //       this.listOfDepartment = res.data;
+  //     }
+  //   })
+  // }
   getAllTasks() {
     this._TasksService.getAllTasks(this.projectID).subscribe({
       next: (res: Tasks) => {
         this.allTasks = res.data;
+        // this.allTasks.length > 0 ? this.departmentID = res.data[0].department_Id : this.departmentID = 0
+        this.getListOfEmployees(this.departmentID);
         this._fetchData();
         this.loader = false;
       }
@@ -167,7 +180,7 @@ export class TasksComponent implements OnInit {
   }
   EditTask() {
     let value = this.taskForm.value
-    value['TaskAtachments'] = this.taskForm.value.TaskAtachments.map((x:any) => {
+    value['TaskAtachments'] = this.taskForm.value.TaskAtachments.map((x: any) => {
       const container = {};
       container['Description'] = x.Description
       container['File'] = x.File
@@ -190,30 +203,32 @@ export class TasksComponent implements OnInit {
   getTaskById(taskID: number) {
     this.loadingShow = true;
     this._TasksService.getTaskById(taskID).subscribe({
-      next: (res: ShowTask ) => {
+      next: (res: ShowTask) => {
         this.loadingShow = false;
         this.taskData = res.data
+        // this.getListOfDepartment();
         this.taskForm.patchValue({
           Title: res.data.title,
           Description: res.data.description,
           Project_Id: res.data.project_Id,
           Priority_Id: res.data.priority_Id,
-          AssignedEmployeeIds: res.data.assignedEmployeeData.map((x)=> x.id),
+          AssignedEmployeeIds: res.data.assignedEmployeeData.map((x) => x.id),
           StartDate: res.data.startDate,
           EndDate: res.data.endDate,
-          Id:res.data.id,
-          TaskStage_Id:res.data.taskStage_Id
+          Id: res.data.id,
+          TaskStage_Id: res.data.taskStage_Id,
+          // department_Id:res.data.department_Id
         })
         // if(res.data.atachments.length > 0){
         //   this.addformTaskAtachments();
         // }
         this.TaskAtachments.clear();
-        res.data.atachments.forEach((ele:Atachment,index)=>{
+        res.data.atachments.forEach((ele: Atachment, index) => {
           this.addformTaskAtachments()
           this.TaskAtachments.controls[index].patchValue({
-            Description: ele.description ,
-            id: ele.id ,
-            path:this.domain+ele.file
+            Description: ele.description,
+            id: ele.id,
+            path: this.domain + ele.file
           })
         })
       }, error: (err: Error) => {
@@ -221,7 +236,7 @@ export class TasksComponent implements OnInit {
       }
     })
   }
-  RemoveTask(taskID:number) {
+  RemoveTask(taskID: number) {
     this._TasksService.RemoveTask(taskID).subscribe({
       next: (res: Tasks) => {
         this.getAllTasks();
@@ -238,13 +253,13 @@ export class TasksComponent implements OnInit {
       }
     })
   }
-  RemoveImage(id:number){
+  RemoveImage(id: number) {
     this.ListOfId.push(id)
     this.DeleteFileOrMoreOfTasks();
   }
-  DeleteFileOrMoreOfTasks(){
+  DeleteFileOrMoreOfTasks() {
     this._TasksService.DeleteFileOrMoreOfTasks(this.ListOfId).subscribe({
-      next:(res:Tasks)=>{
+      next: (res: Tasks) => {
         this.ListOfId = [];
         this.toastrService.error(res.message);
       }, error: (err: Error) => {
@@ -260,7 +275,7 @@ export class TasksComponent implements OnInit {
       }
     })
   }
-  getListOfEmployees(departmentID:number) {
+  getListOfEmployees(departmentID: number) {
     this._TasksService.ListOfEmployees(departmentID).subscribe({
       next: (res: any) => {
         this.ListOfEmployees = res.data;
@@ -284,8 +299,8 @@ export class TasksComponent implements OnInit {
     const value = {};
     if (filteredList && event.dropEffect === 'move') {
       let index = event.index;
-      if(event.data.taskStage_Id !== targetStatus){
-        this.EditTaskProgressing({Id:event.data.id ,TaskStage_Id:targetStatus });
+      if (event.data.taskStage_Id !== targetStatus) {
+        this.EditTaskProgressing({ Id: event.data.id, TaskStage_Id: targetStatus });
       }
       if (typeof index === 'undefined') {
         index = filteredList.length;
@@ -293,11 +308,11 @@ export class TasksComponent implements OnInit {
       filteredList.splice(index, 0, event.data);
     }
   }
-  EditTaskProgressing(value:any = {}){
+  EditTaskProgressing(value: any = {}) {
     this._TasksService.EditTaskProgressing(value).subscribe({
       next: (res: any) => {
         this.getAllTasks();
-        
+
       }
     })
   }
@@ -307,31 +322,30 @@ export class TasksComponent implements OnInit {
     this.inReviewTasks = this.allTasks.filter(t => t.taskStage_Id === 3);
     this.doneTasks = this.allTasks.filter(t => t.taskStage_Id === 4);
   }
-  openModal(content: any, num: number , TaskStage_Id:number): void {
+  openModal(content: any, num: number, TaskStage_Id: number): void {
     this.taskForm.reset();
     this.TaskAtachments.clear();
     // this.addformTaskAtachments();
-    this.taskForm.patchValue({TaskStage_Id:TaskStage_Id});
+    this.taskForm.patchValue({ TaskStage_Id: TaskStage_Id });
     this.lableForm = num;
-    this.modalService.open(content , {size:'xl'});
+    this.modalService.open(content, { size: 'xl' });
     this.getListOfPriorities();
     // this.getListOfEmployees();
   }
-  viewModalTask(content: any, num: number , taskID:number): void {
+  viewModalTask(content: any, num: number, taskID: number): void {
     this.lableForm = num;
-    this.getTaskById(taskID)
+    this.getTaskById(taskID);
     this.GetAllTaskComments(taskID);
-    this.taskID = taskID
-    this.modalService.open(content , {size:'xl'});
-  }
-  editModal(content: any, num: number , taskID:number){
     this.taskID = taskID;
-    this.getTaskById(taskID)
+    this.modalService.open(content, { size: 'xl' });
+  }
+  editModal(content: any, num: number, taskID: number) {
+    this.taskID = taskID;
+    this.getTaskById(taskID);
     this.GetAllTaskComments(taskID);
     this.getListOfPriorities();
-    // this.getListOfEmployees();
     this.lableForm = num;
-    this.modalService.open(content , {size:'xl'});
+    this.modalService.open(content, { size: 'xl' });
   }
   onSubmit() {
     this.loadingTasks = true;
@@ -345,9 +359,9 @@ export class TasksComponent implements OnInit {
   get form() {
     return this.taskForm.controls;
   }
-  GetAllTaskComments(taskID:number){
+  GetAllTaskComments(taskID: number) {
     this._TasksService.GetAllTaskComments(taskID).subscribe({
-      next:(res:Comments)=>{
+      next: (res: Comments) => {
         this.loaderComments = false;
         this.allComments = res.data
       }

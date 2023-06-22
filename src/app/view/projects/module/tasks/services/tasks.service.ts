@@ -128,5 +128,8 @@ export class TasksService {
     GetAllTasksByCompanyOrDepartmentId(companyId:number):Observable<any>{
       return this.http.get(`${env.domain}Tasks/GetAllTasksByCompanyOrDepartmentId/${companyId}`)
     }
+    GetDepartmentIdByProjectId(projectID:number):Observable<any> {
+      return this.http.get(`${env.domain}Projects/GetDepartmentIdByProjectId/${projectID}`)
+    }
   }
 

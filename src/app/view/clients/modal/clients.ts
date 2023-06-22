@@ -81,4 +81,7 @@ export interface DatashowClient {
   companyName: string
   region_Id: number
   state_Id:number
+  addressInDetail:string
+  imagePath:string
+  clientType_Id:number
 }

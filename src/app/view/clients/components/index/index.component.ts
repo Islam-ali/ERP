@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Pagination } from 'app/core/modal/modal';
 import { AllClientsComments, Clients, DataClients, DataDataClients, DataListOfClientJobs, DataShowClientsComments, DatashowClient, ListOfClientJobs, showClient } from '../../modal/clients';
@@ -13,13 +13,16 @@ import { DepartmentsService } from 'app/view/departments/services/departments.se
 import { AuthenticationService } from 'app/core/services/auth.service';
 import { EmployeesService } from 'app/view/employees/services/employees.service';
 import { Employees } from 'app/view/employees/modal/employees';
-
+import { EMPTY } from 'rxjs';
+import { environment as env } from '@env/environment';
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss']
 })
-export class IndexComponent implements OnInit {
+export class IndexComponent implements OnInit, AfterViewInit {
+  url: string = env.url;
+  @ViewChild('viewClient') viewClientRef!: ElementRef;
   ListOfClientJobs: DataListOfClientJobs[];
   ListOfClientJobCategories: DataListOfClientJobs[];
   classificationID: number = 0;
@@ -46,8 +49,11 @@ export class IndexComponent implements OnInit {
   listOfClientCommunicationWays: DataListOfClientJobs[];
   listOfStates: any[] = [];
   listOfRegion: any[] = [];
+  listOfClientTypes: any[] = [];
+
   state_Id: number = 0;
   totalRecords: number = 0;
+  pathImage: any;
   constructor(
     private _ActivatedRoute: ActivatedRoute,
     private _ClientsService: ClientService,
@@ -81,15 +87,37 @@ export class IndexComponent implements OnInit {
       clientJob_Id: [null],
       clientJobCategory_Id: [null],
       region_Id: [null],
-      department_Id: [null],
+      department_Id: [null, [Validators.required]],
+      image: [null],
+      clientType_Id: [null, [Validators.required]]
+
       // clientCommunicationWay_Id:[null]
     });
   }
+  uploadImg(event: any): void {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      this.clientsForm.patchValue({
+        image: event.target.files.item(0)
+      })
+      reader.onload = (event: any) => {
+        this.pathImage = event.target.result
 
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+  ngAfterViewInit() {
+    this._ActivatedRoute.queryParamMap.subscribe((param: any) => {
+      this.client_Id = +param.params['clientId'];
+      param.params['clientId'] ? this.viewClientDetails(this.viewClientRef, this.client_Id) : EMPTY
+    })
+  }
   ngOnInit(): void {
     this.getClients();
     this.getListOfClientJobCategories();
     this.getListOfStates();
+    this.ListOfClientTypes();
     // this.clientsForm.controls.clientJobCategory_Id.valueChanges.subscribe(val => {
     //   this.getListOfClientJobs(val)
     // })
@@ -111,7 +139,9 @@ export class IndexComponent implements OnInit {
       next: (res: Clients) => {
         this.clientsData = res.data.data;
         this.totalRecords = res.data.totalRecords
-        this.loader = false
+        this.loader = false;
+        this.clientsForm.reset();
+        this.pathImage = null;
         this.ListOfClientCommunicationWays();
         this.ListOfDepartment();
       }, error: (err: Error) => {
@@ -182,12 +212,14 @@ export class IndexComponent implements OnInit {
           generalManagerName: res.data.generalManagerName,
           salesManagerName: res.data.salesManagerName,
           email: res.data.email,
-          clientJob_Id: res.data.clientJob_Id,
           clientJobCategory_Id: res.data.clientJobCategory_Id,
+          clientJob_Id: res.data.clientJob_Id,
           region_Id: res.data.region_Id,
           department_Id: res.data.department_Id,
+          addressInDetail: res.data.addressInDetail,
+          clientType_Id: res.data.clientType_Id
         })
-
+        this.pathImage = this.url+res.data.imagePath 
         this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id
       }, error: (err: Error) => {
         this.loadingShow = false;
@@ -210,6 +242,13 @@ export class IndexComponent implements OnInit {
       }, error: (err: Error) => {
         this.loadingclients = false;
         this.toastrService.error(err.message);
+      }
+    })
+  }
+  ListOfClientTypes(): void {
+    this._ClientsService.ListOfClientTypes().subscribe({
+      next: (res: Employees) => {
+        this.listOfClientTypes = res.data;
       }
     })
   }
@@ -244,7 +283,7 @@ export class IndexComponent implements OnInit {
     })
   }
   EditClientCommunicationWay(clientCommunicationWay_Id: number) {
-    
+
     let value = {};
     value['id'] = this.client_Id,
       value['clientCommunicationWay_Id'] = clientCommunicationWay_Id

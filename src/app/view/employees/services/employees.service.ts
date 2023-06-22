@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
 import { EMPTY, Observable } from 'rxjs';
@@ -23,14 +23,13 @@ export class EmployeesService {
   }
   getEditEmployee(editForm: any): Observable<any> {
     console.log(editForm);
-    
     const formDate = new FormData();
     for (const key in editForm) {
       if (Array.isArray(editForm[key]) && editForm[key].length > 0) {
         if (Object?.keys(editForm[key][0])?.length > 1) {
           editForm[key].forEach((ele: any, index: number) => {
             for (const subkey in ele)
-              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+            ele[subkey] ?  formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
           })
         }
         else {
@@ -59,11 +58,11 @@ export class EmployeesService {
   addEmployee(addForm: any): Observable<any> {
     const formDate = new FormData();
     for (const key in addForm) {
-      if (Array.isArray(addForm[key])) {
-        if (Object.keys(addForm[key][0]).length > 1) {
+      if (Array.isArray(addForm[key]) && addForm[key].length > 0) {
+        if (Object?.keys(addForm[key][0])?.length > 1) {
           addForm[key].forEach((ele: any, index: number) => {
             for (const subkey in ele)
-              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+            ele[subkey] ?  formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
           })
         }
         else {
@@ -104,5 +103,13 @@ export class EmployeesService {
   ListOfEmployeesForMentioned(departmentID:number):Observable<any>{
     return this.http.get(`${env.domain}Employees/ListOfEmployeesForMentioned/${departmentID}`)
   }
-
+  DeleteFileOrMoreOfEmployee(listOfId:any[]=[]): Observable<any>{
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify(listOfId),
+    };
+    return this.http.delete<any>(`${env.domain}Employees/DeleteFileOrMoreOfEmployee`, options)
+  }
 }

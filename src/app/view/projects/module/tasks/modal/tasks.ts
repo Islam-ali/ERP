@@ -19,6 +19,7 @@
     taskStage_Id: number
     atachments: Atachment[]
     assignedEmployeeData: AssignedEmployeeData[]
+    department_Id:number
   }
   
   export interface Atachment {
@@ -63,6 +64,8 @@
     taskStage_Id: number
     atachments: Atachment[]
     assignedEmployeeData: AssignedEmployeeData[]
+    department_Id:number
+
   }
   
   export interface Comments {

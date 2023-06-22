@@ -291,7 +291,7 @@
           </div>
           <ngx-simplebar *ngIf="!loader" style="position: relative; height: 230px;">
             <ng-container *ngFor="let item of messageNotification">
-              <a href="javascript: void(0);" class="text-reset notification-item">
+              <a href="javascript: void(0);" class="text-reset notification-item" (click)="routingNotifications(item)">
                 <div class="media">
                   <!-- <img src="assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic"> -->
                   <div class="media-body">

@@ -469,7 +469,7 @@
                                         <div class="col-1" *ngIf="Employee.controls.length > 1">
                                             <label class="hide-lable d-block">.</label>
                                             <button type="button" class="btn btn-danger"
-                                                (click)="deleteFormEmployee(i)"><i class="bx bxs-trash"></i></button>
+                                                (click)="deleteFormEmployee(i);RemoveImage(EmployeeArr.get('id').value)"><i class="bx bxs-trash"></i></button>
                                         </div>
                                     </div>
                                 </ng-container>

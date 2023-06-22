@@ -56,6 +56,23 @@ export class TopbarComponent implements OnInit {
   @Output() settingsButtonClicked = new EventEmitter();
   @Output() mobileMenuButtonClicked = new EventEmitter();
   user: any;
+  routingNotifications(item:any){
+    console.log(item);
+    
+    switch (item.type) {
+      case 'Task' || 'TaskComment' || 'Mention':
+        this.router.navigate([`/companies/${item.companyId}/projects/${item.projectId}/tasks`],{ queryParams: {taskId: item.taskId}})
+        break;
+      case 'ClientComment':
+        this.router.navigate([`/companies/${item.companyId}/clients`],{ queryParams: {clientId: item.taskId}})
+      break;
+      // case 'ClientComment':
+      //   this.router.navigate([`/companies/${item.companyId}/clients`],{ queryParams: {clientId: item.taskId}})
+      // break;
+      default:
+        break;
+    }
+  }
   ngOnInit() {
     this.openMobileMenu = false;
     this.element = document.documentElement;

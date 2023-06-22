@@ -102,9 +102,7 @@ export class ProjectsComponent implements OnInit {
   }
   patchValueForm(content: any, project: any) {
     this.lableForm = 1;
-    this.showProject(project.id);
-    console.log(project.id);
-    
+    this.showProject(project.id); 
     this.ProjectId = project.id;
     this.modalService.open(content);
   }

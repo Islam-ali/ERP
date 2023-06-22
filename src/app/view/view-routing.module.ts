@@ -20,7 +20,7 @@ const routes: Routes = [
     // data: { roles: [Role.SuperAdmin , Role.Admin , Role.DepartmentAdmin , Role.ClintAdmin , Role.ClientView] }
   },
   { 
-    path: 'companies/:companyID/departments/:departmentID/projects',
+    path: 'companies/:companyID/projects',
     loadChildren: () => import('../view/projects/projects.module').then(m => m.ProjectsModule),
     canActivate:[AuthGuard],
     data: {permission: ['Permissions.Projects.All']}

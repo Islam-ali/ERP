@@ -16,22 +16,25 @@
                         </div>
                     </div> -->
                     <h4 class="card-title mb-4">To Do</h4>
-                    <div id="upcoming-task" [class]="toDoTasks.length > 0 ? '':'task-list-none'" class="pb-1 task-list"
-                        dndDropzone dndEffectAllowed="move" (dndDrop)="onDrop($event, toDoTasks,1)">
-                        <div class="dndPlaceholder" dndPlaceholderRef></div>
-                        <ng-container *ngFor="let task of toDoTasks">
-                            <div [dndDraggable]="task" dndEffectAllowed="move" (dndMoved)="onDragged(task, toDoTasks)">
-                                <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}">
-                                </ng-template>
-                            </div>
-                        </ng-container>
+                    <div class="body-task">
+
+                        <div   id="upcoming-task" [class]="toDoTasks.length > 0 ? '':'task-list-none'" class="pb-1 task-list"
+                            dndDropzone dndEffectAllowed="move" (dndDrop)="onDrop($event, toDoTasks,1)">
+                            <div class="dndPlaceholder" dndPlaceholderRef></div>
+                            <ng-container *ngFor="let task of toDoTasks">
+                                <div [dndDraggable]="task" dndEffectAllowed="move" (dndMoved)="onDragged(task, toDoTasks)">
+                                    <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}">
+                                    </ng-template>
+                                </div>
+                            </ng-container>
+                        </div>
                     </div>
+                </div>
                     <div class="text-center d-grid mt-2">
-                        <a href="javascript: void(0);" class="btn btn-primary"
-                            *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Create')"
-                            (click)="openModal(addTasks,0 ,1)"><i class="mdi mdi-plus me-1"></i>
-                            Add New</a>
-                    </div>
+                    <a href="javascript: void(0);" class="btn btn-primary"
+                        *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Create')"
+                        (click)="openModal(addTasks,0 ,1)"><i class="mdi mdi-plus me-1"></i>
+                        Add New</a>
                 </div>
             </div>
         </div>
@@ -49,26 +52,28 @@
                             <a class="dropdown-item" href="javascript: void(0);">Delete</a>
                         </div>
                     </div>  -->
-
                     <h4 class="card-title mb-4">In Progress</h4>
-                    <div id="Progress-task" [class]="inprogressTasks.length > 0 ? '':'task-list-none'"
-                        class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
-                        (dndDrop)="onDrop($event, inprogressTasks,2)">
-                        <div class="dndPlaceholder" dndPlaceholderRef></div>
-                        <ng-container *ngFor="let task of inprogressTasks">
-                            <div [dndDraggable]="task" dndEffectAllowed="move"
+                    <div class="body-task">
+
+                        <div   id="Progress-task" [class]="inprogressTasks.length > 0 ? '':'task-list-none'"
+                            class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
+                            (dndDrop)="onDrop($event, inprogressTasks,2)">
+                            <div class="dndPlaceholder" dndPlaceholderRef></div>
+                            <ng-container *ngFor="let task of inprogressTasks">
+                                <div [dndDraggable]="task" dndEffectAllowed="move"
                                 (dndMoved)="onDragged(task, inprogressTasks)">
                                 <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}">
                                 </ng-template>
                             </div>
                         </ng-container>
                     </div>
-                    <div class="text-center d-grid mt-2">
-                        <a href="javascript: void(0);"
-                            *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Create')"
-                            class="btn btn-primary" (click)="openModal(addTasks,0 ,2)"><i class="mdi mdi-plus me-1"></i>
-                            Add New</a>
-                    </div>
+                </div>
+                </div>
+                <div class="text-center d-grid mt-2">
+                    <a href="javascript: void(0);"
+                        *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Create')"
+                        class="btn btn-primary" (click)="openModal(addTasks,0 ,2)"><i class="mdi mdi-plus me-1"></i>
+                        Add New</a>
                 </div>
             </div>
         </div>
@@ -85,21 +90,22 @@
                             <a class="dropdown-item" href="javascript: void(0);">Delete</a>
                         </div>
                     </div>  -->
-
                     <h4 class="card-title mb-4">In Review</h4>
-                    <div id="completed-task" [class]="inReviewTasks.length > 0 ? '':'task-list-none'"
-                        class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
-                        (dndDrop)="onDrop($event, inReviewTasks,3)">
-                        <div class="dndPlaceholder" dndPlaceholderRef></div>
+                    <div class="body-task">
 
-                        <ng-container *ngFor="let task of inReviewTasks">
-                            <div [dndDraggable]="task" dndEffectAllowed="move"
+                        <div  id="completed-task" [class]="inReviewTasks.length > 0 ? '':'task-list-none'"
+                            class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
+                            (dndDrop)="onDrop($event, inReviewTasks,3)">
+                            <div class="dndPlaceholder" dndPlaceholderRef></div>
+                            
+                            <ng-container *ngFor="let task of inReviewTasks">
+                                <div [dndDraggable]="task" dndEffectAllowed="move"
                                 (dndMoved)="onDragged(task, inReviewTasks)">
                                 <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}">
                                 </ng-template>
                             </div>
                         </ng-container>
-
+                    </div>
                         <!-- <div class="text-center d-grid">
                             <a href="javascript: void(0);" class="btn btn-primary" (click)="openModal(addTasks,0 ,null)"><i
                                     class="mdi mdi-plus me-1"></i>
@@ -122,21 +128,22 @@
                             <a class="dropdown-item" href="javascript: void(0);">Delete</a>
                         </div>
                     </div> -->
-
                     <h4 class="card-title mb-4">Done</h4>
-                    <div id="completed-task" [class]="doneTasks  .length > 0 ? '':'task-list-none'"
-                        class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
-                        (dndDrop)="onDrop($event, doneTasks,4)">
-                        <div class="dndPlaceholder" dndPlaceholderRef></div>
+                    <div class="body-task">
 
-                        <ng-container *ngFor="let task of doneTasks">
-                            <div [dndDraggable]="task" dndEffectAllowed="move" (dndMoved)="onDragged(task, doneTasks)">
-                                <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}">
-                                </ng-template>
-                            </div>
-                        </ng-container>
-                        <!-- <div class="text-center d-grid">
-                            <a href="javascript: void(0);" class="btn btn-primary" (click)="openModal(addTasks,0 ,null)"><i
+                        <div   id="completed-task" [class]="doneTasks  .length > 0 ? '':'task-list-none'"
+                            class="pb-1 task-list" dndDropzone dndEffectAllowed="move"
+                            (dndDrop)="onDrop($event, doneTasks,4)">
+                            <div class="dndPlaceholder" dndPlaceholderRef></div>
+                            <ng-container *ngFor="let task of doneTasks">
+                                <div [dndDraggable]="task" dndEffectAllowed="move" (dndMoved)="onDragged(task, doneTasks)">
+                                    <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}">
+                                    </ng-template>
+                                </div>
+                            </ng-container>
+                            <!-- <div class="text-center d-grid">
+                                <a href="javascript: void(0);" class="btn btn-primary" (click)="openModal(addTasks,0 ,null)"><i
+                                </div>
                                     class="mdi mdi-plus me-1"></i>
                                 Add New</a>
                         </div> -->
@@ -178,13 +185,15 @@
                                     {{task?.assignedEmployeeData[0]?.name.charAt(0)}}
                                 </span>
                             </div>
-                            <div class="avatar-group-item" *ngIf="task.assignedEmployeeData.length > 1 && task.assignedEmployeeData[1]?.imagePath">
+                            <div class="avatar-group-item"
+                                *ngIf="task.assignedEmployeeData.length > 1 && task.assignedEmployeeData[1]?.imagePath">
                                 <a href="javascript: void(0);" class="d-inline-block">
                                     <img src="{{ domain+task.assignedEmployeeData[1]?.imagePath}}"
                                         class="rounded-circle avatar-xs" alt="">
                                 </a>
                             </div>
-                            <div class="avatar-group-item avatar-xs" *ngIf="task.assignedEmployeeData.length > 1 && !task?.assignedEmployeeData[1]?.imagePath">
+                            <div class="avatar-group-item avatar-xs"
+                                *ngIf="task.assignedEmployeeData.length > 1 && !task?.assignedEmployeeData[1]?.imagePath">
                                 <span class="avatar-title rounded-circle bg-primary text-light">
                                     {{task?.assignedEmployeeData[1]?.name.charAt(0)}}
                                 </span>
@@ -203,9 +212,11 @@ _AuthenticationService.checkPermission('Permissions.Tasks.Delete')" ngbDropdown>
                         <i class="mdi mdi-dots-horizontal"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                        <a *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Edit')" class="dropdown-item" href="javascript: void(0);"
+                        <a *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Edit')"
+                            class="dropdown-item" href="javascript: void(0);"
                             (click)="(editModal(addTasks , 1 , task.id))"><i class="bx bx-edit"></i>Edit</a>
-                        <a *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Delete')" class="dropdown-item" href="javascript: void(0);" (click)="RemoveTask(task.id)"><i
+                        <a *ngIf="_AuthenticationService.checkPermission('Permissions.Tasks.Delete')"
+                            class="dropdown-item" href="javascript: void(0);" (click)="RemoveTask(task.id)"><i
                                 class="bx bx-trash"></i>Delete</a>
                     </div>
                 </div>
@@ -425,8 +436,13 @@ _AuthenticationService.checkPermission('Permissions.Tasks.Delete')" ngbDropdown>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-8">
-                        <div class="col-8 py-1">
-                            <h4 class="card-title "><b>{{taskData.title}}</b></h4>
+                        <div class="py-1 row">
+                            <h4 class="card-title  col-md-6"><b>{{taskData.title}}</b></h4>
+                            <!-- <div class="col-xl-6 col-lg-6"> -->
+                            <div class="mb-3 col-md-6">
+                                <ng-select [items]="ListOfTaskStages" (change)="EditTaskProgressing({ Id: taskData.id, TaskStage_Id: $event.id })" [(ngModel)]="taskData.taskStage_Id" bindLabel="name" bindValue="id"></ng-select>
+                                <!-- </div> -->
+                            </div>
                         </div>
                         <div class="col-12">
                             <h6 class="card-subtitle mb-2 text-muted">
@@ -550,15 +566,18 @@ _AuthenticationService.checkPermission('Permissions.Tasks.Delete')" ngbDropdown>
                                         <i class="bx bx-user text-primary"></i>
                                         <b class="mx-2">Assigned Employees</b>
                                     </p>
-                                    <li *ngFor="let img of taskData.assignedEmployeeData" class="list-inline-item w-100 d-flex align-items-center">
+                                    <li *ngFor="let img of taskData.assignedEmployeeData"
+                                        class="list-inline-item w-100 d-flex align-items-center">
                                         <ng-container>
-                                            <div class="avatar-group-item avatar-xs m-1" placement="top" ngbTooltip="{{img.name}}" *ngIf="!img.imagePath">
+                                            <div class="avatar-group-item avatar-xs m-1" placement="top"
+                                                ngbTooltip="{{img.name}}" *ngIf="!img.imagePath">
                                                 <span
                                                     class="avatar-title rounded-circle bg-soft bg-primary text-primary">
                                                     {{img.name.charAt(0)}}
                                                 </span>
                                             </div>
-                                            <div class="avatar-group-item avatar-xs m-1" placement="top" ngbTooltip="{{img.name}}" *ngIf="img.imagePath">
+                                            <div class="avatar-group-item avatar-xs m-1" placement="top"
+                                                ngbTooltip="{{img.name}}" *ngIf="img.imagePath">
                                                 <img [src]="domain + img.imagePath" [alt]="img.name"
                                                     class="m-0 img-fluid avatar-title p-0 rounded-circle bg-soft ">
                                             </div>

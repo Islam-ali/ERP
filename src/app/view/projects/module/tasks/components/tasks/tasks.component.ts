@@ -16,6 +16,7 @@ import { EMPTY } from 'rxjs';
 import { AuthenticationService } from 'app/core/services/auth.service';
 import { DepartmentsService } from 'app/view/departments/services/departments.service';
 import { Employees } from 'app/view/employees/modal/employees';
+import { SharedService } from 'app/shared/services/shared.service';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
@@ -66,15 +67,17 @@ export class TasksComponent implements OnInit , AfterViewInit {
     private toastrService: ToastrService,
     public _AuthenticationService: AuthenticationService,
     private _DepartmentsService: DepartmentsService,
-    private router: Router
-
+    private router: Router,
+    private _SharedService: SharedService
   ) {
-    this._ActivatedRoute.paramMap.subscribe((param: any) => {
-      this.projectID = +param.params['projectID']
-      this.companyID = +param.params['companyID'];
-      this.taskForm = this.initTaskForm();
-      this.getAllTasks();
-      this.getListOfTaskStages();
+    this._SharedService.RouteNotificatin$.subscribe(res=>{      
+      this._ActivatedRoute.paramMap.subscribe((param: any) => {
+        this.projectID = +param.params['projectID']
+        this.companyID = +param.params['companyID'];
+        this.taskForm = this.initTaskForm();
+        this.getAllTasks();
+        this.getListOfTaskStages();
+      })
     })
   }
   ngAfterViewInit() {
@@ -312,7 +315,6 @@ export class TasksComponent implements OnInit , AfterViewInit {
     this._TasksService.EditTaskProgressing(value).subscribe({
       next: (res: any) => {
         this.getAllTasks();
-
       }
     })
   }

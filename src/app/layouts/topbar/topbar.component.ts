@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { environment as env } from '@env/environment';
 import * as signalR from '@microsoft/signalr';
 import { NotificationsService } from './service/notifications.service';
+import { SharedService } from 'app/shared/services/shared.service';
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -28,7 +29,7 @@ export class TopbarComponent implements OnInit {
   valueset;
   notiLength: number = 0;
   messageNotification: any[] = [];
-  loader:boolean = false;
+  loader: boolean = false;
 
   constructor(
     @Inject(DOCUMENT) private document: any,
@@ -38,7 +39,8 @@ export class TopbarComponent implements OnInit {
     public languageService: LanguageService,
     public translate: TranslateService,
     public _cookiesService: CookieService,
-    private _NotificationsService: NotificationsService
+    private _NotificationsService: NotificationsService,
+    private _SharedService : SharedService
   ) {
   }
 
@@ -56,19 +58,22 @@ export class TopbarComponent implements OnInit {
   @Output() settingsButtonClicked = new EventEmitter();
   @Output() mobileMenuButtonClicked = new EventEmitter();
   user: any;
-  routingNotifications(item:any){
+  routingNotifications(item: any) {
     console.log(item);
-    
+    this._SharedService.isRouteNotification$.next(true)
     switch (item.type) {
-      case 'Task' || 'TaskComment' || 'Mention':
-        this.router.navigate([`/companies/${item.companyId}/projects/${item.projectId}/tasks`],{ queryParams: {taskId: item.taskId}})
+      case 'Task':
+        this.router.navigate([`/companies/${item.companyId}/projects/${item.projectId}/tasks`], { queryParams: { taskId: item.taskId } })
+        break;
+      case 'TaskComment':
+        this.router.navigate([`/companies/${item.companyId}/projects/${item.projectId}/tasks`], { queryParams: { taskId: item.taskId } })
+        break;
+      case 'Mention':
+        this.router.navigate([`/companies/${item.companyId}/projects/${item.projectId}/tasks`], { queryParams: { taskId: item.taskId } })
         break;
       case 'ClientComment':
-        this.router.navigate([`/companies/${item.companyId}/clients`],{ queryParams: {clientId: item.taskId}})
-      break;
-      // case 'ClientComment':
-      //   this.router.navigate([`/companies/${item.companyId}/clients`],{ queryParams: {clientId: item.taskId}})
-      // break;
+        this.router.navigate([`/companies/${item.companyId}/clients`], { queryParams: { clientId: item.taskId } })
+        break;
       default:
         break;
     }

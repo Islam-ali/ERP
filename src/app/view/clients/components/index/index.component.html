@@ -273,7 +273,7 @@
                         <label for="validationCustom01" class="form-label text-capitalize">{{'GENERAL.JOBCATEGORY' |
                             translate}}</label>
                         <ng-select [items]="ListOfClientJobCategories" formControlName="clientJobCategory_Id"
-                            (change)="getListOfClientJobs($event.id)" bindLabel="name" bindValue="id"></ng-select>
+                            (change)="getListOfClientJobs($event?.id)" bindLabel="name" bindValue="id"></ng-select>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6">

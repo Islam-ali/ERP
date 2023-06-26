@@ -204,7 +204,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
         this.getListOfRegions(this.state_Id);
         this.loadingShow = false;
         this.clientDetails = res.data;
-        this.getListOfClientJobs(res.data.clientJobCategory_Id);
+        res.data.clientJobCategory_Id ? this.getListOfClientJobs(res.data.clientJobCategory_Id) : EMPTY;
         this.clientsForm.patchValue({
           companyName: res.data.companyName,
           mobile: res.data.mobile,
@@ -212,12 +212,12 @@ export class IndexComponent implements OnInit, AfterViewInit {
           generalManagerName: res.data.generalManagerName,
           salesManagerName: res.data.salesManagerName,
           email: res.data.email,
-          clientJobCategory_Id: res.data.clientJobCategory_Id,
-          clientJob_Id: res.data.clientJob_Id,
-          region_Id: res.data.region_Id,
-          department_Id: res.data.department_Id,
           addressInDetail: res.data.addressInDetail,
-          clientType_Id: res.data.clientType_Id
+          clientJobCategory_Id: res.data.clientJobCategory_Id ? res.data.clientJobCategory_Id : null,
+          clientJob_Id: res.data.clientJob_Id ? res.data.clientJob_Id : null,
+          region_Id: res.data.region_Id ? res.data.region_Id : null,
+          department_Id: res.data.department_Id ? res.data.department_Id : null,
+          clientType_Id: res.data.clientType_Id ? res.data.clientType_Id : null
         })
         this.pathImage = this.url+res.data.imagePath 
         this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id

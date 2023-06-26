@@ -3,35 +3,18 @@ import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
 import { EMPTY, Observable } from 'rxjs';
 import { AllClientsComments, Clients, ListOfClientJobs } from '../modal/clients';
+import { SharedService } from 'app/shared/services/shared.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private _SharedService : SharedService
+    ) { }
   addClient(body:any): Observable<Clients> {
-    const formDate = new FormData();
-    for (const key in body) {
-      if (Array.isArray(body[key]) && body[key].length > 0) {
-        if (Object?.keys(body[key][0])?.length > 1) {
-          body[key].forEach((ele: any, index: number) => {
-            for (const subkey in ele)
-              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
-          })
-        }
-        else {
-          body[key].forEach((ele: any) => {
-            formDate.append(key, ele)
-          })
-        }
-      } else {
-        typeof body[key] === 'number' ? formDate.append(key, body[key]) : EMPTY;
-        typeof body[key] === 'boolean' ? formDate.append(key, body[key]) : EMPTY;
-        typeof body[key] === 'string' ? formDate.append(key, body[key]) : EMPTY;
-        body[key]?.lastModified ? formDate.append(key, body[key]) : EMPTY;
-      }
-    }
-    return this.http.post<Clients>(`${env.domain}Clients/AddClient`, formDate);
+    return this.http.post<Clients>(`${env.domain}Clients/AddClient`, this._SharedService.formateFormData(body));
   }
   getClients(value:any): Observable<Clients> {
     const data = new HttpParams();
@@ -44,28 +27,7 @@ export class ClientService {
     return this.http.get<AllClientsComments>(`${env.domain}ClientComments/GetAllClientsComments/${ClientId}`);
   }
   AddClientComment(body:any): Observable<any> {
-    const formDate = new FormData();
-    for (const key in body) {
-      if (Array.isArray(body[key]) && body[key].length > 0) {
-        if (Object?.keys(body[key][0])?.length > 1) {
-          body[key].forEach((ele: any, index: number) => {
-            for (const subkey in ele)
-              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
-          })
-        }
-        else {
-          body[key].forEach((ele: any) => {
-            formDate.append(key, ele)
-          })
-        }
-      } else {
-        typeof body[key] === 'number' ? formDate.append(key, body[key]) : EMPTY;
-        typeof body[key] === 'boolean' ? formDate.append(key, body[key]) : EMPTY;
-        typeof body[key] === 'string' ? formDate.append(key, body[key]) : EMPTY;
-        body[key]?.lastModified ? formDate.append(key, body[key]) : EMPTY;
-      }
-    }
-    return this.http.post<any>(`${env.domain}ClientComments/AddClientComment`, formDate);
+    return this.http.post<any>(`${env.domain}ClientComments/AddClientComment`, this._SharedService.formateFormData(body));
   }
   getclientById(clientId:number):Observable<any>{
     return this.http.get(`${env.domain}Clients/GetClientById/${clientId}`)
@@ -74,28 +36,7 @@ export class ClientService {
     return this.http.put(`${env.domain}Clients/ChangeActiveOrNotClient/${clientId}`,{})
   }
   updateClients(body:any,clientId:number):Observable<any>{
-    const formDate = new FormData();
-    for (const key in body) {
-      if (Array.isArray(body[key]) && body[key].length > 0) {
-        if (Object?.keys(body[key][0])?.length > 1) {
-          body[key].forEach((ele: any, index: number) => {
-            for (const subkey in ele)
-              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
-          })
-        }
-        else {
-          body[key].forEach((ele: any) => {
-            formDate.append(key, ele)
-          })
-        }
-      } else {
-        typeof body[key] === 'number' ? formDate.append(key, body[key]) : EMPTY;
-        typeof body[key] === 'boolean' ? formDate.append(key, body[key]) : EMPTY;
-        typeof body[key] === 'string' ? formDate.append(key, body[key]) : EMPTY;
-        body[key]?.lastModified ? formDate.append(key, body[key]) : EMPTY;
-      }
-    }
-    return this.http.put(`${env.domain}Clients/EditClient/${clientId}`,formDate)
+    return this.http.put(`${env.domain}Clients/EditClient/${clientId}`, this._SharedService.formateFormData(body))
   }
   ListOfClientJobs(JobsID:number):Observable<ListOfClientJobs>{
     return this.http.get<ListOfClientJobs>(`${env.domain}Clients/ListOfClientJobs/${JobsID}`)

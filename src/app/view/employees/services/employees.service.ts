@@ -1,12 +1,16 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@env/environment';
+import { SharedService } from 'app/shared/services/shared.service';
 import { EMPTY, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeesService {
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private _SharedService: SharedService
+    ) { }
 
   getAllEmployees(companyId: number): Observable<any> {
     const params = new HttpParams();
@@ -21,30 +25,8 @@ export class EmployeesService {
     }
     )
   }
-  getEditEmployee(editForm: any): Observable<any> {
-    console.log(editForm);
-    const formDate = new FormData();
-    for (const key in editForm) {
-      if (Array.isArray(editForm[key]) && editForm[key].length > 0) {
-        if (Object?.keys(editForm[key][0])?.length > 1) {
-          editForm[key].forEach((ele: any, index: number) => {
-            for (const subkey in ele)
-            ele[subkey] ?  formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
-          })
-        }
-        else {
-          editForm[key].forEach((ele: any) => {
-            formDate.append(key, ele)
-          })
-        }
-      } else {
-        typeof editForm[key] === 'number' ? formDate.append(key, editForm[key]) : EMPTY;
-        typeof editForm[key] === 'boolean' ? formDate.append(key, editForm[key]) : EMPTY;
-        typeof editForm[key] === 'string' ? formDate.append(key, editForm[key]) : EMPTY;
-        editForm[key]?.lastModified ? formDate.append(key, editForm[key]) : EMPTY;
-      }
-    }
-    return this.http.put(`${env.domain}Employees/EditEmployee/${editForm['id']}`, formDate)
+  getEditEmployee(body: any): Observable<any> {
+    return this.http.put(`${env.domain}Employees/EditEmployee/${body['id']}`, this._SharedService.formateFormData(body) )
   }
   getEmployeeById(projectId: number): Observable<any> {
     return this.http.get(`${env.domain}Employees/GetEmployeeById/${projectId}`)
@@ -55,29 +37,8 @@ export class EmployeesService {
   RemoveEmployee(projectId: number): Observable<any> {
     return this.http.delete(`${env.domain}Employees/RemoveEmployee/${projectId}`)
   }
-  addEmployee(addForm: any): Observable<any> {
-    const formDate = new FormData();
-    for (const key in addForm) {
-      if (Array.isArray(addForm[key]) && addForm[key].length > 0) {
-        if (Object?.keys(addForm[key][0])?.length > 1) {
-          addForm[key].forEach((ele: any, index: number) => {
-            for (const subkey in ele)
-            ele[subkey] ?  formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
-          })
-        }
-        else {
-          addForm[key].forEach((ele: any) => {
-            formDate.append(key, ele)
-          })
-        }
-      } else {
-        typeof addForm[key] === 'number' ? formDate.append(key, addForm[key]) : EMPTY;
-        typeof addForm[key] === 'boolean' ? formDate.append(key, addForm[key]) : EMPTY;
-        typeof addForm[key] === 'string' ? formDate.append(key, addForm[key]) : EMPTY;
-        addForm[key]?.lastModified ? formDate.append(key, addForm[key]) : EMPTY;
-      }
-    }
-    return this.http.post(`${env.domain}Employees/AddEmployee`, formDate)
+  addEmployee(body: any): Observable<any> {
+    return this.http.post(`${env.domain}Employees/AddEmployee`,  this._SharedService.formateFormData(body))
   }
   ListOfEmployees(companyID: number): Observable<any> {
     return this.http.get(`${env.domain}Employees/ListOfEmployees/${companyID}`)

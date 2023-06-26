@@ -4,62 +4,24 @@ import { environment as env } from '@env/environment';
 import { EMPTY, Observable } from 'rxjs';
 import { Comments } from '../modal/tasks';
 import { FormGroup } from '@angular/forms';
+import { SharedService } from 'app/shared/services/shared.service';
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
-  constructor(private http:HttpClient) { }
+  constructor(
+    private http:HttpClient,
+    private _SharedService:SharedService
+    ) { }
 
   getAllTasks(projectId:number):Observable<any>{
     return this.http.get(`${env.domain}Tasks/GetAllTasks/${projectId}`)
   }
-  addTask(addForm:any):Observable<any>{
-    const formDate = new FormData();
-    for (const key in addForm) {
-      if (Array.isArray(addForm[key]) && addForm[key].length > 0) {
-        if (Object.keys(addForm[key][0]).length > 1) {
-          addForm[key].forEach((ele: any, index: number) => {
-            for (const subkey in ele)
-              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
-          })
-        }
-        else {
-          addForm[key].forEach((ele: any) => {
-            formDate.append(key, ele)
-          })
-        }
-      } else {
-        typeof addForm[key] === 'number' ? formDate.append(key, addForm[key]) : EMPTY;
-        typeof addForm[key] === 'boolean' ? formDate.append(key, addForm[key]) : EMPTY;
-        typeof addForm[key] === 'string' ? formDate.append(key, addForm[key]) : EMPTY;
-        addForm[key]?.lastModified ? formDate.append(key, addForm[key]) : EMPTY;
-      }
-    }
-    return this.http.post(`${env.domain}Tasks/AddTask`,formDate)
+  addTask(body:any):Observable<any>{
+    return this.http.post(`${env.domain}Tasks/AddTask`,this._SharedService.formateFormData(body))
   }
-  EditTask(editForm:any):Observable<any>{
-    const formDate = new FormData();
-    for (const key in editForm) {
-      if (Array.isArray(editForm[key]) && editForm[key].length > 0) {
-        if (Object?.keys(editForm[key][0])?.length > 1) {
-          editForm[key].forEach((ele: any, index: number) => {
-            for (const subkey in ele)
-            subkey ?  formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
-          })
-        }
-        else {
-          editForm[key].forEach((ele: any) => {
-            formDate.append(key, ele)
-          })
-        }
-      } else {
-        typeof editForm[key] === 'number' ? formDate.append(key, editForm[key]) : EMPTY;
-        typeof editForm[key] === 'boolean' ? formDate.append(key, editForm[key]) : EMPTY;
-        typeof editForm[key] === 'string' ? formDate.append(key, editForm[key]) : EMPTY;
-        editForm[key]?.lastModified ? formDate.append(key, editForm[key]) : EMPTY;
-      }
-    }
-    return this.http.put(`${env.domain}Tasks/EditTask/${editForm['Id']}`,formDate)
+  EditTask(body:any):Observable<any>{
+    return this.http.put(`${env.domain}Tasks/EditTask/${body['Id']}`,this._SharedService.formateFormData(body))
   }
   getTaskById(TaskId:number):Observable<any>{
     return this.http.get(`${env.domain}Tasks/GetTaskById/${TaskId}`)
@@ -89,28 +51,7 @@ export class TasksService {
     return this.http.get(`${env.domain}Tasks/GetAllTaskComments/${TaskId}`)
   }
   AddTaskComment(body:any){
-    const formDate = new FormData();
-    for (const key in body) {
-      if (Array.isArray(body[key]) && body[key].length > 0) {
-        if (Object?.keys(body[key][0])?.length > 1) {
-          body[key].forEach((ele: any, index: number) => {
-            for (const subkey in ele)
-              ele['File'] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
-          })
-        }
-        else {
-          body[key].forEach((ele: any) => {
-            formDate.append(key, ele)
-          })
-        }
-      } else {
-        typeof body[key] === 'number' ? formDate.append(key, body[key]) : EMPTY;
-        typeof body[key] === 'boolean' ? formDate.append(key, body[key]) : EMPTY;
-        typeof body[key] === 'string' ? formDate.append(key, body[key]) : EMPTY;
-        body[key]?.lastModified ? formDate.append(key, body[key]) : EMPTY;
-      }
-    }
-    return this.http.post(`${env.domain}Tasks/AddTaskComment`,formDate)
+    return this.http.post(`${env.domain}Tasks/AddTaskComment`,this._SharedService.formateFormData(body))
   }
   AddMentionedEmployees(form:any = {}){
     return this.http.post(`${env.domain}Tasks/AddMentionedEmployees`,form)

@@ -72,26 +72,20 @@ export class IndexComponent implements OnInit, AfterViewInit {
       this.companyID = +param.params['companyID'];
       this.getClients();
     })
-    // this.companyID = this._ActivatedRoute.snapshot.params['companyID']
     this.clientsForm = this._formBuilder.group({
       companyName: [null, [Validators.required]],
-      // nameInEnglish: [null, [Validators.required]],
-      // company: [null, [Validators.required , Validators.pattern('[0-9]+')]],
       mobile: [null],
       addressInDetail: [null],
       activity: [null],
       generalManagerName: [null],
       salesManagerName: [null],
       email: [null, [Validators.email]],
-      // address: [null],
       clientJob_Id: [null],
       clientJobCategory_Id: [null],
       region_Id: [null],
       department_Id: [null, [Validators.required]],
       image: [null],
       clientType_Id: [null, [Validators.required]]
-
-      // clientCommunicationWay_Id:[null]
     });
   }
   uploadImg(event: any): void {

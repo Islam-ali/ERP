@@ -189,6 +189,14 @@
                                     <app-daily-tasks></app-daily-tasks>
                                 </ng-template>
                             </li>
+                            <li [ngbNavItem]="4">
+                                <a ngbNavLink>
+                                    {{ 'GENERAL.REQUEST'| translate}}
+                                </a>
+                                <ng-template ngbNavContent>
+                                    <app-request></app-request>
+                                </ng-template>
+                            </li>
                         </ul>
                         <div [ngbNavOutlet]="nav" class="p-4"></div>
                     </div>

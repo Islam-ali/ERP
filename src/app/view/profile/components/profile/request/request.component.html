@@ -1,0 +1,136 @@
+<div class="card">
+    <div class="card-body p-5">
+
+        <form (submit)="onRequest()" class="d-flex row justify-content-center align-items-center mb-4 "
+            [formGroup]="requestForm">
+            <div class="col-12 mb-3">
+                <ng-select
+                [items]="listOfDepartment"  bindLabel="name" bindValue="id"></ng-select>
+              <!-- <div *ngIf="form.department_Id.dirty && form.department_Id.errors" class="invalid-feedback">
+                <span *ngIf="form.department_Id.errors.required">This value is required.</span>
+              </div> -->
+            </div>
+            <div class="form-outline flex-fill mb-3 col-md-6">
+                <label>{{'GENERAL.REASON' | translate}}</label>
+                <input type="text" id="form2" formControlName="Reason" class="form-control" />
+            </div>
+            <div class="mb-3 col-md-6">
+                <label>{{'GENERAL.DATE' | translate}}</label>
+                <div class="input-group clockpicker">
+                    <input ngbDatepicker class="form-control" formControlName="Date" autoClose="false"
+                        placeholder="yyyy-mm-dd" #startDate="ngbDatepicker" (click)="startDate.toggle()">
+                    <div class="input-group-append" (click)="startDate.toggle()">
+                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-info ms-2" [disabled]="requestForm.invalid">{{'GENERAL.ADD'
+                |translate}}</button>
+        </form>
+        <ul class="list-group mb-0">
+            <!-- <form (submit)="filterOwnedTasks()" class="d-flex row justify-content-center align-items-center mb-4 "
+                [formGroup]="filterOwnedTasksForm">
+                <div class="mb-3 col-md-4">
+                    <label>{{'GENERAL.STARTDATE' | translate}}</label>
+                    <div class="input-group clockpicker">
+                        <input ngbDatepicker class="form-control" formControlName="StartDate" autoClose="false"
+                            placeholder="yyyy-mm-dd" #filterStartDate="ngbDatepicker"
+                            (click)="filterStartDate.toggle()">
+                        <div class="input-group-append" (click)="filterStartDate.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 col-md-3">
+                    <label style="visibility: hidden;display: block;">.</label>
+                    <button type="submit" class="btn btn-info ms-2">filter</button>
+                </div>
+            </form> -->
+            <!-- <ng-container>
+                <div class="col-lg-12">
+                    <ng-container *ngIf="loader">
+                        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                            <div class="spinner-border text-primary m-1" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div *ngIf="!loader && allTasks.length > 0">
+                        <div class="table-responsive">
+                            <table class="table project-list-table table-nowrap align-middle table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">
+                                            {{'GENERAL.DESCRIPTION' |
+                                            translate}}</th>
+                                        <th>
+                                            {{'GENERAL.STARTDATE' |
+                                            translate}}
+                                        </th>
+                                        <th>
+                                            {{'GENERAL.ENDDATE' |
+                                            translate}}
+                                        </th>
+                                        <th scope="col">
+                                            {{'GENERAL.FILES'
+                                            | translate}}</th>
+                                        <th scope="col">
+                                            {{'GENERAL.DELETE'
+                                            | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of allTasks">
+                                        <td>
+                                            <input class="form-check-input me-2"
+                                                (change)="ChangeActiveOrNotOwnedTask(item.id)" type="checkbox"
+                                                [checked]="item.isActive" value="" aria-label="..." />
+                                        </td>
+                                        <td>
+                                            <h5 class="text-truncate font-size-14">
+                                                <a href="javascript: void(0);" class="text-dark"
+                                                    [style.text-decoration]="item.isActive ?'line-through' : ''">{{item.name}}</a>
+                                            </h5>
+                                        </td>
+                                        <td>{{item.startDate | date:'dd / MM / yyyy'}}</td>
+                                        <td>{{item.endDate | date:'dd / MM / yyyy'}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning p-1"
+                                                (click)="viewFiles(viewFile,item.attachmentsPaths)"><i
+                                                    class="bx bxs-file-css"></i></button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger p-1"
+                                                (click)="RemoveTask(item.id)"><i class="bx bxs-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="w-100 mx-auto">
+                                <ngb-pagination [collectionSize]="totalRecords" [pageSize]="10"
+                                    (pageChange)="pagination($event)" [(page)]="pageNumber" [maxSize]="5"
+                                    [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="!loader && allTasks.length == 0">
+                        <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                            <div class="alert alert-warning fade text-center show px-3 mb-0" role="alert">
+                                <div class="mb-3">
+                                    <i class="bx bx-error-alt h1  text-warning"></i>
+                                </div>
+
+                                <div class="text-center">
+                                    <h5 class="text-warning ">Not Found Result</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container> -->
+        </ul>
+
+
+    </div>
+</div>

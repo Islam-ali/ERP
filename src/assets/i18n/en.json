@@ -424,6 +424,8 @@
     "PERSONAL_INFORMATION":"Personal Information",
     "tASKS":"Tasks",
     "DAILY_TASKS":"Done",
-    "FOLLOWINGTYPE":"Following Type"
+    "FOLLOWINGTYPE":"Following Type",
+    "REQUEST":"request",
+    "REASON":"reason"
   }
 }

@@ -8,7 +8,7 @@
                     </div>
                     <div class="col-6 d-flex justify-content-end ">
                         <button *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Create')"
-                            class="btn btn-primary w-md" (click)="openModal(addClient , 0)">
+                            class="btn btn-primary w-md" [routerLink]="['add']">
                             {{'GENERAL.ADD' | translate}} {{'GENERAL.CLIENT' | translate}}
                             <i class="bx bx-plus-medical"></i></button>
                     </div>
@@ -30,11 +30,11 @@
                     <thead>
                         <tr>
                             <th scope="col">{{'GENERAL.NAME' | translate}}</th>
-                            <th scope="col">{{'GENERAL.EMAIL' | translate}}</th>
-                            <th scope="col">{{'GENERAL.MOBILE_NUMBER' | translate}}</th>
-                            <th scope="col"
+                            <!-- <th scope="col">{{'GENERAL.EMAIL' | translate}}</th> -->
+                            <!-- <th scope="col">{{'GENERAL.MOBILE_NUMBER' | translate}}</th> -->
+                            <!-- <th scope="col"
                                 *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">
-                                {{'GENERAL.ACTIVE' | translate}}</th>
+                                {{'GENERAL.ACTIVE' | translate}}</th> -->
                             <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
                             <th scope="col">{{'GENERAL.COMMUNICATIONWAYS' | translate}}</th>
                             <th scope="col" class="text-center">{{'GENERAL.ACTION' | translate}}</th>
@@ -48,14 +48,14 @@
                                         class="text-dark text-truncate">{{data.companyName}}</a>
                                 </h5>
                             </td>
-                            <td>{{data.email}}</td>
+                            <!-- <td>{{data.email}}</td> -->
                             <td class="text-truncate" style="max-width: 200px;">{{data.mobile}}</td>
-                            <td>
+                            <!-- <td>
                                 <span class="badge" [class]="data.isActive == true ? 'bg-success':'bg-warning'">
                                     <span *ngIf="data.isActive == true">{{'GENERAL.ACTIVE' | translate}}</span>
                                     <span *ngIf="data.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
                                 </span>
-                            </td>
+                            </td> -->
                             <td class="text-center"
                                 *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">
                                 <ui-switch defaultBoColor="#dfdfdf" (change)="ChangeActiveOrNotDepartment(data.id)"
@@ -461,7 +461,7 @@
                             [(ngModel)]="clientDetails.clientCommunicationWay_Id" bindLabel="name"
                             bindValue="id"></ng-select>
                     </div>
-                    <div class="col-6 px-2 py-1">
+                    <div class="col-6 px-2 py-1" *ngIf="_AuthenticationService.checkPermission('Permissions.ClientCommunicationWay.Edit')">
                         <button type="button" (click)="EditClientCommunicationWay(clientCommunicationWay_Id)" class="btn btn-success">{{'GENERAL.EDIT' | translate}}</button>
                     </div>
                 </div>

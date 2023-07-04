@@ -424,6 +424,8 @@
     "PERSONAL_INFORMATION": "معلومات شخصية",
     "tASKS": "المهام",
     "DAILY_TASKS": "ماتم انجازه",
-    "FOLLOWINGTYPE": "نوع المتابعة"
+    "FOLLOWINGTYPE": "نوع المتابعة",
+    "REQUEST":"طلب",
+    "REASON":"السبب"
   }
 }

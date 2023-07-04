@@ -9,13 +9,16 @@ import { UIModule } from 'app/shared/ui/ui.module';
 import { NgbDatepickerModule, NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { DailyTasksComponent } from './components/profile/daily-tasks/daily-tasks.component';
 import { OwnedTasksComponent } from './components/profile/owned-tasks/owned-tasks.component';
+import { RequestComponent } from './components/profile/request/request.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
   declarations: [
     ProfileComponent,
     DailyTasksComponent,
-    OwnedTasksComponent
+    OwnedTasksComponent,
+    RequestComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +29,8 @@ import { OwnedTasksComponent } from './components/profile/owned-tasks/owned-task
     UIModule,
     NgbDatepickerModule,
     NgbNavModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    NgSelectModule
   ]
 })
 export class ProfileModule { }

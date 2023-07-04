@@ -11,12 +11,14 @@ import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { NgbDropdownModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommentsClientComponent } from './components/comments-client/comments-client.component';
+import { FormClientComponent } from './components/form-client/form-client.component';
 
 
 @NgModule({
   declarations: [
     IndexComponent,
     CommentsClientComponent,
+    FormClientComponent,
   ],
   imports: [
     CommonModule,

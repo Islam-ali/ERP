@@ -1,6 +1,6 @@
-// 
+//
 // _horizontal.scss
-// 
+//
 
 .topnav {
     background: $topnav-bg;
@@ -11,14 +11,14 @@
     left: 0;
     right: 0;
     z-index: 100;
-    
+
     .topnav-menu {
         margin: 0;
         padding: 0;
     }
 
     .navbar-nav {
-        
+
         .nav-link {
             font-size: 14px;
             position: relative;
@@ -32,14 +32,14 @@
                 background-color: transparent;
             }
         }
-        
+
         .dropdown-item{
             color: $menu-item-color;
             &.active, &:hover{
                 color: $menu-item-active-color;
             }
         }
-        
+
         .nav-item{
             .nav-link.active{
                 color: $menu-item-active-color;
@@ -178,12 +178,12 @@
                 display: $display-block;
             }
         }
-    
+
         .logo-light {
             display: $display-none;
         }
     }
-    
+
     .topnav {
         max-height: 360px;
         overflow-y: auto;
@@ -202,7 +202,7 @@
                 padding-left: 15px;
                 &.dropdown-mega-menu-xl{
                     width: auto;
-    
+
                     .row{
                         margin: 0px;
                     }
@@ -237,7 +237,7 @@
             .logo-dark {
                 display: $display-block;
             }
-        
+
             .logo-light {
                 display: $display-none;
             }
@@ -246,15 +246,15 @@
         .topnav{
             background-color: $primary;
             .navbar-nav {
-        
+
                 .nav-link {
                     color: rgba($white, 0.6);
-                    
+
                     &:focus, &:hover{
                         color: rgba($white, 0.9);
                     }
                 }
-        
+
                 > .dropdown{
                     &.active{
                     >a {
@@ -267,7 +267,7 @@
     }
 }
 
-// Colored Topbar 
+// Colored Topbar
 
 body[data-layout="horizontal"][data-topbar="colored"] {
     #page-topbar{
@@ -284,7 +284,7 @@ body[data-layout="horizontal"][data-topbar="colored"] {
     }
 
     .app-search {
-    
+
         .form-control {
             background-color: rgba($topbar-search-bg,0.07);
             color: $white;
@@ -296,7 +296,7 @@ body[data-layout="horizontal"][data-topbar="colored"] {
     }
     .header-item {
         color: $header-dark-item-color;
-    
+
         &:hover {
             color: $header-dark-item-color;
         }
@@ -324,15 +324,15 @@ body[data-layout="horizontal"][data-topbar="colored"] {
         .topnav{
             background-color: $primary;
             .navbar-nav {
-        
+
                 .nav-link {
                     color: rgba($white, 0.6);
-                    
+
                     &:focus, &:hover{
                         color: rgba($white, 0.9);
                     }
                 }
-        
+
                 > .dropdown{
                     &.active{
                       >a {
@@ -347,7 +347,7 @@ body[data-layout="horizontal"][data-topbar="colored"] {
 
 
 
-// Colored Topbar 
+// Colored Topbar
 
 body[data-layout="horizontal"][data-topbar="colored"] {
     #page-topbar{
@@ -364,7 +364,7 @@ body[data-layout="horizontal"][data-topbar="colored"] {
     }
 
     .app-search {
-    
+
         .form-control {
             background-color: rgba($topbar-search-bg,0.07);
             color: $white;
@@ -376,7 +376,7 @@ body[data-layout="horizontal"][data-topbar="colored"] {
     }
     .header-item {
         color: $header-dark-item-color;
-    
+
         &:hover {
             color: $header-dark-item-color;
         }
@@ -404,15 +404,15 @@ body[data-layout="horizontal"][data-topbar="colored"] {
         .topnav{
             background-color: $primary;
             .navbar-nav {
-        
+
                 .nav-link {
                     color: rgba($white, 0.6);
-                    
+
                     &:focus, &:hover{
                         color: rgba($white, 0.9);
                     }
                 }
-        
+
                 > .dropdown{
                     &.active{
                       >a {

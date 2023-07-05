@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Clients, DataListOfClientJobs, DatashowClient, ListOfClientJobs, showClient } from '../../modal/clients';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientService } from '../../services/client.service';
@@ -64,8 +64,49 @@ export class FormClientComponent implements OnInit {
       region_Id: [null],
       department_Id: [null, [Validators.required]],
       image: [null],
-      clientType_Id: [null, [Validators.required]]
+      clientType_Id: [null, [Validators.required]],
+      Latitude:[null],
+      Longitude:[null],
+      ClientAddresses: this._formBuilder.array([]),
+      ClientContactLists: this._formBuilder.array([]),
     });
+  }
+  // ClientAddresses
+  initFormClientAddresses(): FormGroup {
+    return this._formBuilder.group({
+      StreetAddress1: [null],
+      StreetAddress2: [null],
+      PostalCode: [null],
+      Region_Id: [null],
+    })
+  }
+  get ClientAddresses() {
+    return this.clientsForm.controls["ClientAddresses"] as FormArray;
+  }
+  addFormClientAddresses() {
+    this.ClientAddresses.push(this.initFormClientAddresses());
+  }
+  deleteFormClientAddresses(index: number) {
+    this.ClientAddresses.removeAt(index);
+  }
+// ClientContactLists
+  initFormClientContactLists(): FormGroup {
+    return this._formBuilder.group({
+      FirstName: [null],
+      LastName: [null],
+      Telephone: [null],
+      Mobile: [null],
+      Email: [null , [Validators.email]],
+    })
+  }
+  get ClientContactLists() {
+    return this.clientsForm.controls["ClientContactLists"] as FormArray;
+  }
+  addFormClientContactLists() {
+    this.ClientContactLists.push(this.initFormClientContactLists());
+  }
+  deleteFormClientContactLists(index: number) {
+    this.ClientContactLists.removeAt(index);
   }
 
   ngOnInit(): void {

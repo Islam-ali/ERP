@@ -402,8 +402,8 @@
     "UNIVERSITY": "University",
     "QUALIFICATION": "Qualificatuion",
     "SALARY": "Salary",
-    "MilitaryStatus": "MilitaryStatus",
-    "MaritalStatus": "MaritalStatus",
+    "MilitaryStatus": "Military Status",
+    "MaritalStatus": "Marital Status",
     "Status": "Status",
     "STATES": "States",
     "REGION": "Region",
@@ -426,6 +426,8 @@
     "DAILY_TASKS":"Done",
     "FOLLOWINGTYPE":"Following Type",
     "REQUEST":"request",
-    "REASON":"reason"
+    "REASON":"reason",
+    "ClientAddresses":"Client Addresses",
+    "ClientContactLists":"Client ContactLists"
   }
 }

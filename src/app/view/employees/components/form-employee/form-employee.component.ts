@@ -9,7 +9,7 @@ import { EMPTY } from 'rxjs';
 import { ProfileService } from 'app/view/profile/services/profile.service';
 import { Profile } from 'app/view/profile/modal/profile';
 import { AuthenticationService } from 'app/core/services/auth.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { EmployeesService } from '../../services/employees.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -47,9 +47,9 @@ export class FormEmployeeComponent implements OnInit {
   listOfEmployees: any[] = [];
   listOfDepartment: any[] = [];
   placement = "top";
-  state_id = 0 ;
+  state_id = 0;
   department_id = 0;
-  ListOfId:any[]=[];
+  ListOfId: any[] = [];
   constructor(
     private _formBuilder: FormBuilder,
     private _EmployeesService: EmployeesService,
@@ -60,11 +60,11 @@ export class FormEmployeeComponent implements OnInit {
     private _DepartmentsService: DepartmentsService,
     private _FormateDateService: FormateDateService,
     private _ProfileService: ProfileService,
-    public _AuthenticationService : AuthenticationService,
+    public _AuthenticationService: AuthenticationService,
     private _location: Location,
-    private _Router:Router
+    private _Router: Router
   ) {
-    this._ActivatedRoute.paramMap.subscribe((param:any)=>{
+    this._ActivatedRoute.paramMap.subscribe((param: any) => {
       this.companyID = +param.params['companyID'];
       this.EmployeeId = +param.params['EmployeeId'];
       this.getListsDropdown();
@@ -110,12 +110,12 @@ export class FormEmployeeComponent implements OnInit {
   goBack() {
     this._location.back();
   }
-  initFormEmployee():FormGroup {
+  initFormEmployee(): FormGroup {
     return this._formBuilder.group({
-      Description:[null],
-      File:[null],
-      path:[null],
-      id:[null]
+      Description: [null],
+      File: [null],
+      path: [null],
+      id: [null]
     })
   }
   get Employee() {
@@ -139,7 +139,10 @@ export class FormEmployeeComponent implements OnInit {
     this.getListOfEmployees();
   }
   ngOnInit(): void {
-    this.EmployeeId ? this.showEmployee(this.EmployeeId) : EMPTY
+    if (!this.EmployeeId) {
+      this.EmployeeForm.controls["Email"].setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]);
+      this.showEmployee(this.EmployeeId)
+    }
   }
   getListOfMilitaryStatus(): void {
     this._EmployeesService.ListOfMilitaryStatus().subscribe({
@@ -172,11 +175,11 @@ export class FormEmployeeComponent implements OnInit {
   getListOfRegions(stateID: number): void {
     console.log(stateID);
     stateID ?
-    this._EmployeesService.ListOfRegions(stateID).subscribe({
-      next: (res: Employees) => {
-        this.listOfRegion = res.data;
-      }
-    }) : this.listOfRegion = [];
+      this._EmployeesService.ListOfRegions(stateID).subscribe({
+        next: (res: Employees) => {
+          this.listOfRegion = res.data;
+        }
+      }) : this.listOfRegion = [];
   }
   getListOfGenders(): void {
     this._EmployeesService.ListOfGenders().subscribe({
@@ -187,11 +190,11 @@ export class FormEmployeeComponent implements OnInit {
   }
   getListOfJob(departmentID: number): void {
     departmentID ?
-    this._JobsService.ListOfJob(departmentID).subscribe({
-      next: (res: Employees) => {
-        this.listOfJob = res.data;
-      }
-    }) : this.listOfJob = [];
+      this._JobsService.ListOfJob(departmentID).subscribe({
+        next: (res: Employees) => {
+          this.listOfJob = res.data;
+        }
+      }) : this.listOfJob = [];
   }
   getListOfDepartment(): void {
     this._DepartmentsService.ListOfDepartment(this.companyID).subscribe({
@@ -207,7 +210,7 @@ export class FormEmployeeComponent implements OnInit {
       }
     })
   }
-  uploadeFiles(event: any , index:number): void {
+  uploadeFiles(event: any, index: number): void {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
       this.Employee.controls[index].patchValue({
@@ -262,11 +265,11 @@ export class FormEmployeeComponent implements OnInit {
           state_Id: res.data.state_Id,
           department_Id: res.data.department_Id,
           // FILES
-          ImagePath: res.data.imagePath ? `${this.pathUrl +res.data.imagePath}` : "",
-          CoverPath: res.data.coverPath ? `${this.pathUrl +res.data.coverPath}` : "",
+          ImagePath: res.data.imagePath ? `${this.pathUrl + res.data.imagePath}` : "",
+          CoverPath: res.data.coverPath ? `${this.pathUrl + res.data.coverPath}` : "",
           // Files: res.data.files,
         })
-        res.data.files.forEach((ele:any , index:number)=>{
+        res.data.files.forEach((ele: any, index: number) => {
           index > 0 ? this.addFormEmployee() : EMPTY;
           this.Employee.controls[index].patchValue({
             path: `${this.pathUrl + ele.file}`,
@@ -275,7 +278,7 @@ export class FormEmployeeComponent implements OnInit {
           })
         })
         console.log(this.Employee.value);
-        
+
       }, error: (err: Error) => {
         this.loadingShow = false;
       }
@@ -301,7 +304,7 @@ export class FormEmployeeComponent implements OnInit {
     value['id'] = this.EmployeeId;
     this._EmployeesService.getEditEmployee(value).subscribe({
       next: (res: Employees) => {
-        this._Router.navigate(['/companies',this.companyID,'employees'])
+        this._Router.navigate(['/companies', this.companyID, 'employees'])
 
         this.loadingEmployees = false;
         this.toastrService.success(res.message);
@@ -322,7 +325,7 @@ export class FormEmployeeComponent implements OnInit {
 
     this._EmployeesService.addEmployee(value).subscribe({
       next: (res: Employees) => {
-        this._Router.navigate(['/companies',this.companyID,'employees'])
+        this._Router.navigate(['/companies', this.companyID, 'employees'])
 
         this.loadingEmployees = false;
         this.toastrService.success(res.message);
@@ -332,13 +335,13 @@ export class FormEmployeeComponent implements OnInit {
       }
     })
   }
-  RemoveImage(id:number){
+  RemoveImage(id: number) {
     this.ListOfId.push(id)
     this.DeleteFileOrMoreOfEmployee();
   }
-  DeleteFileOrMoreOfEmployee(){
+  DeleteFileOrMoreOfEmployee() {
     this._ProfileService.DeleteFileOrMoreOfEmployee(this.ListOfId).subscribe({
-      next:(res:Profile)=>{
+      next: (res: Profile) => {
         this.ListOfId = [];
         this.toastrService.error(res.message);
       }, error: (err: Error) => {

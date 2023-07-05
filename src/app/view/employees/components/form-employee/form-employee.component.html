@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="card p-2">
                     <div class="card-header text-center mb-3">
-                        xxxxxxxxxxxxxx
+                        {{'GENERAL.PERSONAL_INFORMATION' | translate}}
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
@@ -126,13 +126,26 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="mb-3">
+                                <label>{{'GENERAL.BIRTHDATE' | translate}}</label>
+                                <div class="input-group clockpicker" #date2>
+                                    <input ngbDatepicker [positionTarget]="date2" [placement]="placement"
+                                        class="form-control" formControlName="BirthDate" autoClose="false"
+                                        placeholder="yyyy-mm-dd" #BirthDate="ngbDatepicker" (click)="BirthDate.toggle()">
+                                    <div class="input-group-append" (click)="BirthDate.toggle()">
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="card p-2">
                     <div class="card-header text-center mb-3">
-                        xxxxxxxxxxxxxx
+                        {{'GENERAL.MaritalStatus' | translate}}
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
@@ -225,15 +238,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card p-2">
-                    <div class="card-header text-center mb-3">
-                        xxxxxxxxxxxxxx
-                    </div>
-                    <div class="row">
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label text-capitalize">{{'GENERAL.DEPARTMENTS' |
@@ -281,70 +285,29 @@
                                 <div class="input-group clockpicker" #date1>
                                     <input ngbDatepicker [positionTarget]="date1" [placement]="placement"
                                         class="form-control" formControlName="HireDate" autoClose="false"
-                                        placeholder="yyyy-mm-dd" #startDate="ngbDatepicker"
-                                        (click)="startDate.toggle()">
-                                    <div class="input-group-append" (click)="startDate.toggle()">
+                                        placeholder="yyyy-mm-dd" #HireDate="ngbDatepicker"
+                                        (click)="HireDate.toggle()">
+                                    <div class="input-group-append" (click)="HireDate.toggle()">
                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6 col-lg-6">
-                            <div class="mb-3">
-                                <label>{{'GENERAL.BIRTHDATE' | translate}}</label>
-                                <div class="input-group clockpicker" #date2>
-                                    <input ngbDatepicker [positionTarget]="date2" [placement]="placement"
-                                        class="form-control" formControlName="GraduateDate" autoClose="false"
-                                        placeholder="yyyy-mm-dd" #endDate="ngbDatepicker" (click)="endDate.toggle()">
-                                    <div class="input-group-append" (click)="endDate.toggle()">
-                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
                                 <label>{{'GENERAL.GRADUATEDATE' | translate}}</label>
                                 <div class="input-group clockpicker" #date3>
                                     <input ngbDatepicker [positionTarget]="date3" [placement]="placement"
-                                        class="form-control" formControlName="BirthDate" autoClose="false"
-                                        placeholder="yyyy-mm-dd" #hireDate="ngbDatepicker" (click)="hireDate.toggle()">
-                                    <div class="input-group-append" (click)="hireDate.toggle()">
+                                        class="form-control" formControlName="GraduateDate" autoClose="false"
+                                        placeholder="yyyy-mm-dd" #GraduateDate="ngbDatepicker" (click)="GraduateDate.toggle()">
+                                    <div class="input-group-append" (click)="GraduateDate.toggle()">
                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12">
-                            <!-- <div class="row">
-                            <div class="col-xl-6 col-lg-6">
-                                <div class="mb-3">
-                                    <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}}
-                                        {{'GENERAL.FACTORY' |
-                                        translate}}</label>
-                                    <input class="form-control" type="file" accept="image/*" (change)="uploadeImage($event)"
-                                        [ngClass]="{'is-valid': form.ImagePath.dirty && !form.ImagePath.errors ,'is-invalid': form.ImagePath.dirty && form.ImagePath.errors}">
-                                    <div class="card-image p-0 px-2 m-2">
-                                        <img class="p-0 w-100" title="images" accept="image/*" alt="images"
-                                            [src]="form.ImagePath.value" *ngIf="form.ImagePath.value" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6">
-                                <div class="mb-3">
-                                    <label for="formFile" class="form-label text-capitalize">{{'GENERAL.IMAGE' | translate}}
-                                        {{'GENERAL.commercial_register_image' |
-                                        translate}}</label>
-                                    <input class="form-control" type="file" accept="image/*"
-                                        (change)="uploadeCoverPath($event)"
-                                        [ngClass]="{'is-valid': form.CoverPath.dirty && !form.CoverPath.errors ,'is-invalid': form.CoverPath.dirty && form.CoverPath.errors}">
-                                    <div class="card-image p-0 px-2 m-2" *ngIf="form.CoverPath.value">
-                                        <img class="p-0 w-100" title="images" accept="image/*" alt="images"
-                                            [src]="form.CoverPath.value"  />
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                             <div class="col-12 mb-4">
                                 <div class="row" formArrayName="Files">
                                     <div *ngFor="let EmployeeArr of Employee.controls; let i = index">
@@ -409,8 +372,9 @@
         </div>
         <div class="w-100 text-center">
             <button class="btn btn-primary" type="submit" [disabled]="EmployeeForm.invalid">
-                <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingEmployees"></i>
-                {{!EmployeeId ? 'ADD': 'EDIT'}}
+                <i class="bx bx-loader bx-spin font-size-16 align-middle me-2" *ngIf="loadingEmployees"></i>  
+                <span *ngIf="!EmployeeId">{{'GENERAL.ADD' | translate}}</span>
+                <span *ngIf="EmployeeId">{{'GENERAL.EDIT' | translate}}</span>
             </button>
         </div>
     </form>

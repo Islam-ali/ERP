@@ -1,6 +1,6 @@
-// 
+//
 // _header.scss
-// 
+//
 
 #page-topbar {
     position: fixed;
@@ -18,7 +18,7 @@
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
-    height: $header-height;
+    height: $new-header-height;
     padding: 0 calc(#{$grid-gutter-width} / 2) 0 0 /*rtl: 0 0 0 calc(#{$grid-gutter-width} / 2) */;
 
     .dropdown .show {
@@ -183,8 +183,8 @@
 }
 
 body[data-topbar="dark"] {
-    #page-topbar { 
-        background-color: $header-dark-bg;
+    #page-topbar {
+        background-color: $primary;
     }
     .navbar-header {
         .dropdown .show {
@@ -200,7 +200,7 @@ body[data-topbar="dark"] {
 
     .header-item {
         color: $header-dark-item-color;
-    
+
         &:hover {
             color: $header-dark-item-color;
         }
@@ -209,7 +209,7 @@ body[data-topbar="dark"] {
     .header-profile-user {
         background-color: rgba($white, 0.25);
     }
-    
+
     .noti-icon {
         i {
             color: $header-dark-item-color;
@@ -225,7 +225,7 @@ body[data-topbar="dark"] {
     }
 
     .app-search {
-    
+
         .form-control {
             background-color: rgba($topbar-search-bg,0.07);
             color: $white;
@@ -280,13 +280,13 @@ body[data-layout="horizontal"] {
     .page-content {
         margin-top: $header-height;
         padding: calc(55px + #{$grid-gutter-width}) calc(#{$grid-gutter-width} / 2) $footer-height calc(#{$grid-gutter-width} / 2);
-    }    
+    }
 }
 
-@media (max-width: 992px) { 
+@media (max-width: 992px) {
     body[data-layout="horizontal"] {
         .page-content {
             margin-top: 15px;
-        }    
+        }
     }
 }

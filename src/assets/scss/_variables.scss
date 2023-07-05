@@ -29,6 +29,7 @@ $sidebar-dark-menu-item-active-color: #ffffff;
 
 // Topbar - Deafult Light
 $header-height: 70px;
+$new-header-height: 50px;
 $header-bg: #ffffff;
 $header-item-color: #555b6d;
 
@@ -57,7 +58,7 @@ $rightbar-width:  280px;
 $display-none: none;
 $display-block: block;
 
-// Brand 
+// Brand
 $navbar-brand-box-width: 250px;
 
 // Boxed layout width
@@ -111,6 +112,7 @@ $grays: (
 // fusv-enable
 
 $blue:    #576CBC;
+$newBlue:    #247DBD;
 $indigo:  #564ab1;
 $purple:  #6f42c1;
 $pink:    #e83e8c;
@@ -124,6 +126,7 @@ $cyan:    #50a5f1;
 // scss-docs-start colors-map
 $colors: (
     "blue":       $blue,
+    "newBlue":    $newBlue,
     "indigo":     $indigo,
     "purple":     $purple,
     "pink":       $pink,
@@ -139,7 +142,7 @@ $colors: (
 );
 // scss-docs-end colors-map
 
-$primary:       $blue;
+$primary:       $newBlue;
 $secondary:     $gray-600;
 $success:       $green;
 $info:          $cyan;

@@ -8,7 +8,7 @@
                     </div>
                     <div class="col-6 d-flex justify-content-end ">
                         <button *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Create')"
-                            class="btn btn-primary w-md" (click)="openModal(addEmployee , 0)">
+                            class="btn btn-primary w-md" routerLink="add">
                             {{'GENERAL.ADD' | translate}} {{'GENERAL.EMPLOYEE' | translate}}
                             <i class="bx bx-plus-medical"></i></button>
                     </div>
@@ -36,7 +36,7 @@
                             <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                                 <a *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Edit')"
                                     class="dropdown-item" href="javascript: void(0);"
-                                    (click)="patchValueForm( addEmployee , list )">Edit</a>
+                                    [routerLink]="['edit',list.id]">Edit</a>
                                 <a *ngIf="_AuthenticationService.checkPermission('Permissions.Employees.Delete')"
                                     class="dropdown-item" href="javascript: void(0);"
                                     (click)="delete(list.id)">Delete</a>

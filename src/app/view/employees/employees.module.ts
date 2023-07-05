@@ -9,11 +9,13 @@ import { EmployeesComponent } from './components/employees/employees.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { UiSwitchModule } from 'ngx-ui-switch';
+import { FormEmployeeComponent } from './components/form-employee/form-employee.component';
 
 
 @NgModule({
   declarations: [
-    EmployeesComponent
+    EmployeesComponent,
+    FormEmployeeComponent
   ],
   imports: [
     CommonModule,

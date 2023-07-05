@@ -49,7 +49,7 @@
                                 </h5>
                             </td>
                             <!-- <td>{{data.email}}</td> -->
-                            <td class="text-truncate" style="max-width: 200px;">{{data.mobile}}</td>
+                            <!-- <td class="text-truncate" style="max-width: 200px;">{{data.mobile}}</td> -->
                             <!-- <td>
                                 <span class="badge" [class]="data.isActive == true ? 'bg-success':'bg-warning'">
                                     <span *ngIf="data.isActive == true">{{'GENERAL.ACTIVE' | translate}}</span>
@@ -69,7 +69,7 @@
                                 <div class="mx-1"
                                     *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">
                                     <button class="btn btn-light w-100 py-1" type="button" [disabled]="!data.isActive"
-                                        (click)="patchValueForm(addClient,data);getUpdateClients(data.id)">{{'GENERAL.EDIT'
+                                        [routerLink]="['edit',data.id]">{{'GENERAL.EDIT'
                                         | translate}}<i class="ms-1 bx bx-edit"></i></button>
                                 </div>
                                 <div class="mx-1">

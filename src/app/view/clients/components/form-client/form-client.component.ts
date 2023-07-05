@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Clients, DataListOfClientJobs, DatashowClient, ListOfClientJobs, showClient } from '../../modal/clients';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClientService } from '../../services/client.service';
 import { DepartmentsService } from 'app/view/departments/services/departments.service';
 import { EmployeesService } from 'app/view/employees/services/employees.service';
@@ -43,6 +43,7 @@ export class FormClientComponent implements OnInit {
     private _DepartmentsService: DepartmentsService,
     private _EmployeesService: EmployeesService,
     private toastrService: ToastrService,
+    private _Router:Router
     
   ) { 
     this._ActivatedRoute.paramMap.subscribe((param: any) => {
@@ -72,6 +73,8 @@ export class FormClientComponent implements OnInit {
     this.getListOfStates();
     this.ListOfClientTypes();
     this.ListOfDepartment();
+    
+    this.clientID ? this.showClients(this.clientID) : EMPTY;
   }
   ListOfClientTypes(): void {
     this._ClientsService.ListOfClientTypes().subscribe({
@@ -163,7 +166,7 @@ export class FormClientComponent implements OnInit {
           department_Id: res.data.department_Id ? res.data.department_Id : null,
           clientType_Id: res.data.clientType_Id ? res.data.clientType_Id : null
         })
-        this.pathImage = this.url+res.data.imagePath 
+        this.pathImage = res.data.imagePath ? this.url + res.data.imagePath : res.data.imagePath
         this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id
       }, error: (err: Error) => {
         this.loadingShow = false;
@@ -175,9 +178,10 @@ export class FormClientComponent implements OnInit {
     value['id'] = this.clientID
     this._ClientsService.updateClients(value, this.clientID).subscribe({
       next: (res: Clients) => {
-        this.onReloade.emit()
+        // this.onReloade.emit()
         this.loadingclients = false;
         // this.modalService.dismissAll();
+        this._Router.navigate(['/companies',this.companyID,'clients'])
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingclients = false;
@@ -189,9 +193,10 @@ export class FormClientComponent implements OnInit {
     let value = this.clientsForm.value
     this._ClientsService.addClient(value).subscribe({
       next: (res: Clients) => {
-        this.onReloade.emit()
+        // this.onReloade.emit()
         this.loadingclients = false;
         // this.modalService.dismissAll();
+        this._Router.navigate(['/companies',this.companyID,'clients'])
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingclients = false;
@@ -201,6 +206,6 @@ export class FormClientComponent implements OnInit {
   }
   onSubmit() {
     this.loadingclients = true;
-    this.clientID ? this.getAddClients() : this.updateClients();
+    !this.clientID ? this.getAddClients() : this.updateClients();
   }
 }

@@ -1,10 +1,11 @@
-<div class="modal-header">
+<div class="card">
+    <!-- <div class="card">
     <h5 class="modal-title mt-0">
         <span *ngIf="clientID">{{'GENERAL.EDIT' | translate}}</span>
         <span *ngIf="!clientID">{{'GENERAL.ADD' | translate}}</span>
         {{ 'GENERAL.CLIENT' | translate }}
     </h5>
-</div>
+</div> -->
 <ng-container *ngIf="loadingShow && clientID">
     <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
         <div class="spinner-border text-primary m-1" role="status">
@@ -14,7 +15,7 @@
 </ng-container>
 
 <div class="modal-body" *ngIf="!loadingShow || !clientID">
-    <form class="needs-validation" (ngSubmit)="onForm.emit" [formGroup]="clientsForm">
+    <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="clientsForm">
         <div class="row">
             <div class="col-xl-6 col-lg-6">
                 <div class="mb-3">
@@ -204,4 +205,5 @@
             </button>
         </div>
     </form>
+</div>
 </div>

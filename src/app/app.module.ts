@@ -25,6 +25,7 @@ import { ErrorInterceptor } from './core/helpers/error.interceptor';
 import { JwtInterceptor } from './core/helpers/jwt.interceptor';
 import { FakeBackendInterceptor } from './core/helpers/fake-backend';
 import { ToastrModule } from 'ngx-toastr';
+import {NgDynamicBreadcrumbModule} from "ng-dynamic-breadcrumb";
 import { APP_BASE_HREF, HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 // import { environment } from "../environments/environment.prod";
 if (env.defaultauth === 'firebase') {
@@ -68,7 +69,8 @@ export function createTranslateLoader(http: HttpClient): any {
     NgbTooltipModule,
     SharedModule,
     ScrollToModule.forRoot(),
-    NgbModule
+    NgbModule,
+    NgDynamicBreadcrumbModule
   ],
   bootstrap: [AppComponent],
   providers: [

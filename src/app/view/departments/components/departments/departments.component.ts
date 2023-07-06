@@ -120,7 +120,7 @@ export class DepartmentsComponent implements OnInit {
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingDepartments = false;
-        this.toastrService.error(`${err}`);
+        this.toastrService.error(`${err.message}`);
       }
     })
   }
@@ -135,7 +135,7 @@ export class DepartmentsComponent implements OnInit {
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingDepartments = false;
-        this.toastrService.error(`${err}`);
+        this.toastrService.error(`${err.message}`);
       }
     })
   }
@@ -150,7 +150,7 @@ export class DepartmentsComponent implements OnInit {
           this.toastrService.warning(res.message);
         }
       }, error: (err: Error) => {
-        this.toastrService.error(`${err}`);
+        this.toastrService.error(`${err.message}`);
       }
     })
   }
@@ -160,7 +160,7 @@ export class DepartmentsComponent implements OnInit {
         this.getDepartments();
         this.toastrService.error(res.message);
       }, error: (err: Error) => {
-        this.toastrService.error(`${err}`);
+        this.toastrService.error(`${err.message}`);
       }
     })
   }

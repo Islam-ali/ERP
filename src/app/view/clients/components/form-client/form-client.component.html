@@ -5,6 +5,11 @@
         {{ 'GENERAL.CLIENT' | translate }}
     </h5>
 </div> -->
+<!-- <div class="card">
+    <div class="card-body">
+        <app-page-title title="Blog Grid" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    </div>
+</div> -->
 <ng-container *ngIf="loadingShow && clientID">
     <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
         <div class="spinner-border text-primary m-1" role="status">
@@ -208,25 +213,115 @@
             </div>
             <div class="col-md-6">
                 <div class="card p-2">
-                    <div class="card-header text-center my-3">
+                    <!-- <div class="card-header text-center my-3">
                         {{'GENERAL.PERSONAL_INFORMATION' | translate}}
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="col-12 mb-4">
                             <div class="card-header text-center my-3">
                                 {{'GENERAL.ClientAddresses' | translate}}
                             </div>
-                            <div class="row" formArrayName="Files">
-                                <div *ngFor="let EmployeeArr of ClientAddresses.controls; let i = index">
+                            <div class="row" formArrayName="ClientAddresses">
+                                <div *ngFor="let ClientAddresse of ClientAddresses.controls; let i = index">
                                     <ng-container [formGroupName]="i">
-                                        <div class="row">
+                                        <div class="col-12 border-content p-2 my-2">
+                                            <button type="button" (click)="deleteFormClientAddresses(i)"
+                                                class="btn btn-danger d-block ms-auto m">X</button>
+
+                                            <div class="row">
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="validationCustom01"
+                                                            class="form-label text-capitalize">{{'GENERAL.ADDRESS' |
+                                                            translate}} 1 </label>
+                                                        <input type="text" class="form-control" id="validationCustom01"
+                                                            formControlName="StreetAddress1"
+                                                            [ngClass]="{'is-valid': ClientAddresse.get('StreetAddress1').dirty && !ClientAddresse.get('StreetAddress1').errors ,'is-invalid': ClientAddresse.get('StreetAddress1').dirty && ClientAddresse.get('StreetAddress1').errors}">
+                                                        <div *ngIf="ClientAddresse.get('StreetAddress1').dirty && ClientAddresse.get('StreetAddress1').errors"
+                                                            class="invalid-feedback">
+                                                            <span
+                                                                *ngIf="ClientAddresse.get('StreetAddress1').errors.required">This
+                                                                value is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="validationCustom01"
+                                                            class="form-label text-capitalize">{{'GENERAL.ADDRESS' |
+                                                            translate}} 2 </label>
+                                                        <input type="text" class="form-control" id="validationCustom01"
+                                                            formControlName="StreetAddress2"
+                                                            [ngClass]="{'is-valid': ClientAddresse.get('StreetAddress2').dirty && !ClientAddresse.get('StreetAddress2').errors ,'is-invalid': ClientAddresse.get('StreetAddress2').dirty && ClientAddresse.get('StreetAddress2').errors}">
+                                                        <div *ngIf="ClientAddresse.get('StreetAddress2').dirty && ClientAddresse.get('StreetAddress2').errors"
+                                                            class="invalid-feedback">
+                                                            <span
+                                                                *ngIf="ClientAddresse.get('StreetAddress2').errors.required">This
+                                                                value is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="validationCustom01"
+                                                            class="form-label text-capitalize">{{'GENERAL.POSTALCODE' |
+                                                            translate}} </label>
+                                                        <input type="text" class="form-control" id="validationCustom01"
+                                                            formControlName="PostalCode"
+                                                            [ngClass]="{'is-valid': ClientAddresse.get('PostalCode').dirty && !ClientAddresse.get('PostalCode').errors ,'is-invalid': ClientAddresse.get('PostalCode').dirty && ClientAddresse.get('PostalCode').errors}">
+                                                        <div *ngIf="ClientAddresse.get('PostalCode').dirty && ClientAddresse.get('PostalCode').errors"
+                                                            class="invalid-feedback">
+                                                            <span
+                                                                *ngIf="ClientAddresse.get('PostalCode').errors.required">This
+                                                                value is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label text-capitalize">{{'GENERAL.STATES' |
+                                                            translate}}</label>
+                                                        <input type="text" class="form-control" id="validationCustom01"
+                                                            formControlName="region"
+                                                            [ngClass]="{'is-valid': ClientAddresse.get('region').dirty && !ClientAddresse.get('region').errors ,'is-invalid': ClientAddresse.get('region').dirty && ClientAddresse.get('region').errors}">
+                                                        <div *ngIf="ClientAddresse.get('region').dirty && ClientAddresse.get('region').errors"
+                                                            class="invalid-feedback">
+                                                            <span
+                                                                *ngIf="ClientAddresse.get('region').errors.required">This
+                                                                value is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label text-capitalize">{{'GENERAL.REGION' |
+                                                            translate}}</label>
+                                                        <input type="text" class="form-control" id="validationCustom01"
+                                                            formControlName="state"
+                                                            [ngClass]="{'is-valid': ClientAddresse.get('state').dirty && !ClientAddresse.get('state').errors ,'is-invalid': ClientAddresse.get('state').dirty && ClientAddresse.get('state').errors}">
+                                                        <div *ngIf="ClientAddresse.get('state').dirty && ClientAddresse.get('state').errors"
+                                                            class="invalid-feedback">
+                                                            <span
+                                                                *ngIf="ClientAddresse.get('state').errors.required">This
+                                                                value is
+                                                                required.</span>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </ng-container>
                                 </div>
                             </div>
                             <div>
-                                <button class="btn btn-outline-success" type="button" (click)="addFormClientAddresses()">{{'GENERAL.ADD' | translate}} <i
-                                    class="bx bx-plus-medical"></i></button>
+                                <button class="btn btn-outline-success" type="button"
+                                    (click)="addFormClientAddresses()">{{'GENERAL.ADD' | translate}} <i
+                                        class="bx bx-plus-medical"></i></button>
                             </div>
                         </div>
                     </div>
@@ -236,17 +331,122 @@
                             <div class="card-header text-center my-3">
                                 {{'GENERAL.ClientContactLists' | translate}}
                             </div>
-                            <div class="row" formArrayName="Files">
-                                <div *ngFor="let EmployeeArr of ClientContactLists.controls; let i = index">
+                            <div class="row" formArrayName="ClientContactLists">
+                                <div *ngFor="let ClientContactList of ClientContactLists.controls; let i = index">
                                     <ng-container [formGroupName]="i">
-                                        <div class="row">
+                                        <div class="col-12 border-content p-2 my-2">
+                                            <button type="button" (click)="deleteFormClientContactLists(i)"
+                                                class="btn btn-danger d-block ms-auto m">X</button>
+                                            <div class="row">
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="validationCustom01"
+                                                            class="form-label text-capitalize">{{'GENERAL.NAME' |
+                                                            translate}} {{'GENERAL.FIRST' |
+                                                            translate}} </label>
+                                                        <input type="text" class="form-control" id="validationCustom01"
+                                                            formControlName="FirstName"
+                                                            [ngClass]="{'is-valid': ClientContactList.get('FirstName').dirty && !ClientContactList.get('FirstName').errors ,'is-invalid': ClientContactList.get('FirstName').dirty && ClientContactList.get('FirstName').errors}">
+                                                        <div *ngIf="ClientContactList.get('FirstName').dirty && ClientContactList.get('FirstName').errors"
+                                                            class="invalid-feedback">
+                                                            <span
+                                                                *ngIf="ClientContactList.get('FirstName').errors.required">This
+                                                                value is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="validationCustom01"
+                                                            class="form-label text-capitalize">{{'GENERAL.NAME' |
+                                                            translate}} {{'GENERAL.LAST' |
+                                                            translate}} </label>
+                                                        <input type="text" class="form-control" id="validationCustom01"
+                                                            formControlName="LastName"
+                                                            [ngClass]="{'is-valid': ClientContactList.get('LastName').dirty && !ClientContactList.get('LastName').errors ,'is-invalid': ClientContactList.get('LastName').dirty && ClientContactList.get('LastName').errors}">
+                                                        <div *ngIf="ClientContactList.get('LastName').dirty && ClientContactList.get('LastName').errors"
+                                                            class="invalid-feedback">
+                                                            <span
+                                                                *ngIf="ClientContactList.get('LastName').errors.required">This
+                                                                value is
+                                                                required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="validationCustom01"
+                                                            class="form-label text-capitalize">{{'GENERAL.MOBILE_NUMBER'
+                                                            |
+                                                            translate}}</label>
+                                                        <textarea type="text" class="form-control"
+                                                            id="validationCustom01" formControlName="Mobile"
+                                                            [ngClass]="{'is-valid': ClientContactList.get('Mobile').dirty && !ClientContactList.get('Mobile').errors ,'is-invalid': ClientContactList.get('Mobile').dirty && ClientContactList.get('Mobile').errors}"></textarea>
+                                                        <div *ngIf="ClientContactList.get('Mobile').dirty && ClientContactList.get('Mobile').errors"
+                                                            class="invalid-feedback">
+                                                            <span
+                                                                *ngIf="ClientContactList.get('Mobile').errors.required">This
+                                                                value is
+                                                                required.</span>
+                                                            <span
+                                                                *ngIf="ClientContactList.get('Mobile').errors.pattern">This
+                                                                value must be number</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="validationCustom01"
+                                                            class="form-label text-capitalize">{{'GENERAL.TELEPHONE'
+                                                            |
+                                                            translate}}</label>
+                                                        <textarea type="text" class="form-control"
+                                                            id="validationCustom01" formControlName="Telephone"
+                                                            [ngClass]="{'is-valid': ClientContactList.get('Telephone').dirty && !ClientContactList.get('Telephone').errors ,'is-invalid': ClientContactList.get('Telephone').dirty && ClientContactList.get('Telephone').errors}"></textarea>
+                                                        <div *ngIf="ClientContactList.get('Telephone').dirty && ClientContactList.get('Telephone').errors"
+                                                            class="invalid-feedback">
+                                                            <span
+                                                                *ngIf="ClientContactList.get('Telephone').errors.required">This
+                                                                value is
+                                                                required.</span>
+                                                            <span
+                                                                *ngIf="ClientContactList.get('Telephone').errors.pattern">This
+                                                                value must be number</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label text-capitalize">{{'GENERAL.EMAIL' |
+                                                            translate}}</label>
+                                                        <div>
+                                                            <input type="email" class="form-control"
+                                                                formControlName="Email"
+                                                                [ngClass]="{'is-valid': ClientContactList.get('Email').dirty && !ClientContactList.get('Email').errors ,'is-invalid': ClientContactList.get('Email').dirty && ClientContactList.get('Email').errors}" />
+                                                            <div *ngIf="ClientContactList.get('Email').dirty && ClientContactList.get('Email').errors"
+                                                                class="invalid-feedback">
+                                                                <span
+                                                                    *ngIf="ClientContactList.get('Email').errors.required">This
+                                                                    value is
+                                                                    required.</span>
+                                                                <span
+                                                                    *ngIf="ClientContactList.get('Email').errors.Email">This
+                                                                    value should be a
+                                                                    valid Email.</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </ng-container>
                                 </div>
                             </div>
                             <div>
-                                <button class="btn btn-outline-success" type="button" (click)="addFormClientContactLists()">{{'GENERAL.ADD' | translate}} <i
-                                    class="bx bx-plus-medical"></i></button>
+                                <button class="btn btn-outline-success" type="button"
+                                    (click)="addFormClientContactLists()">{{'GENERAL.ADD' | translate}} <i
+                                        class="bx bx-plus-medical"></i></button>
                             </div>
                         </div>
                     </div>

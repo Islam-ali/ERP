@@ -10,7 +10,16 @@ const routes: Routes = [
   },
   {
     path:'add',
-    component:FormClientComponent
+    component:FormClientComponent,
+    data: {
+      title: 'page1',
+      breadcrumb: [
+        {
+          label: 'Page1',
+          url: ''
+        }
+      ]
+    },
   },
   {
     path:'edit/:id',

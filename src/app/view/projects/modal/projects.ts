@@ -22,7 +22,13 @@ export interface Projects {
     data: DataShowProjects
     error: string
   }
-  
+
+  export interface Atachments {
+    description:string
+    id:number
+    file:string
+
+  }
   export interface DataShowProjects {
     startDate: string
     endDate: string
@@ -30,4 +36,9 @@ export interface Projects {
     id: number
     name: any
     nameInEnglish: any
+    atachments: Atachments[]
+    budget:number
+    description:string
+    client_Id:number
+    implementationPeriod:string
   }

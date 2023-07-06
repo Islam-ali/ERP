@@ -17,8 +17,11 @@ export class SharedService {
       if (Array.isArray(body[key]) && body[key].length > 0) {
         if (Object?.keys(body[key][0])?.length > 1) {
           body[key].forEach((ele: any, index: number) => {
-            for (const subkey in ele)
-            ele[subkey] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+            for (const subkey in ele){
+              ele[subkey] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+              ele[subkey] === 0 ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+            }
+
           })
         }
         else {

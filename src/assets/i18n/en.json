@@ -361,11 +361,14 @@
     "ENGLISH_NAME": "English name",
     "EMAIL": "email",
     "MOBILE_NUMBER": "mobile number",
+    "TELEPHONE": "Telephone",
     "PASSWORD": "Password",
     "PASSWORD_CONFIRMATION": "Password Confirmation",
     "IMAGE": "image",
     "ADD": "add",
     "EDIT": "edit",
+    "FIRST":"First",
+    "LAST":"Last",
     "DELETE": "delete",
     "SUPERVISOR":"Supervisor",
     "SUBMIT": "Submit",
@@ -428,6 +431,9 @@
     "REQUEST":"request",
     "REASON":"reason",
     "ClientAddresses":"Client Addresses",
-    "ClientContactLists":"Client ContactLists"
+    "ClientContactLists":"Client ContactLists",
+    "POSTALCODE":"PostalCode",
+    "BUDGET":"Budget",
+    "IMPLEMENTATIONPERIOD":"Implementation Period"
   }
 }

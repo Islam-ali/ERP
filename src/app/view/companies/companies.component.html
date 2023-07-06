@@ -26,36 +26,44 @@
             </div>
         </ng-container>
         <ng-container *ngIf="!loadingAllCompanies">
-            <div class="col-xl-3 col-sm-6" *ngFor="let data of allCompanies">
+            <div class="col-xl-4 col-sm-6" *ngFor="let data of allCompanies">
                 <div class="card text-center">
                     <div class="card-body row">
-
-                        <div class="col-4">
-                            <div class="avatar-md mx-auto mb-4">
-                                <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-16">
-                                    {{data.name.charAt(0) | uppercase}}
-                                </span>
+                        <div class="col-12">
+                            <div class="col-12">
+                                <div class="avatar-md mx-auto mb-4">
+                                    <span
+                                        class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-16">
+                                        {{data.name.charAt(0) | uppercase}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <h5 class="font-size-15 mb-1"><a href="javascript: void(0);"
+                                        class="text-dark">{{data.name}}</a>
+                                </h5>
+                                <div>
+                                    <a href="javascript: void(0);"
+                                        [class]="data.isActive  == true ? 'bg-success': 'bg-warning'"
+                                        class="badge font-size-11 my-1">
+                                        <span *ngIf="data.isActive == true">{{'GENERAL.ACTIVE' | translate}}</span>
+                                        <span *ngIf="data.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
+                                    </a>
+                                </div>
+                                <div class="flex-fill d-flex align-items-center justify-content-between my-1">
+                                    <ui-switch defaultBoColor="#dfdfdf" color="#34c38f"
+                                        (change)="ChangeActiveOrNotCompany(data.id)" [checked]="data.isActive == true"
+                                        size="small" class="d-flex"></ui-switch>
+                                        <div *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Delete')">
+                                            <!-- <a class="dropdown-item" (click)="patchValueForm(addCompany , data)" href="javascript: void(0);"
+                                                ><i class="bx bx-edit"></i>Edit</a> -->
+                                            <a href="javascript: void(0);" (click)="remove(data.id)"><i
+                                                    class="bx bx-trash fa-2x"></i></a>
+                                        </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-6 text-start">
-                            <h5 class="font-size-15 mb-1"><a href="javascript: void(0);"
-                                    class="text-dark">{{data.name}}</a>
-                            </h5>
-                            <div>
-                                <a href="javascript: void(0);"
-                                    [class]="data.isActive  == true ? 'bg-success': 'bg-warning'"
-                                    class="badge font-size-11 my-1">
-                                    <span *ngIf="data.isActive == true">{{'GENERAL.ACTIVE' | translate}}</span>
-                                    <span *ngIf="data.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
-                                </a>
-                            </div>
-                            <div class="flex-fill d-flex align-items-center my-1">
-                                <ui-switch defaultBoColor="#dfdfdf" color="#34c38f"
-                                    (change)="ChangeActiveOrNotCompany(data.id)" [checked]="data.isActive == true"
-                                    size="small" class="d-flex"></ui-switch>
-                            </div>
-                        </div>
-                        <div class="col-2">
+                        <!-- <div class="dots-icon">
                             <div ngbDropdown>
                                 <div class="dropdown">
                                     <button class="btn dropdown-toggle p-0" type="button" data-toggle="dropdown"
@@ -63,16 +71,14 @@
                                         <i class="mdi mdi-dots-horizontal"></i>
                                     </button>
                                     <div *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Delete')" class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                                        <!-- <a class="dropdown-item" (click)="patchValueForm(addCompany , data)" href="javascript: void(0);"
-                                        ><i class="bx bx-edit"></i>Edit</a> -->
                                         <a class="dropdown-item" href="javascript: void(0);"
                                             (click)="remove(data.id)"><i class="bx bx-trash"></i>Delete</a>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="card-footer bg-transparent border-top">
+                    <!-- <div class="card-footer bg-transparent border-top">
                         <div class="contact-links d-flex row justify-content-center font-size-20">
                             <div class="flex-fill max-w-content" *ngIf="_AuthenticationService.checkPermission('Permissions.Departments.All')">
                                 <button class="btn btn-outline-primary py-1 m-1 " type="button"
@@ -89,11 +95,8 @@
                                     [routerLink]="[data.id,'clients']">{{'MENUITEMS.CLIENTS.TEXT' |
                                     translate}}<i class="ms-1 bx bx-show"></i></button>
                             </div>
-                            <!-- <div class="flex-fill">
-                                <a href="javascript: void(0);" ngbTooltip="Edit" (click)="patchValueForm(addCompany,data)"><i class="bx bx-edit"></i></a>
-                            </div> -->
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </ng-container>

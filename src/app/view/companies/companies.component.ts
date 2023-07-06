@@ -106,7 +106,7 @@ export class CompaniesComponent implements OnInit {
         this._SharedService.isAddCompany.next(true)
       }, error: (err: Error) => {
         this.loadingCompany = false;
-        this.toastrService.error(`${err}`);
+        this.toastrService.error(`${err.message}`);
 
       }
     })
@@ -122,7 +122,7 @@ export class CompaniesComponent implements OnInit {
         this._SharedService.isAddCompany.next(true)
       }, error: (err: Error) => {
         this.loadingCompany = false;
-        this.toastrService.error(`${err}`);
+        this.toastrService.error(`${err.message}`);
 
       }
     })
@@ -135,7 +135,7 @@ export class CompaniesComponent implements OnInit {
         this.toastrService.error(res.message);
         this._SharedService.isAddCompany.next(true)
       }, error: (err: Error) => {
-        this.toastrService.error(`${err}`);
+        this.toastrService.error(`${err.message}`);
       }
     })
   }
@@ -163,7 +163,7 @@ export class CompaniesComponent implements OnInit {
           this.toastrService.warning(res.message);
         }
       }, error: (err: Error) => {
-        this.toastrService.error(`${err}`);
+        this.toastrService.error(`${err.message}`);
 
       }
     })

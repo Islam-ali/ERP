@@ -38,10 +38,11 @@
   z-index: 1001;
   background: #F6F9FC;
   bottom: 0;
-  margin-top: 0;
+  margin-top: -18px;
   position: fixed;
   top: $header-height;
-  box-shadow: $box-shadow;
+  // box-shadow: $box-shadow;
+  box-shadow: 0 0 7px inset #141f55a6;
 }
 
 .main-content {

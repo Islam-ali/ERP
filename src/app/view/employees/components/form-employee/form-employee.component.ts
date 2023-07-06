@@ -141,6 +141,7 @@ export class FormEmployeeComponent implements OnInit {
   ngOnInit(): void {
     if (!this.EmployeeId) {
       this.EmployeeForm.controls["Email"].setValidators([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]);
+    }else{
       this.showEmployee(this.EmployeeId)
     }
   }
@@ -321,7 +322,7 @@ export class FormEmployeeComponent implements OnInit {
     value["BirthDate"] = this._FormateDateService.sendFormateDate(this.EmployeeForm.get('BirthDate').value);
     value["IsDepartmentManager"] ? value["IsDepartmentManager"] : value["IsDepartmentManager"] = false;
 
-    value["SuperVisor_Id"] = this.listOfEmployees.length > 0 ? this.EmployeeForm.get('SuperVisor_Id').value : 1;
+    value["SuperVisor_Id"] = this.EmployeeForm.get('SuperVisor_Id').value ? this.EmployeeForm.get('SuperVisor_Id').value : 1;
 
     this._EmployeesService.addEmployee(value).subscribe({
       next: (res: Employees) => {

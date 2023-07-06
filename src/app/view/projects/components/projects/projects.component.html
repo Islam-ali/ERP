@@ -8,7 +8,7 @@
           </div>
           <div class="col-6 d-flex justify-content-end ">
             <button *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.Create')"
-              class="btn btn-primary w-md" (click)="openModal(addProjects , 0)">
+              class="btn btn-primary w-md" routerLink="add">
               {{'GENERAL.ADD' | translate}} {{'GENERAL.PROJECT' | translate}}
               <i class="bx bx-plus-medical"></i></button>
           </div>
@@ -66,7 +66,7 @@
                   <ul class="list-inline font-size-20 contact-links mb-0">
                     <li class="list-inline-item px-2">
                       <i class="bx bx-edit" *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.Edit')"
-                        (click)="patchValueForm(addProjects,project);getUpdateProject(project.id)"
+                        [routerLink]="['edit',project.id]"
                         style="cursor: pointer;"></i>
                     </li>
                     <li *ngIf="_AuthenticationService.checkPermission('Permissions.Projects.Delete')"

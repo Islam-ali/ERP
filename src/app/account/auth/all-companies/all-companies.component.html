@@ -1,0 +1,54 @@
+<div class="container-fluid py-5">
+    <div class="row">
+        <ng-container *ngIf="loadingAllCompanies">
+            <div class="d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                <div class="spinner-border text-primary m-1" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!loadingAllCompanies">
+            <div class="col-xl-4 col-sm-6" *ngFor="let data of allCompanies">
+                <div class="card text-center">
+                    <div class="card-body row">
+                        <div class="col-12">
+                            <div class="col-12">
+                                <div class="avatar-md mx-auto mb-4">
+                                    <span
+                                        class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-16">
+                                        {{data.name.charAt(0) | uppercase}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <h5 class="font-size-15 mb-1"><a href="javascript: void(0);"
+                                        class="text-dark">{{data.name}}</a>
+                                </h5>
+                                <div>
+                                    <a href="javascript: void(0);"
+                                        [class]="data.isActive  == true ? 'bg-success': 'bg-warning'"
+                                        class="badge font-size-11 my-1">
+                                        <span *ngIf="data.isActive == true">{{'GENERAL.ACTIVE' | translate}}</span>
+                                        <span *ngIf="data.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
+                                    </a>
+                                </div>
+                                <!-- <div class="flex-fill d-flex align-items-center justify-content-between my-1">
+                                    <ui-switch defaultBoColor="#dfdfdf" color="#34c38f"
+                                        (change)="ChangeActiveOrNotCompany(data.id)" [checked]="data.isActive == true"
+                                        size="small" class="d-flex"></ui-switch>
+                                        <div *ngIf="_AuthenticationService.checkPermission('Permissions.Companies.Delete')">
+                                            <a href="javascript: void(0);" (click)="remove(data.id)"><i
+                                                    class="bx bx-trash fa-2x"></i></a>
+                                        </div>
+                                </div> -->
+                            </div>
+                        </div>
+    
+                    </div>
+    
+                </div>
+            </div>
+        </ng-container>
+    
+    </div>
+</div>

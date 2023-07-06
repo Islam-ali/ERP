@@ -56,4 +56,11 @@ export class ClientService {
   ListOfClientTypes():Observable<ListOfClientJobs>{
     return this.http.get<ListOfClientJobs>(`${env.domain}Clients/ListOfClientTypes`)
   }
+  ListOfClients(value:any):Observable<ListOfClientJobs>{
+    const data = new HttpParams();
+    for(let key in value){
+      data.append(`${key}`,`${value[key]}`)
+    }
+    return this.http.get<ListOfClientJobs>(`${env.domain}Clients/ListOfClients`,{params: value})
+  }
 }

@@ -42,7 +42,9 @@
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="mb-3">
-                                <label>{{'GENERAL.ENGLISH_NAME' | translate}}</label>
+                                <label>{{'GENERAL.ENGLISH_NAME' | translate}}
+                                    <span class="required">*</span>
+                                </label>
                                 <input type="text" class="form-control" formControlName="NameInEnglish"
                                     [ngClass]="{'is-valid': form.NameInEnglish.dirty && !form.NameInEnglish.errors ,'is-invalid': form.NameInEnglish.dirty && form.NameInEnglish.errors}">
                                 <div *ngIf="form.NameInEnglish.dirty && form.NameInEnglish.errors"
@@ -53,7 +55,9 @@
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="mb-3">
-                                <label>{{'GENERAL.ARABIC_NAME' | translate}}</label>
+                                <label>{{'GENERAL.ARABIC_NAME' | translate}}
+                                    <span class="required">*</span>
+                                </label>
                                 <input type="text" class="form-control" formControlName="Name"
                                     [ngClass]="{'is-valid': form.Name.dirty && !form.Name.errors ,'is-invalid': form.Name.dirty && form.Name.errors}">
                                 <div *ngIf="form.Name.dirty && form.Name.errors" class="invalid-feedback">
@@ -87,7 +91,9 @@
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="mb-3">
-                                <label>{{'GENERAL.NATIONALID' | translate}}</label>
+                                <label>{{'GENERAL.NATIONALID' | translate}}
+                                    <span class="required">*</span>
+                                </label>
                                 <input type="text" class="form-control" formControlName="NationalId"
                                     [ngClass]="{'is-valid': form.NationalId.dirty && !form.NationalId.errors ,'is-invalid': form.NationalId.dirty && form.NationalId.errors}">
                                 <div *ngIf="form.NationalId.dirty && form.NationalId.errors" class="invalid-feedback">
@@ -150,7 +156,9 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
                             <div class="mb-3">
-                                <label>{{'GENERAL.SALARY' | translate}}</label>
+                                <label>{{'GENERAL.SALARY' | translate}}
+                                    <span class="required">*</span>
+                                </label>
                                 <input type="text" class="form-control" formControlName="Salary"
                                     [ngClass]="{'is-valid': form.Salary.dirty && !form.Salary.errors ,'is-invalid': form.Salary.dirty && form.Salary.errors}">
                                 <div *ngIf="form.Salary.dirty && form.Salary.errors" class="invalid-feedback">
@@ -161,7 +169,9 @@
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label text-capitalize">{{'GENERAL.MilitaryStatus' |
-                                    translate}}</label>
+                                    translate}}
+                                    <span class="required">*</span>
+                                </label>
                                 <ng-select
                                     [ngClass]="{'is-valid': form.MilitaryStatus_Id.dirty && !form.MilitaryStatus_Id.errors ,'is-invalid': form.MilitaryStatus_Id.dirty && form.MilitaryStatus_Id.errors}"
                                     [items]="listOfMilitaryStatus" formControlName="MilitaryStatus_Id" bindLabel="name"
@@ -175,7 +185,8 @@
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label text-capitalize">{{'GENERAL.MaritalStatus' |
-                                    translate}}</label>
+                                    translate}}
+                                <span class="required">*</span></label>
                                 <ng-select
                                     [ngClass]="{'is-valid': form.MaritalStatus_Id.dirty && !form.MaritalStatus_Id.errors ,'is-invalid': form.MaritalStatus_Id.dirty && form.MaritalStatus_Id.errors}"
                                     [items]="listOfMaritalStatus" formControlName="MaritalStatus_Id" bindLabel="name"
@@ -189,7 +200,8 @@
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label text-capitalize">{{'GENERAL.Status' |
-                                    translate}}</label>
+                                    translate}}
+                                <span class="required">*</span></label>
                                 <ng-select
                                     [ngClass]="{'is-valid': form.Status_Id.dirty && !form.Status_Id.errors ,'is-invalid': form.Status_Id.dirty && form.Status_Id.errors}"
                                     [items]="listOfStatus" formControlName="Status_Id" bindLabel="name"
@@ -202,7 +214,8 @@
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label text-capitalize">{{'GENERAL.STATES' |
-                                    translate}}</label>
+                                    translate}}
+                                <span class="required">*</span></label>
                                 <ng-select
                                     [ngClass]="{'is-valid': form.state_Id.dirty && !form.state_Id.errors ,'is-invalid': form.state_Id.dirty && form.state_Id.errors}"
                                     [items]="listOfStates" formControlName="state_Id"
@@ -215,7 +228,8 @@
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label text-capitalize">{{'GENERAL.REGION' |
-                                    translate}}</label>
+                                    translate}}
+                                <span class="required">*</span></label>
                                 <ng-select
                                     [ngClass]="{'is-valid': form.Region_Id.dirty && !form.Region_Id.errors ,'is-invalid': form.Region_Id.dirty && form.Region_Id.errors}"
                                     [items]="listOfRegion" formControlName="Region_Id" bindLabel="name"
@@ -228,7 +242,8 @@
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label text-capitalize">{{'GENERAL.GENDER' |
-                                    translate}}</label>
+                                    translate}}
+                                <span class="required">*</span></label>
                                 <ng-select
                                     [ngClass]="{'is-valid': form.Gender_Id.dirty && !form.Gender_Id.errors ,'is-invalid': form.Gender_Id.dirty && form.Gender_Id.errors}"
                                     [items]="listOfGender" formControlName="Gender_Id" bindLabel="name"
@@ -241,7 +256,8 @@
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label text-capitalize">{{'GENERAL.DEPARTMENTS' |
-                                    translate}}</label>
+                                    translate}}
+                                <span class="required">*</span></label>
                                 <ng-select
                                     [ngClass]="{'is-valid': form.department_Id.dirty && !form.department_Id.errors ,'is-invalid': form.department_Id.dirty && form.department_Id.errors}"
                                     [items]="listOfDepartment" formControlName="department_Id"
@@ -255,7 +271,8 @@
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label text-capitalize">{{'GENERAL.JOBS' |
-                                    translate}}</label>
+                                    translate}}
+                                <span class="required">*</span></label>
                                 <ng-select
                                     [ngClass]="{'is-valid': form.Job_Id.dirty && !form.Job_Id.errors ,'is-invalid': form.Job_Id.dirty && form.Job_Id.errors}"
                                     [items]="listOfJob" formControlName="Job_Id" bindLabel="name"
@@ -281,7 +298,9 @@
                         </div>
                         <div class="col-xl-6 col-lg-6">
                             <div class="mb-3">
-                                <label>{{'GENERAL.HIREDATE' | translate}}</label>
+                                <label>{{'GENERAL.HIREDATE' | translate}}
+                                    <span class="required">*</span>
+                                </label>
                                 <div class="input-group clockpicker" #date1>
                                     <input ngbDatepicker [positionTarget]="date1" [placement]="placement"
                                         class="form-control" formControlName="HireDate" autoClose="false"

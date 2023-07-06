@@ -357,10 +357,13 @@
     "TASK": "مهمة",
     "PERCENTAGE": "النسبة",
     "NAME": "الاسم",
+    "FIRST":"الاول",
+    "LAST":"الاخير",
     "ARABIC_NAME": "الاسم باللغه العربىة",
     "ENGLISH_NAME": "الاسم باللغه الانجليزية",
     "EMAIL": "البريد الالكترونى",
     "MOBILE_NUMBER": "رقم الموبيل",
+    "TELEPHONE": "رقم الهاتف",
     "PASSWORD": "كلمة المرور",
     "ACTIVITY": "النشاط",
     "PASSWORD_CONFIRMATION": "تأكيد كلمة المرور",
@@ -428,6 +431,10 @@
     "REQUEST":"طلب",
     "REASON":"السبب",
     "ClientAddresses":"قائمة العناوين",
-    "ClientContactLists":"قائمة الاتصال"
+    "ClientContactLists":"قائمة الاتصال",
+    "POSTALCODE":"الرمز البريدي",
+    "BUDGET":"الميزانية",
+    "IMPLEMENTATIONPERIOD":"مده التنفيذ"
+
   }
 }

@@ -6,9 +6,9 @@ export interface Clients {
   data: DataClients
   error: string
 }
-export interface DataClients{
-  data:DataDataClients[],
-  totalRecords:number
+export interface DataClients {
+  data: DataDataClients[],
+  totalRecords: number
 }
 export interface DataDataClients {
   id: number
@@ -80,8 +80,26 @@ export interface DatashowClient {
   communicationWayName: string
   companyName: string
   region_Id: number
-  state_Id:number
-  addressInDetail:string
-  imagePath:string
-  clientType_Id:number
+  state_Id: number
+  addressInDetail: string
+  imagePath: string
+  clientType_Id: number
+  clientAddresses: ClientAddress[];
+  clientContactLists: ClientContactList[];
+}
+
+export interface ClientAddress {
+  streetAddress1: string;
+  streetAddress2: string;
+  postalCode: string;
+  region: number;
+  state: number;
+}
+
+export interface ClientContactList {
+  firstName: string;
+  lastName: string;
+  telephone: string;
+  mobile: string;
+  email: string;
 }

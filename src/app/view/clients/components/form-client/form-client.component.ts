@@ -17,9 +17,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class FormClientComponent implements OnInit {
   url: string = env.url;
-  companyID:number = 0;
-  @Output() onForm:EventEmitter<any> = new EventEmitter();
-  @Output() onReloade:EventEmitter<any> = new EventEmitter();
+  companyID: number = 0;
+  @Output() onForm: EventEmitter<any> = new EventEmitter();
+  @Output() onReloade: EventEmitter<any> = new EventEmitter();
   clientsForm: FormGroup;
   pathImage: any;
   ListOfClientJobs: DataListOfClientJobs[];
@@ -30,12 +30,13 @@ export class FormClientComponent implements OnInit {
   listOfRegion: any[] = [];
   listOfClientTypes: any[] = [];
   listOfDepartment: any[] = [];
-  clientID:number = 0;
+  clientID: number = 0;
   loadingShow: boolean = false;
   loadingclients: boolean = false;
   state_Id: number = 0;
   clientDetails: DatashowClient;
 
+  breadCrumbItems: Array<{}>;
   constructor(
     private _formBuilder: FormBuilder,
     private _ActivatedRoute: ActivatedRoute,
@@ -43,9 +44,9 @@ export class FormClientComponent implements OnInit {
     private _DepartmentsService: DepartmentsService,
     private _EmployeesService: EmployeesService,
     private toastrService: ToastrService,
-    private _Router:Router
-    
-  ) { 
+    private _Router: Router
+
+  ) {
     this._ActivatedRoute.paramMap.subscribe((param: any) => {
       // this.loader = true;
       this.companyID = +param.params['companyID'];
@@ -65,8 +66,8 @@ export class FormClientComponent implements OnInit {
       department_Id: [null, [Validators.required]],
       image: [null],
       clientType_Id: [null, [Validators.required]],
-      Latitude:[null],
-      Longitude:[null],
+      Latitude: [null],
+      Longitude: [null],
       ClientAddresses: this._formBuilder.array([]),
       ClientContactLists: this._formBuilder.array([]),
     });
@@ -74,10 +75,11 @@ export class FormClientComponent implements OnInit {
   // ClientAddresses
   initFormClientAddresses(): FormGroup {
     return this._formBuilder.group({
-      StreetAddress1: [null],
-      StreetAddress2: [null],
-      PostalCode: [null],
-      Region_Id: [null],
+      StreetAddress1: [null , Validators.required],
+      StreetAddress2: [null , Validators.required],
+      PostalCode: [null , Validators.required],
+      state: [null , Validators.required],
+      region: [null , Validators.required],
     })
   }
   get ClientAddresses() {
@@ -89,14 +91,14 @@ export class FormClientComponent implements OnInit {
   deleteFormClientAddresses(index: number) {
     this.ClientAddresses.removeAt(index);
   }
-// ClientContactLists
+  // ClientContactLists
   initFormClientContactLists(): FormGroup {
     return this._formBuilder.group({
-      FirstName: [null],
-      LastName: [null],
-      Telephone: [null],
-      Mobile: [null],
-      Email: [null , [Validators.email]],
+      FirstName: [null , Validators.required],
+      LastName: [null , Validators.required],
+      Telephone: [null, [Validators.required , Validators.pattern('[0-9]+')]],
+      Mobile: [null, [Validators.required , Validators.pattern('[0-9]+')]],
+      Email: [null, [Validators.required , Validators.email]],
     })
   }
   get ClientContactLists() {
@@ -110,11 +112,13 @@ export class FormClientComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.breadCrumbItems = [{ label: 'clients' , url:`companies/${this.companyID}/clients` }, { label: 'Add', active: true }];
+
     this.getListOfClientJobCategories();
     this.getListOfStates();
     this.ListOfClientTypes();
     this.ListOfDepartment();
-    
+
     this.clientID ? this.showClients(this.clientID) : EMPTY;
   }
   ListOfClientTypes(): void {
@@ -208,7 +212,28 @@ export class FormClientComponent implements OnInit {
           clientType_Id: res.data.clientType_Id ? res.data.clientType_Id : null
         })
         this.pathImage = res.data.imagePath ? this.url + res.data.imagePath : res.data.imagePath
-        this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id
+        this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id;
+        res.data.clientContactLists.forEach((ele: any, index: number) => {
+          this.addFormClientAddresses();
+          // this.getListOfRegions(res.data.clientAddresses[index].state_Id);
+          this.ClientAddresses.controls[index].patchValue({
+            StreetAddress1: res.data.clientAddresses[index].streetAddress1,
+            StreetAddress2: res.data.clientAddresses[index].streetAddress2,
+            PostalCode: res.data.clientAddresses[index].postalCode,
+            state: res.data.clientAddresses[index].state,
+            region: res.data.clientAddresses[index].region,
+          })
+        })
+        res.data.clientContactLists.forEach((ele: any, index: number) => {
+          this.addFormClientContactLists();
+          this.ClientContactLists.controls[index].patchValue({
+            FirstName: res.data.clientContactLists[index].firstName,
+            LastName: res.data.clientContactLists[index].lastName,
+            Telephone: res.data.clientContactLists[index].telephone,
+            Mobile: res.data.clientContactLists[index].mobile,
+            Email: res.data.clientContactLists[index].email,
+          })
+        })
       }, error: (err: Error) => {
         this.loadingShow = false;
       }
@@ -222,7 +247,7 @@ export class FormClientComponent implements OnInit {
         // this.onReloade.emit()
         this.loadingclients = false;
         // this.modalService.dismissAll();
-        this._Router.navigate(['/companies',this.companyID,'clients'])
+        this._Router.navigate(['/companies', this.companyID, 'clients'])
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingclients = false;
@@ -230,6 +255,7 @@ export class FormClientComponent implements OnInit {
       }
     })
   }
+
   getAddClients(): void {
     let value = this.clientsForm.value
     this._ClientsService.addClient(value).subscribe({
@@ -237,7 +263,7 @@ export class FormClientComponent implements OnInit {
         // this.onReloade.emit()
         this.loadingclients = false;
         // this.modalService.dismissAll();
-        this._Router.navigate(['/companies',this.companyID,'clients'])
+        this._Router.navigate(['/companies', this.companyID, 'clients'])
         this.toastrService.success(res.message);
       }, error: (err: Error) => {
         this.loadingclients = false;

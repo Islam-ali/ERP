@@ -6,6 +6,7 @@ import { NgbCollapseModule, NgbDatepickerModule, NgbTimepickerModule, NgbDropdow
 
 import { PagetitleComponent } from './pagetitle/pagetitle.component';
 import { LoaderComponent } from './loader/loader.component';
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [PagetitleComponent,  LoaderComponent],
   imports: [
@@ -14,7 +15,8 @@ import { LoaderComponent } from './loader/loader.component';
     NgbCollapseModule,
     NgbDatepickerModule,
     NgbTimepickerModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    RouterModule
   ],
   exports: [PagetitleComponent, LoaderComponent]
 })

@@ -9,10 +9,12 @@ import { UIModule } from 'app/shared/ui/ui.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FormProjectComponent } from './components/form-project/form-project.component';
 
 @NgModule({
   declarations: [
-    ProjectsComponent
+    ProjectsComponent,
+    FormProjectComponent
   ],
   imports: [
     CommonModule,

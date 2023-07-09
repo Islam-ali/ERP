@@ -35,7 +35,7 @@
                             <!-- <th scope="col"
                                 *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">
                                 {{'GENERAL.ACTIVE' | translate}}</th> -->
-                            <th scope="col">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
+                            <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
                             <th scope="col">{{'GENERAL.COMMUNICATIONWAYS' | translate}}</th>
                             <th scope="col" class="text-center">{{'GENERAL.ACTION' | translate}}</th>
                         </tr>

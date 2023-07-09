@@ -213,7 +213,7 @@ export class FormClientComponent implements OnInit {
         })
         this.pathImage = res.data.imagePath ? this.url + res.data.imagePath : res.data.imagePath
         this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id;
-        res.data.clientContactLists.forEach((ele: any, index: number) => {
+        res.data.clientAddresses.forEach((ele: any, index: number) => {
           this.addFormClientAddresses();
           // this.getListOfRegions(res.data.clientAddresses[index].state_Id);
           this.ClientAddresses.controls[index].patchValue({

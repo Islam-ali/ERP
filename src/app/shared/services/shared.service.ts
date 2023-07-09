@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, EMPTY } from 'rxjs';
 
 @Injectable({
@@ -7,10 +8,17 @@ import { BehaviorSubject, EMPTY } from 'rxjs';
 export class SharedService {
   isAddCompany:BehaviorSubject<boolean> = new BehaviorSubject(false);
   isRouteNotification$:BehaviorSubject<boolean> = new BehaviorSubject(false);
+  companyID:BehaviorSubject<number> = new BehaviorSubject(+localStorage.getItem('companyId') | 0);
   RouteNotificatin$ = this.isRouteNotification$.asObservable();
   isReloadeCompany = this.isAddCompany.asObservable();
-  constructor() { }
+  companyID$ = this.companyID.asObservable();
+
+  constructor(private _ActivatedRoute: ActivatedRoute) { }
   
+  getRoute(companyId:number){
+    this.companyID.next(companyId);
+    localStorage.setItem('companyId',`${companyId}`)
+  }
   formateFormData(body){
     const formDate = new FormData();
     for (const key in body) {

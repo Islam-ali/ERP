@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 
 import { AuthGuard } from './core/guards/auth.guard';
 import { LayoutComponent } from './layouts/layout.component';
@@ -17,10 +17,13 @@ const routes: Routes = [
   { path: 'crypto-ico-landing', component: CyptolandingComponent },
   { path: '**', component: Page404Component },
 ];
-
+export const routingConfiguration: ExtraOptions = {
+  paramsInheritanceStrategy: 'always',
+  scrollPositionRestoration: 'top',
+   relativeLinkResolution: 'legacy',
+};
 @NgModule({
-  imports: [RouterModule.forRoot(routes,
-    { scrollPositionRestoration: 'top', relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes,routingConfiguration)],
   exports: [RouterModule]
 })
 

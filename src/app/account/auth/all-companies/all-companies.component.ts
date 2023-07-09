@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'app/shared/services/shared.service';
 import { CompaniesService } from 'app/view/companies/companies.service';
 import { Company, DataAllCompanies } from 'app/view/companies/modal/companies';
 
@@ -13,6 +14,7 @@ export class AllCompaniesComponent implements OnInit {
 
   constructor(
     private _CompaniesService: CompaniesService,
+    private _SharedService:SharedService
   ) { }
 
   ngOnInit(): void {
@@ -28,5 +30,8 @@ export class AllCompaniesComponent implements OnInit {
         this.loadingAllCompanies = false;
       }
     })
+  }
+  sendCompanyId(id){
+    this._SharedService.getRoute(id);
   }
 }

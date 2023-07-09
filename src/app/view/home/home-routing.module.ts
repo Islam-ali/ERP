@@ -4,7 +4,7 @@ import { IndexComponent } from './index/index.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home',pathMatch:'full'},
+  { path: '', redirectTo: '',pathMatch:'full'},
   {path:'home',component:IndexComponent},
   {path:'company-details/:companyId',component:CompanyDetailsComponent}
 ];

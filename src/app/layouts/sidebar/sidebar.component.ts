@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, OnChanges, OnDestroy } from '@angular/core';
 import MetisMenu from 'metismenujs/dist/metismenujs';
 import { EventService } from '../../core/services/event.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute, Params } from '@angular/router';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -28,6 +28,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   menu: any;
   data: any;
   companyIds: any[] = [];
+  companyID: number = 0;
   menuItems = [];
   loadingCompany: boolean = false;
   @ViewChild('sideMenu') sideMenu: ElementRef;
@@ -38,10 +39,16 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
     public translate: TranslateService,
     private http: HttpClient,
     public _AuthenticationService: AuthenticationService,
-    private _SharedService: SharedService
+    private _SharedService: SharedService,
+    private _ActivatedRoute: ActivatedRoute
   ) {
     this.USERERP = JSON.parse(localStorage.getItem('user_ERP'));
-
+    this.companyID = +this._ActivatedRoute.snapshot.params['companyID'];
+    this._ActivatedRoute.params.subscribe((params: Params) => {
+      console.log(params);
+    });
+    console.log(this._ActivatedRoute.snapshot.params);
+    
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
         this._activateMenuDropdown();
@@ -51,12 +58,16 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    this._SharedService.companyID$.subscribe(param =>{
+      this.companyID = param;
+      console.log(param);
+    })
     this._SharedService.isReloadeCompany.subscribe(res => {
       if (res) this.GetCompanyOrThroughToken();
 
     })
 
-    // if (this.USERERP.company_Id == 0) {
+    // if (this.companyID == 0) {
     this.GetCompanyOrThroughToken();
     // } else {
     //   this.initialize();
@@ -78,6 +89,8 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
+    console.log(this._ActivatedRoute.snapshot.params);
+
     if (!this.isCondensed && this.sideMenu || this.isCondensed) {
       setTimeout(() => {
         this.menu = new MetisMenu(this.sideMenu.nativeElement);
@@ -182,11 +195,20 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
    * Initialize
    */
   initialize() {
-    this.FetchMenue().then((m: any) => this.menuItems = m).finally(() =>
-      setTimeout(() => {
-        this._MetisMenu()
-      }, 100)
-    )
+    // if (!this.USERERP.roleNames.includes('Superadmin')) {
+      this.FetchMenue().then((m: any) => this.menuItems = m).finally(() =>
+        setTimeout(() => {
+          this._MetisMenu()
+        }, 100)
+      )
+    // } else {
+    //   this.FetchMenueSuperAdmin().then((m: any) => this.menuItems = m).finally(() =>
+    //     setTimeout(() => {
+    //       this._MetisMenu()
+    //     }, 100)
+    //   )
+    // }
+
   }
 
   /**
@@ -199,22 +221,184 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy(): void {
     this.USERERP = null
   }
+  // FetchMenueSuperAdmin() {
+  //   const menu: MenuItem[] = [
+  //     {
+  //       id: 1,
+  //       label: 'MENUITEMS.MENU.TEXT',
+  //       isTitle: true,
+  //       role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
+  //       permission: '',
+  //     },
+  //     {
+  //       id: 2,
+  //       label: 'MENUITEMS.DASHBOARDS.TEXT',
+  //       icon: 'bx-home-circle',
+  //       link: '/home',
+  //       role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
+  //       permission: '',
+  //     },
+  //     {
+  //       id: 3,
+  //       isLayout: true,
+  //       role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
+  //       permission: ''
+  //     },
+  //     {
+  //       id: 4,
+  //       label: 'MENUITEMS.APPS.TEXT',
+  //       isTitle: true,
+  //       role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
+  //       permission: ''
+  //     },
+  //     {
+  //       id: 5,
+  //       label: 'MENUITEMS.COMPANIES.TEXT',
+  //       icon: 'bx bxs-user-detail',
+  //       role: ['Superadmin', 'ClintAdmin', 'ClientView'],
+  //       permission: 'Permissions.Companies.All',
+  //       // badge: {
+  //       //   variant: 'success',
+  //       //   text: '2',
+  //       // },
+  //       subItems: [
+  //         {
+  //           id: 15,
+  //           label: 'MENUITEMS.DASHBOARDS.TEXT',
+  //           link: '/companies',
+  //           role: ['Superadmin'],
+  //           permission: 'Permissions.Auth.All',
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       id: 9,
+  //       label: 'MENUITEMS.MANGEMENT.TEXT',
+  //       icon: 'bx bx-cog',
+  //       role: ['Superadmin'],
+  //       permission: 'Permissions.Auth.All',
+  //       subItems: [
+  //         {
+  //           id: 10,
+  //           label: 'MENUITEMS.MANGEMENT.LIST.USERS',
+  //           link: '/mangement/user-role',
+  //           parentId: 4,
+  //           role: ['Superadmin'],
+  //           permission: 'Permissions.Auth.All',
+  //         },
+  //         {
+  //           id: 11,
+  //           label: 'MENUITEMS.MANGEMENT.LIST.ROLES',
+  //           link: '/mangement/role',
+  //           parentId: 5,
+  //           role: ['Superadmin'],
+  //           permission: 'Permissions.Auth.All',
+  //         },
+  //       ]
+  //     },
+  //     // {
+  //     //   id: 12,
+  //     //   label: 'MENUITEMS.PROJECTS.TEXT',
+  //     //   icon: 'bx bx-briefcase-alt-2',
+  //     //   link: `/companies/${this.companyID}/departments/${this.USERERP.department_Id}/projects`,
+  //     //   role: ['User'],
+  //     //   permission:'Permissions.Projects.All',
+  //     // },
+  //   ];
+
+  //   // if (this.companyID == 0) {
+  //   this.companyIds.forEach((ele, index) => {
+  //     let companyItem = {
+  //       label: ele.name,
+  //       id: ele.id,
+  //       parentId: index + 222,
+  //       icon: 'bx bx-briefcase-alt-2',
+  //       link: `/companies/${ele.id}`,
+  //       permission: 'Permissions.Companies.All',
+  //       subItems: []
+  //     }
+  //     let items: any[] = [
+  //       {
+  //         id: ele.id,
+  //         label: 'MENUITEMS.DEPARTMENTS.TEXT',
+  //         link: `/companies/${ele.id}/departments`,
+  //         parentId: ele.id + index,
+  //         permission: 'Permissions.Departments.All',
+  //       },
+  //       {
+  //         id: ele.id,
+  //         label: 'MENUITEMS.JOBS.TEXT',
+  //         link: `/companies/${ele.id}/jobs`,
+  //         parentId: ele.id + index,
+  //         permission: 'Permissions.Jobs.All',
+  //       },
+  //       {
+  //         id: ele.id,
+  //         label: 'MENUITEMS.PROJECTS.TEXT',
+  //         link: `/companies/${ele.id}/projects`,
+  //         parentId: ele.id,
+  //         permission: 'Permissions.Projects.All',
+  //         // badge: {
+  //         //   variant: 'success',
+  //         //   text: '2',
+  //         // },
+  //         subItems: []
+  //       },
+  //       {
+  //         id: ele.id,
+  //         label: 'MENUITEMS.EMPLOYEES.TEXT',
+  //         link: `/companies/${ele.id}/employees`,
+  //         parentId: ele.id + index,
+  //         permission: 'Permissions.Employees.All',
+  //         // badge: {
+  //         //   variant: 'success',
+  //         //   text: '2',
+  //         // },
+  //       },
+  //       {
+  //         id: ele.id,
+  //         label: 'MENUITEMS.CLIENTS.TEXT',
+  //         link: `/companies/${ele.id}/clients`,
+  //         parentId: ele.id + index,
+  //         permission: 'Permissions.Clients.All',
+  //       }
+  //     ]
+  //     let ProjectItem: any[] = [];
+  //     // ele.companyProjects.forEach((subele, subIndex) => {
+  //     //   ProjectItem.push({
+  //     //     label: subele.name,
+  //     //     id: subele.id,
+  //     //     parentId: subIndex + 333,
+  //     //     link: `/companies/${ele.id}/departments/${subele.departmentId}/projects/${subele.id}/tasks`,
+  //     //     permission: 'Permissions.Departments.All',
+  //     //   })
+  //     // })
+
+  //     menu[4].subItems.push(companyItem);
+  //     menu[4].subItems[index + 1].subItems = items;
+  //     menu[4].subItems[index + 1].subItems[1].subItems = ProjectItem
+  //   })
+  //   // }
+  //   return new Promise((resolve, reject) => {
+  //     resolve(menu)
+  //   })
+  // }
   FetchMenue() {
     const menu: MenuItem[] = [
-      {
-        id: 1,
-        label: 'MENUITEMS.MENU.TEXT',
-        isTitle: true,
-        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
-        permission: '',
-      },
+      // {
+      //   id: 1,
+      //   label: 'MENUITEMS.MENU.TEXT',
+      //   isTitle: true,
+      //   role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
+      //   permission: '',
+      // },
       {
         id: 2,
         label: 'MENUITEMS.DASHBOARDS.TEXT',
         icon: 'bx-home-circle',
-        link: '/home',
-        role: ['Admin', 'Superadmin', 'User', 'DepartmentAdmin'],
-        permission: '',
+        link: '/account/all-companies',
+        role: ['Superadmin'],
+        permission: 'Permissions.Companies.All',
       },
       {
         id: 3,
@@ -231,23 +415,47 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       },
       {
         id: 5,
-        label: 'MENUITEMS.COMPANIES.TEXT',
-        icon: 'bx bxs-user-detail',
-        role: ['Superadmin', 'ClintAdmin', 'ClientView'],
-        permission: 'Permissions.Companies.All',
+        icon: 'bx-home-circle',
+        label: 'MENUITEMS.DEPARTMENTS.TEXT',
+        link: `/companies/${this.companyID}/departments`,
+        permission: 'Permissions.Departments.All',
+      },
+      {
+        id: 6,
+        icon: 'bx-home-circle',
+        label: 'MENUITEMS.JOBS.TEXT',
+        link: `/companies/${this.companyID}/jobs`,
+        permission: 'Permissions.Jobs.All',
+      },
+      {
+        id: 7,
+        icon: 'bx-home-circle',
+        label: 'MENUITEMS.PROJECTS.TEXT',
+        link: `/companies/${this.companyID}/projects`,
+        permission: 'Permissions.Projects.All',
         // badge: {
         //   variant: 'success',
         //   text: '2',
         // },
-        subItems: [
-          {
-            id: 15,
-            label: 'MENUITEMS.DASHBOARDS.TEXT',
-            link: '/companies',
-            role: ['Superadmin'],
-            permission: 'Permissions.Auth.All',
-          }
-        ]
+        subItems: []
+      },
+      {
+        id: 8,
+        icon: 'bx-home-circle',
+        label: 'MENUITEMS.EMPLOYEES.TEXT',
+        link: `/companies/${this.companyID}/employees`,
+        permission: 'Permissions.Employees.All',
+        // badge: {
+        //   variant: 'success',
+        //   text: '2',
+        // },
+      },
+      {
+        id: 9,
+        icon: 'bx-home-circle',
+        label: 'MENUITEMS.CLIENTS.TEXT',
+        link: `/companies/${this.companyID}/clients`,
+        permission: 'Permissions.Clients.All',
       },
       {
         id: 9,
@@ -274,90 +482,11 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
           },
         ]
       },
-      // {
-      //   id: 12,
-      //   label: 'MENUITEMS.PROJECTS.TEXT',
-      //   icon: 'bx bx-briefcase-alt-2',
-      //   link: `/companies/${this.USERERP.company_Id}/departments/${this.USERERP.department_Id}/projects`,
-      //   role: ['User'],
-      //   permission:'Permissions.Projects.All',
-      // },
     ];
 
-    // if (this.USERERP.company_Id == 0) {
-    this.companyIds.forEach((ele, index) => {
-      let companyItem = {
-        label: ele.name,
-        id: ele.id,
-        parentId: index + 222,
-        icon: 'bx bx-briefcase-alt-2',
-        link: `/companies/${ele.id}`,
-        permission: 'Permissions.Companies.All',
-        subItems: []
-      }
-      let items: any[] = [
+    if (this.companyID == 0) {
 
-        {
-          id: ele.id,
-          label: 'MENUITEMS.DEPARTMENTS.TEXT',
-          link: `/companies/${ele.id}/departments`,
-          parentId: ele.id + index,
-          permission: 'Permissions.Departments.All',
-        },
-        {
-          id: ele.id,
-          label: 'MENUITEMS.JOBS.TEXT',
-          link: `/companies/${ele.id}/jobs`,
-          parentId: ele.id + index,
-          permission: 'Permissions.Jobs.All',
-        },
-        {
-          id: ele.id,
-          label: 'MENUITEMS.PROJECTS.TEXT',
-          link: `/companies/${ele.id}/projects`,
-          parentId: ele.id,
-          permission: 'Permissions.Projects.All',
-          // badge: {
-          //   variant: 'success',
-          //   text: '2',
-          // },
-          subItems: []
-        },
-        {
-          id: ele.id,
-          label: 'MENUITEMS.EMPLOYEES.TEXT',
-          link: `/companies/${ele.id}/employees`,
-          parentId: ele.id + index,
-          permission: 'Permissions.Employees.All',
-          // badge: {
-          //   variant: 'success',
-          //   text: '2',
-          // },
-        },
-        {
-          id: ele.id,
-          label: 'MENUITEMS.CLIENTS.TEXT',
-          link: `/companies/${ele.id}/clients`,
-          parentId: ele.id + index,
-          permission: 'Permissions.Clients.All',
-        }
-      ]
-      let ProjectItem: any[] = [];
-      // ele.companyProjects.forEach((subele, subIndex) => {
-      //   ProjectItem.push({
-      //     label: subele.name,
-      //     id: subele.id,
-      //     parentId: subIndex + 333,
-      //     link: `/companies/${ele.id}/departments/${subele.departmentId}/projects/${subele.id}/tasks`,
-      //     permission: 'Permissions.Departments.All',
-      //   })
-      // })
-
-      menu[4].subItems.push(companyItem);
-      menu[4].subItems[index + 1].subItems = items;
-      menu[4].subItems[index + 1].subItems[1].subItems = ProjectItem
-    })
-    // }
+    }
     return new Promise((resolve, reject) => {
       resolve(menu)
     })

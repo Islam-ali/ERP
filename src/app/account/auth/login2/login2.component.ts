@@ -89,11 +89,11 @@ export class Login2Component implements OnInit {
           this.messageError = '';
           this.submitted = false;
           localStorage.setItem('user_ERP', JSON.stringify(res.data))
-          // if(res.data.roleNames.includes('Superadmin')){
-          //   this.router.navigateByUrl('/account/all-companies');
-          // }else{
-            this.router.navigateByUrl('/');
-          // }
+          if(res.data.roleNames.includes('Superadmin')){
+            this.router.navigateByUrl(`/account/all-companies`);
+          }else{
+            this.router.navigateByUrl(`/companies/${res.data.company_Id}`);
+          }
           this.authenticationService.isAuth.next(true);
           this.toastrService.success(res.message ? res.message : 'تم تسجيل الدخول بنجاح');
         }, error: (err: Error) => {

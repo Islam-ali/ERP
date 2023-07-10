@@ -9,12 +9,12 @@ import { Company, DataAllCompanies } from 'app/view/companies/modal/companies';
   styleUrls: ['./all-companies.component.scss']
 })
 export class AllCompaniesComponent implements OnInit {
-  loadingAllCompanies:boolean = true;
+  loadingAllCompanies: boolean = true;
   allCompanies: DataAllCompanies[] = [];
 
   constructor(
     private _CompaniesService: CompaniesService,
-    private _SharedService:SharedService
+    private _SharedService: SharedService
   ) { }
 
   ngOnInit(): void {
@@ -31,7 +31,7 @@ export class AllCompaniesComponent implements OnInit {
       }
     })
   }
-  sendCompanyId(id){
+  sendCompanyId(id) {
     this._SharedService.getRoute(id);
   }
 }

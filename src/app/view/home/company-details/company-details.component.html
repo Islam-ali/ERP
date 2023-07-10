@@ -19,7 +19,7 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="!loaderDepartments && allDepartments.length > 0">
-                        <owl-carousel-o class="owl-theme auth-review-carousel" [options]="carouselOption">
+                        <owl-carousel-o class="owl-theme auth-review-carousel " dir="ltr"  [options]="carouselOption">
                             <ng-template carouselSlide *ngFor="let department of allDepartments">
                                 <div class="item m-2">
                                     <div class="card text-center">
@@ -46,13 +46,13 @@
                                                     <button class="btn btn-outline-primary py-1 m-1 " type="button"
                                                         [routerLink]="['/companies',companyID,'projects']">{{'MENUITEMS.PROJECTS.TEXT'
                                                         |
-                                                        translate}}<i class="ms-1 bx bx-show"></i></button>
+                                                        translate}}</button>
                                                 </div>
                                                 <div class="flex-fill max-w-content">
                                                     <button class="btn btn-outline-primary py-1 m-1 " type="button"
                                                         [routerLink]="['/companies',companyID,'jobs']">{{'MENUITEMS.JOBS.TEXT'
                                                         |
-                                                        translate}}<i class="ms-1 bx bx-show"></i></button>
+                                                        translate}}</button>
                                                 </div>
                                             </div>
                                         </div>

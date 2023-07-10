@@ -424,6 +424,7 @@
     "CLIENTJOB":"Client Job",
     "COMMUNICATIONWAYS":"CommunicationWays",
     "DATE":"Date",
+    "TIME":"Time",
     "PERSONAL_INFORMATION":"Personal Information",
     "tASKS":"Tasks",
     "DAILY_TASKS":"Done",

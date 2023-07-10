@@ -9,7 +9,8 @@
         </ng-container>
         <ng-container *ngIf="!loadingAllCompanies">
             <div class="col-xl-4 col-sm-6" *ngFor="let data of allCompanies">
-                <div class="card text-center" [routerLink]="['/company-details',data.id]" (click)="sendCompanyId(data.id)">
+                <div class="card text-center" [routerLink]="['/company-details',data.id]"
+                    (click)="sendCompanyId(data.id)">
                     <div class="card-body row">
                         <div class="col-12">
                             <div class="col-12">
@@ -43,12 +44,12 @@
                                 </div> -->
                             </div>
                         </div>
-    
+
                     </div>
-    
+
                 </div>
             </div>
         </ng-container>
-    
+
     </div>
 </div>

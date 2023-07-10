@@ -17,6 +17,7 @@ import { VerticalComponent } from './vertical/vertical.component';
 import { HorizontaltopbarComponent } from './horizontaltopbar/horizontaltopbar.component';
 import { LanguageService } from '../core/services/language.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { LayoutsRoutingModule } from './layouts-routing.module';
 // import {NgDynamicBreadcrumbModule} from "ng-dynamic-breadcrumb";
 @NgModule({
   // tslint:disable-next-line: max-line-length
@@ -25,6 +26,7 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     TranslateModule,
     RouterModule,
+    // LayoutsRoutingModule,
     NgbDropdownModule,
     ClickOutsideModule,
     UIModule,

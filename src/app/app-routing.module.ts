@@ -20,10 +20,10 @@ const routes: Routes = [
 export const routingConfiguration: ExtraOptions = {
   paramsInheritanceStrategy: 'always',
   scrollPositionRestoration: 'top',
-   relativeLinkResolution: 'legacy',
+  relativeLinkResolution: 'legacy',
 };
 @NgModule({
-  imports: [RouterModule.forRoot(routes,routingConfiguration)],
+  imports: [RouterModule.forRoot(routes, routingConfiguration)],
   exports: [RouterModule]
 })
 

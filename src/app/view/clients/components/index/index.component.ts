@@ -30,6 +30,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
   pagination: Pagination;
   pageNumber: number = 1;
   clientsForm: FormGroup;
+  clientCommunicationWayForm: FormGroup;
   submit: boolean = false;
   lableForm: number = 0;
   ClientsId: number = 0;
@@ -71,6 +72,12 @@ export class IndexComponent implements OnInit, AfterViewInit {
       this.loader = true;
       this.companyID = +param.params['companyID'];
       this.getClients();
+    })
+    this.clientCommunicationWayForm = this._formBuilder.group({
+      id: [null],
+      clientCommunicationWay_Id: [null],
+      communicationWayDate: [null],
+      communicationWayTime: [null],
     })
     this.clientsForm = this._formBuilder.group({
       companyName: [null, [Validators.required]],
@@ -213,8 +220,13 @@ export class IndexComponent implements OnInit, AfterViewInit {
           department_Id: res.data.department_Id ? res.data.department_Id : null,
           clientType_Id: res.data.clientType_Id ? res.data.clientType_Id : null
         })
-        this.pathImage = this.url+res.data.imagePath 
-        this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id
+        this.pathImage = this.url + res.data.imagePath;
+        this.clientCommunicationWayForm.patchValue({
+          clientCommunicationWay_Id: res.data.clientCommunicationWay_Id,
+          communicationWayDate : res.data.communicationWayDate,
+          communicationWayTime : res.data.communicationWayTime,
+        })
+        // this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id
       }, error: (err: Error) => {
         this.loadingShow = false;
       }
@@ -276,13 +288,12 @@ export class IndexComponent implements OnInit, AfterViewInit {
       }
     })
   }
-  EditClientCommunicationWay(clientCommunicationWay_Id: number) {
-
-    let value = {};
-    value['id'] = this.client_Id,
-      value['clientCommunicationWay_Id'] = clientCommunicationWay_Id
-    console.log(value);
-    this._ClientsService.EditClientCommunicationWay(value).subscribe({
+  EditClientCommunicationWay() {
+    this.clientCommunicationWayForm.patchValue({
+      id: this.client_Id
+    })
+    console.log(this.clientCommunicationWayForm);
+    this._ClientsService.EditClientCommunicationWay(this.clientCommunicationWayForm.value).subscribe({
       next: (res: Clients) => {
         this.getClients();
         this.toastrService.success(res.message);
@@ -326,6 +337,9 @@ export class IndexComponent implements OnInit, AfterViewInit {
   }
   get form() {
     return this.clientsForm.controls;
+  }
+  get CommunicationWayForm() {
+    return this.clientCommunicationWayForm.controls
   }
   goBack() {
     this._location.back();

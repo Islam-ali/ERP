@@ -84,6 +84,8 @@ export interface DatashowClient {
   addressInDetail: string
   imagePath: string
   clientType_Id: number
+  communicationWayTime:string
+  communicationWayDate:string
   clientAddresses: ClientAddress[];
   clientContactLists: ClientContactList[];
 }

@@ -35,7 +35,8 @@
                             <!-- <th scope="col"
                                 *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">
                                 {{'GENERAL.ACTIVE' | translate}}</th> -->
-                            <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">{{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
+                            <th scope="col" *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">
+                                {{'GENERAL.ACTIVE' | translate}} / {{'GENERAL.NOTACTIVE' | translate}}</th>
                             <th scope="col">{{'GENERAL.COMMUNICATIONWAYS' | translate}}</th>
                             <th scope="col" class="text-center">{{'GENERAL.ACTION' | translate}}</th>
                         </tr>
@@ -117,9 +118,7 @@
                                         </div>
                                     </div>
                                 </div> -->
-
                             </td>
-
                         </tr>
                     </tbody>
                 </table>
@@ -454,15 +453,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6 my-2" style="min-width: 120px;"
-                        *ngIf="_AuthenticationService.checkPermission('Permissions.ClientCommunicationWay.Edit')">
-                        <ng-select [items]="listOfClientCommunicationWays" #clientCommunicationWay_Id
-                            [(ngModel)]="clientDetails.clientCommunicationWay_Id" bindLabel="name"
-                            bindValue="id"></ng-select>
+                <div class="row"
+                    *ngIf="_AuthenticationService.checkPermission('Permissions.ClientCommunicationWay.Edit')"
+                    [formGroup]="clientCommunicationWayForm">
+                    <div class="col-6 my-2" style="min-width: 120px;">
+                        <label for="">{{'GENERAL.EDIT' | translate}}</label>
+                        <ng-select [items]="listOfClientCommunicationWays" formControlName="clientCommunicationWay_Id"
+                            bindLabel="name" bindValue="id"></ng-select>
                     </div>
-                    <div class="col-6 px-2 py-1" *ngIf="_AuthenticationService.checkPermission('Permissions.ClientCommunicationWay.Edit')">
-                        <button type="button" (click)="EditClientCommunicationWay(clientCommunicationWay_Id)" class="btn btn-success">{{'GENERAL.EDIT' | translate}}</button>
+                    <ng-container *ngIf="CommunicationWayForm.clientCommunicationWay_Id.value == 5">
+                        <div class="col-3 my-2" style="min-width: 120px;">
+                            <label for="">{{'GENERAL.DATE' | translate}}</label>
+                            <input formControlName="communicationWayDate" class="form-control" type="date">
+                        </div>
+                        <div class="col-3 my-2" style="min-width: 120px;">
+                            <label for="">{{'GENERAL.TIME' | translate}}</label>
+                            <input formControlName="communicationWayTime" class="form-control" type="time">
+                        </div>
+                    </ng-container>
+                    <div class="col-6 px-2 py-1 mb-3">
+                        <label class="d-block" style="visibility: hidden;">.</label>
+                        <button type="button" (click)="EditClientCommunicationWay()"
+                            class="btn btn-success">{{'GENERAL.EDIT' | translate}}</button>
                     </div>
                 </div>
                 <app-comments-client [Data]="allClientComments" [client_Id]="client_Id"

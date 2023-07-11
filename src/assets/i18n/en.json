@@ -435,6 +435,8 @@
     "ClientContactLists":"Client ContactLists",
     "POSTALCODE":"PostalCode",
     "BUDGET":"Budget",
-    "IMPLEMENTATIONPERIOD":"Implementation Period"
+    "IMPLEMENTATIONPERIOD":"Implementation Period",
+    "CLIENTSOURCE":"Client Source",
+    "CLIENTCONTACTIMPORTANT":"Client Contact Importance"
   }
 }

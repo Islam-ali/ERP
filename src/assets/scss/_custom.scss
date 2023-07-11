@@ -47,3 +47,13 @@
 // .main-content{
 //     background-color: #d5dbe3;
 // }
+.addImg{
+    display: flex;
+    min-height: 80px;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: rgb(182, 224, 224);
+    max-width: 100px;
+    cursor: pointer;
+}

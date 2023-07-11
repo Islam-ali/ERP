@@ -21,21 +21,24 @@ export class FormClientComponent implements OnInit {
   @Output() onForm: EventEmitter<any> = new EventEmitter();
   @Output() onReloade: EventEmitter<any> = new EventEmitter();
   clientsForm: FormGroup;
-  pathImage: any;
+  files: any[] = [];
   ListOfClientJobs: DataListOfClientJobs[];
   ListOfClientJobCategories: DataListOfClientJobs[];
   clientCommunicationWay_Id: number = 0;
   listOfClientCommunicationWays: DataListOfClientJobs[];
   listOfStates: any[] = [];
+  ListOfId: any[] = [];
   listOfRegion: any[] = [];
   listOfClientTypes: any[] = [];
   listOfDepartment: any[] = [];
+  listOfClientSources: any[] = [];
+  listOfClientContactImportances: any[] = [];
   clientID: number = 0;
   loadingShow: boolean = false;
   loadingclients: boolean = false;
-  state_Id: number = 0;
+  state_Id:any=null;
   clientDetails: DatashowClient;
-
+  listOfLotsOfClientStatus:any[]=[];
   breadCrumbItems: Array<{}>;
   constructor(
     private _formBuilder: FormBuilder,
@@ -68,9 +71,32 @@ export class FormClientComponent implements OnInit {
       clientType_Id: [null, [Validators.required]],
       Latitude: [null],
       Longitude: [null],
+      ClientStatus_Id:[null , [Validators.required]],
+      ClientSource_Id:[null],
+      ClientContactImportance_Id:[null],
       ClientAddresses: this._formBuilder.array([]),
       ClientContactLists: this._formBuilder.array([]),
+      Files: this._formBuilder.array([]),
     });
+  }
+  // files array
+  initFormFileClient(): FormGroup {
+    return this._formBuilder.group({
+      Description: [null],
+      File: [null],
+      path: [null],
+      id: [null]
+    })
+  }
+  get formFileClient() {
+    return this.clientsForm.controls["Files"] as FormArray;
+  }
+  addFormFileClient() {
+    this.formFileClient.push(this.initFormFileClient());
+  }
+  deleteFormFileClient(index: number) {
+    this.formFileClient.removeAt(index);
+    this.files.splice(index, 1);
   }
   // ClientAddresses
   initFormClientAddresses(): FormGroup {
@@ -115,10 +141,12 @@ export class FormClientComponent implements OnInit {
     this.breadCrumbItems = [{ label: 'clients' , url:`companies/${this.companyID}/clients` }, { label: 'Add', active: true }];
 
     this.getListOfClientJobCategories();
+    this.ListOfClientSources();
+    this.ListOfClientContactImportances();
     this.getListOfStates();
     this.ListOfClientTypes();
     this.ListOfDepartment();
-
+    this.ListOfLotsOfClientStatus();
     this.clientID ? this.showClients(this.clientID) : EMPTY;
   }
   ListOfClientTypes(): void {
@@ -135,15 +163,16 @@ export class FormClientComponent implements OnInit {
       }
     })
   }
-  uploadImg(event: any): void {
+  uploadImg(event: any , index: number): void {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
-      this.clientsForm.patchValue({
-        image: event.target.files.item(0)
+      this.formFileClient.controls[index].patchValue({
+        File: event.target.files[0]
       })
       reader.onload = (event: any) => {
-        this.pathImage = event.target.result
-
+        this.formFileClient.controls[index].patchValue({
+          path: event.target.result
+        })
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -171,6 +200,13 @@ export class FormClientComponent implements OnInit {
       }
     })
   }
+  ListOfLotsOfClientStatus(): void {
+    this._ClientsService.ListOfLotsOfClientStatus().subscribe({
+      next: (res: ListOfClientJobs) => {
+        this.listOfLotsOfClientStatus = res.data;
+      }
+    })
+  }
   getListOfClientJobs(event): void {
     this._ClientsService.ListOfClientJobs(event).subscribe({
       next: (res: ListOfClientJobs) => {
@@ -182,6 +218,20 @@ export class FormClientComponent implements OnInit {
     this._ClientsService.ListOfClientJobCategories().subscribe({
       next: (res: ListOfClientJobs) => {
         this.ListOfClientJobCategories = res.data
+      }
+    })
+  }
+  ListOfClientSources(): void {
+    this._ClientsService.ListOfClientSources().subscribe({
+      next: (res: ListOfClientJobs) => {
+        this.listOfClientSources = res.data
+      }
+    })
+  }  
+  ListOfClientContactImportances(): void {
+    this._ClientsService.ListOfClientContactImportances().subscribe({
+      next: (res: ListOfClientJobs) => {
+        this.listOfClientContactImportances = res.data
       }
     })
   }
@@ -209,9 +259,14 @@ export class FormClientComponent implements OnInit {
           clientJob_Id: res.data.clientJob_Id ? res.data.clientJob_Id : null,
           region_Id: res.data.region_Id ? res.data.region_Id : null,
           department_Id: res.data.department_Id ? res.data.department_Id : null,
-          clientType_Id: res.data.clientType_Id ? res.data.clientType_Id : null
+          ClientStatus_Id: res.data.clientStatus_Id ? res.data.clientStatus_Id : null,
+          ClientSource_Id: res.data.clientSource_Id ? res.data.clientSource_Id : null,
+          ClientContactImportance_Id: res.data.clientContactImportance_Id ? res.data.clientContactImportance_Id : null,
+          clientType_Id: res.data.clientType_Id ? res.data.clientType_Id : null,
+
+
         })
-        this.pathImage = res.data.imagePath ? this.url + res.data.imagePath : res.data.imagePath
+        // this.pathImage = res.data.imagePath ? this.url + res.data.imagePath : res.data.imagePath
         this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id;
         res.data.clientAddresses.forEach((ele: any, index: number) => {
           this.addFormClientAddresses();
@@ -234,8 +289,30 @@ export class FormClientComponent implements OnInit {
             Email: res.data.clientContactLists[index].email,
           })
         })
+        res.data.atachments.forEach((ele: any, index: number) => {
+          this.addFormFileClient();
+          this.formFileClient.controls[index].patchValue({
+            path: `${this.url + ele.file}`,
+            Description: ele.description,
+            id: ele.id,
+          })
+        })
       }, error: (err: Error) => {
         this.loadingShow = false;
+      }
+    })
+  }
+  RemoveImage(id: number) {
+    this.ListOfId.push(id)
+    this.DeleteFileOrMoreOfEmployee();
+  }
+  DeleteFileOrMoreOfEmployee() {
+    this._ClientsService.DeleteFileOrMoreOfClient(this.ListOfId).subscribe({
+      next: (res: Clients) => {
+        this.ListOfId = [];
+        this.toastrService.error(res.message);
+      }, error: (err: Error) => {
+        this.toastrService.error(err.message);
       }
     })
   }
@@ -257,7 +334,7 @@ export class FormClientComponent implements OnInit {
   }
 
   getAddClients(): void {
-    let value = this.clientsForm.value
+    let value = this.clientsForm.value;
     this._ClientsService.addClient(value).subscribe({
       next: (res: Clients) => {
         // this.onReloade.emit()

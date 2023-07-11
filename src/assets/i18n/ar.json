@@ -435,7 +435,9 @@
     "ClientContactLists":"قائمة الاتصال",
     "POSTALCODE":"الرمز البريدي",
     "BUDGET":"الميزانية",
-    "IMPLEMENTATIONPERIOD":"مده التنفيذ"
+    "IMPLEMENTATIONPERIOD":"مده التنفيذ",
+    "CLIENTSOURCE":"مصدر العميل",
+    "CLIENTCONTACTIMPORTANT":"أهمية الاتصال"
 
   }
 }

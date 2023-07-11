@@ -86,6 +86,10 @@ export interface DatashowClient {
   clientType_Id: number
   communicationWayTime:string
   communicationWayDate:string
+  atachments:any[]
+  clientContactImportance_Id:number
+  clientSource_Id:number
+  clientStatus_Id:number
   clientAddresses: ClientAddress[];
   clientContactLists: ClientContactList[];
 }

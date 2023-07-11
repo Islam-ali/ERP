@@ -26,8 +26,10 @@ export class SharedService {
         if (Object?.keys(body[key][0])?.length > 1) {
           body[key].forEach((ele: any, index: number) => {
             for (const subkey in ele){
-              ele[subkey] ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
-              ele[subkey] === 0 ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+              console.log(ele);
+              
+              ele[subkey] && subkey != 'path' ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
+              ele[subkey] === 0 && subkey != 'path' ? formDate.append(`${key}[${index}].${subkey}`, ele[subkey]) : EMPTY;
             }
 
           })

@@ -43,12 +43,10 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
     private _ActivatedRoute: ActivatedRoute
   ) {
     this.USERERP = JSON.parse(localStorage.getItem('user_ERP'));
-    this.companyID = +this._ActivatedRoute.snapshot.params['companyID'];
-    this._ActivatedRoute.params.subscribe((params: Params) => {
-      console.log(params);
-    });
-    console.log(this._ActivatedRoute.snapshot.params);
-    
+    // this.companyID = +this._ActivatedRoute.snapshot.params['companyID'];
+    // this._ActivatedRoute.params.subscribe((params: Params) => {
+    //   console.log(params);
+    // });
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
         this._activateMenuDropdown();
@@ -60,7 +58,6 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this._SharedService.companyID$.subscribe(param =>{
       this.companyID = param;
-      console.log(param);
     })
     this._SharedService.isReloadeCompany.subscribe(res => {
       if (res) this.GetCompanyOrThroughToken();
@@ -89,7 +86,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges() {
-    console.log(this._ActivatedRoute.snapshot.params);
+    // console.log(this._ActivatedRoute.snapshot.params);
 
     if (!this.isCondensed && this.sideMenu || this.isCondensed) {
       setTimeout(() => {
@@ -111,6 +108,10 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
         this.loadingCompany = true
       }
     })
+  }
+  getCompanyName(companyId:number){
+  let company:any = this.companyIds.filter((x)=> x.id == companyId)
+  return company[0]?.name
   }
   _scrollElement() {
     setTimeout(() => {

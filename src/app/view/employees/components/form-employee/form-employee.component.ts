@@ -72,11 +72,11 @@ export class FormEmployeeComponent implements OnInit {
     // this.departmentID = this._ActivatedRoute.snapshot.params['departmentID']!;
 
     this.EmployeeForm = this._formBuilder.group({
-      Code: [null],
+      Code: [null , [Validators.required]],
       Name: [null, [Validators.required]],
       NameInEnglish: [null, [Validators.required]],
       Email: [null],
-      Address: [null],
+      Address: [null , [Validators.required]],
       University: [null],
       Qualification: [null],
       // number

@@ -44,9 +44,9 @@
                     <tbody>
                         <tr *ngFor="let data of clientsData;">
                             <td>
-                                <h5 class="text-truncate font-size-14" style="max-width: 200px;">
+                                <h5 class="font-size-14" >
                                     <a href="javascript: void(0);"
-                                        class="text-dark text-truncate">{{data.companyName}}</a>
+                                        class="text-dark">{{data.companyName}}</a>
                                 </h5>
                             </td>
                             <!-- <td>{{data.email}}</td> -->
@@ -69,20 +69,26 @@
                             <td class="d-flex">
                                 <div class="mx-1"
                                     *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">
-                                    <button class="btn btn-light w-100 py-1" type="button" [disabled]="!data.isActive"
-                                        [routerLink]="['edit',data.id]">{{'GENERAL.EDIT'
-                                        | translate}}<i class="ms-1 bx bx-edit"></i></button>
+                                    <button class="btn btn-warning w-100 py-1" type="button" [disabled]="!data.isActive"
+                                        [routerLink]="['edit',data.id]">
+                                        <!-- {{'GENERAL.EDIT'
+                                        | translate}} -->
+                                        <i class="ms-1 bx bx-edit"></i></button>
                                 </div>
                                 <div class="mx-1">
                                     <button class="btn btn-light w-100 py-1" type="button"
-                                        (click)="viewClientDetails(viewClient,data.id)">{{'GENERAL.VIEW' |
-                                        translate}}<i class="mdi mdi-eye-outline ms-1"></i></button>
+                                        (click)="viewClientDetails(viewClient,data.id)">
+                                        <!-- {{'GENERAL.VIEW' |
+                                        translate}} -->
+                                        <i class="mdi mdi-eye-outline ms-1"></i></button>
                                 </div>
                                 <div class="mx-1"
                                     *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">
-                                    <button class="btn btn-light w-100 py-1" type="button"
-                                        (click)="delete(data.id)">{{'GENERAL.DELETE' |
-                                        translate}}<i class="bx bx-trash"></i></button>
+                                    <button class="btn btn-danger w-100 py-1" type="button"
+                                        (click)="delete(data.id)">
+                                        <!-- {{'GENERAL.DELETE' |
+                                        translate}} -->
+                                        <i class="bx bx-trash" style="color: #fff;"></i></button>
                                 </div>
                                 <!-- <div ngbDropdown>
                                     <div class="dropdown  active">
@@ -378,6 +384,16 @@
                         <h2 class="media-heading">{{clientDetails.companyName}}
                             <!-- <small> - {{clientDetails.company}}</small> -->
                         </h2>
+                    </div>
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label text-capitalize">{{'GENERAL.STATUS' |
+                                translate}}</label>
+                            <ng-select
+                                [items]="listOfLotsOfClientStatus"  bindLabel="name"
+                                [(ngModel)]="clientDetails.clientStatus_Id"
+                                bindValue="id" (change)="changeStatus(clientDetails.id,$event)"></ng-select>
+                        </div>
                     </div>
                 </div>
             </div>

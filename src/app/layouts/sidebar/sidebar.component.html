@@ -6,6 +6,11 @@
     <ul class="metismenu list-unstyled" id="side-menu" #sideMenu>
       <ng-container *ngIf="USERERP">
         <!-- {{menuItems}} -->
+        <li *ngIf="loadingCompany" class="text-center mb-4">
+          <a href="javascript:void(0);" class="is-parent company-name">
+            <span>{{getCompanyName(companyID)}}</span>
+          </a>
+        </li>
         <ng-container *ngFor="let item of menuItems">
           <ng-container *ngIf="!item.permission || _AuthenticationService.checkPermission(item.permission)">
             <li class="menu-title" *ngIf="item.isTitle">{{ item.label | translate }}</li>
@@ -26,36 +31,36 @@
                 <li *ngFor="let subitem of item.subItems">
                   <ng-container
                     *ngIf="!subitem.permission || _AuthenticationService.checkPermission(subitem.permission)">
-                    <a [routerLink]="subitem.link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" *ngIf="!hasItems(subitem)"
-                      class="side-nav-link-ref" [attr.data-parent]="subitem.parentId"
-                      >
+                    <a [routerLink]="subitem.link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+                      *ngIf="!hasItems(subitem)" class="side-nav-link-ref" [attr.data-parent]="subitem.parentId">
                       {{ subitem.label | translate}}
                       <span class="badge rounded-pill float-end bg-{{subitem.badge.variant}}"
-                      *ngIf="subitem.badge">{{subitem.badge.text}} </span>
+                        *ngIf="subitem.badge">{{subitem.badge.text}} </span>
                     </a>
                     <a *ngIf="hasItems(subitem)" class="side-nav-link-a-ref has-arrow" href="javascript:void(0);"
                       [attr.data-parent]="subitem.parentId" [class.active]="checkRouting(subitem.link)">
                       {{ subitem.label | translate}}
                       <span class="badge rounded-pill float-end bg-{{subitem.badge.variant}}"
-                      *ngIf="subitem.badge">{{subitem.badge.text}} </span>
+                        *ngIf="subitem.badge">{{subitem.badge.text}} </span>
                     </a>
                     <ul *ngIf="hasItems(subitem)" class="sub-menu " aria-expanded="false">
                       <li *ngFor="let subSubitem of subitem.subItems">
                         <ng-container
                           *ngIf="!subSubitem.permission || _AuthenticationService.checkPermission(subSubitem.permission)">
                           <a *ngIf="!hasItems(subSubitem)" [attr.data-parent]="subSubitem.parentId"
-                            [routerLink]="subSubitem.link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" [class.active]="checkRouting(subSubitem.link)"
+                            [routerLink]="subSubitem.link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact:true}" [class.active]="checkRouting(subSubitem.link)"
                             class="side-nav-link-ref">
                             {{ subSubitem.label | translate }}
                             <span class="badge rounded-pill float-end bg-{{subSubitem.badge.variant}}"
-                            *ngIf="subSubitem.badge">{{subSubitem.badge.text}} </span>
+                              *ngIf="subSubitem.badge">{{subSubitem.badge.text}} </span>
                           </a>
                           <a *ngIf="hasItems(subSubitem)" class="side-nav-link-a-ref has-arrow"
                             href="javascript:void(0);" [attr.data-parent]="subSubitem.parentId"
                             [class.active]="checkRouting(subSubitem.link)">
                             {{ subSubitem.label | translate}}
                             <span class="badge rounded-pill float-end bg-{{subSubitem.badge.variant}}"
-                            *ngIf="subSubitem.badge">{{subSubitem.badge.text}} </span>
+                              *ngIf="subSubitem.badge">{{subSubitem.badge.text}} </span>
                           </a>
                           <ul *ngIf="hasItems(subSubitem)" class="sub-menu" aria-expanded="false">
                             <li *ngFor="let subSubSubitem of subSubitem.subItems">

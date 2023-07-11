@@ -51,7 +51,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
   listOfStates: any[] = [];
   listOfRegion: any[] = [];
   listOfClientTypes: any[] = [];
-
+  listOfLotsOfClientStatus:any[]=[];
   state_Id: number = 0;
   totalRecords: number = 0;
   pathImage: any;
@@ -95,6 +95,39 @@ export class IndexComponent implements OnInit, AfterViewInit {
       clientType_Id: [null, [Validators.required]]
     });
   }
+  // getListOfStates(): void {
+  //   this._EmployeesService.ListOfStates().subscribe({
+  //     next: (res: Employees) => {
+  //       this.listOfStates = res.data;
+  //     }
+  //   })
+  // }
+  ListOfLotsOfClientStatus(): void {
+    this._ClientsService.ListOfLotsOfClientStatus().subscribe({
+      next: (res: ListOfClientJobs) => {
+        this.listOfLotsOfClientStatus = res.data;
+      }
+    })
+  }
+  changeStatus(clientStatus_Id:number,event:any){
+    let value = {};
+    value['id'] = clientStatus_Id
+    value['clientStatus_Id'] = event.id
+
+      this._ClientsService.EditClientStatus(value).subscribe({
+        next: (res: Clients) => {
+          this.getClients();
+          this.showClients(event.id);
+          this.GetAllClientsComments()      
+          // this.loadingclients = false;
+          // this.modalService.dismissAll();
+          this.toastrService.success(res.message);
+        }, error: (err: Error) => {
+          // this.loadingclients = false;
+          this.toastrService.error(err.message);
+        }
+  })
+}
   uploadImg(event: any): void {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
@@ -119,6 +152,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
     this.getListOfClientJobCategories();
     this.getListOfStates();
     this.ListOfClientTypes();
+    this.ListOfLotsOfClientStatus();
     // this.clientsForm.controls.clientJobCategory_Id.valueChanges.subscribe(val => {
     //   this.getListOfClientJobs(val)
     // })

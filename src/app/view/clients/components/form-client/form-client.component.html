@@ -18,7 +18,7 @@
     </div>
 </ng-container>
 <ng-container *ngIf="!loadingShow || !clientID">
-    <form class="needs-validation" (ngSubmit)="onSubmit()" [formGroup]="clientsForm">
+    <form class="needs-validation py-3" (ngSubmit)="onSubmit()" [formGroup]="clientsForm">
         <div class="row">
             <div class="col-md-6">
                 <div class="card p-2">
@@ -192,7 +192,119 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label text-capitalize">{{'GENERAL.STATUS' |
+                                    translate}}</label>
+                                <ng-select
+                                    [ngClass]="{'is-valid': form.ClientStatus_Id.dirty && !form.ClientStatus_Id.errors ,'is-invalid': form.ClientStatus_Id.dirty && form.ClientStatus_Id.errors}"
+                                    [items]="listOfLotsOfClientStatus" formControlName="ClientStatus_Id"
+                                    bindLabel="name" bindValue="id"></ng-select>
+                                <div *ngIf="form.ClientStatus_Id.dirty && form.ClientStatus_Id.errors"
+                                    class="invalid-feedback">
+                                    <span *ngIf="form.ClientStatus_Id.errors.required">This value is required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label text-capitalize">{{'GENERAL.STATUS' |
+                                    translate}}</label>
+                                <ng-select
+                                    [ngClass]="{'is-valid': form.ClientSource_Id.dirty && !form.ClientSource_Id.errors ,'is-invalid': form.ClientSource_Id.dirty && form.ClientSource_Id.errors}"
+                                    [items]="listOfClientSources" formControlName="ClientSource_Id"
+                                    bindLabel="name" bindValue="id"></ng-select>
+                                <div *ngIf="form.ClientSource_Id.dirty && form.ClientSource_Id.errors"
+                                    class="invalid-feedback">
+                                    <span *ngIf="form.ClientSource_Id.errors.required">This value is required.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label text-capitalize">{{'GENERAL.STATUS' |
+                                    translate}}</label>
+                                <ng-select
+                                    [ngClass]="{'is-valid': form.ClientContactImportance_Id.dirty && !form.ClientContactImportance_Id.errors ,'is-invalid': form.ClientContactImportance_Id.dirty && form.ClientContactImportance_Id.errors}"
+                                    [items]="listOfClientContactImportances" formControlName="ClientContactImportance_Id"
+                                    bindLabel="name" bindValue="id"></ng-select>
+                                <div *ngIf="form.ClientContactImportance_Id.dirty && form.ClientContactImportance_Id.errors"
+                                    class="invalid-feedback">
+                                    <span *ngIf="form.ClientContactImportance_Id.errors.required">This value is required.</span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-12">
+                            <div class="col-12 mb-4">
+                                <label for="formFile" class="form-label text-capitalize">
+                                    {{'GENERAL.FILES' |
+                                    translate}}</label>
+                                <div class="col" *ngIf="formFileClient.controls.length == 0">
+                                    <div class="addImg" (click)="addFormFileClient()">
+                                        <i class="bx bx-plus-medical"></i>
+                                    </div>
+                                </div>
+                                <div class="row" formArrayName="Files" *ngIf="formFileClient.controls.length > 0">
+                                    <div *ngFor="let FileClient of formFileClient.controls; let i = index">
+                                        <ng-container [formGroupName]="i">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <!-- <div class="row p-0 m-0"> -->
+
+                                                    <input class="form-control" type="file" accept="image/*"
+                                                        (change)="uploadImg($event , i)"
+                                                        [ngClass]="{'is-valid': FileClient.get('File').dirty && !FileClient.get('File').errors ,'is-invalid': FileClient.get('File').dirty && FileClient.get('File').errors}">
+                                                    <div class="card-image p-0 px-2 m-2"
+                                                        *ngIf="FileClient.get('path').value != null">
+                                                        <div class="row">
+                                                            <img class="p-0 w-100" title="images" accept="image/*"
+                                                                alt="images" [src]="FileClient.value.path"
+                                                                *ngIf="!clientID" />
+                                                            <img class="p-0 w-100" title="images" accept="image/*"
+                                                                alt="images" [src]="FileClient.value.path"
+                                                                *ngIf="clientID" />
+                                                        </div>
+                                                        <!-- </div> -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <!-- <div class="row p-0 m-0"> -->
+                                                    <label>{{'GENERAL.DESCRIPTION' | translate}}</label>
+                                                    <input type="text" class="form-control"
+                                                        formControlName="Description"
+                                                        [ngClass]="{'is-valid': FileClient.get('Description').dirty && !FileClient.get('Description').errors ,'is-invalid': FileClient.get('Description').dirty && FileClient.get('Description').errors}">
+                                                    <div *ngIf="FileClient.get('Description').dirty && FileClient.get('Description').errors"
+                                                        class="invalid-feedback">
+                                                        <span
+                                                            *ngIf="FileClient.get('Description').errors.required">This
+                                                            value is
+                                                            required.</span>
+                                                    </div>
+                                                </div>
+                                                <!-- </div> -->
+                                                <div class="col-1" *ngIf="i == formFileClient.controls.length - 1">
+                                                    <label class="hide-lable d-block">.</label>
+                                                    <button type="button" class="btn btn-success"
+                                                        (click)="addFormFileClient()">+</button>
+                                                </div>
+                                                <div class="col-1">
+                                                    <label class="hide-lable d-block">.</label>
+                                                    <button type="button" class="btn btn-danger"
+                                                        *ngIf="FileClient.get('id').value"
+                                                        (click)="deleteFormFileClient(i);RemoveImage(FileClient.get('id').value)"><i
+                                                            class="bx bxs-trash"></i></button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        *ngIf="!FileClient.get('id').value"
+                                                        (click)="deleteFormFileClient(i)"><i
+                                                            class="bx bxs-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-12">
                             <div class="mb-3">
                                 <label for="formFile">{{'GENERAL.FILES' | translate}}</label>
                                 <input class="form-control" type="file" multiple accept="image/*" id="formFile"
@@ -207,7 +319,7 @@
                                     </div>
                                 </ng-container>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

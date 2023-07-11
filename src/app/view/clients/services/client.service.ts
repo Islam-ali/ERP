@@ -53,8 +53,20 @@ export class ClientService {
   EditClientCommunicationWay(value:any):Observable<any>{
     return this.http.put(`${env.domain}Clients/EditClientCommunicationWay/${value.id}`,value)
   }
+  EditClientStatus(value:any):Observable<any>{
+    return this.http.put(`${env.domain}Clients/EditClientStatus/${value.id}`,value)
+  }
   ListOfClientTypes():Observable<ListOfClientJobs>{
     return this.http.get<ListOfClientJobs>(`${env.domain}Clients/ListOfClientTypes`)
+  }
+  ListOfLotsOfClientStatus():Observable<ListOfClientJobs>{
+    return this.http.get<ListOfClientJobs>(`${env.domain}Clients/ListOfLotsOfClientStatus`)
+  }
+  ListOfClientSources():Observable<ListOfClientJobs>{
+    return this.http.get<ListOfClientJobs>(`${env.domain}Clients/ListOfClientSources`)
+  }
+  ListOfClientContactImportances():Observable<ListOfClientJobs>{
+    return this.http.get<ListOfClientJobs>(`${env.domain}Clients/ListOfClientContactImportances`)
   }
   ListOfClients(value:any):Observable<ListOfClientJobs>{
     const data = new HttpParams();
@@ -62,5 +74,14 @@ export class ClientService {
       data.append(`${key}`,`${value[key]}`)
     }
     return this.http.get<ListOfClientJobs>(`${env.domain}Clients/ListOfClients`,{params: value})
+  }
+  DeleteFileOrMoreOfClient(listOfId:any[]=[]): Observable<any>{
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify(listOfId),
+    };
+    return this.http.delete<any>(`${env.domain}Clients/DeleteFileOrMoreOfClient`, options)
   }
 }

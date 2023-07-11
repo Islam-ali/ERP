@@ -24,7 +24,9 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
                             <div class="mb-3">
-                                <label>{{'GENERAL.CODE' | translate}}</label>
+                                <label>{{'GENERAL.CODE' | translate}}
+                                    <span class="required">*</span>
+                                </label>
                                 <input type="text" class="form-control" formControlName="Code"
                                     [ngClass]="{'is-valid': form.Code.dirty && !form.Code.errors ,'is-invalid': form.Code.dirty && form.Code.errors}">
                                 <div *ngIf="form.Code.dirty && form.Code.errors" class="invalid-feedback">
@@ -67,7 +69,11 @@
                         </div>
                         <div class="col-xl-6 col-lg-6" *ngIf="!EmployeeId">
                             <div class="mb-3">
-                                <label class="form-label text-capitalize">{{'GENERAL.EMAIL' | translate}}</label>
+                                <label class="form-label text-capitalize">{{'GENERAL.EMAIL' | translate}}
+                                    <span class="required">*</span>
+
+                                </label>
+                                
                                 <div>
                                     <input type="email" class="form-control" formControlName="Email"
                                         [ngClass]="{'is-valid': form.Email.dirty && !form.Email.errors ,'is-invalid': form.Email.dirty && form.Email.errors}" />
@@ -81,7 +87,9 @@
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="mb-3">
-                                <label>{{'GENERAL.MOBILE_NUMBER' | translate}}</label>
+                                <label>{{'GENERAL.MOBILE_NUMBER' | translate}}
+                                    <span class="required">*</span>
+                                </label>
                                 <input type="text" class="form-control" formControlName="Mobile"
                                     [ngClass]="{'is-valid': form.Mobile.dirty && !form.Mobile.errors ,'is-invalid': form.Mobile.dirty && form.Mobile.errors}">
                                 <div *ngIf="form.Mobile.dirty && form.Mobile.errors" class="invalid-feedback">
@@ -103,7 +111,9 @@
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="mb-3">
-                                <label>{{'GENERAL.ADDRESS' | translate}}</label>
+                                <label>{{'GENERAL.ADDRESS' | translate}}
+                                    <span class="required">*</span>
+                                </label>
                                 <input type="text" class="form-control" formControlName="Address"
                                     [ngClass]="{'is-valid': form.Address.dirty && !form.Address.errors ,'is-invalid': form.Address.dirty && form.Address.errors}">
                                 <div *ngIf="form.Address.dirty && form.Address.errors" class="invalid-feedback">
@@ -370,12 +380,12 @@
                                                 <!-- </div> -->
                                                 <div class="col-1" *ngIf="i == Employee.controls.length - 1">
                                                     <label class="hide-lable d-block">.</label>
-                                                    <button type="button" class="btn btn-success"
+                                                    <button type="button" class="btn btn-success p-1"
                                                         (click)="addFormEmployee()">+</button>
                                                 </div>
-                                                <div class="col-1" *ngIf="Employee.controls.length > 1">
+                                                <div class="col-1" >
                                                     <label class="hide-lable d-block">.</label>
-                                                    <button type="button" class="btn btn-danger"
+                                                    <button type="button" class="btn btn-danger p-1"
                                                         (click)="deleteFormEmployee(i);RemoveImage(EmployeeArr.get('id').value)"><i
                                                             class="bx bxs-trash"></i></button>
                                                 </div>

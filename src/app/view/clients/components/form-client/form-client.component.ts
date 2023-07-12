@@ -71,7 +71,7 @@ export class FormClientComponent implements OnInit {
       clientType_Id: [null, [Validators.required]],
       Latitude: [null],
       Longitude: [null],
-      ClientStatus_Id:[null , [Validators.required]],
+      ClientStatus_Id:[null],
       ClientSource_Id:[null],
       ClientContactImportance_Id:[null],
       ClientAddresses: this._formBuilder.array([]),
@@ -242,7 +242,7 @@ export class FormClientComponent implements OnInit {
     this.loadingShow = true;
     this._ClientsService.getclientById(clientId).subscribe({
       next: (res: showClient) => {
-        this.state_Id = res.data.state_Id;
+        this.state_Id = res.data.state_Id != 0 ? res.data.state_Id : null;
         this.getListOfRegions(this.state_Id);
         this.loadingShow = false;
         this.clientDetails = res.data;
@@ -263,14 +263,10 @@ export class FormClientComponent implements OnInit {
           ClientSource_Id: res.data.clientSource_Id ? res.data.clientSource_Id : null,
           ClientContactImportance_Id: res.data.clientContactImportance_Id ? res.data.clientContactImportance_Id : null,
           clientType_Id: res.data.clientType_Id ? res.data.clientType_Id : null,
-
-
         })
-        // this.pathImage = res.data.imagePath ? this.url + res.data.imagePath : res.data.imagePath
         this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id;
         res.data.clientAddresses.forEach((ele: any, index: number) => {
           this.addFormClientAddresses();
-          // this.getListOfRegions(res.data.clientAddresses[index].state_Id);
           this.ClientAddresses.controls[index].patchValue({
             StreetAddress1: res.data.clientAddresses[index].streetAddress1,
             StreetAddress2: res.data.clientAddresses[index].streetAddress2,

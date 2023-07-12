@@ -57,11 +57,11 @@
                                     <span *ngIf="data.isActive == false">{{'GENERAL.NOTACTIVE' | translate}}</span>
                                 </span>
                             </td> -->
-                            <td class="text-center"
-                                *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Delete')">
+                            <td 
+                                *ngIf="_AuthenticationService.checkPermission('Permissions.Clients.Edit')">
                                 <ui-switch defaultBoColor="#dfdfdf" (change)="ChangeActiveOrNotDepartment(data.id)"
                                     [checked]="data.isActive == true" size="small"
-                                    class="d-flex justify-content-center"></ui-switch>
+                                    ></ui-switch>
                             </td>
                             <td>
                                 {{data.communicationWayName}}
@@ -73,11 +73,11 @@
                                         [routerLink]="['edit',data.id]">
                                         <!-- {{'GENERAL.EDIT'
                                         | translate}} -->
-                                        <i class="ms-1 bx bx-edit"></i></button>
+                                        <i class="bx bx-edit"></i></button>
                                 </div>
                                 <div class="mx-1">
                                     <button class="btn btn-light w-100 py-1" type="button"
-                                        (click)="viewClientDetails(viewClient,data.id)">
+                                        [routerLink]="['details',data.id]">
                                         <!-- {{'GENERAL.VIEW' |
                                         translate}} -->
                                         <i class="mdi mdi-eye-outline ms-1"></i></button>

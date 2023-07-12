@@ -335,7 +335,6 @@ export class IndexComponent implements OnInit, AfterViewInit {
         this.toastrService.error(err.message);
       }
     })
-
   }
   ChangeActiveOrNotDepartment(ClientId: number) {
     this._ClientsService.ChangeActiveOrNotDepartment(ClientId).subscribe({

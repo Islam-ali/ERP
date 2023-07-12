@@ -416,21 +416,21 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       },
       {
         id: 5,
-        icon: 'bx-home-circle',
+        icon: 'mdi mdi-graph',
         label: 'MENUITEMS.DEPARTMENTS.TEXT',
         link: `/companies/${this.companyID}/departments`,
         permission: 'Permissions.Departments.All',
       },
       {
         id: 6,
-        icon: 'bx-home-circle',
+        icon: 'mdi mdi-toolbox-outline',
         label: 'MENUITEMS.JOBS.TEXT',
         link: `/companies/${this.companyID}/jobs`,
         permission: 'Permissions.Jobs.All',
       },
       {
         id: 7,
-        icon: 'bx-home-circle',
+        icon: 'mdi mdi-clipboard-text-outline',
         label: 'MENUITEMS.PROJECTS.TEXT',
         link: `/companies/${this.companyID}/projects`,
         permission: 'Permissions.Projects.All',
@@ -442,7 +442,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       },
       {
         id: 8,
-        icon: 'bx-home-circle',
+        icon: 'mdi mdi-account-multiple-outline',
         label: 'MENUITEMS.EMPLOYEES.TEXT',
         link: `/companies/${this.companyID}/employees`,
         permission: 'Permissions.Employees.All',
@@ -453,7 +453,7 @@ export class SidebarComponent implements OnInit, OnChanges, OnDestroy {
       },
       {
         id: 9,
-        icon: 'bx-home-circle',
+        icon: 'mdi mdi-account-tie',
         label: 'MENUITEMS.CLIENTS.TEXT',
         link: `/companies/${this.companyID}/clients`,
         permission: 'Permissions.Clients.All',

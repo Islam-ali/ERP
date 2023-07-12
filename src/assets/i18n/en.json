@@ -398,6 +398,7 @@
     "PRIORITY": "priority",
     "ASSIGNED": "Assigned",
     "FILES": "files",
+    "FILE": "file",
     "EMPLOYEE": "Employee",
     "ROLE": "Role",
     "NATIONALID": "National ID",

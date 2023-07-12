@@ -12,6 +12,7 @@ import { NgbDropdownModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstr
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommentsClientComponent } from './components/comments-client/comments-client.component';
 import { FormClientComponent } from './components/form-client/form-client.component';
+import { DetailsComponent } from './components/details/details.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { FormClientComponent } from './components/form-client/form-client.compon
     IndexComponent,
     CommentsClientComponent,
     FormClientComponent,
+    DetailsComponent,
   ],
   imports: [
     CommonModule,

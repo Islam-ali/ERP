@@ -104,7 +104,7 @@ export class FormEmployeeComponent implements OnInit {
       // FILES
       ImagePath: [null],
       CoverPath: [null],
-      Files: this._formBuilder.array([this.initFormEmployee()]),
+      Files: this._formBuilder.array([]),
     });
   }
   goBack() {
@@ -271,7 +271,7 @@ export class FormEmployeeComponent implements OnInit {
           // Files: res.data.files,
         })
         res.data.files.forEach((ele: any, index: number) => {
-          index > 0 ? this.addFormEmployee() : EMPTY;
+          this.addFormEmployee() 
           this.Employee.controls[index].patchValue({
             path: `${this.pathUrl + ele.file}`,
             Description: ele.description,

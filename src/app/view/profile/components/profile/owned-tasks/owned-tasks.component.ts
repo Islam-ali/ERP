@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormateDateService } from 'app/shared/services/formate-date.service';
 import { OwnedTasksService } from 'app/view/profile/services/owned-tasks.service';
 import { ToastrService } from 'ngx-toastr';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { environment as env } from '@env/environment';
 @Component({
   selector: 'app-owned-tasks',
@@ -25,8 +25,8 @@ export class OwnedTasksComponent implements OnInit {
     "pageNumber": 1,
     "PageSize": 10
   };
-    url: string = env.url;
-  filesTasks:any[]=[];
+  url: string = env.url;
+  filesTasks: any[] = [];
   // totalRecords:number = 0;
   constructor(
     private _formBuilder: FormBuilder,
@@ -50,9 +50,9 @@ export class OwnedTasksComponent implements OnInit {
   goBack() {
     this._location.back();
   }
-  viewFiles(content:any , event:any[]){
+  viewFiles(content: any, event: any[]) {
     console.log(event);
-    this.modalService.open(content ,{size:'lg'})
+    this.modalService.open(content, { size: 'lg' })
     this.filesTasks = event
   }
   // initFormOwnedTasks(): FormGroup {
@@ -103,13 +103,12 @@ export class OwnedTasksComponent implements OnInit {
     value['StartDate'] = this._FormateDateService.sendFormateDate(this.OwnedTasksForm.get('StartDate').value);
     value['EndDate'] = this._FormateDateService.sendFormateDate(this.OwnedTasksForm.get('EndDate').value);
     value['Files'] = this.uploadedFiles
-    console.log(this.uploadedFiles);
-    
+
     this._OwnedTasksService.addOwnedTask(value).subscribe({
       next: (res: any) => {
         this.OwnedTasksForm.reset();
-        // this.OwnedTasksArray.clear();
-        // this.addFormOwnedTasks();
+        this.files = [];
+        this.uploadedFiles = [];
         this.toastrService.success(res.message);
         this.GetAllOwnedTasks();
       }, error: (err: Error) => {

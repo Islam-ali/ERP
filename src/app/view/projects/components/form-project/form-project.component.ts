@@ -62,7 +62,7 @@ export class FormProjectComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
       this.ProjectAttachments.controls[index].patchValue({
-        FilePath: event.target.files[0]
+        File: event.target.files[0]
       })
       reader.onload = (event: any) => {
         this.ProjectAttachments.controls[index].patchValue({
@@ -75,7 +75,7 @@ export class FormProjectComponent implements OnInit {
   initformProjectAttachments(): FormGroup {
     return this._formBuilder.group({
       Description: [null, [Validators.required]],
-      FilePath: [null],
+      File: [null],
       path: null,
       id: 0
     })
@@ -181,7 +181,7 @@ export class FormProjectComponent implements OnInit {
     value['ProjectAttachments'] = value.ProjectAttachments.map((x: any) => {
       const container = {};
       container['Description'] = x.Description
-      container['FilePath'] = x.FilePath
+      container['File'] = x.File
       container['id'] = x.id
       return container;
     })
@@ -209,7 +209,7 @@ export class FormProjectComponent implements OnInit {
     value['ProjectAttachments'] = value.ProjectAttachments.map((x: any) => {
       const container = {};
       container['Description'] = x.Description
-      container['FilePath'] = x.FilePath
+      container['File'] = x.File
       container['id'] = x.id
       return container;
     })

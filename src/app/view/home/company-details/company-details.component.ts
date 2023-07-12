@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from 'app/core/services/auth.service';
 import { DataAllDepartments, Departments } from 'app/view/departments/modal/departments';
 import { DepartmentsService } from 'app/view/departments/services/departments.service';
 import { Projects } from 'app/view/projects/modal/projects';
@@ -47,7 +48,8 @@ export class CompanyDetailsComponent implements OnInit {
     private _DepartmentsService: DepartmentsService,
     private _ProjectsService:ProjectsService,
     private _TasksService:TasksService,
-    private _ActivatedRoute:ActivatedRoute
+    private _ActivatedRoute:ActivatedRoute,
+    public _AuthenticationService:AuthenticationService
   ) {
     this.companyID = this._ActivatedRoute.snapshot.params['companyId']
   }

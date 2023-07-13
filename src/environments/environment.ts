@@ -5,10 +5,10 @@
 export const environment = {
   production: false,
   defaultauth: 'fackbackend',
-  domain:'http://192.168.0.126:5019/api/',
-  url:'http://192.168.0.126:5019/',
-  // domain: 'https://erp.afaqci.com/api/',
-  // url: 'https://erp.afaqci.com/',
+  // domain:'http://192.168.0.126:5019/api/',
+  // url:'http://192.168.0.126:5019/',
+  domain: 'https://erp.afaqci.com/api/',
+  url: 'https://erp.afaqci.com/',
   firebaseConfig: {
     apiKey: '',
     authDomain: '',

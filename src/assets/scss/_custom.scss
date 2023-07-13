@@ -60,3 +60,12 @@
 .border-content{
     border: 2px solid #cdcdcd;
 }
+.bg-dot{
+    padding: 4px;
+    display: flex;
+    border-radius: 50%;
+    align-items: center;
+    width: 35px;
+    justify-content: center;
+    height: 35px;
+}

@@ -439,5 +439,13 @@
     "IMPLEMENTATIONPERIOD":"Implementation Period",
     "CLIENTSOURCE":"Client Source",
     "CLIENTCONTACTIMPORTANT":"Client Contact Importance"
+  },
+  "VIEWCLIENTS":{
+    "DETAILS":"details",
+    "ACTIVITYLOG":"activity log",
+    "NOTES":"notes",
+    "APPOINTMENTS":"appointments",
+    "ADDNOTES":"add notes",
+    "ARRANGEAPPOINTMENT":"arrange appointment"
   }
 }

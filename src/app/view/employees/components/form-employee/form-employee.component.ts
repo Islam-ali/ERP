@@ -136,7 +136,6 @@ export class FormEmployeeComponent implements OnInit {
     this.getListOfStates();
     this.getListOfGenders();
     this.getListOfDepartment();
-    this.getListOfEmployees();
   }
   ngOnInit(): void {
     if (!this.EmployeeId) {
@@ -204,8 +203,12 @@ export class FormEmployeeComponent implements OnInit {
       }
     })
   }
-  getListOfEmployees(): void {
-    this._EmployeesService.ListOfEmployees(this.companyID).subscribe({
+  getListByDepartmentID(departmentID: number){
+    this.getListOfEmployees(departmentID);
+    this.getListOfJob(departmentID);
+  }
+  getListOfEmployees(departmentID: number): void {
+    this._EmployeesService.ListOfEmployees(departmentID).subscribe({
       next: (res: Employees) => {
         this.listOfEmployees = res.data;
       }

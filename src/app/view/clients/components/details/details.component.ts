@@ -16,6 +16,23 @@ import { environment as env } from '@env/environment';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
+  lietOfButton:any[] = [
+    {
+      value:'GENERAL.EDIT',
+      link:'',
+      icon:'mdi mdi-pencil'
+    },
+    {
+      value:'VIEWCLIENTS.ADDNOTES',
+      link:'',
+      icon:'mdi mdi-notebook-edit'
+    },
+    {
+      value:'VIEWCLIENTS.ARRANGEAPPOINTMENT',
+      link:'',
+      icon:'mdi mdi-calendar-clock'
+    },
+  ];
   url: string = env.url;
   ListOfClientJobs: DataListOfClientJobs[];
   ListOfClientJobCategories: DataListOfClientJobs[];
@@ -42,7 +59,7 @@ export class DetailsComponent implements OnInit {
   companyID: number = 0;
   clientCommunicationWay_Id: number = 0;
   listOfClientCommunicationWays: DataListOfClientJobs[];
-
+  clientID:number = 0;
   listOfClientTypes: any[] = [];
   listOfLotsOfClientStatus:any[]=[];
 
@@ -51,11 +68,17 @@ export class DetailsComponent implements OnInit {
     private _ClientsService: ClientService,
     private toastrService: ToastrService,
     public _AuthenticationService: AuthenticationService,
-    private _EmployeesService: EmployeesService
 
-  ) { }
+  ) {
+    this._ActivatedRoute.paramMap.subscribe((param: any) => {
+      this.companyID = +param.params['companyID'];
+      this.clientID = +param.params['id'];
+      this.showClients(this.clientID);
+    })
+   }
 
   ngOnInit(): void {
+    this.ListOfLotsOfClientStatus()
   }
   ListOfClientCommunicationWays(): void {
     this._ClientsService.ListOfClientCommunicationWays().subscribe({
@@ -64,34 +87,19 @@ export class DetailsComponent implements OnInit {
       }
     })
   }
+  ListOfLotsOfClientStatus(): void {
+    this._ClientsService.ListOfLotsOfClientStatus().subscribe({
+      next: (res: ListOfClientJobs) => {
+        this.listOfLotsOfClientStatus = res.data;
+      }
+    })
+  }
   showClients(clientId: number) {
     this.loadingShow = true;
     this._ClientsService.getclientById(clientId).subscribe({
       next: (res: showClient) => {
-        // this.getListOfRegions(this.state_Id);
         this.loadingShow = false;
         this.clientDetails = res.data;
-        // res.data.clientJobCategory_Id ? this.getListOfClientJobs(res.data.clientJobCategory_Id) : EMPTY;
-        this.clientsForm.patchValue({
-          companyName: res.data.companyName,
-          mobile: res.data.mobile,
-          activity: res.data.activity,
-          generalManagerName: res.data.generalManagerName,
-          salesManagerName: res.data.salesManagerName,
-          email: res.data.email,
-          addressInDetail: res.data.addressInDetail,
-          clientJobCategory_Id: res.data.clientJobCategory_Id ? res.data.clientJobCategory_Id : null,
-          clientJob_Id: res.data.clientJob_Id ? res.data.clientJob_Id : null,
-          region_Id: res.data.region_Id ? res.data.region_Id : null,
-          department_Id: res.data.department_Id ? res.data.department_Id : null,
-          clientType_Id: res.data.clientType_Id ? res.data.clientType_Id : null
-        })
-        this.clientCommunicationWayForm.patchValue({
-          clientCommunicationWay_Id: res.data.clientCommunicationWay_Id,
-          communicationWayDate: res.data.communicationWayDate,
-          communicationWayTime: res.data.communicationWayTime,
-        })
-        // this.clientCommunicationWay_Id = res.data.clientCommunicationWay_Id
       }, error: (err: Error) => {
         this.loadingShow = false;
       }
@@ -104,6 +112,21 @@ export class DetailsComponent implements OnInit {
       }
     })
   }
+  changeStatus(clientStatus_Id:number,event:any){
+    let value = {};
+    value['id'] = clientStatus_Id
+    value['clientStatus_Id'] = event.id
+
+      this._ClientsService.EditClientStatus(value).subscribe({
+        next: (res: Clients) => {
+          this.showClients(event.id);
+          this.GetAllClientsComments()      
+          this.toastrService.success(res.message);
+        }, error: (err: Error) => {
+          this.toastrService.error(err.message);
+        }
+  })
+}
   EditClientCommunicationWay() {
     this.clientCommunicationWayForm.patchValue({
       id: this.client_Id

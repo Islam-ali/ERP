@@ -286,7 +286,7 @@
                                 <ng-select
                                     [ngClass]="{'is-valid': form.department_Id.dirty && !form.department_Id.errors ,'is-invalid': form.department_Id.dirty && form.department_Id.errors}"
                                     [items]="listOfDepartment" formControlName="department_Id"
-                                    (change)="getListOfJob($event?.id)" bindLabel="name" bindValue="id"></ng-select>
+                                    (change)="getListByDepartmentID($event?.id)" bindLabel="name" bindValue="id"></ng-select>
                                 <div *ngIf="form.department_Id.dirty && form.department_Id.errors"
                                     class="invalid-feedback">
                                     <span *ngIf="form.department_Id.errors.required">This value is required.</span>

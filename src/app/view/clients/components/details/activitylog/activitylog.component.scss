@@ -1,0 +1,44 @@
+// /* Timeline Container */
+// .timeline- {
+//     background: #eee;
+//     margin: 20px auto;
+//     padding: 20px;
+//     /* Outer Layer with the timeline border */
+//     .outer {
+//         border-right: 2px solid #333;
+//     }
+
+//     /* Card container */
+//     .card {
+//         position: relative;
+//         padding: 10px;
+//         background: #fff;
+//         color: #000;
+//         border-radius: 8px;
+//     }
+
+//     /* Information about the timeline */
+//     .info {
+//         display: flex;
+//         flex-direction: column;
+//         gap: 10px;
+//     }
+
+//     /* Title of the card */
+//     .title {
+//         color: orangered;
+//         position: relative;
+//     }
+
+//     /* Timeline dot  */
+//     .title::before {
+//         content: "";
+//         position: absolute;
+//         width: 20px;
+//         height: 20px;
+//         background: white;
+//         border-radius: 999px;
+//         right: calc(-1.5rem - 21px);
+//         border: 3px solid orangered;
+//     }
+// }

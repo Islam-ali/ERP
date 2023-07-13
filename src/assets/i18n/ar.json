@@ -440,5 +440,13 @@
     "CLIENTSOURCE":"مصدر العميل",
     "CLIENTCONTACTIMPORTANT":"أهمية الاتصال"
 
+  },
+  "VIEWCLIENTS":{
+    "DETAILS":"التفاصيل",
+    "ACTIVITYLOG":"سجل الأنشطة",
+    "NOTES":"الملاحاظات",
+    "APPOINTMENTS":"المواعيد",
+    "ADDNOTES":"اضافة ملاحظة",
+    "ARRANGEAPPOINTMENT":"ترتيب موعد"
   }
 }
